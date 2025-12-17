@@ -37,6 +37,16 @@ def _headers() -> Dict[str, str]:
     }
 
 
+def _error_text(exc: requests.HTTPError) -> str:
+    response = getattr(exc, "response", None)
+    if response is not None:
+        try:
+            return response.text
+        except Exception:
+            pass
+    return str(exc)
+
+
 def detect_deepfake(audio_path: str, metadata: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     url = f"{API_URL}{DEEPFAKE_PATH}"
     with open(audio_path, "rb") as audio_file:
@@ -101,7 +111,7 @@ def main() -> None:
             metadata={"session_id": args.session_id or "demo-session", "channel": "web"},
         )
     except requests.HTTPError as exc:
-        print(f"Deepfake detection failed: {exc.response.text}", file=sys.stderr)
+        print(f"Deepfake detection failed: {_error_text(exc)}", file=sys.stderr)
         sys.exit(1)
 
     if args.enrollment_id:
@@ -112,7 +122,7 @@ def main() -> None:
                 context={"session_id": args.session_id or "demo-session", "channel": "ivr"},
             )
         except requests.HTTPError as exc:
-            print(f"MFA verification failed: {exc.response.text}", file=sys.stderr)
+            print(f"MFA verification failed: {_error_text(exc)}", file=sys.stderr)
             sys.exit(1)
 
     if args.session_id:
@@ -124,7 +134,7 @@ def main() -> None:
                 metadata={"source": "public-example"},
             )
         except requests.HTTPError as exc:
-            print(f"SAR submission failed: {exc.response.text}", file=sys.stderr)
+            print(f"SAR submission failed: {_error_text(exc)}", file=sys.stderr)
             sys.exit(1)
 
     print(json.dumps(results, indent=2))

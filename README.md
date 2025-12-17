@@ -34,7 +34,7 @@ SONOTHEIA_ENROLLMENT_ID=enroll-123 \
   ./examples/curl/mfa-verify.sh path/to/audio.wav
 
 # Generate a SAR from a prior session
-./examples/curl/sar-report.sh session-123 --decision review --reason "Manual review requested"
+./examples/curl/sar-report.sh session-123 review "Manual review requested"
 ```
 
 ## Python example
