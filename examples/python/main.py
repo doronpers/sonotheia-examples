@@ -12,7 +12,7 @@ import json
 import os
 import sys
 import mimetypes
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, BinaryIO
 
 import requests
 
@@ -38,7 +38,7 @@ def _headers() -> Dict[str, str]:
     }
 
 
-def _audio_part(audio_path: str, file_handle) -> tuple[str, Any, str]:
+def _audio_part(audio_path: str, file_handle: BinaryIO) -> tuple[str, Any, str]:
     mime_type, _ = mimetypes.guess_type(audio_path)
     return (
         os.path.basename(audio_path),
