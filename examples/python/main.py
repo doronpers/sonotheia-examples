@@ -11,6 +11,7 @@ import argparse
 import json
 import os
 import sys
+import mimetypes
 from typing import Any, Dict, Optional
 
 import requests
@@ -37,6 +38,15 @@ def _headers() -> Dict[str, str]:
     }
 
 
+def _audio_part(audio_path: str, file_handle) -> tuple[str, Any, str]:
+    mime_type, _ = mimetypes.guess_type(audio_path)
+    return (
+        os.path.basename(audio_path),
+        file_handle,
+        mime_type or "application/octet-stream",
+    )
+
+
 def _error_text(exc: requests.HTTPError) -> str:
     response = getattr(exc, "response", None)
     if response is not None:
@@ -50,7 +60,7 @@ def _error_text(exc: requests.HTTPError) -> str:
 def detect_deepfake(audio_path: str, metadata: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     url = f"{API_URL}{DEEPFAKE_PATH}"
     with open(audio_path, "rb") as audio_file:
-        files = {"audio": (os.path.basename(audio_path), audio_file, "audio/wav")}
+        files = {"audio": _audio_part(audio_path, audio_file)}
         data = {"metadata": json.dumps(metadata or {})}
         response = requests.post(url, headers=_headers(), files=files, data=data, timeout=30)
     response.raise_for_status()
@@ -64,7 +74,7 @@ def verify_mfa(
 ) -> Dict[str, Any]:
     url = f"{API_URL}{MFA_PATH}"
     with open(audio_path, "rb") as audio_file:
-        files = {"audio": (os.path.basename(audio_path), audio_file, "audio/wav")}
+        files = {"audio": _audio_part(audio_path, audio_file)}
         data = {
             "enrollment_id": enrollment_id,
             "context": json.dumps(context or {}),
