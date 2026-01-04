@@ -85,10 +85,10 @@ The MIT license applies only to the example code and documentation in this repos
 
 ### Recommendations
 
-**For Repository Owner (Doron):**
+**For Repository Maintainers:**
 - ✅ **Keep the MIT License** - it's the right choice for this repository
-- ✅ Ensure copyright notice is up to date (currently shows "Copyright (c) 2025 Doron")
-- ✅ Consider adding a brief note in README.md clarifying that the license applies to examples, not the API service
+- ✅ Ensure copyright notice is up to date in the LICENSE file
+- ✅ Keep the clarification in README.md that the license applies to examples, not the API service
 - ✅ No changes needed unless you have specific requirements (e.g., patent protection needs)
 
 **For Users:**
@@ -120,6 +120,5 @@ A: Contributions are welcome! Submit a pull request. Your contributions will als
 
 ---
 
-**Last Updated**: 2026-01-04  
 **License Version**: MIT License (as specified in LICENSE file)  
 **For Questions**: Contact the repository maintainer or your legal advisor
