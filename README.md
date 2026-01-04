@@ -120,6 +120,8 @@ Example response (illustrative). Ambiguous outcomes should trigger deferral and 
 - [FAQ](docs/FAQ.md) - Common questions
 - [Best Practices](docs/BEST_PRACTICES.md) - Integration guide
 - [Enhanced Examples](docs/ENHANCED_EXAMPLES.md) - Advanced features
+- [Audio Preprocessing](docs/AUDIO_PREPROCESSING.md) - FFmpeg and SoX guide
+- [Troubleshooting](docs/TROUBLESHOOTING.md) - Common issues and solutions
 - [Repository Structure](docs/REPOSITORY_STRUCTURE.md) - How this repo is organized
 - [License Information](docs/LICENSE_INFO.md) - Understanding the MIT License for this repository
 
