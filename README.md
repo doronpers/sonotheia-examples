@@ -1,6 +1,6 @@
 # Sonotheia Examples
 
-Integration examples and documentation for the Sonotheia.ai voice fraud detection API: deepfake detection, voice MFA, and SAR generation.
+Research harness for stress-testing synthetic speech detection: calibrated deferral, evidence-first outputs, voice MFA, and SAR workflows.
 
 > **Note:** The Sonotheia API (for Sonotheia.ai) is hosted at `https://api.sonotheia.com`.
 

@@ -1,7 +1,7 @@
 """
 Enhanced Sonotheia API client with retry logic, rate limiting, and circuit breaker.
 
-This module extends the basic client with production-ready features:
+This module extends the basic client with hardened features:
 - Exponential backoff retry logic
 - Rate limiting
 - Circuit breaker pattern
@@ -124,7 +124,7 @@ class RateLimiter:
 
 
 class SonotheiaClientEnhanced:
-    """Enhanced Sonotheia API client with production-ready features."""
+    """Enhanced Sonotheia API client with hardened features."""
 
     def __init__(
         self,

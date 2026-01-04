@@ -146,7 +146,7 @@ kubectl create secret generic sonotheia-api-secret \
 kubectl rollout restart deployment/sonotheia-processor
 ```
 
-## Production Considerations
+## Operational Considerations
 
 ### Security
 
