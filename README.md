@@ -2,6 +2,8 @@
 
 Integration examples and documentation for the Sonotheia voice fraud detection API: deepfake detection, voice MFA, and SAR generation.
 
+> This repository contains integration examples plus an experimental evaluation harness scaffold; it is not a production SDK.
+
 ## Quickstart
 1. Export your credentials and base URL (use the defaults if you are on the public cloud endpoint):
    ```bash
@@ -110,6 +112,5 @@ PORT=3000 SONOTHEIA_WEBHOOK_SECRET=your_secret node webhook-server.js
 - [Node.js README](examples/node/README.md) - Advanced integration patterns
 
 ## Additional Resources
-- API Reference: https://docs.sonotheia.com/api (placeholder)
-- Status Page: https://status.sonotheia.com (placeholder)
-- Support: support@sonotheia.com (placeholder)
+- API Reference: Available on request
+- Support: Contact your Sonotheia integration engineer
