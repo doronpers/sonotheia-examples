@@ -10,7 +10,7 @@ from __future__ import annotations
 import json
 import mimetypes
 import os
-from typing import Any
+from typing import IO, Any
 
 import requests
 
@@ -57,12 +57,13 @@ class SonotheiaClient:
             "Accept": "application/json",
         }
 
-    def _audio_part(self, audio_path: str) -> tuple[str, Any, str]:
+    def _audio_part(self, audio_path: str, file_obj: IO[bytes]) -> tuple[str, Any, str]:
         """
         Prepare audio file part for multipart upload.
 
         Args:
             audio_path: Path to audio file
+            file_obj: Opened binary file handle for the audio content
 
         Returns:
             Tuple of (filename, file_handle, mime_type)
@@ -70,7 +71,7 @@ class SonotheiaClient:
         mime_type, _ = mimetypes.guess_type(audio_path)
         return (
             os.path.basename(audio_path),
-            open(audio_path, "rb"),
+            file_obj,
             mime_type or "application/octet-stream",
         )
 
@@ -93,8 +94,8 @@ class SonotheiaClient:
         """
         url = f"{self.api_url}{self.deepfake_path}"
 
-        with open(audio_path, "rb"):
-            files = {"audio": self._audio_part(audio_path)}
+        with open(audio_path, "rb") as audio_file:
+            files = {"audio": self._audio_part(audio_path, audio_file)}
             data = {"metadata": json.dumps(metadata or {})}
 
             response = requests.post(
@@ -131,8 +132,8 @@ class SonotheiaClient:
         """
         url = f"{self.api_url}{self.mfa_path}"
 
-        with open(audio_path, "rb"):
-            files = {"audio": self._audio_part(audio_path)}
+        with open(audio_path, "rb") as audio_file:
+            files = {"audio": self._audio_part(audio_path, audio_file)}
             data = {
                 "enrollment_id": enrollment_id,
                 "context": json.dumps(context or {}),

@@ -19,7 +19,7 @@ import time
 from contextlib import contextmanager
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Callable
+from typing import IO, Any, Callable
 
 import requests
 from requests.adapters import HTTPAdapter
@@ -215,12 +215,13 @@ class SonotheiaClientEnhanced:
             self.rate_limiter.acquire()
         yield
 
-    def _audio_part(self, audio_path: str) -> tuple[str, Any, str]:
+    def _audio_part(self, audio_path: str, file_obj: IO[bytes]) -> tuple[str, Any, str]:
         """
         Prepare audio file part for multipart upload.
 
         Args:
             audio_path: Path to audio file
+            file_obj: Opened binary file handle for the audio content
 
         Returns:
             Tuple of (filename, file_handle, mime_type)
@@ -228,7 +229,7 @@ class SonotheiaClientEnhanced:
         mime_type, _ = mimetypes.guess_type(audio_path)
         return (
             os.path.basename(audio_path),
-            open(audio_path, "rb"),
+            file_obj,
             mime_type or "application/octet-stream",
         )
 
@@ -280,8 +281,8 @@ class SonotheiaClientEnhanced:
         """
         url = f"{self.api_url}{self.deepfake_path}"
 
-        with open(audio_path, "rb"):
-            files = {"audio": self._audio_part(audio_path)}
+        with open(audio_path, "rb") as audio_file:
+            files = {"audio": self._audio_part(audio_path, audio_file)}
             data = {"metadata": json.dumps(metadata or {})}
 
             return self._make_request(
@@ -316,8 +317,8 @@ class SonotheiaClientEnhanced:
         """
         url = f"{self.api_url}{self.mfa_path}"
 
-        with open(audio_path, "rb"):
-            files = {"audio": self._audio_part(audio_path)}
+        with open(audio_path, "rb") as audio_file:
+            files = {"audio": self._audio_part(audio_path, audio_file)}
             data = {
                 "enrollment_id": enrollment_id,
                 "context": json.dumps(context or {}),

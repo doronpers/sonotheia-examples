@@ -87,6 +87,9 @@ ruff check .
 ruff check --fix .
 ```
 
+> Tip: Activate the local virtual environment before running tests so the in-repo modules (`client.py`,
+> `client_enhanced.py`, etc.) are discovered without installing a package build step.
+
 ## API Client Reference
 
 ### `SonotheiaClient`
