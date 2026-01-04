@@ -2,8 +2,16 @@
 
 Integration examples and documentation for the Sonotheia voice fraud detection API: deepfake detection, voice MFA, and SAR generation.
 
+> This repository contains integration examples plus an experimental evaluation harness scaffold; it is not a production SDK.
+
 ## Quickstart
-1. Export your credentials and base URL (use the defaults if you are on the public cloud endpoint):
+1. Copy `.env.example` to `.env` and add your credentials:
+   ```bash
+   cp .env.example .env
+   # Edit .env and set SONOTHEIA_API_KEY=your_actual_key
+   ```
+
+2. Or export environment variables directly:
    ```bash
    export SONOTHEIA_API_URL=https://api.sonotheia.com
    export SONOTHEIA_API_KEY=YOUR_API_KEY
@@ -12,10 +20,14 @@ Integration examples and documentation for the Sonotheia voice fraud detection A
    # export SONOTHEIA_MFA_PATH=/v1/mfa/voice/verify
    # export SONOTHEIA_SAR_PATH=/v1/reports/sar
    ```
-2. Pick an example:
+
+3. Pick an example:
    - **cURL** one-liners under `examples/curl` for quick smoke tests.
    - **Python** helper in `examples/python` for scripted flows.
-3. Provide an audio file (16 kHz mono WAV recommended) and run the example.
+   - **TypeScript** type-safe client in `examples/typescript`.
+   - **Node.js** advanced patterns in `examples/node`.
+
+4. Provide an audio file (16 kHz mono WAV recommended) and run the example.
 
 ## Repository layout
 - `examples/curl/` – minimal cURL scripts for the three primary flows.
@@ -106,10 +118,37 @@ PORT=3000 SONOTHEIA_WEBHOOK_SECRET=your_secret node webhook-server.js
 ## Documentation
 - [FAQ](docs/FAQ.md) - Common questions and answers
 - [Best Practices](docs/BEST_PRACTICES.md) - Comprehensive integration guide
+- [NOTES](NOTES.md) - Assumptions, TODOs, and questions for implementation
 - [TypeScript README](examples/typescript/README.md) - TypeScript-specific documentation
 - [Node.js README](examples/node/README.md) - Advanced integration patterns
+- [Python README](examples/python/README.md) - Python client library documentation
+
+## Development
+
+This repository includes:
+- **Unit tests** for Python client (see `examples/python/tests/`)
+- **CI/CD pipeline** via GitHub Actions for linting and testing
+- **Code quality tools**: pytest, ruff (Python), TypeScript compiler
+
+To run tests locally:
+```bash
+# Python tests
+cd examples/python
+pip install -r requirements.txt
+pytest tests/ -v
+
+# TypeScript build
+cd examples/typescript
+npm install
+npm run build
+
+# Node.js syntax check
+cd examples/node
+npm install
+node --check batch-processor.js
+node --check webhook-server.js
+```
 
 ## Additional Resources
-- API Reference: https://docs.sonotheia.com/api (placeholder)
-- Status Page: https://status.sonotheia.com (placeholder)
-- Support: support@sonotheia.com (placeholder)
+- API Reference: Available on request
+- Support: Contact your Sonotheia integration engineer
