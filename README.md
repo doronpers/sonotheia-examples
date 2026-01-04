@@ -120,6 +120,7 @@ Example response (illustrative). Ambiguous outcomes should trigger deferral and 
 - [Best Practices](docs/BEST_PRACTICES.md) - Integration guide
 - [Enhanced Examples](docs/ENHANCED_EXAMPLES.md) - Advanced features
 - [Repository Structure](docs/REPOSITORY_STRUCTURE.md) - How this repo is organized
+- [License Information](docs/LICENSE_INFO.md) - Understanding the MIT License for this repository
 
 ## Testing
 
@@ -140,6 +141,12 @@ cd examples/node
 npm install
 node --check batch-processor.js
 ```
+
+## License
+
+This repository is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+**Note:** This license applies to the example code and documentation in this repository only. Access to the Sonotheia API service requires separate authorization. For detailed information about the license, see [docs/LICENSE_INFO.md](docs/LICENSE_INFO.md).
 
 ---
 
