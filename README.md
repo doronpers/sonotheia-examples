@@ -32,8 +32,11 @@ Integration examples and documentation for the Sonotheia voice fraud detection A
 ## Repository layout
 - `examples/curl/` – minimal cURL scripts for the three primary flows.
 - `examples/python/` – small helper demonstrating deepfake scoring, MFA verification, and SAR creation.
+  - **Enhanced examples**: Production-ready clients with retry logic, rate limiting, circuit breakers, and streaming support
 - `examples/typescript/` – type-safe TypeScript client with full type definitions.
 - `examples/node/` – advanced Node.js examples including batch processing and webhook server.
+  - **Enhanced examples**: Monitoring, metrics, and observability features
+- `examples/kubernetes/` – Kubernetes deployment manifests for production environments.
 - `docs/` – comprehensive documentation including FAQ, best practices, and troubleshooting.
 - `LICENSE` – project license.
 
@@ -101,6 +104,99 @@ npm install
 PORT=3000 SONOTHEIA_WEBHOOK_SECRET=your_secret node webhook-server.js
 ```
 
+## Enhanced Examples
+
+### Production-Ready Features
+
+The enhanced examples include production-ready features:
+
+#### Python Enhanced Client (`examples/python/client_enhanced.py`)
+```bash
+python examples/python/enhanced_example.py audio.wav \
+  --max-retries 5 \
+  --rate-limit 2.0 \
+  --enrollment-id enroll-123
+```
+
+Features:
+- **Retry logic** with exponential backoff
+- **Rate limiting** using token bucket algorithm
+- **Circuit breaker** pattern for fault tolerance
+- **Connection pooling** for better performance
+- **Comprehensive error handling**
+
+#### Streaming Audio Processing (`examples/python/streaming_example.py`)
+```bash
+python examples/python/streaming_example.py long_audio.wav \
+  --chunk-duration 10
+```
+
+Features:
+- Process large audio files by splitting into chunks
+- Memory-efficient processing
+- Progress tracking and aggregated results
+- Automatic SAR submission for high-risk content
+
+#### Health Checks and Monitoring (`examples/python/health_check.py`)
+```bash
+# Single health check
+python examples/python/health_check.py
+
+# Continuous monitoring
+python examples/python/health_check.py --monitor --interval 60
+
+# Prometheus metrics export
+python examples/python/health_check.py --prometheus-port 9090
+```
+
+Features:
+- API connectivity verification
+- Authentication validation
+- Prometheus metrics export
+- Kubernetes readiness/liveness probes
+
+#### Enhanced Batch Processor (`examples/node/batch-processor-enhanced.js`)
+```bash
+SONOTHEIA_API_KEY=xxx node examples/node/batch-processor-enhanced.js *.wav
+```
+
+Features:
+- Circuit breaker with automatic recovery
+- Retry logic with exponential backoff
+- Prometheus metrics endpoint
+- Health check endpoint
+- Structured logging with pino
+
+### Docker and Kubernetes
+
+#### Docker Support
+```bash
+cd examples/python
+docker build -t sonotheia-python .
+docker run -e SONOTHEIA_API_KEY=xxx -v $(pwd)/audio:/audio sonotheia-python python main.py /audio/sample.wav
+```
+
+Or use Docker Compose:
+```bash
+cd examples/python
+docker-compose up sonotheia-enhanced
+```
+
+#### Kubernetes Deployment
+```bash
+# Deploy to Kubernetes
+kubectl apply -f examples/kubernetes/deployment.yaml
+
+# Check status
+kubectl get pods -l app=sonotheia-processor
+
+# View metrics
+kubectl port-forward svc/sonotheia-processor-metrics 9090:9090
+curl http://localhost:9090/metrics
+```
+
+See [Kubernetes README](examples/kubernetes/README.md) for detailed documentation.
+
 ## Sample responses
 ```json
 {
@@ -122,6 +218,7 @@ PORT=3000 SONOTHEIA_WEBHOOK_SECRET=your_secret node webhook-server.js
 - [TypeScript README](examples/typescript/README.md) - TypeScript-specific documentation
 - [Node.js README](examples/node/README.md) - Advanced integration patterns
 - [Python README](examples/python/README.md) - Python client library documentation
+- [Kubernetes README](examples/kubernetes/README.md) - Production deployment guide
 
 ## Development
 

@@ -1,0 +1,172 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: sonotheia-api-secret
+  namespace: default
+type: Opaque
+stringData:
+  api-key: "YOUR_API_KEY_HERE"  # Replace with actual API key
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sonotheia-config
+  namespace: default
+data:
+  api-url: "https://api.sonotheia.com"
+  deepfake-path: "/v1/voice/deepfake"
+  mfa-path: "/v1/mfa/voice/verify"
+  sar-path: "/v1/reports/sar"
+  max-retries: "3"
+  rate-limit-rps: "2.0"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonotheia-processor
+  namespace: default
+  labels:
+    app: sonotheia-processor
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sonotheia-processor
+  template:
+    metadata:
+      labels:
+        app: sonotheia-processor
+    spec:
+      containers:
+      - name: processor
+        image: sonotheia-python:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: SONOTHEIA_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: sonotheia-api-secret
+              key: api-key
+        - name: SONOTHEIA_API_URL
+          valueFrom:
+            configMapKeyRef:
+              name: sonotheia-config
+              key: api-url
+        - name: SONOTHEIA_DEEPFAKE_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: sonotheia-config
+              key: deepfake-path
+        - name: SONOTHEIA_MFA_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: sonotheia-config
+              key: mfa-path
+        - name: SONOTHEIA_SAR_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: sonotheia-config
+              key: sar-path
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          exec:
+            command:
+            - python
+            - health_check.py
+          initialDelaySeconds: 30
+          periodSeconds: 60
+          timeoutSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          exec:
+            command:
+            - python
+            - health_check.py
+          initialDelaySeconds: 10
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 2
+        volumeMounts:
+        - name: audio-volume
+          mountPath: /audio
+          readOnly: true
+      volumes:
+      - name: audio-volume
+        persistentVolumeClaim:
+          claimName: audio-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sonotheia-processor-metrics
+  namespace: default
+  labels:
+    app: sonotheia-processor
+spec:
+  type: ClusterIP
+  selector:
+    app: sonotheia-processor
+  ports:
+  - name: metrics
+    port: 9090
+    targetPort: 9090
+    protocol: TCP
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: audio-pvc
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: standard
+
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: sonotheia-health-check
+  namespace: default
+spec:
+  schedule: "*/5 * * * *"  # Every 5 minutes
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: health-checker
+            image: sonotheia-python:latest
+            imagePullPolicy: IfNotPresent
+            command:
+            - python
+            - health_check.py
+            - --monitor
+            - --interval
+            - "60"
+            env:
+            - name: SONOTHEIA_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: sonotheia-api-secret
+                  key: api-key
+            - name: SONOTHEIA_API_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: sonotheia-config
+                  key: api-url
+          restartPolicy: OnFailure
