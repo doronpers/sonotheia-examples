@@ -221,9 +221,9 @@ python voice_routing_example.py audio.wav \
 
 ## Enhanced Examples
 
-### Production-Ready Client (`client_enhanced.py`)
+### Enhanced Client (`client_enhanced.py`)
 
-Enhanced client with retry logic, rate limiting, and circuit breaker patterns.
+Hardened client with retry logic, rate limiting, and circuit breaker patterns.
 
 ```python
 from client_enhanced import SonotheiaClientEnhanced, CircuitBreakerConfig
@@ -235,7 +235,7 @@ circuit_config = CircuitBreakerConfig(
     success_threshold=2,
 )
 
-# Initialize with production features
+# Initialize with enhanced features
 with SonotheiaClientEnhanced(
     max_retries=3,
     rate_limit_rps=2.0,
@@ -285,7 +285,7 @@ python streaming_example.py audio.wav \
 - Automatic audio splitting using ffmpeg
 - Memory-efficient processing of large files
 - Aggregated results and statistics
-- Automatic SAR submission for high-risk chunks
+- Optional SAR submission hooks (environment-specific)
 - Progress tracking
 
 **Requirements:** `ffmpeg` must be installed (`apt-get install ffmpeg`)

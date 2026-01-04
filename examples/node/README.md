@@ -91,7 +91,7 @@ PORT=3000 SONOTHEIA_WEBHOOK_SECRET=your_secret node webhook-server.js
   "data": {
     "session_id": "session-123",
     "score": 0.85,
-    "label": "likely_synthetic",
+    "recommended_action": "defer_to_review",
     "timestamp": "2025-01-04T12:00:00Z"
   }
 }
@@ -111,7 +111,7 @@ curl -X POST http://localhost:3000/webhook \
     "data": {
       "session_id": "test-123",
       "score": 0.75,
-      "label": "likely_synthetic",
+      "recommended_action": "defer_to_review",
       "timestamp": "2025-01-04T12:00:00Z"
     }
   }'
@@ -120,7 +120,7 @@ curl -X POST http://localhost:3000/webhook \
 curl http://localhost:3000/results/test-123
 ```
 
-## Production Considerations
+## Operational Considerations
 
 ### Batch Processor
 - Use a proper task queue (Bull, BullMQ) for production

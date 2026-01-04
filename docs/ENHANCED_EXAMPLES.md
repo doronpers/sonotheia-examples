@@ -98,7 +98,7 @@ python streaming_example.py audio.wav \
   "chunks": [
     {
       "chunk_index": 0,
-      "deepfake": {"score": 0.12, "label": "likely_real"},
+      "deepfake": {"score": 0.12, "recommended_action": "allow"},
       "mfa": {"verified": true, "confidence": 0.95}
     }
   ],
@@ -288,7 +288,7 @@ kubectl logs -f deployment/sonotheia-processor
 kubectl scale deployment sonotheia-processor --replicas=5
 ```
 
-**Production Features**:
+**Operational Features**:
 - Horizontal pod autoscaling (HPA) examples
 - Pod disruption budgets (PDB) examples
 - Network policies for security
