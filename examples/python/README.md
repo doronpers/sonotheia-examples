@@ -26,6 +26,24 @@ Or copy the top-level `.env.example` to `.env` and fill in your credentials.
 
 ## Usage
 
+### Audio Validation
+
+Before submitting audio to the API, validate it meets requirements:
+
+```bash
+# Validate audio file
+python audio_validator.py audio.wav
+
+# Strict mode (warnings treated as errors)
+python audio_validator.py --strict audio.wav
+
+# Auto-fix common issues
+python audio_validator.py --auto-fix audio.wav
+
+# JSON output for programmatic use
+python audio_validator.py --json audio.wav
+```
+
 ### Command Line Interface
 
 The `main.py` script provides a simple CLI for testing the API:

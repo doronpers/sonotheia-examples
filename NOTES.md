@@ -45,27 +45,27 @@
 ## TODOs
 
 ### Documentation
-- [ ] Add more audio preprocessing examples (FFmpeg, SoX commands)
+- [x] Add more audio preprocessing examples (docs/AUDIO_PREPROCESSING.md with FFmpeg and SoX)
 - [ ] Document enrollment process for MFA
-- [ ] Add troubleshooting guide for common API errors
+- [x] Add troubleshooting guide for common API errors (docs/TROUBLESHOOTING.md)
 - [ ] Create migration guide for API version updates
 - [ ] Document webhook payload schemas in detail
 
 ### Code Examples
-- [ ] Add retry logic examples with exponential backoff
-- [ ] Add streaming audio examples (for long recordings)
-- [ ] Add example of rate limit handling
+- [x] Add retry logic examples with exponential backoff (client_enhanced.py, batch-processor-enhanced.js)
+- [x] Add streaming audio examples (streaming_example.py with FFmpeg)
+- [x] Add example of rate limit handling (client_enhanced.py with RateLimiter class)
 - [ ] Create integration test suite with real API (requires API key)
-- [ ] Add example of audio validation before API submission
+- [x] Add example of audio validation before API submission (audio_validator.py)
 
 ### Infrastructure
-- [ ] Add Docker/Podman containerized examples
-- [ ] Add example Kubernetes deployment for webhook server
+- [x] Add Docker/Podman containerized examples (Python Dockerfile, docker-compose.yml)
+- [x] Add example Kubernetes deployment for webhook server (kubernetes/deployment.yaml)
 - [ ] Create example CloudFormation/Terraform for AWS deployment
-- [ ] Add monitoring/observability examples (Prometheus, Grafana)
+- [x] Add monitoring/observability examples (health_check.py with Prometheus, batch-processor-enhanced.js)
 
 ### Testing
-- [ ] Expand unit test coverage beyond basic request construction
+- [x] Expand unit test coverage beyond basic request construction (test_client.py, test_client_enhanced.py with mocking)
 - [ ] Add integration tests with mocked API server
 - [ ] Add performance/load testing examples
 - [ ] Create test audio files for different scenarios
