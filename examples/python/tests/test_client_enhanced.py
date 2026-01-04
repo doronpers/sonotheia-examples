@@ -4,19 +4,18 @@ Tests for enhanced Sonotheia API client.
 
 from __future__ import annotations
 
-import os
-from unittest.mock import Mock, patch, MagicMock, mock_open
 import time
+from unittest.mock import MagicMock, Mock, mock_open, patch
 
 import pytest
 import requests
 
 from client_enhanced import (
-    SonotheiaClientEnhanced,
     CircuitBreaker,
     CircuitBreakerConfig,
     CircuitState,
     RateLimiter,
+    SonotheiaClientEnhanced,
 )
 
 

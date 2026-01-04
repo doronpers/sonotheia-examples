@@ -44,8 +44,12 @@ class SonotheiaClient:
                 "API key is required. Set SONOTHEIA_API_KEY environment variable or pass api_key parameter."
             )
 
-        self.api_url = (api_url or os.getenv("SONOTHEIA_API_URL", "https://api.sonotheia.com")).rstrip("/")
-        self.deepfake_path = deepfake_path or os.getenv("SONOTHEIA_DEEPFAKE_PATH", "/v1/voice/deepfake")
+        self.api_url = (
+            api_url or os.getenv("SONOTHEIA_API_URL", "https://api.sonotheia.com")
+        ).rstrip("/")
+        self.deepfake_path = deepfake_path or os.getenv(
+            "SONOTHEIA_DEEPFAKE_PATH", "/v1/voice/deepfake"
+        )
         self.mfa_path = mfa_path or os.getenv("SONOTHEIA_MFA_PATH", "/v1/mfa/voice/verify")
         self.sar_path = sar_path or os.getenv("SONOTHEIA_SAR_PATH", "/v1/reports/sar")
         self.timeout = timeout

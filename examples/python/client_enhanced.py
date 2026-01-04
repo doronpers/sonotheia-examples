@@ -30,14 +30,16 @@ logger = logging.getLogger(__name__)
 
 class CircuitState(Enum):
     """Circuit breaker states."""
+
     CLOSED = "closed"  # Normal operation
-    OPEN = "open"      # Failures detected, requests blocked
+    OPEN = "open"  # Failures detected, requests blocked
     HALF_OPEN = "half_open"  # Testing if service recovered
 
 
 @dataclass
 class CircuitBreakerConfig:
     """Configuration for circuit breaker."""
+
     failure_threshold: int = 5  # Failures before opening circuit
     recovery_timeout: float = 60.0  # Seconds before attempting recovery
     success_threshold: int = 2  # Successes in half-open before closing
@@ -109,8 +111,7 @@ class RateLimiter:
             now = time.time()
             elapsed = now - self.last_update
             self.tokens = min(
-                self.requests_per_second,
-                self.tokens + elapsed * self.requests_per_second
+                self.requests_per_second, self.tokens + elapsed * self.requests_per_second
             )
             self.last_update = now
 
@@ -160,8 +161,12 @@ class SonotheiaClientEnhanced:
                 "API key is required. Set SONOTHEIA_API_KEY environment variable or pass api_key parameter."
             )
 
-        self.api_url = (api_url or os.getenv("SONOTHEIA_API_URL", "https://api.sonotheia.com")).rstrip("/")
-        self.deepfake_path = deepfake_path or os.getenv("SONOTHEIA_DEEPFAKE_PATH", "/v1/voice/deepfake")
+        self.api_url = (
+            api_url or os.getenv("SONOTHEIA_API_URL", "https://api.sonotheia.com")
+        ).rstrip("/")
+        self.deepfake_path = deepfake_path or os.getenv(
+            "SONOTHEIA_DEEPFAKE_PATH", "/v1/voice/deepfake"
+        )
         self.mfa_path = mfa_path or os.getenv("SONOTHEIA_MFA_PATH", "/v1/mfa/voice/verify")
         self.sar_path = sar_path or os.getenv("SONOTHEIA_SAR_PATH", "/v1/reports/sar")
         self.timeout = timeout
@@ -248,7 +253,9 @@ class SonotheiaClientEnhanced:
             response = self.session.request(method, url, **kwargs)
             duration = time.time() - start_time
 
-            logger.debug(f"{method} {url} completed in {duration:.3f}s with status {response.status_code}")
+            logger.debug(
+                f"{method} {url} completed in {duration:.3f}s with status {response.status_code}"
+            )
 
             response.raise_for_status()
             return response.json()

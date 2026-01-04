@@ -16,14 +16,13 @@ import json
 import logging
 import sys
 from pathlib import Path
-from typing import Dict, Any
+from typing import Any
 
 import requests
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -32,16 +31,13 @@ class AudioAnalysisClient:
     """Client for audio analysis with DSP features."""
 
     def __init__(
-        self,
-        api_key: str,
-        api_url: str = "https://api.sonotheia.com",
-        tenant_id: str = "demo"
+        self, api_key: str, api_url: str = "https://api.sonotheia.com", tenant_id: str = "demo"
     ):
         self.api_key = api_key
         self.api_url = api_url.rstrip("/")
         self.tenant_id = tenant_id
 
-    def _headers(self) -> Dict[str, str]:
+    def _headers(self) -> dict[str, str]:
         """Get request headers."""
         return {
             "Authorization": f"Bearer {self.api_key}",
@@ -49,11 +45,7 @@ class AudioAnalysisClient:
             "Accept": "application/json",
         }
 
-    def analyze_audio(
-        self,
-        audio_path: str,
-        extract_features: bool = True
-    ) -> Dict[str, Any]:
+    def analyze_audio(self, audio_path: str, extract_features: bool = True) -> dict[str, Any]:
         """
         Analyze audio file for deepfake detection with DSP features.
 
@@ -88,7 +80,7 @@ class AudioAnalysisClient:
         response.raise_for_status()
         return response.json()
 
-    def extract_features_only(self, audio_path: str) -> Dict[str, Any]:
+    def extract_features_only(self, audio_path: str) -> dict[str, Any]:
         """
         Extract DSP features without full analysis.
 
@@ -120,7 +112,7 @@ class AudioAnalysisClient:
         return response.json()
 
 
-def interpret_results(result: Dict[str, Any]) -> str:
+def interpret_results(result: dict[str, Any]) -> str:
     """
     Interpret analysis results and recommend action.
 
@@ -186,7 +178,7 @@ def interpret_results(result: Dict[str, Any]) -> str:
     return action
 
 
-def display_dsp_features(features: Dict[str, Any]):
+def display_dsp_features(features: dict[str, Any]):
     """
     Display DSP features in a readable format.
 
@@ -238,7 +230,7 @@ def display_dsp_features(features: Dict[str, Any]):
 
     # Formants
     if "formant_frequencies" in features:
-        formants = ", ".join(f"{f:.0f} Hz" for f in features['formant_frequencies'][:4])
+        formants = ", ".join(f"{f:.0f} Hz" for f in features["formant_frequencies"][:4])
         print(f"Formants (F1-F4):   {formants}")
 
     print("-" * 70)
@@ -246,34 +238,15 @@ def display_dsp_features(features: Dict[str, Any]):
 
 def main():
     """Main entry point."""
-    parser = argparse.ArgumentParser(
-        description="Advanced audio analysis with DSP features"
-    )
+    parser = argparse.ArgumentParser(description="Advanced audio analysis with DSP features")
     parser.add_argument("audio", help="Path to audio file")
+    parser.add_argument("--api-url", default="https://api.sonotheia.com", help="API base URL")
+    parser.add_argument("--api-key", help="API key (or set SONOTHEIA_API_KEY env var)")
+    parser.add_argument("--tenant-id", default="demo", help="Tenant ID (default: demo)")
     parser.add_argument(
-        "--api-url",
-        default="https://api.sonotheia.com",
-        help="API base URL"
+        "--features-only", action="store_true", help="Extract features only without full analysis"
     )
-    parser.add_argument(
-        "--api-key",
-        help="API key (or set SONOTHEIA_API_KEY env var)"
-    )
-    parser.add_argument(
-        "--tenant-id",
-        default="demo",
-        help="Tenant ID (default: demo)"
-    )
-    parser.add_argument(
-        "--features-only",
-        action="store_true",
-        help="Extract features only without full analysis"
-    )
-    parser.add_argument(
-        "--verbose", "-v",
-        action="store_true",
-        help="Enable verbose logging"
-    )
+    parser.add_argument("--verbose", "-v", action="store_true", help="Enable verbose logging")
 
     args = parser.parse_args()
 
@@ -282,17 +255,14 @@ def main():
 
     # Get API key
     import os
+
     api_key = args.api_key or os.getenv("SONOTHEIA_API_KEY")
     if not api_key:
         logger.error("API key required. Set SONOTHEIA_API_KEY or use --api-key")
         sys.exit(1)
 
     # Create client
-    client = AudioAnalysisClient(
-        api_key=api_key,
-        api_url=args.api_url,
-        tenant_id=args.tenant_id
-    )
+    client = AudioAnalysisClient(api_key=api_key, api_url=args.api_url, tenant_id=args.tenant_id)
 
     try:
         if args.features_only:
@@ -305,7 +275,7 @@ def main():
             result = client.analyze_audio(args.audio, extract_features=True)
 
             # Interpret results and get recommended action
-            action = interpret_results(result)
+            interpret_results(result)
 
             # Display DSP features if available
             if "dsp_features" in result:
@@ -319,7 +289,7 @@ def main():
 
     except requests.HTTPError as e:
         logger.error(f"API Error: {e.response.status_code}")
-        if hasattr(e.response, 'json'):
+        if hasattr(e.response, "json"):
             logger.error(f"Details: {e.response.json()}")
         sys.exit(1)
     except FileNotFoundError as e:
