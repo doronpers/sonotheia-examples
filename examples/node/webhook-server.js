@@ -144,6 +144,12 @@ function handleSarEvent(event) {
 
 /**
  * Main webhook endpoint
+ * 
+ * SECURITY NOTE: In production, this endpoint should be protected with:
+ * - Rate limiting (e.g., express-rate-limit middleware)
+ * - Request size limits
+ * - Authentication/authorization
+ * - IP whitelisting if possible
  */
 app.post('/webhook', (req, res) => {
   const signature = req.headers['x-sonotheia-signature'];

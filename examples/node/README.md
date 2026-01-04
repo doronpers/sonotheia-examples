@@ -136,7 +136,7 @@ curl http://localhost:3000/results/test-123
 - Add authentication for result endpoints
 - Use a reverse proxy (nginx) in front of Express
 - Enable HTTPS/TLS
-- Add request rate limiting
+- Add request rate limiting (e.g., express-rate-limit)
 - Implement proper logging and alerting
 
 ## Error Handling
