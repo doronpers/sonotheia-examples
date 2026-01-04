@@ -232,8 +232,9 @@ See [Kubernetes README](examples/kubernetes/README.md) for detailed documentatio
 - [Node.js README](examples/node/README.md) - Advanced integration patterns
 - [Kubernetes README](examples/kubernetes/README.md) - Production deployment guide
 
-### For Contributors
-- [Coding Standards](.github/CODING_STANDARDS.md) - Organization guidelines for agents and contributors
+### For Contributors and Agents
+- [Coding Standards](.github/CODING_STANDARDS.md) - Complete organization guidelines for agents and contributors
+- [Agent Quick Reference](.github/AGENT_QUICK_REFERENCE.md) - Quick decision tree for agents
 - [Development Notes](docs/development/) - Integration summaries and development context
 
 ## Development

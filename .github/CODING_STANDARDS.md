@@ -1,6 +1,8 @@
 # Coding Standards and Repository Organization
 
-This document provides guidelines for maintaining the organization and structure of the sonotheia-examples repository. All coding agents and contributors should follow these standards.
+This document provides comprehensive guidelines for maintaining the organization and structure of the sonotheia-examples repository. All coding agents and contributors should follow these standards.
+
+> **Quick Reference**: For a condensed version, see [AGENT_QUICK_REFERENCE.md](AGENT_QUICK_REFERENCE.md)
 
 ## Repository Structure
 
@@ -8,6 +10,7 @@ This document provides guidelines for maintaining the organization and structure
 sonotheia-examples/
 ├── .github/                    # GitHub configurations and workflows
 │   ├── workflows/              # CI/CD pipelines
+│   ├── AGENT_QUICK_REFERENCE.md # Quick reference for agents
 │   └── CODING_STANDARDS.md     # This file
 ├── docs/                       # All documentation
 │   ├── development/            # Development notes and summaries
@@ -256,6 +259,12 @@ If you need to deviate from these standards:
 4. Consider if it improves maintainability
 
 For questions about these standards, open an issue or contact the repository maintainers.
+
+## Related Documentation
+
+- **[AGENT_QUICK_REFERENCE.md](AGENT_QUICK_REFERENCE.md)** - Quick decision tree and common tasks for agents
+- **[REPOSITORY_STRUCTURE.md](../docs/REPOSITORY_STRUCTURE.md)** - Detailed guide to repository organization
+- **[README.md](../README.md)** - Main repository documentation
 
 ---
 
