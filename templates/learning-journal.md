@@ -295,6 +295,4 @@ def bad_pattern():
 5. **Review monthly** - identify trends and adjust your workflow
 6. **Share anonymously** - help others learn from your experiences
 
-## Example Entry
-
-See [example-learning-journal.md](example-learning-journal.md) for a filled-out example.
+---
