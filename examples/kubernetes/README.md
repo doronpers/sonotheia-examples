@@ -127,7 +127,7 @@ Configure via ConfigMap (`sonotheia-config`):
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `SONOTHEIA_API_URL` | `https://api.sonotheia.com` | API base URL |
+| `SONOTHEIA_API_URL` | `https://api.sonotheia.com` | API base URL (API host for Sonotheia.ai) |
 | `SONOTHEIA_DEEPFAKE_PATH` | `/v1/voice/deepfake` | Deepfake endpoint |
 | `SONOTHEIA_MFA_PATH` | `/v1/mfa/voice/verify` | MFA endpoint |
 | `SONOTHEIA_SAR_PATH` | `/v1/reports/sar` | SAR endpoint |

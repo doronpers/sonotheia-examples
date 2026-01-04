@@ -1,6 +1,8 @@
 # Sonotheia Examples
 
-Integration examples and documentation for the Sonotheia voice fraud detection API: deepfake detection, voice MFA, and SAR generation.
+Integration examples and documentation for the Sonotheia.ai voice fraud detection API: deepfake detection, voice MFA, and SAR generation.
+
+> **Note:** The Sonotheia API (for Sonotheia.ai) is hosted at `https://api.sonotheia.com`.
 
 > This repo is an integration and evaluation reference, not a production SDK. It emphasizes repeatable tests, calibrated deferral, and structured review when outputs are uncertain.
 
@@ -13,7 +15,7 @@ Integration examples and documentation for the Sonotheia voice fraud detection A
 
 2. Or export environment variables directly:
    ```bash
-   export SONOTHEIA_API_URL=https://api.sonotheia.com
+   export SONOTHEIA_API_URL=https://api.sonotheia.com  # Canonical API host for Sonotheia.ai
    export SONOTHEIA_API_KEY=YOUR_API_KEY
    # Optional: override endpoint paths if your deployment differs from defaults
    # export SONOTHEIA_DEEPFAKE_PATH=/v1/voice/deepfake

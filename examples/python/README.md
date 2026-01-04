@@ -19,7 +19,7 @@ Set your API credentials as environment variables:
 
 ```bash
 export SONOTHEIA_API_KEY=your_api_key_here
-export SONOTHEIA_API_URL=https://api.sonotheia.com  # Optional, this is the default
+export SONOTHEIA_API_URL=https://api.sonotheia.com  # Optional, this is the default (API host for Sonotheia.ai)
 ```
 
 Or copy the top-level `.env.example` to `.env` and fill in your credentials.

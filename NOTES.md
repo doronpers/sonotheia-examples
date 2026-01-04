@@ -4,7 +4,7 @@
 
 ### API Endpoints and Authentication
 - The API uses bearer token authentication via the `Authorization: Bearer <token>` header
-- Base URL defaults to `https://api.sonotheia.com`
+- Base URL defaults to `https://api.sonotheia.com` (the canonical API host for Sonotheia.ai)
 - Three primary endpoints are assumed based on existing code:
   - `/v1/voice/deepfake` - Deepfake detection
   - `/v1/mfa/voice/verify` - Voice MFA verification

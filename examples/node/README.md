@@ -31,7 +31,7 @@ CONCURRENT_REQUESTS=10 SONOTHEIA_API_KEY=xxx node batch-processor.js *.wav
 
 **Environment Variables:**
 - `SONOTHEIA_API_KEY` - Required API key
-- `SONOTHEIA_API_URL` - Base API URL (default: https://api.sonotheia.com)
+- `SONOTHEIA_API_URL` - Base API URL (default: https://api.sonotheia.com, the API host for Sonotheia.ai)
 - `CONCURRENT_REQUESTS` - Max concurrent requests (default: 5)
 - `LOG_LEVEL` - Logging level: debug, info, warn, error (default: info)
 
