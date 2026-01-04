@@ -57,21 +57,21 @@ class SonotheiaClient:
             "Accept": "application/json",
         }
 
-    def _audio_part(self, audio_path: str, file_obj: IO[bytes] | None = None) -> tuple[str, Any, str]:
+    def _audio_part(self, audio_path: str, file_obj: IO[bytes]) -> tuple[str, Any, str]:
         """
         Prepare audio file part for multipart upload.
 
         Args:
             audio_path: Path to audio file
+            file_obj: Opened binary file handle for the audio content
 
         Returns:
             Tuple of (filename, file_handle, mime_type)
         """
         mime_type, _ = mimetypes.guess_type(audio_path)
-        handle = file_obj or open(audio_path, "rb")
         return (
             os.path.basename(audio_path),
-            handle,
+            file_obj,
             mime_type or "application/octet-stream",
         )
 
