@@ -1,10 +1,10 @@
 # Enhanced Examples Integration Guide
 
-This guide explains the enhanced production-ready features added to the Sonotheia examples repository.
+This guide explains the enhanced operational features added to the Sonotheia examples repository.
 
 ## Overview
 
-The enhanced examples extend the basic API integration patterns with production-ready features:
+The enhanced examples extend the basic API integration patterns with hardened features:
 
 - **Resilience**: Retry logic, circuit breakers, and fault tolerance
 - **Performance**: Connection pooling, rate limiting, and concurrency control
@@ -16,7 +16,7 @@ The enhanced examples extend the basic API integration patterns with production-
 
 ### 1. Enhanced Python Client (`examples/python/client_enhanced.py`)
 
-**Purpose**: Production-ready Python client with advanced error handling and resilience patterns.
+**Purpose**: Hardened Python client with advanced error handling and resilience patterns.
 
 **Key Features**:
 - Exponential backoff retry with configurable attempts (default: 3)
@@ -26,7 +26,7 @@ The enhanced examples extend the basic API integration patterns with production-
 - Automatic retry on transient failures (5xx errors, timeouts)
 
 **When to Use**:
-- Production deployments requiring high reliability
+- Deployments requiring high reliability
 - Applications with strict SLA requirements
 - Systems that need to handle API rate limits gracefully
 - Services requiring fault tolerance
@@ -35,7 +35,7 @@ The enhanced examples extend the basic API integration patterns with production-
 ```python
 from client_enhanced import SonotheiaClientEnhanced, CircuitBreakerConfig
 
-# Production configuration
+# Hardened configuration
 circuit_config = CircuitBreakerConfig(
     failure_threshold=5,      # Open after 5 failures
     recovery_timeout=60.0,    # Try recovery after 60s
@@ -66,7 +66,7 @@ with SonotheiaClientEnhanced(
 - Automatic audio splitting using ffmpeg
 - Memory-efficient processing (doesn't load entire file)
 - Chunk-level results with aggregated statistics
-- Automatic SAR submission for high-risk content
+- Optional SAR submission hooks (environment-specific)
 - Progress tracking and error handling per chunk
 
 **When to Use**:
@@ -113,7 +113,7 @@ python streaming_example.py audio.wav \
 
 ### 3. Health Check and Monitoring (`examples/python/health_check.py`)
 
-**Purpose**: Production health checks, readiness probes, and monitoring.
+**Purpose**: Operational health checks, readiness probes, and monitoring.
 
 **Key Features**:
 - API connectivity validation
@@ -182,9 +182,8 @@ readinessProbe:
 - Structured logging
 
 **When to Use**:
-- Batch processing multiple audio files
 - High-throughput requirements
-- Production monitoring needed
+- Operational monitoring needed
 - Load testing scenarios
 
 **Example**:
@@ -263,7 +262,7 @@ docker-compose up -d
 
 ### 6. Kubernetes Deployment (`examples/kubernetes/`)
 
-**Purpose**: Production-grade Kubernetes deployment manifests.
+**Purpose**: Example Kubernetes deployment manifests.
 
 **Components**:
 - Deployment with replicas and resource limits
@@ -290,8 +289,8 @@ kubectl scale deployment sonotheia-processor --replicas=5
 ```
 
 **Production Features**:
-- Horizontal pod autoscaling (HPA)
-- Pod disruption budgets (PDB)
+- Horizontal pod autoscaling (HPA) examples
+- Pod disruption budgets (PDB) examples
 - Network policies for security
 - Resource requests and limits
 - Anti-affinity for high availability

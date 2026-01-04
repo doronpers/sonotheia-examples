@@ -2,7 +2,7 @@
 
 Integration examples and documentation for the Sonotheia voice fraud detection API: deepfake detection, voice MFA, and SAR generation.
 
-> This repository contains integration examples plus an experimental evaluation harness scaffold; it is not a production SDK.
+> This repo is an integration and evaluation reference, not a production SDK. It emphasizes repeatable tests, calibrated deferral, and structured review when outputs are uncertain.
 
 ## Quickstart
 1. Copy `.env.example` to `.env` and add your credentials:
@@ -29,19 +29,21 @@ Integration examples and documentation for the Sonotheia voice fraud detection A
 
 4. Provide an audio file (16 kHz mono WAV recommended) and run the example.
 
+The evaluation scaffold supports slicing audio into short windows (10–15s), running repeatable perturbation tests, and capturing audit-grade records of measurements and decisions.
+
 ## Repository Organization
 
 This repository is organized for easy navigation and maintenance. See [REPOSITORY_STRUCTURE.md](docs/REPOSITORY_STRUCTURE.md) for complete details.
 
 **Quick Reference:**
 - `examples/curl/` – minimal cURL scripts for quick API testing
-- `examples/python/` – comprehensive Python examples with production-ready patterns
+- `examples/python/` – comprehensive Python examples with hardened patterns
   - Basic and enhanced clients with retry logic, rate limiting, circuit breakers
   - Streaming processing, health checks, DSP analysis, voice routing
   - Docker/Kubernetes deployment configurations
 - `examples/typescript/` – type-safe TypeScript client with full type definitions
 - `examples/node/` – advanced Node.js patterns: batch processing, webhooks, monitoring
-- `examples/kubernetes/` – production-ready Kubernetes deployment manifests
+- `examples/kubernetes/` – example Kubernetes deployment manifests
 - `docs/` – comprehensive documentation (FAQ, best practices, guides)
   - `docs/development/` – development notes and integration summaries
 - `.github/CODING_STANDARDS.md` – organization guidelines for contributors and agents
@@ -112,101 +114,18 @@ PORT=3000 SONOTHEIA_WEBHOOK_SECRET=your_secret node webhook-server.js
 
 ## Enhanced Examples
 
-### Production-Ready Features
-
-The enhanced examples include production-ready features:
-
-#### Python Enhanced Client (`examples/python/client_enhanced.py`)
-```bash
-python examples/python/enhanced_example.py audio.wav \
-  --max-retries 5 \
-  --rate-limit 2.0 \
-  --enrollment-id enroll-123
-```
-
-Features:
-- **Retry logic** with exponential backoff
-- **Rate limiting** using token bucket algorithm
-- **Circuit breaker** pattern for fault tolerance
-- **Connection pooling** for better performance
-- **Comprehensive error handling**
-
-#### Streaming Audio Processing (`examples/python/streaming_example.py`)
-```bash
-python examples/python/streaming_example.py long_audio.wav \
-  --chunk-duration 10
-```
-
-Features:
-- Process large audio files by splitting into chunks
-- Memory-efficient processing
-- Progress tracking and aggregated results
-- Automatic SAR submission for high-risk content
-
-#### Health Checks and Monitoring (`examples/python/health_check.py`)
-```bash
-# Single health check
-python examples/python/health_check.py
-
-# Continuous monitoring
-python examples/python/health_check.py --monitor --interval 60
-
-# Prometheus metrics export
-python examples/python/health_check.py --prometheus-port 9090
-```
-
-Features:
-- API connectivity verification
-- Authentication validation
-- Prometheus metrics export
-- Kubernetes readiness/liveness probes
-
-#### Enhanced Batch Processor (`examples/node/batch-processor-enhanced.js`)
-```bash
-SONOTHEIA_API_KEY=xxx node examples/node/batch-processor-enhanced.js *.wav
-```
-
-Features:
-- Circuit breaker with automatic recovery
-- Retry logic with exponential backoff
-- Prometheus metrics endpoint
-- Health check endpoint
-- Structured logging with pino
-
-### Docker and Kubernetes
-
-#### Docker Support
-```bash
-cd examples/python
-docker build -t sonotheia-python .
-docker run -e SONOTHEIA_API_KEY=xxx -v $(pwd)/audio:/audio sonotheia-python python main.py /audio/sample.wav
-```
-
-Or use Docker Compose:
-```bash
-cd examples/python
-docker-compose up sonotheia-enhanced
-```
-
-#### Kubernetes Deployment
-```bash
-# Deploy to Kubernetes
-kubectl apply -f examples/kubernetes/deployment.yaml
-
-# Check status
-kubectl get pods -l app=sonotheia-processor
-
-# View metrics
-kubectl port-forward svc/sonotheia-processor-metrics 9090:9090
-curl http://localhost:9090/metrics
-```
-
-See [Kubernetes README](examples/kubernetes/README.md) for detailed documentation.
+For advanced patterns including retries, rate limiting, circuit breakers, streaming chunking, monitoring, and Kubernetes deployment, see [docs/ENHANCED_EXAMPLES.md](docs/ENHANCED_EXAMPLES.md) and the per-language READMEs:
+- [Python README](examples/python/README.md) - Enhanced client features and deployment
+- [Node.js README](examples/node/README.md) - Advanced integration patterns
+- [Kubernetes README](examples/kubernetes/README.md) - Deployment configurations
 
 ## Sample responses
+
+Example output (illustrative). In practice, ambiguous outcomes should trigger deferral and structured review rather than be treated as a binary decision.
+
 ```json
 {
-  "deepfake": {"score": 0.82, "label": "likely_real", "latency_ms": 640},
+  "deepfake": {"score": 0.82, "recommended_action": "defer_to_review", "latency_ms": 640},
   "mfa": {"verified": true, "enrollment_id": "enroll-123", "confidence": 0.93},
   "sar": {"status": "submitted", "case_id": "sar-001234"}
 }
