@@ -29,16 +29,22 @@ Integration examples and documentation for the Sonotheia voice fraud detection A
 
 4. Provide an audio file (16 kHz mono WAV recommended) and run the example.
 
-## Repository layout
-- `examples/curl/` – minimal cURL scripts for the three primary flows.
-- `examples/python/` – small helper demonstrating deepfake scoring, MFA verification, and SAR creation.
-  - **Enhanced examples**: Production-ready clients with retry logic, rate limiting, circuit breakers, and streaming support
-- `examples/typescript/` – type-safe TypeScript client with full type definitions.
-- `examples/node/` – advanced Node.js examples including batch processing and webhook server.
-  - **Enhanced examples**: Monitoring, metrics, and observability features
-- `examples/kubernetes/` – Kubernetes deployment manifests for production environments.
-- `docs/` – comprehensive documentation including FAQ, best practices, and troubleshooting.
-- `LICENSE` – project license.
+## Repository Organization
+
+This repository is organized for easy navigation and maintenance. See [REPOSITORY_STRUCTURE.md](docs/REPOSITORY_STRUCTURE.md) for complete details.
+
+**Quick Reference:**
+- `examples/curl/` – minimal cURL scripts for quick API testing
+- `examples/python/` – comprehensive Python examples with production-ready patterns
+  - Basic and enhanced clients with retry logic, rate limiting, circuit breakers
+  - Streaming processing, health checks, DSP analysis, voice routing
+  - Docker/Kubernetes deployment configurations
+- `examples/typescript/` – type-safe TypeScript client with full type definitions
+- `examples/node/` – advanced Node.js patterns: batch processing, webhooks, monitoring
+- `examples/kubernetes/` – production-ready Kubernetes deployment manifests
+- `docs/` – comprehensive documentation (FAQ, best practices, guides)
+  - `docs/development/` – development notes and integration summaries
+- `.github/CODING_STANDARDS.md` – organization guidelines for contributors and agents
 
 ## cURL examples
 The scripts require `SONOTHEIA_API_KEY` to be set. You can override `SONOTHEIA_API_URL` or the individual `*_PATH` variables if your stack uses different routes.
@@ -212,13 +218,24 @@ See [Kubernetes README](examples/kubernetes/README.md) for detailed documentatio
 - Replace placeholder IDs (session/enrollment) with values from your environment or preceding API calls.
 
 ## Documentation
+
+### User Documentation
+- [Repository Structure](docs/REPOSITORY_STRUCTURE.md) - How this repository is organized
 - [FAQ](docs/FAQ.md) - Common questions and answers
 - [Best Practices](docs/BEST_PRACTICES.md) - Comprehensive integration guide
-- [NOTES](NOTES.md) - Assumptions, TODOs, and questions for implementation
+- [Enhanced Examples](docs/ENHANCED_EXAMPLES.md) - Production-ready features guide
+- [NOTES](NOTES.md) - Implementation assumptions, TODOs, and questions
+
+### Language-Specific Guides
+- [Python README](examples/python/README.md) - Python client library documentation
 - [TypeScript README](examples/typescript/README.md) - TypeScript-specific documentation
 - [Node.js README](examples/node/README.md) - Advanced integration patterns
-- [Python README](examples/python/README.md) - Python client library documentation
 - [Kubernetes README](examples/kubernetes/README.md) - Production deployment guide
+
+### For Contributors and Agents
+- [Coding Standards](.github/CODING_STANDARDS.md) - Complete organization guidelines for agents and contributors
+- [Agent Quick Reference](.github/AGENT_QUICK_REFERENCE.md) - Quick decision tree for agents
+- [Development Notes](docs/development/) - Integration summaries and development context
 
 ## Development
 
