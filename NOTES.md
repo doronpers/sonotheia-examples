@@ -138,7 +138,7 @@
 
 - Examples do not include actual API credentials (by design - must be provided by user)
 - No enrollment endpoint examples (enrollment process not yet documented)
-- Webhook examples are demonstration only (not production-ready without database, proper auth)
+- Webhook examples are demonstration only (require additional hardening for deployment)
 - No streaming audio support in examples (future enhancement)
 - TypeScript/Node examples require Node.js 18+ (older versions not tested)
 - Python examples require Python 3.9+ (older versions not tested)
