@@ -21,12 +21,11 @@ import sys
 
 import requests
 
-from client_enhanced import SonotheiaClientEnhanced, CircuitBreakerConfig
+from client_enhanced import CircuitBreakerConfig, SonotheiaClientEnhanced
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -36,13 +35,21 @@ def main() -> None:
         description="Enhanced Sonotheia API client example with retry and rate limiting"
     )
     parser.add_argument("audio", help="Path to WAV/Opus audio to submit")
-    parser.add_argument("--enrollment-id", help="Enrollment/voiceprint identifier for MFA verification")
+    parser.add_argument(
+        "--enrollment-id", help="Enrollment/voiceprint identifier for MFA verification"
+    )
     parser.add_argument("--session-id", help="Session identifier to link SARs and risk events")
-    parser.add_argument("--decision", default="review", help="Decision for SAR submission (allow/deny/review)")
-    parser.add_argument("--reason", default="Manual review requested", help="Human readable SAR reason")
+    parser.add_argument(
+        "--decision", default="review", help="Decision for SAR submission (allow/deny/review)"
+    )
+    parser.add_argument(
+        "--reason", default="Manual review requested", help="Human readable SAR reason"
+    )
     parser.add_argument("--max-retries", type=int, default=3, help="Maximum retry attempts")
     parser.add_argument("--rate-limit", type=float, help="Rate limit in requests per second")
-    parser.add_argument("--disable-circuit-breaker", action="store_true", help="Disable circuit breaker")
+    parser.add_argument(
+        "--disable-circuit-breaker", action="store_true", help="Disable circuit breaker"
+    )
     parser.add_argument("--verbose", "-v", action="store_true", help="Enable verbose logging")
 
     args = parser.parse_args()
@@ -65,9 +72,11 @@ def main() -> None:
             enable_circuit_breaker=not args.disable_circuit_breaker,
             circuit_breaker_config=circuit_config,
         ) as client:
-            logger.info(f"Initialized enhanced client (retries={args.max_retries}, "
-                       f"rate_limit={args.rate_limit or 'disabled'}, "
-                       f"circuit_breaker={'disabled' if args.disable_circuit_breaker else 'enabled'})")
+            logger.info(
+                f"Initialized enhanced client (retries={args.max_retries}, "
+                f"rate_limit={args.rate_limit or 'disabled'}, "
+                f"circuit_breaker={'disabled' if args.disable_circuit_breaker else 'enabled'})"
+            )
 
             results = {}
 
@@ -78,8 +87,10 @@ def main() -> None:
                     args.audio,
                     metadata={"session_id": args.session_id or "demo-session", "channel": "web"},
                 )
-                logger.info(f"Deepfake detection result: score={results['deepfake'].get('score')}, "
-                           f"label={results['deepfake'].get('label')}")
+                logger.info(
+                    f"Deepfake detection result: score={results['deepfake'].get('score')}, "
+                    f"label={results['deepfake'].get('label')}"
+                )
             except requests.HTTPError as exc:
                 error_detail = exc.response.text if hasattr(exc, "response") else str(exc)
                 logger.error(f"Deepfake detection failed: {error_detail}")
@@ -97,8 +108,10 @@ def main() -> None:
                         args.enrollment_id,
                         context={"session_id": args.session_id or "demo-session", "channel": "ivr"},
                     )
-                    logger.info(f"MFA verification result: verified={results['mfa'].get('verified')}, "
-                               f"confidence={results['mfa'].get('confidence')}")
+                    logger.info(
+                        f"MFA verification result: verified={results['mfa'].get('verified')}, "
+                        f"confidence={results['mfa'].get('confidence')}"
+                    )
                 except requests.HTTPError as exc:
                     error_detail = exc.response.text if hasattr(exc, "response") else str(exc)
                     logger.error(f"MFA verification failed: {error_detail}")
@@ -117,8 +130,10 @@ def main() -> None:
                         reason=args.reason,
                         metadata={"source": "enhanced-example"},
                     )
-                    logger.info(f"SAR submission result: status={results['sar'].get('status')}, "
-                               f"case_id={results['sar'].get('case_id')}")
+                    logger.info(
+                        f"SAR submission result: status={results['sar'].get('status')}, "
+                        f"case_id={results['sar'].get('case_id')}"
+                    )
                 except requests.HTTPError as exc:
                     error_detail = exc.response.text if hasattr(exc, "response") else str(exc)
                     logger.error(f"SAR submission failed: {error_detail}")

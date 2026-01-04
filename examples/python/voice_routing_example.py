@@ -22,20 +22,20 @@ from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import Dict, Any, Optional
+from typing import Any
 
 import requests
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
 
 class RiskLevel(Enum):
     """Risk level classification."""
+
     LOW = "LOW"
     MEDIUM = "MEDIUM"
     HIGH = "HIGH"
@@ -44,6 +44,7 @@ class RiskLevel(Enum):
 
 class RoutingAction(Enum):
     """Routing decision actions."""
+
     ALLOW = "ALLOW"
     REQUIRE_CALLBACK = "REQUIRE_CALLBACK"
     REQUIRE_STEP_UP = "REQUIRE_STEP_UP"
@@ -54,6 +55,7 @@ class RoutingAction(Enum):
 @dataclass
 class TransactionContext:
     """Transaction context for risk assessment."""
+
     transaction_id: str
     customer_id: str
     amount_usd: float
@@ -66,34 +68,32 @@ class TransactionContext:
 @dataclass
 class VoiceAnalysisResult:
     """Voice analysis result."""
+
     deepfake_score: float
     confidence: float
     risk_level: RiskLevel
     reason_codes: list[str]
-    feature_contributions: Dict[str, float]
+    feature_contributions: dict[str, float]
     session_id: str
 
 
 @dataclass
 class RoutingDecision:
     """Routing decision with audit trail."""
+
     action: RoutingAction
     risk_level: RiskLevel
     confidence: float
     reason: str
     requires_human_review: bool
     additional_controls: list[str]
-    audit_trail: Dict[str, Any]
+    audit_trail: dict[str, Any]
 
 
 class VoiceIntegrityRouter:
     """Voice integrity routing engine for financial services."""
 
-    def __init__(
-        self,
-        api_key: str,
-        api_url: str = "https://api.sonotheia.com"
-    ):
+    def __init__(self, api_key: str, api_url: str = "https://api.sonotheia.com"):
         self.api_key = api_key
         self.api_url = api_url.rstrip("/")
 
@@ -146,13 +146,11 @@ class VoiceIntegrityRouter:
             risk_level=risk_level,
             reason_codes=result.get("reason_codes", []),
             feature_contributions=result.get("feature_contributions", {}),
-            session_id=result.get("session_id", "unknown")
+            session_id=result.get("session_id", "unknown"),
         )
 
     def make_routing_decision(
-        self,
-        voice_result: VoiceAnalysisResult,
-        context: TransactionContext
+        self, voice_result: VoiceAnalysisResult, context: TransactionContext
     ) -> RoutingDecision:
         """
         Make routing decision based on voice analysis and transaction context.
@@ -173,9 +171,7 @@ class VoiceIntegrityRouter:
         action = self._determine_action(voice_result, context, composite_risk)
 
         # Determine additional controls needed
-        additional_controls = self._determine_additional_controls(
-            voice_result, context, action
-        )
+        additional_controls = self._determine_additional_controls(voice_result, context, action)
 
         # Build audit trail
         audit_trail = {
@@ -199,9 +195,7 @@ class VoiceIntegrityRouter:
         }
 
         # Generate decision reason
-        reason = self._generate_decision_reason(
-            voice_result, context, composite_risk, action
-        )
+        reason = self._generate_decision_reason(voice_result, context, composite_risk, action)
 
         return RoutingDecision(
             action=action,
@@ -210,13 +204,11 @@ class VoiceIntegrityRouter:
             reason=reason,
             requires_human_review=(action == RoutingAction.ESCALATE_TO_HUMAN),
             additional_controls=additional_controls,
-            audit_trail=audit_trail
+            audit_trail=audit_trail,
         )
 
     def _calculate_composite_risk(
-        self,
-        voice_result: VoiceAnalysisResult,
-        context: TransactionContext
+        self, voice_result: VoiceAnalysisResult, context: TransactionContext
     ) -> float:
         """Calculate composite risk score."""
         # Base risk from voice analysis
@@ -240,10 +232,7 @@ class VoiceIntegrityRouter:
         return min(risk_score, 1.0)
 
     def _determine_action(
-        self,
-        voice_result: VoiceAnalysisResult,
-        context: TransactionContext,
-        composite_risk: float
+        self, voice_result: VoiceAnalysisResult, context: TransactionContext, composite_risk: float
     ) -> RoutingAction:
         """Determine routing action."""
         # Low confidence always requires human review
@@ -272,10 +261,7 @@ class VoiceIntegrityRouter:
         return RoutingAction.ALLOW
 
     def _determine_additional_controls(
-        self,
-        voice_result: VoiceAnalysisResult,
-        context: TransactionContext,
-        action: RoutingAction
+        self, voice_result: VoiceAnalysisResult, context: TransactionContext, action: RoutingAction
     ) -> list[str]:
         """Determine additional security controls needed."""
         controls = []
@@ -304,7 +290,7 @@ class VoiceIntegrityRouter:
         voice_result: VoiceAnalysisResult,
         context: TransactionContext,
         composite_risk: float,
-        action: RoutingAction
+        action: RoutingAction,
     ) -> str:
         """Generate human-readable decision reason."""
         reasons = []
@@ -356,43 +342,26 @@ def print_routing_decision(decision: RoutingDecision):
 
 def main():
     """Main entry point."""
-    parser = argparse.ArgumentParser(
-        description="Voice integrity routing for financial services"
-    )
+    parser = argparse.ArgumentParser(description="Voice integrity routing for financial services")
     parser.add_argument("audio", help="Path to voice audio file")
     parser.add_argument(
         "--transaction-id",
         default=f"TXN{datetime.now().strftime('%Y%m%d%H%M%S')}",
-        help="Transaction ID"
+        help="Transaction ID",
     )
     parser.add_argument("--customer-id", required=True, help="Customer ID")
     parser.add_argument(
-        "--transaction-amount",
-        type=float,
-        required=True,
-        help="Transaction amount in USD"
+        "--transaction-amount", type=float, required=True, help="Transaction amount in USD"
+    )
+    parser.add_argument("--destination-country", default="US", help="Destination country code")
+    parser.add_argument(
+        "--new-beneficiary", action="store_true", help="Transaction to new beneficiary"
     )
     parser.add_argument(
-        "--destination-country",
-        default="US",
-        help="Destination country code"
+        "--channel", choices=["phone", "web", "mobile"], default="phone", help="Transaction channel"
     )
     parser.add_argument(
-        "--new-beneficiary",
-        action="store_true",
-        help="Transaction to new beneficiary"
-    )
-    parser.add_argument(
-        "--channel",
-        choices=["phone", "web", "mobile"],
-        default="phone",
-        help="Transaction channel"
-    )
-    parser.add_argument(
-        "--customer-risk-score",
-        type=float,
-        default=0.0,
-        help="Customer risk score (0.0-1.0)"
+        "--customer-risk-score", type=float, default=0.0, help="Customer risk score (0.0-1.0)"
     )
     parser.add_argument("--api-key", help="API key")
     parser.add_argument("--api-url", default="https://api.sonotheia.com")
@@ -402,6 +371,7 @@ def main():
 
     # Get API key
     import os
+
     api_key = args.api_key or os.getenv("SONOTHEIA_API_KEY")
     if not api_key:
         logger.error("API key required. Set SONOTHEIA_API_KEY or use --api-key")
@@ -415,7 +385,7 @@ def main():
         destination_country=args.destination_country,
         is_new_beneficiary=args.new_beneficiary,
         channel=args.channel,
-        customer_risk_score=args.customer_risk_score
+        customer_risk_score=args.customer_risk_score,
     )
 
     # Create router
@@ -426,9 +396,11 @@ def main():
         logger.info("Step 1: Analyzing voice audio...")
         voice_result = router.analyze_voice(args.audio)
 
-        logger.info(f"Voice analysis complete: "
-                   f"score={voice_result.deepfake_score:.3f}, "
-                   f"confidence={voice_result.confidence:.3f}")
+        logger.info(
+            f"Voice analysis complete: "
+            f"score={voice_result.deepfake_score:.3f}, "
+            f"confidence={voice_result.confidence:.3f}"
+        )
 
         # Make routing decision
         logger.info("Step 2: Making routing decision...")

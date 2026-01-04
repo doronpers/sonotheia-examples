@@ -25,7 +25,7 @@ import json
 import logging
 import sys
 import time
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
 from datetime import datetime
 from typing import Any
 
@@ -33,8 +33,7 @@ import requests
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -42,6 +41,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class HealthCheckResult:
     """Health check result."""
+
     timestamp: str
     healthy: bool
     latency_ms: float
@@ -181,16 +181,16 @@ def export_prometheus_metrics(checker: SonotheiaHealthChecker, port: int = 9090)
         port: Port to listen on
     """
     try:
-        from prometheus_client import start_http_server, Gauge, Counter
+        from prometheus_client import Counter, Gauge, start_http_server
     except ImportError:
         logger.error("prometheus_client not installed. Install with: pip install prometheus-client")
         sys.exit(1)
 
     # Define metrics
-    health_status = Gauge('sonotheia_api_health', 'API health status (1=healthy, 0=unhealthy)')
-    latency = Gauge('sonotheia_api_latency_ms', 'API latency in milliseconds')
-    check_counter = Counter('sonotheia_api_checks_total', 'Total number of health checks')
-    error_counter = Counter('sonotheia_api_errors_total', 'Total number of errors')
+    health_status = Gauge("sonotheia_api_health", "API health status (1=healthy, 0=unhealthy)")
+    latency = Gauge("sonotheia_api_latency_ms", "API latency in milliseconds")
+    check_counter = Counter("sonotheia_api_checks_total", "Total number of health checks")
+    error_counter = Counter("sonotheia_api_errors_total", "Total number of errors")
 
     # Start metrics server
     start_http_server(port)
@@ -259,7 +259,9 @@ def main() -> None:
     parser.add_argument("--api-url", default="https://api.sonotheia.com", help="API base URL")
     parser.add_argument("--monitor", action="store_true", help="Continuous monitoring mode")
     parser.add_argument("--interval", type=int, default=60, help="Monitoring interval in seconds")
-    parser.add_argument("--prometheus-port", type=int, help="Export Prometheus metrics on this port")
+    parser.add_argument(
+        "--prometheus-port", type=int, help="Export Prometheus metrics on this port"
+    )
     parser.add_argument("--verbose", "-v", action="store_true", help="Enable verbose logging")
 
     args = parser.parse_args()
@@ -269,6 +271,7 @@ def main() -> None:
 
     # Get API key
     import os
+
     api_key = args.api_key or os.getenv("SONOTHEIA_API_KEY")
     if not api_key:
         logger.error("API key required. Set SONOTHEIA_API_KEY or use --api-key")

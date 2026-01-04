@@ -19,10 +19,16 @@ from client import SonotheiaClient
 def main() -> None:
     parser = argparse.ArgumentParser(description="Sonotheia voice fraud API examples")
     parser.add_argument("audio", help="Path to WAV/Opus audio to submit")
-    parser.add_argument("--enrollment-id", help="Enrollment/voiceprint identifier for MFA verification")
+    parser.add_argument(
+        "--enrollment-id", help="Enrollment/voiceprint identifier for MFA verification"
+    )
     parser.add_argument("--session-id", help="Session identifier to link SARs and risk events")
-    parser.add_argument("--decision", default="review", help="Decision for SAR submission (allow/deny/review)")
-    parser.add_argument("--reason", default="Manual review requested", help="Human readable SAR reason")
+    parser.add_argument(
+        "--decision", default="review", help="Decision for SAR submission (allow/deny/review)"
+    )
+    parser.add_argument(
+        "--reason", default="Manual review requested", help="Human readable SAR reason"
+    )
 
     args = parser.parse_args()
 
