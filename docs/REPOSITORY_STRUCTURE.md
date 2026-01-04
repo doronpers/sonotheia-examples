@@ -8,7 +8,7 @@ The sonotheia-examples repository is organized to be:
 - **Easy to navigate**: Clear directory structure with logical grouping
 - **Easy to maintain**: Consistent patterns across all sections
 - **Easy to extend**: Well-defined places for new content
-- **Production-ready**: Examples suitable for learning and deployment
+- **Reference-ready**: Examples suitable for learning and adaptation
 
 ## Directory Structure
 
@@ -57,7 +57,7 @@ sonotheia-examples/
 │   │   ├── Dockerfile          # Container image
 │   │   ├── docker-compose.yml  # Multi-service setup
 │   │   ├── client.py           # Basic API client
-│   │   ├── client_enhanced.py  # Production-ready client
+│   │   ├── client_enhanced.py  # Hardened client
 │   │   ├── main.py             # Basic CLI example
 │   │   ├── enhanced_example.py # Enhanced CLI
 │   │   ├── streaming_example.py # Stream processing
@@ -154,7 +154,7 @@ Type-safe client with full type definitions.
 **Best for**: TypeScript projects needing compile-time safety
 
 #### Kubernetes Examples (/examples/kubernetes/)
-Production-ready Kubernetes manifests with:
+Example Kubernetes manifests with:
 - Deployments with health probes
 - ConfigMaps and Secrets
 - Services for metrics
@@ -181,7 +181,7 @@ Production-ready Kubernetes manifests with:
 
 **Build a production application**
 → Read `docs/BEST_PRACTICES.md` and `docs/ENHANCED_EXAMPLES.md`
-→ Use `examples/python/client_enhanced.py` or `examples/node/batch-processor-enhanced.js`
+→ Use hardened examples like `examples/python/client_enhanced.py`
 
 **Deploy to Kubernetes**
 → Check `examples/kubernetes/README.md` and `deployment.yaml`
@@ -290,7 +290,7 @@ Common issues and solutions
 2. Update that directory's README.md
 3. Add tests if complex
 4. Update main README.md if it's a major feature
-5. Consider adding to `docs/ENHANCED_EXAMPLES.md` if production-ready
+5. Consider adding to `docs/ENHANCED_EXAMPLES.md` if it demonstrates hardened patterns
 
 ## Maintenance
 

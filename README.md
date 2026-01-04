@@ -31,97 +31,73 @@ Integration examples and documentation for the Sonotheia voice fraud detection A
 
 The evaluation scaffold supports slicing audio into short windows (10–15s), running repeatable perturbation tests, and capturing audit-grade records of measurements and decisions.
 
-## Repository Organization
+## Examples
 
-This repository is organized for easy navigation and maintenance. See [REPOSITORY_STRUCTURE.md](docs/REPOSITORY_STRUCTURE.md) for complete details.
+### cURL
 
-**Quick Reference:**
-- `examples/curl/` – minimal cURL scripts for quick API testing
-- `examples/python/` – comprehensive Python examples with hardened patterns
-  - Basic and enhanced clients with retry logic, rate limiting, circuit breakers
-  - Streaming processing, health checks, DSP analysis, voice routing
-  - Docker/Kubernetes deployment configurations
-- `examples/typescript/` – type-safe TypeScript client with full type definitions
-- `examples/node/` – advanced Node.js patterns: batch processing, webhooks, monitoring
-- `examples/kubernetes/` – example Kubernetes deployment manifests
-- `docs/` – comprehensive documentation (FAQ, best practices, guides)
-  - `docs/development/` – development notes and integration summaries
-- `.github/CODING_STANDARDS.md` – organization guidelines for contributors and agents
-
-## cURL examples
-The scripts require `SONOTHEIA_API_KEY` to be set. You can override `SONOTHEIA_API_URL` or the individual `*_PATH` variables if your stack uses different routes.
+Minimal scripts for quick API testing. Requires `SONOTHEIA_API_KEY` environment variable.
 
 ```bash
 # Deepfake detection
-./examples/curl/deepfake-detect.sh path/to/audio.wav
+./examples/curl/deepfake-detect.sh audio.wav
 
-# Voice MFA verification (pass enrollment ID)
-SONOTHEIA_ENROLLMENT_ID=enroll-123 \
-  ./examples/curl/mfa-verify.sh path/to/audio.wav
+# Voice MFA verification
+SONOTHEIA_ENROLLMENT_ID=enroll-123 ./examples/curl/mfa-verify.sh audio.wav
 
-# Generate a SAR from a prior session
-./examples/curl/sar-report.sh session-123 review "Manual review requested"
+# SAR generation
+./examples/curl/sar-report.sh session-123 review "Manual review"
 ```
 
-## Python example
-Requirements: Python 3.9+ and `requests`.
+### Python
+
+Python client with retry logic, rate limiting, and circuit breakers. Requires Python 3.9+.
 
 ```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -r examples/python/requirements.txt
-python examples/python/main.py path/to/audio.wav \
-  --enrollment-id enroll-123 \
-  --session-id session-123
+python examples/python/main.py audio.wav --enrollment-id enroll-123
 ```
 
-Outputs are printed as formatted JSON so you can copy/paste into dashboards or support tickets.
+See [examples/python/README.md](examples/python/README.md) for enhanced features and deployment.
 
-## TypeScript example
-Requirements: Node.js 18+ and npm.
+### TypeScript
+
+Type-safe client with full type definitions. Requires Node.js 18+.
 
 ```bash
 cd examples/typescript
-npm install
-npm run build
+npm install && npm run build
 export SONOTHEIA_API_KEY=YOUR_API_KEY
-node dist/index.js path/to/audio.wav \
-  --enrollment-id enroll-123 \
-  --session-id session-123
+node dist/index.js audio.wav --enrollment-id enroll-123
 ```
 
-Features type-safe interfaces for all API endpoints with comprehensive error handling.
+### Node.js
 
-## Node.js advanced examples
-
-### Batch Processor
-Process multiple audio files concurrently:
+Batch processing and webhook server examples.
 
 ```bash
-cd examples/node
-npm install
+# Batch processor
+cd examples/node && npm install
 export SONOTHEIA_API_KEY=YOUR_API_KEY
-node batch-processor.js /path/to/audio/*.wav
-```
+node batch-processor.js /path/to/*.wav
 
-### Webhook Server
-Example server for receiving async API callbacks:
-
-```bash
-cd examples/node
-npm install
+# Webhook server
 PORT=3000 SONOTHEIA_WEBHOOK_SECRET=your_secret node webhook-server.js
 ```
 
-## Enhanced Examples
+See [examples/node/README.md](examples/node/README.md) for advanced patterns.
 
-For advanced patterns including retries, rate limiting, circuit breakers, streaming chunking, monitoring, and Kubernetes deployment, see [docs/ENHANCED_EXAMPLES.md](docs/ENHANCED_EXAMPLES.md) and the per-language READMEs:
-- [Python README](examples/python/README.md) - Enhanced client features and deployment
-- [Node.js README](examples/node/README.md) - Advanced integration patterns
-- [Kubernetes README](examples/kubernetes/README.md) - Deployment configurations
+## Advanced Features
 
-## Sample responses
+For retries, rate limiting, circuit breakers, streaming, monitoring, and Kubernetes deployment:
+- [Enhanced Examples Guide](docs/ENHANCED_EXAMPLES.md)
+- [Python README](examples/python/README.md)
+- [Node.js README](examples/node/README.md)
+- [Kubernetes README](examples/kubernetes/README.md)
 
-Example output (illustrative). In practice, ambiguous outcomes should trigger deferral and structured review rather than be treated as a binary decision.
+## Output Format
+
+Example response (illustrative). Ambiguous outcomes should trigger deferral and structured review.
 
 ```json
 {
@@ -132,56 +108,38 @@ Example output (illustrative). In practice, ambiguous outcomes should trigger de
 ```
 
 ## Notes
-- All examples rely on bearer token authentication; never hard-code secrets in source control.
-- For best latency, send short (<10s) mono WAV or Opus audio.
-- Replace placeholder IDs (session/enrollment) with values from your environment or preceding API calls.
+- Send short (<10s) mono WAV or Opus audio for best latency
+- Never hard-code API keys in source control
+- Replace placeholder IDs with actual values from your environment
 
 ## Documentation
 
-### User Documentation
-- [Repository Structure](docs/REPOSITORY_STRUCTURE.md) - How this repository is organized
-- [FAQ](docs/FAQ.md) - Common questions and answers
-- [Best Practices](docs/BEST_PRACTICES.md) - Comprehensive integration guide
-- [Enhanced Examples](docs/ENHANCED_EXAMPLES.md) - Production-ready features guide
-- [NOTES](NOTES.md) - Implementation assumptions, TODOs, and questions
+- [FAQ](docs/FAQ.md) - Common questions
+- [Best Practices](docs/BEST_PRACTICES.md) - Integration guide
+- [Enhanced Examples](docs/ENHANCED_EXAMPLES.md) - Advanced features
+- [Repository Structure](docs/REPOSITORY_STRUCTURE.md) - How this repo is organized
 
-### Language-Specific Guides
-- [Python README](examples/python/README.md) - Python client library documentation
-- [TypeScript README](examples/typescript/README.md) - TypeScript-specific documentation
-- [Node.js README](examples/node/README.md) - Advanced integration patterns
-- [Kubernetes README](examples/kubernetes/README.md) - Production deployment guide
+## Testing
 
-### For Contributors and Agents
-- [Coding Standards](.github/CODING_STANDARDS.md) - Complete organization guidelines for agents and contributors
-- [Agent Quick Reference](.github/AGENT_QUICK_REFERENCE.md) - Quick decision tree for agents
-- [Development Notes](docs/development/) - Integration summaries and development context
+Run tests locally:
 
-## Development
-
-This repository includes:
-- **Unit tests** for Python client (see `examples/python/tests/`)
-- **CI/CD pipeline** via GitHub Actions for linting and testing
-- **Code quality tools**: pytest, ruff (Python), TypeScript compiler
-
-To run tests locally:
 ```bash
-# Python tests
+# Python
 cd examples/python
 pip install -r requirements.txt
 pytest tests/ -v
 
-# TypeScript build
+# TypeScript
 cd examples/typescript
-npm install
-npm run build
+npm install && npm run build
 
-# Node.js syntax check
+# Node.js
 cd examples/node
 npm install
 node --check batch-processor.js
-node --check webhook-server.js
 ```
 
-## Additional Resources
-- API Reference: Available on request
-- Support: Contact your Sonotheia integration engineer
+---
+
+**Support:** Contact your Sonotheia integration engineer  
+**API Reference:** Available on request
