@@ -1,13 +1,48 @@
-# Agent Quick Reference: Repository Organization
+# Agent Quick Reference: Repository Organization & AI Workflow
 
-This is a quick reference guide for coding agents to maintain the organization of the sonotheia-examples repository.
+This is a quick reference guide for coding agents to maintain the organization of the sonotheia-examples repository and follow effective AI-assisted development practices.
 
 ## 📋 Before Making Changes
 
 **ALWAYS** read these files first:
-1. `.github/CODING_STANDARDS.md` - Complete standards and guidelines
-2. `docs/REPOSITORY_STRUCTURE.md` - Full structure documentation
-3. This file - Quick reference
+1. `.github/QUICK_REFERENCE.md` - **AI-Assisted Development Workflow** (essential for effective collaboration)
+2. `.github/CODING_STANDARDS.md` - Complete standards and guidelines
+3. `docs/REPOSITORY_STRUCTURE.md` - Full structure documentation
+4. This file - Quick reference for organization decisions
+
+## 🤖 AI-Assisted Development Quick Guide
+
+Before writing code, apply the **Three-Question Framework**:
+
+1. **What problem am I solving?** (1-2 sentences)
+2. **What does success look like?** (concrete, testable outcomes)
+3. **What constraints exist?** (performance, scale, security, infrastructure)
+
+**See:** [Start Simple Guide](../docs/03-workflow-building/start-simple.md) for detailed framework.
+
+### Common AI Pitfalls to Check
+
+Based on this repository's experience, **ALWAYS verify**:
+
+```python
+# ✅ numpy type conversion for JSON serialization
+if isinstance(obj, np.integer): return int(obj)
+if isinstance(obj, np.floating): return float(obj)
+if isinstance(obj, np.ndarray): return obj.tolist()
+
+# ✅ Proper temp file handling (use fd properly)
+fd, path = tempfile.mkstemp()
+try:
+    with os.fdopen(fd, 'wb') as f:
+        f.write(data)
+finally:
+    os.unlink(path)
+
+# ✅ Docker SSL certificates
+# Always include in Dockerfile: RUN apk add --no-cache ca-certificates
+```
+
+**See:** [AI-Assisted Development Workflow](QUICK_REFERENCE.md) for full checklist.
 
 ## 🎯 Quick Decision Tree
 
@@ -217,32 +252,43 @@ Before finalizing changes, ask:
 
 ## 📚 Key Documents
 
-Must read for any structural changes:
+Must read for effective AI-assisted development:
+- `.github/QUICK_REFERENCE.md` - **AI-Assisted Development Workflow** (10 min read) - Start here!
 - `.github/CODING_STANDARDS.md` - **Full standards** (20 min read)
 - `docs/REPOSITORY_STRUCTURE.md` - **Complete structure guide** (15 min read)
+- `docs/03-workflow-building/start-simple.md` - **Three-Question Framework** (10 min read)
 - This file - **Quick reference** (5 min read)
 
 ## 🆘 When in Doubt
 
-1. **Read** `.github/CODING_STANDARDS.md`
-2. **Look** at similar existing files for patterns
-3. **Ask** via GitHub issue if you're unsure
-4. **Keep it simple** - prefer existing patterns
-5. **Document** your decision in commit message
+1. **Read** `.github/QUICK_REFERENCE.md` for AI workflow guidance
+2. **Apply** the three-question framework before coding
+3. **Read** `.github/CODING_STANDARDS.md` for structural changes
+4. **Look** at similar existing files for patterns
+5. **Consider** multi-agent review for complex changes (see [Multi-Agent Workflow](../docs/03-workflow-building/multi-agent-workflow.md))
+6. **Ask** via GitHub issue if you're unsure
+7. **Keep it simple** - prefer existing patterns
+8. **Document** your decision in commit message
 
 ## 🎓 Learning More
 
-Want to understand the organization better?
-1. Start with `README.md` in root
-2. Read `docs/REPOSITORY_STRUCTURE.md`
-3. Read `.github/CODING_STANDARDS.md`
-4. Browse `docs/development/` for historical context
-5. Look at existing examples for patterns
+Want to understand the organization and workflow better?
+1. Start with `.github/QUICK_REFERENCE.md` - AI-Assisted Development Workflow
+2. Read `docs/03-workflow-building/start-simple.md` - Three-question framework
+3. Read `README.md` in root - Repository overview
+4. Read `docs/REPOSITORY_STRUCTURE.md` - Structure details
+5. Read `.github/CODING_STANDARDS.md` - Complete standards
+6. Browse `docs/development/` for historical context
+7. Look at existing examples for patterns
 
 ---
 
-**Remember**: The goal is to keep the repository clean, organized, and easy to navigate. When in doubt, preserve the existing organizational patterns.
+**Remember**: The goal is to keep the repository clean, organized, and easy to navigate while following effective AI-assisted development practices. When in doubt, preserve the existing organizational patterns and apply the three-question framework.
 
 **Last Updated**: 2026-01-04  
 **For**: Coding agents and contributors  
-**See Also**: [CODING_STANDARDS.md](CODING_STANDARDS.md), [REPOSITORY_STRUCTURE.md](../docs/REPOSITORY_STRUCTURE.md)
+**See Also**: 
+- [AI-Assisted Development Workflow](QUICK_REFERENCE.md) - Essential reading
+- [CODING_STANDARDS.md](CODING_STANDARDS.md) - Complete standards
+- [REPOSITORY_STRUCTURE.md](../docs/REPOSITORY_STRUCTURE.md) - Structure guide
+- [Start Simple](../docs/03-workflow-building/start-simple.md) - Three-question framework

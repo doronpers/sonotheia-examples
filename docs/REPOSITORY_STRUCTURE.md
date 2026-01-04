@@ -17,9 +17,15 @@ sonotheia-examples/
 ├── .github/                    # GitHub-specific configurations
 │   ├── workflows/              # CI/CD automation
 │   │   └── python-ci.yml       # Python testing pipeline
-│   └── CODING_STANDARDS.md     # Development guidelines for agents
+│   ├── AGENT_QUICK_REFERENCE.md # Quick reference for coding agents
+│   ├── CODING_STANDARDS.md     # Development guidelines
+│   └── QUICK_REFERENCE.md      # AI-Assisted Development Workflow
 │
 ├── docs/                       # All documentation
+│   ├── 03-workflow-building/   # AI-assisted workflow guides
+│   │   ├── README.md           # Workflow building overview
+│   │   ├── start-simple.md     # Three-question framework
+│   │   └── multi-agent-workflow.md  # Multi-agent patterns
 │   ├── development/            # Development notes and summaries
 │   │   ├── FINAL_SUMMARY.md    # Complete integration summary
 │   │   ├── INTEGRATION_SUMMARY.md  # Enhanced examples integration
@@ -71,6 +77,10 @@ sonotheia-examples/
 │       ├── package.json        # Dependencies
 │       └── tsconfig.json       # TypeScript config
 │
+├── templates/                  # Reusable templates
+│   ├── README.md               # Templates overview
+│   └── learning-journal.md     # Learning journal template
+│
 ├── .env.example                # Example environment vars
 ├── .gitignore                  # Git ignore patterns
 ├── LICENSE                     # MIT license
@@ -110,6 +120,15 @@ Contains only:
 - `SOURCES.md` - Source references for coding agents
 
 **Note**: These files document the development process and integration decisions. They provide context for future maintainers but aren't needed by end users.
+
+#### AI-Assisted Workflow Documentation (/docs/03-workflow-building/)
+**Purpose**: Guides for effective AI-assisted development
+
+- `README.md` - Workflow building overview
+- `start-simple.md` - Three-question framework for problem definition
+- `multi-agent-workflow.md` - Patterns for using multiple AI agents
+
+These guides document real-world AI collaboration practices used in this repository.
 
 ### Examples (/examples/)
 **Purpose**: Working code samples in multiple languages
@@ -167,11 +186,24 @@ Example Kubernetes manifests with:
 **Purpose**: GitHub-specific automation and guidelines
 
 - `/workflows/` - CI/CD pipelines using GitHub Actions
+- `AGENT_QUICK_REFERENCE.md` - Quick reference for coding agents
 - `CODING_STANDARDS.md` - Standards for agents and contributors
+- `QUICK_REFERENCE.md` - AI-Assisted Development Workflow
+
+### Templates (/templates/)
+**Purpose**: Reusable templates for tracking and documentation
+
+- `README.md` - Templates overview
+- `learning-journal.md` - Template for tracking AI-assisted development sessions
 
 ## Navigation Guide
 
 ### I want to...
+
+**Learn about AI-assisted development**
+→ Start with `.github/QUICK_REFERENCE.md`
+→ Apply the three-question framework from `docs/03-workflow-building/start-simple.md`
+→ Track your progress with `templates/learning-journal.md`
 
 **Learn about the API basics**
 → Start with `README.md` then `docs/FAQ.md`
@@ -190,7 +222,8 @@ Example Kubernetes manifests with:
 → Read `docs/development/FINAL_SUMMARY.md` and related files
 
 **Add a new example**
-→ Read `.github/CODING_STANDARDS.md` first
+→ Read `.github/QUICK_REFERENCE.md` for AI workflow guidance
+→ Read `.github/CODING_STANDARDS.md` for organizational standards
 → Place it in the appropriate `examples/<language>/` directory
 → Update that directory's README.md
 → Add a reference in the main README.md
@@ -327,6 +360,8 @@ Archive location: `docs/development/archive/`
 **Maintained by**: Repository maintainers  
 **Last Updated**: 2026-01-04  
 **Related Docs**: 
+- [AI-Assisted Development Workflow](../.github/QUICK_REFERENCE.md)
 - [Coding Standards](../.github/CODING_STANDARDS.md)
+- [Agent Quick Reference](../.github/AGENT_QUICK_REFERENCE.md)
 - [Best Practices](BEST_PRACTICES.md)
 - [FAQ](FAQ.md)

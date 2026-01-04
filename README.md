@@ -116,10 +116,21 @@ Example response (illustrative). Ambiguous outcomes should trigger deferral and 
 
 ## Documentation
 
+### User Documentation
 - [FAQ](docs/FAQ.md) - Common questions
 - [Best Practices](docs/BEST_PRACTICES.md) - Integration guide
 - [Enhanced Examples](docs/ENHANCED_EXAMPLES.md) - Advanced features
 - [Repository Structure](docs/REPOSITORY_STRUCTURE.md) - How this repo is organized
+
+### AI-Assisted Development Workflow
+- [AI Development Workflow](.github/QUICK_REFERENCE.md) - Complete workflow guide
+- [Start Simple](docs/03-workflow-building/start-simple.md) - Three-question framework
+- [Multi-Agent Workflow](docs/03-workflow-building/multi-agent-workflow.md) - Multiple AI checks
+- [Learning Journal Template](templates/learning-journal.md) - Track your progress
+
+### For Contributors
+- [Coding Standards](.github/CODING_STANDARDS.md) - Complete standards and guidelines
+- [Agent Quick Reference](.github/AGENT_QUICK_REFERENCE.md) - Quick reference for agents
 
 ## Testing
 
