@@ -1,0 +1,38 @@
+# Docker Compose configuration for Sonotheia examples
+
+services:
+  # Basic Python client
+  sonotheia-python:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - SONOTHEIA_API_KEY=${SONOTHEIA_API_KEY}
+      - SONOTHEIA_API_URL=${SONOTHEIA_API_URL:-https://api.sonotheia.com}
+    volumes:
+      - ./audio:/audio:ro
+    command: python main.py /audio/sample.wav --session-id docker-session
+
+  # Enhanced client with retry logic
+  sonotheia-enhanced:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - SONOTHEIA_API_KEY=${SONOTHEIA_API_KEY}
+      - SONOTHEIA_API_URL=${SONOTHEIA_API_URL:-https://api.sonotheia.com}
+    volumes:
+      - ./audio:/audio:ro
+    command: python enhanced_example.py /audio/sample.wav --max-retries 5 --rate-limit 2.0
+
+  # Streaming processor for long files
+  sonotheia-streaming:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - SONOTHEIA_API_KEY=${SONOTHEIA_API_KEY}
+      - SONOTHEIA_API_URL=${SONOTHEIA_API_URL:-https://api.sonotheia.com}
+    volumes:
+      - ./audio:/audio:ro
+    command: python streaming_example.py /audio/long_audio.wav --chunk-duration 10

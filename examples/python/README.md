@@ -159,6 +159,204 @@ except requests.RequestException as e:
 - Python 3.9 or later
 - See `requirements.txt` for dependencies
 
+## Advanced Examples
+
+### Audio Analysis with DSP Features (`audio_analysis_example.py`)
+
+Advanced example demonstrating DSP feature extraction and analysis:
+
+```bash
+# Analyze audio with detailed DSP features
+python audio_analysis_example.py audio.wav
+
+# Extract features only (no classification)
+python audio_analysis_example.py audio.wav --features-only
+
+# With custom API URL and tenant
+python audio_analysis_example.py audio.wav \
+  --api-url https://api.custom.com \
+  --tenant-id my-tenant
+```
+
+**Features**:
+- Detailed DSP feature extraction (spectral, energy, phase)
+- Voice quality indicators (HNR, jitter, shimmer)
+- Formant analysis
+- Risk-based routing decisions
+- Configurable confidence thresholds
+
+### Voice Integrity Routing (`voice_routing_example.py`)
+
+Financial services routing example with risk-based decision making:
+
+```bash
+# Analyze transaction with voice integrity check
+python voice_routing_example.py audio.wav \
+  --customer-id CUST12345 \
+  --transaction-amount 75000 \
+  --destination-country US \
+  --new-beneficiary
+
+# Save audit trail
+python voice_routing_example.py audio.wav \
+  --customer-id CUST12345 \
+  --transaction-amount 50000 \
+  --save-audit audit_trail.json
+```
+
+**Features**:
+- Composite risk scoring (voice + transaction context)
+- Multi-factor routing decisions (ALLOW/STEP_UP/CALLBACK/ESCALATE/BLOCK)
+- Configurable risk thresholds
+- Additional security controls recommendation
+- Complete audit trail generation
+- Exit codes for workflow integration
+
+**Routing Actions**:
+- `ALLOW`: Low risk, standard processing
+- `REQUIRE_STEP_UP`: Medium risk, SMS OTP required
+- `REQUIRE_CALLBACK`: Medium-high risk, outbound callback needed
+- `ESCALATE_TO_HUMAN`: Low confidence or high risk, manual review
+- `BLOCK`: Critical risk, transaction blocked
+
+## Enhanced Examples
+
+### Production-Ready Client (`client_enhanced.py`)
+
+Enhanced client with retry logic, rate limiting, and circuit breaker patterns.
+
+```python
+from client_enhanced import SonotheiaClientEnhanced, CircuitBreakerConfig
+
+# Configure circuit breaker
+circuit_config = CircuitBreakerConfig(
+    failure_threshold=5,
+    recovery_timeout=60.0,
+    success_threshold=2,
+)
+
+# Initialize with production features
+with SonotheiaClientEnhanced(
+    max_retries=3,
+    rate_limit_rps=2.0,
+    enable_circuit_breaker=True,
+    circuit_breaker_config=circuit_config,
+) as client:
+    result = client.detect_deepfake("audio.wav")
+```
+
+**Features:**
+- Exponential backoff retry with configurable attempts
+- Token bucket rate limiting
+- Circuit breaker for fault tolerance
+- Connection pooling for better performance
+- Automatic retry on transient failures (5xx errors)
+
+### Enhanced CLI (`enhanced_example.py`)
+
+```bash
+# With retry and rate limiting
+python enhanced_example.py audio.wav \
+  --max-retries 5 \
+  --rate-limit 2.0 \
+  --enrollment-id enroll-123 \
+  --verbose
+
+# Disable circuit breaker
+python enhanced_example.py audio.wav --disable-circuit-breaker
+```
+
+### Streaming Audio Processor (`streaming_example.py`)
+
+Process long audio files by splitting into chunks:
+
+```bash
+# Process 30-minute audio file in 10-second chunks
+python streaming_example.py long_audio.wav --chunk-duration 10
+
+# With MFA verification for each chunk
+python streaming_example.py audio.wav \
+  --chunk-duration 10 \
+  --enrollment-id enroll-123 \
+  --session-id stream-session
+```
+
+**Features:**
+- Automatic audio splitting using ffmpeg
+- Memory-efficient processing of large files
+- Aggregated results and statistics
+- Automatic SAR submission for high-risk chunks
+- Progress tracking
+
+**Requirements:** `ffmpeg` must be installed (`apt-get install ffmpeg`)
+
+### Health Check and Monitoring (`health_check.py`)
+
+Production health checks and monitoring utilities:
+
+```bash
+# Single health check (for CI/CD)
+python health_check.py
+
+# Continuous monitoring
+python health_check.py --monitor --interval 60
+
+# Prometheus metrics server
+python health_check.py --prometheus-port 9090
+```
+
+**Features:**
+- API connectivity validation
+- Authentication verification
+- Prometheus metrics export
+- Kubernetes readiness/liveness probe compatible
+- Continuous monitoring mode
+
+**Metrics exported:**
+- `sonotheia_api_health` - API health status (1=healthy, 0=unhealthy)
+- `sonotheia_api_latency_ms` - API latency in milliseconds
+- `sonotheia_api_checks_total` - Total number of health checks
+- `sonotheia_api_errors_total` - Total number of errors
+
+### Docker Support
+
+Build and run examples in Docker:
+
+```bash
+# Build image
+docker build -t sonotheia-python .
+
+# Run basic example
+docker run -e SONOTHEIA_API_KEY=xxx \
+  -v $(pwd)/audio:/audio \
+  sonotheia-python python main.py /audio/sample.wav
+
+# Run enhanced example
+docker run -e SONOTHEIA_API_KEY=xxx \
+  -v $(pwd)/audio:/audio \
+  sonotheia-python python enhanced_example.py /audio/sample.wav --max-retries 5
+
+# Run streaming processor
+docker run -e SONOTHEIA_API_KEY=xxx \
+  -v $(pwd)/audio:/audio \
+  sonotheia-python python streaming_example.py /audio/long.wav
+```
+
+Or use Docker Compose:
+
+```bash
+# Run all examples
+docker-compose up
+
+# Run specific service
+docker-compose up sonotheia-enhanced
+```
+
+## Requirements
+
+- Python 3.9 or later
+- See `requirements.txt` for dependencies
+
 ## Development
 
 To contribute or modify:
