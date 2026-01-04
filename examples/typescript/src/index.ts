@@ -61,6 +61,7 @@ export interface SarResponse {
 export class SonotheiaClient {
   private client: AxiosInstance;
   private config: Required<SonotheiaConfig>;
+  private timeout: number;
 
   constructor(config: SonotheiaConfig) {
     if (!config.apiKey) {
@@ -75,13 +76,15 @@ export class SonotheiaClient {
       sarPath: config.sarPath || process.env.SONOTHEIA_SAR_PATH || '/v1/reports/sar',
     };
 
+    this.timeout = 30000; // 30 seconds default
+
     this.client = axios.create({
       baseURL: this.config.apiUrl.replace(/\/$/, ''),
       headers: {
         'Authorization': `Bearer ${this.config.apiKey}`,
         'Accept': 'application/json',
       },
-      timeout: 30000,
+      timeout: this.timeout,
     });
   }
 
@@ -182,8 +185,10 @@ export async function main() {
   }
 
   const args = process.argv.slice(3);
-  const enrollmentId = args[args.indexOf('--enrollment-id') + 1] || undefined;
-  const sessionId = args[args.indexOf('--session-id') + 1] || 'demo-session';
+  const enrollmentIdIndex = args.indexOf('--enrollment-id');
+  const enrollmentId = enrollmentIdIndex !== -1 ? args[enrollmentIdIndex + 1] : undefined;
+  const sessionIdIndex = args.indexOf('--session-id');
+  const sessionId = sessionIdIndex !== -1 ? args[sessionIdIndex + 1] : 'demo-session';
 
   const client = new SonotheiaClient({ apiKey });
   const results: Record<string, any> = {};

@@ -7,7 +7,7 @@
 
 import axios from 'axios';
 import FormData from 'form-data';
-import { readFileSync, readdirSync } from 'fs';
+import { readFileSync, readdirSync, promises as fsPromises } from 'fs';
 import { basename } from 'path';
 import pino from 'pino';
 
@@ -167,7 +167,7 @@ async function main() {
   // Collect all audio files
   for (const arg of args) {
     try {
-      const stat = await import('fs').then(m => m.promises.stat(arg));
+      const stat = await fsPromises.stat(arg);
       if (stat.isDirectory()) {
         const dirFiles = readdirSync(arg)
           .filter(f => f.endsWith('.wav') || f.endsWith('.opus'))

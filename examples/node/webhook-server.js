@@ -40,15 +40,26 @@ function verifySignature(payload, signature, secret) {
     return true;
   }
 
-  const expectedSignature = crypto
-    .createHmac('sha256', secret)
-    .update(payload)
-    .digest('hex');
+  // Validate signature format
+  if (!signature || typeof signature !== 'string' || !/^[a-f0-9]+$/i.test(signature)) {
+    logger.warn('Invalid signature format');
+    return false;
+  }
 
-  return crypto.timingSafeEqual(
-    Buffer.from(signature),
-    Buffer.from(expectedSignature)
-  );
+  try {
+    const expectedSignature = crypto
+      .createHmac('sha256', secret)
+      .update(payload)
+      .digest('hex');
+
+    return crypto.timingSafeEqual(
+      Buffer.from(signature, 'hex'),
+      Buffer.from(expectedSignature, 'hex')
+    );
+  } catch (error) {
+    logger.error({ error: error.message }, 'Error verifying signature');
+    return false;
+  }
 }
 
 /**
