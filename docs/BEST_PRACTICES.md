@@ -560,6 +560,7 @@ class SonotheiaClient:
     def __init__(self, api_key, api_version='v1'):
         self.api_key = api_key
         self.api_version = api_version
+        # Base URL for Sonotheia.ai API
         self.base_url = f"https://api.sonotheia.com/{api_version}"
     
     def detect_deepfake(self, audio_path):

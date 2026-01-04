@@ -4,14 +4,14 @@
 
 ### What is Sonotheia?
 
-Sonotheia is a voice fraud detection API that provides:
+Sonotheia.ai is a voice fraud detection service that provides:
 - **Deepfake Detection**: Identify synthetic or manipulated voice recordings
 - **Voice MFA**: Multi-factor authentication using voice biometrics
 - **SAR Generation**: Suspicious Activity Report submission for compliance
 
 ### How do I get an API key?
 
-Contact Sonotheia support or visit the developer portal at https://api.sonotheia.com to request API access.
+Contact Sonotheia support or visit the developer portal at https://api.sonotheia.com (API host for Sonotheia.ai) to request API access.
 
 ### What audio formats are supported?
 
@@ -304,7 +304,7 @@ For multiple files:
 ### Documentation
 
 - API Reference: https://docs.sonotheia.com/api
-- Developer Portal: https://api.sonotheia.com
+- Developer Portal: https://api.sonotheia.com (API host for Sonotheia.ai)
 - Status Page: https://status.sonotheia.com
 
 ### Support
