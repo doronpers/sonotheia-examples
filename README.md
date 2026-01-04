@@ -20,6 +20,9 @@ Integration examples and documentation for the Sonotheia voice fraud detection A
 ## Repository layout
 - `examples/curl/` – minimal cURL scripts for the three primary flows.
 - `examples/python/` – small helper demonstrating deepfake scoring, MFA verification, and SAR creation.
+- `examples/typescript/` – type-safe TypeScript client with full type definitions.
+- `examples/node/` – advanced Node.js examples including batch processing and webhook server.
+- `docs/` – comprehensive documentation including FAQ, best practices, and troubleshooting.
 - `LICENSE` – project license.
 
 ## cURL examples
@@ -50,6 +53,42 @@ python examples/python/main.py path/to/audio.wav \
 
 Outputs are printed as formatted JSON so you can copy/paste into dashboards or support tickets.
 
+## TypeScript example
+Requirements: Node.js 18+ and npm.
+
+```bash
+cd examples/typescript
+npm install
+npm run build
+export SONOTHEIA_API_KEY=YOUR_API_KEY
+node dist/index.js path/to/audio.wav \
+  --enrollment-id enroll-123 \
+  --session-id session-123
+```
+
+Features type-safe interfaces for all API endpoints with comprehensive error handling.
+
+## Node.js advanced examples
+
+### Batch Processor
+Process multiple audio files concurrently:
+
+```bash
+cd examples/node
+npm install
+export SONOTHEIA_API_KEY=YOUR_API_KEY
+node batch-processor.js /path/to/audio/*.wav
+```
+
+### Webhook Server
+Example server for receiving async API callbacks:
+
+```bash
+cd examples/node
+npm install
+PORT=3000 SONOTHEIA_WEBHOOK_SECRET=your_secret node webhook-server.js
+```
+
 ## Sample responses
 ```json
 {
@@ -63,3 +102,14 @@ Outputs are printed as formatted JSON so you can copy/paste into dashboards or s
 - All examples rely on bearer token authentication; never hard-code secrets in source control.
 - For best latency, send short (<10s) mono WAV or Opus audio.
 - Replace placeholder IDs (session/enrollment) with values from your environment or preceding API calls.
+
+## Documentation
+- [FAQ](docs/FAQ.md) - Common questions and answers
+- [Best Practices](docs/BEST_PRACTICES.md) - Comprehensive integration guide
+- [TypeScript README](examples/typescript/README.md) - TypeScript-specific documentation
+- [Node.js README](examples/node/README.md) - Advanced integration patterns
+
+## Additional Resources
+- API Reference: https://docs.sonotheia.com/api (placeholder)
+- Status Page: https://status.sonotheia.com (placeholder)
+- Support: support@sonotheia.com (placeholder)

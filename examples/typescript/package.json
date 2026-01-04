@@ -1,0 +1,22 @@
+{
+  "name": "sonotheia-typescript-examples",
+  "version": "1.0.0",
+  "description": "TypeScript examples for Sonotheia voice fraud detection API",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "keywords": ["sonotheia", "voice", "fraud-detection", "deepfake", "mfa"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.0",
+    "form-data": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.3.0"
+  }
+}
