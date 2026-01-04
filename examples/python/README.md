@@ -159,6 +159,66 @@ except requests.RequestException as e:
 - Python 3.9 or later
 - See `requirements.txt` for dependencies
 
+## Advanced Examples
+
+### Audio Analysis with DSP Features (`audio_analysis_example.py`)
+
+Advanced example demonstrating DSP feature extraction and analysis:
+
+```bash
+# Analyze audio with detailed DSP features
+python audio_analysis_example.py audio.wav
+
+# Extract features only (no classification)
+python audio_analysis_example.py audio.wav --features-only
+
+# With custom API URL and tenant
+python audio_analysis_example.py audio.wav \
+  --api-url https://api.custom.com \
+  --tenant-id my-tenant
+```
+
+**Features**:
+- Detailed DSP feature extraction (spectral, energy, phase)
+- Voice quality indicators (HNR, jitter, shimmer)
+- Formant analysis
+- Risk-based routing decisions
+- Configurable confidence thresholds
+
+### Voice Integrity Routing (`voice_routing_example.py`)
+
+Financial services routing example with risk-based decision making:
+
+```bash
+# Analyze transaction with voice integrity check
+python voice_routing_example.py audio.wav \
+  --customer-id CUST12345 \
+  --transaction-amount 75000 \
+  --destination-country US \
+  --new-beneficiary
+
+# Save audit trail
+python voice_routing_example.py audio.wav \
+  --customer-id CUST12345 \
+  --transaction-amount 50000 \
+  --save-audit audit_trail.json
+```
+
+**Features**:
+- Composite risk scoring (voice + transaction context)
+- Multi-factor routing decisions (ALLOW/STEP_UP/CALLBACK/ESCALATE/BLOCK)
+- Configurable risk thresholds
+- Additional security controls recommendation
+- Complete audit trail generation
+- Exit codes for workflow integration
+
+**Routing Actions**:
+- `ALLOW`: Low risk, standard processing
+- `REQUIRE_STEP_UP`: Medium risk, SMS OTP required
+- `REQUIRE_CALLBACK`: Medium-high risk, outbound callback needed
+- `ESCALATE_TO_HUMAN`: Low confidence or high risk, manual review
+- `BLOCK`: Critical risk, transaction blocked
+
 ## Enhanced Examples
 
 ### Production-Ready Client (`client_enhanced.py`)
