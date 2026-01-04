@@ -207,6 +207,21 @@ class TestSonotheiaClient:
         assert client.mfa_path == "/custom/mfa"
         assert client.sar_path == "/custom/sar"
 
+    @patch("client.requests.post")
+    def test_detect_deepfake_closes_file(self, mock_post, tmp_path):
+        """Ensure audio file handles are closed after deepfake call."""
+        mock_post.return_value.json.return_value = {}
+        mock_post.return_value.raise_for_status.return_value = None
+
+        audio_path = tmp_path / "audio.wav"
+        audio_path.write_bytes(b"data")
+
+        file_mock = mock_open(read_data=b"data")
+        with patch("builtins.open", file_mock):
+            SonotheiaClient(api_key="test-key").detect_deepfake(str(audio_path))
+
+        assert file_mock.return_value.__exit__.call_count >= 1
+
 
 class TestClientIntegration:
     """Integration-style tests without mocking HTTP."""

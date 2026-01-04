@@ -5,7 +5,7 @@ Tests for enhanced Sonotheia API client.
 from __future__ import annotations
 
 import os
-from unittest.mock import Mock, patch, MagicMock
+from unittest.mock import Mock, patch, MagicMock, mock_open
 import time
 
 import pytest
@@ -200,6 +200,23 @@ class TestSonotheiaClientEnhanced:
         assert result["verified"] is True
         assert result["confidence"] == 0.95
         mock_request.assert_called_once()
+
+    @patch("client_enhanced.requests.Session.request")
+    def test_detect_deepfake_closes_file(self, mock_request, client, tmp_path):
+        """Ensure enhanced client closes audio file handles."""
+        mock_response = Mock()
+        mock_response.json.return_value = {}
+        mock_response.raise_for_status = Mock()
+        mock_request.return_value = mock_response
+
+        audio_path = tmp_path / "audio.wav"
+        audio_path.write_bytes(b"data")
+
+        file_mock = mock_open(read_data=b"data")
+        with patch("client_enhanced.open", file_mock, create=True):
+            client.detect_deepfake(str(audio_path))
+
+        assert file_mock.return_value.__exit__.call_count >= 1
 
     @patch("client_enhanced.requests.Session.request")
     def test_submit_sar_success(self, mock_request, client):
