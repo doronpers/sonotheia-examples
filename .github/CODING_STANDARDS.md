@@ -3,6 +3,26 @@
 This document provides comprehensive guidelines for maintaining the organization and structure of the sonotheia-examples repository. All coding agents and contributors should follow these standards.
 
 > **Quick Reference**: For a condensed version, see [AGENT_QUICK_REFERENCE.md](AGENT_QUICK_REFERENCE.md)
+> **AI Workflow**: For AI-assisted development best practices, see [QUICK_REFERENCE.md](QUICK_REFERENCE.md)
+
+## 🤖 AI-Assisted Development Integration
+
+This repository embraces AI-assisted development as a collaborative approach. Before making changes:
+
+1. **Apply the Three-Question Framework** (see [Start Simple](../docs/03-workflow-building/start-simple.md)):
+   - What problem am I solving?
+   - What does success look like?
+   - What constraints exist?
+
+2. **Check Common AI Pitfalls** specific to this codebase:
+   - numpy type conversion for JSON serialization
+   - Proper temp file descriptor handling
+   - Docker SSL certificates (ca-certificates)
+   - nginx client_max_body_size for large files
+
+3. **Use Multi-Agent Review** for complex changes (see [Multi-Agent Workflow](../docs/03-workflow-building/multi-agent-workflow.md))
+
+**Full workflow documentation**: [AI-Assisted Development Workflow](QUICK_REFERENCE.md)
 
 ## Repository Structure
 
@@ -237,18 +257,25 @@ node --check batch-processor.js
 ## Agent-Specific Guidelines
 
 ### For Coding Agents
-1. **Always check** this file before making structural changes
-2. **Preserve** the organization patterns described here
-3. **Ask before** creating new top-level directories
-4. **Update** this file if you establish new patterns
-5. **Document** your decisions in commit messages
+1. **Start with the framework** - Apply three-question framework from [QUICK_REFERENCE.md](QUICK_REFERENCE.md) before coding
+2. **Check common pitfalls** - Verify AI-specific patterns (numpy types, temp files, SSL certs)
+3. **Always check** this file before making structural changes
+4. **Preserve** the organization patterns described here
+5. **Use multi-agent review** for security-critical or complex changes
+6. **Ask before** creating new top-level directories
+7. **Update** this file if you establish new patterns
+8. **Document** your decisions in commit messages
+9. **Track learnings** - Consider using the [Learning Journal](../templates/learning-journal.md) template
 
 ### For Review Agents
-1. **Verify** changes follow these standards
-2. **Check** that documentation is updated
-3. **Ensure** tests are included where appropriate
-4. **Validate** that the structure remains clean
-5. **Request changes** if standards are violated
+1. **Apply review checklist** from [Multi-Agent Workflow](../docs/03-workflow-building/multi-agent-workflow.md)
+2. **Verify** changes follow these standards
+3. **Check** that documentation is updated
+4. **Check common pitfalls** - numpy serialization, file handling, SSL certificates
+5. **Ensure** tests are included where appropriate
+6. **Validate** that the structure remains clean
+7. **Request changes** if standards are violated
+8. **Focus your review** - Security, performance, or integration as appropriate
 
 ## Questions or Changes
 
@@ -262,11 +289,14 @@ For questions about these standards, open an issue or contact the repository mai
 
 ## Related Documentation
 
+- **[QUICK_REFERENCE.md](QUICK_REFERENCE.md)** - AI-Assisted Development Workflow (essential reading)
 - **[AGENT_QUICK_REFERENCE.md](AGENT_QUICK_REFERENCE.md)** - Quick decision tree and common tasks for agents
+- **[Start Simple](../docs/03-workflow-building/start-simple.md)** - Three-question framework for problem definition
+- **[Multi-Agent Workflow](../docs/03-workflow-building/multi-agent-workflow.md)** - Using multiple AI agents effectively
 - **[REPOSITORY_STRUCTURE.md](../docs/REPOSITORY_STRUCTURE.md)** - Detailed guide to repository organization
 - **[README.md](../README.md)** - Main repository documentation
 
 ---
 
 **Last Updated**: 2026-01-04  
-**Version**: 1.0.0
+**Version**: 1.1.0
