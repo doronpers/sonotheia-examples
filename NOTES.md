@@ -55,7 +55,7 @@
 - [x] Add retry logic examples with exponential backoff (client_enhanced.py, batch-processor-enhanced.js)
 - [x] Add streaming audio examples (streaming_example.py with FFmpeg)
 - [x] Add example of rate limit handling (client_enhanced.py with RateLimiter class)
-- [ ] Create integration test suite with real API (requires API key)
+- [x] Create integration test suite with mock API (test_integration.py with mock_api_server.py)
 - [x] Add example of audio validation before API submission (audio_validator.py)
 
 ### Infrastructure
