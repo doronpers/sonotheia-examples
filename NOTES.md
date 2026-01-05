@@ -46,10 +46,10 @@
 
 ### Documentation
 - [x] Add more audio preprocessing examples (docs/AUDIO_PREPROCESSING.md with FFmpeg and SoX)
-- [ ] Document enrollment process for MFA
+- [x] Document enrollment process for MFA (docs/MFA_ENROLLMENT.md)
 - [x] Add troubleshooting guide for common API errors (docs/TROUBLESHOOTING.md)
-- [ ] Create migration guide for API version updates
-- [ ] Document webhook payload schemas in detail
+- [x] Create migration guide for API version updates (docs/API_MIGRATION_GUIDE.md)
+- [x] Document webhook payload schemas in detail (docs/WEBHOOK_SCHEMAS.md)
 
 ### Code Examples
 - [x] Add retry logic examples with exponential backoff (client_enhanced.py, batch-processor-enhanced.js)
@@ -61,14 +61,14 @@
 ### Infrastructure
 - [x] Add Docker/Podman containerized examples (Python Dockerfile, docker-compose.yml)
 - [x] Add example Kubernetes deployment for webhook server (kubernetes/deployment.yaml)
-- [ ] Create example CloudFormation/Terraform for AWS deployment
+- [x] Create example Terraform for AWS deployment (examples/terraform/aws/)
 - [x] Add monitoring/observability examples (health_check.py with Prometheus, batch-processor-enhanced.js)
 
 ### Testing
 - [x] Expand unit test coverage beyond basic request construction (test_client.py, test_client_enhanced.py with mocking)
-- [ ] Add integration tests with mocked API server
-- [ ] Add performance/load testing examples
-- [ ] Create test audio files for different scenarios
+- [x] Add integration tests with mocked API server (examples/python/tests/test_integration.py)
+- [x] Add performance/load testing examples (examples/python/load_test.py)
+- [x] Create test audio files for different scenarios (examples/test-audio/)
 
 ## Questions for Doron
 
