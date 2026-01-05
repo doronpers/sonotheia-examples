@@ -124,6 +124,9 @@ Example response (illustrative). Ambiguous outcomes should trigger deferral and 
 - [Troubleshooting](docs/TROUBLESHOOTING.md) - Common issues and solutions
 - [Repository Structure](docs/REPOSITORY_STRUCTURE.md) - How this repo is organized
 - [License Information](docs/LICENSE_INFO.md) - Understanding the MIT License for this repository
+- [MFA Enrollment Guide](docs/MFA_ENROLLMENT.md) - Voice enrollment process and best practices
+- [Webhook Schemas](docs/WEBHOOK_SCHEMAS.md) - Detailed webhook event payload documentation
+- [API Migration Guide](docs/API_MIGRATION_GUIDE.md) - Guide for API version updates
 
 ### AI-Assisted Development Workflow
 - [AI Development Workflow](.github/QUICK_REFERENCE.md) - Complete workflow guide
