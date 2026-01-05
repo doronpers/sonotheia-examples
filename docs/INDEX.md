@@ -5,9 +5,11 @@
 ## 🚀 Quick Start
 
 **New to Sonotheia?** Start here:
-1. [Main README](../README.md) - Overview and quickstart
-2. [FAQ](FAQ.md) - Common questions answered
-3. [Best Practices](BEST_PRACTICES.md) - Integration guidelines
+1. [Getting Started](GETTING_STARTED.md) - 5-minute quickstart guide
+2. [Main README](../README.md) - Complete repository overview
+3. [Use Cases](USE_CASES.md) - Real-world integration scenarios
+4. [FAQ](FAQ.md) - Common questions answered
+5. [Best Practices](BEST_PRACTICES.md) - Integration guidelines
 
 **Looking for code examples?** → [Examples Directory](../examples/)
 
@@ -16,7 +18,9 @@
 ### For API Users
 
 #### Getting Started
+- [Getting Started](GETTING_STARTED.md) - **Start here!** 5-minute quickstart
 - [README](../README.md) - Repository overview and quickstart
+- [Use Cases](USE_CASES.md) - Real-world integration scenarios
 - [FAQ](FAQ.md) - Frequently asked questions
 - [Best Practices](BEST_PRACTICES.md) - Production integration guide
 - [Troubleshooting](TROUBLESHOOTING.md) - Common issues and solutions
@@ -48,7 +52,9 @@
 
 ### For Contributors
 
-- [Coding Standards](../.github/CODING_STANDARDS.md) - Development guidelines
+- [Contributing Guide](../CONTRIBUTING.md) - Quick start for contributors
+- [Full Contributing Guide](.github/CONTRIBUTING.md) - Detailed process
+- [Coding Standards](../.github/CODING_STANDARDS.md) - Complete standards
 - [Agent Quick Reference](../.github/AGENT_QUICK_REFERENCE.md) - Repository maintenance guide
 - [Repository Structure](REPOSITORY_STRUCTURE.md) - File organization principles
 - [Development Notes](development/) - Historical context and integration details
@@ -59,7 +65,9 @@
 ### User Guides
 | Document | Purpose | When to Read |
 |----------|---------|--------------|
+| [Getting Started](GETTING_STARTED.md) | 5-minute quickstart | First time using the API |
 | [README](../README.md) | Overview and quickstart | First stop for everyone |
+| [Use Cases](USE_CASES.md) | Real-world scenarios | Planning your integration |
 | [FAQ](FAQ.md) | Common questions | When you have basic questions |
 | [Best Practices](BEST_PRACTICES.md) | Production guidance | Before deploying |
 | [Troubleshooting](TROUBLESHOOTING.md) | Problem solving | When things don't work |
@@ -86,6 +94,7 @@
 |----------|---------|--------------|
 | [Repository Structure](REPOSITORY_STRUCTURE.md) | File organization | Contributing or exploring |
 | [Coding Standards](../.github/CODING_STANDARDS.md) | Dev guidelines | Making changes |
+| [Contributing Guide](../CONTRIBUTING.md) | Quick contribution guide | Before submitting PRs |
 | [Agent Quick Reference](../.github/AGENT_QUICK_REFERENCE.md) | Agent checklist | Quick decisions |
 | [License Information](LICENSE_INFO.md) | Legal details | Understanding licensing |
 | [Implementation Notes](../NOTES.md) | Assumptions, TODOs | Understanding decisions |
@@ -102,7 +111,7 @@
 
 ### "I want to integrate the API"
 ```
-README → FAQ → Best Practices → Examples → Audio Preprocessing
+Getting Started → Use Cases → README → FAQ → Best Practices → Examples → Audio Preprocessing
 ```
 
 ### "I want to use AI-assisted development"
@@ -112,7 +121,7 @@ AI-Assisted Development Workflow → Start Simple → Multi-Agent Workflow → L
 
 ### "I want to contribute code"
 ```
-Coding Standards → Agent Quick Reference → Repository Structure → Development Notes
+Contributing Guide → Coding Standards → Agent Quick Reference → Repository Structure → Development Notes
 ```
 
 ### "I'm debugging an issue"
@@ -128,7 +137,8 @@ Start Simple → Coding Standards → Repository Structure → Tests
 ## 🔍 Find by Topic
 
 ### API Integration
-- Getting started: [README](../README.md), [FAQ](FAQ.md)
+- Getting started: [Getting Started](GETTING_STARTED.md), [README](../README.md), [FAQ](FAQ.md)
+- Real-world scenarios: [Use Cases](USE_CASES.md)
 - Best practices: [Best Practices](BEST_PRACTICES.md)
 - Advanced: [Enhanced Examples](ENHANCED_EXAMPLES.md)
 - Debugging: [Troubleshooting](TROUBLESHOOTING.md)
@@ -155,6 +165,7 @@ Start Simple → Coding Standards → Repository Structure → Tests
 - Standards: [Coding Standards](../.github/CODING_STANDARDS.md)
 
 ### Contributing
+- Quick start: [Contributing Guide](../CONTRIBUTING.md)
 - Standards: [Coding Standards](../.github/CODING_STANDARDS.md)
 - Quick reference: [Agent Quick Reference](../.github/AGENT_QUICK_REFERENCE.md)
 - Structure: [Repository Structure](REPOSITORY_STRUCTURE.md)

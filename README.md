@@ -56,6 +56,8 @@ This repository provides integration examples and evaluation tools for the [Sono
 
 ## 🚀 Quickstart
 
+> **New here?** Check out our [Getting Started Guide](docs/GETTING_STARTED.md) for a 5-minute walkthrough.
+
 ### 1. Set Up Credentials
 
 **Option A: Using `.env` file (recommended)**
@@ -239,6 +241,8 @@ Find everything organized by purpose, topic, and type.
 
 | Document | Description |
 |----------|-------------|
+| [Getting Started](docs/GETTING_STARTED.md) | **NEW!** 5-minute quickstart guide |
+| [Use Cases](docs/USE_CASES.md) | **NEW!** Real-world integration scenarios |
 | [FAQ](docs/FAQ.md) | Common questions and answers |
 | [Best Practices](docs/BEST_PRACTICES.md) | Integration patterns and recommendations |
 | [Enhanced Examples](docs/ENHANCED_EXAMPLES.md) | Advanced features (retries, streaming, monitoring) |
@@ -299,7 +303,7 @@ npm test
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guide](.github/CONTRIBUTING.md) for:
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for:
 
 - Code of conduct
 - Development workflow
@@ -308,6 +312,7 @@ We welcome contributions! Please see our [Contributing Guide](.github/CONTRIBUTI
 - Documentation standards
 
 **Quick links:**
+- [Quick Start for Contributors](CONTRIBUTING.md#tldr---quick-contributions)
 - [Coding Standards](.github/CODING_STANDARDS.md)
 - [AI Development Workflow](.github/QUICK_REFERENCE.md)
 - [Documentation Principles](docs/DOCUMENTATION_PRINCIPLES.md)
@@ -357,6 +362,6 @@ For security vulnerabilities, please **do not** open a public issue. Email your 
 
 **Built with ❤️ for secure voice authentication**
 
-[Documentation](docs/INDEX.md) • [Examples](examples/) • [Contributing](.github/CONTRIBUTING.md) • [License](LICENSE)
+[Getting Started](docs/GETTING_STARTED.md) • [Documentation](docs/INDEX.md) • [Examples](examples/) • [Contributing](CONTRIBUTING.md) • [License](LICENSE)
 
 </div>
