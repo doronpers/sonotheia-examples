@@ -1,5 +1,9 @@
 # Lambda functions configuration
 
+# Note: Before running terraform apply, you must build the Lambda packages:
+#   cd lambda && ./build_lambda.sh && cd ..
+# This creates webhook_handler.zip and audio_processor.zip
+
 # Webhook handler Lambda function
 resource "aws_lambda_function" "webhook_handler" {
   filename      = "${path.module}/lambda/webhook_handler.zip"

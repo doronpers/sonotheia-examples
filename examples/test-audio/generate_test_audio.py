@@ -80,7 +80,8 @@ class AudioFileGenerator:
             print("✓")
             return True
         except subprocess.CalledProcessError as e:
-            print(f"✗ (Error: {e.stderr.decode()[:100]})")
+            error_msg = e.stderr.decode()[:100] if e.stderr else "Unknown error"
+            print(f"✗ (Error: {error_msg})")
             return False
 
     def generate_basic_files(self) -> Dict[str, bool]:

@@ -88,20 +88,31 @@ lambda_timeout      = 30
 
 **Security Note:** Do NOT commit `terraform.tfvars` with API keys to version control!
 
-### 2. Initialize Terraform
+### 2. Build Lambda Packages
+
+**Important:** Build Lambda deployment packages before running Terraform:
 
 ```bash
-cd examples/terraform/aws
+cd lambda
+./build_lambda.sh
+cd ..
+```
+
+This creates `webhook_handler.zip` and `audio_processor.zip` files needed for deployment.
+
+### 3. Initialize Terraform
+
+```bash
 terraform init
 ```
 
-### 3. Preview Changes
+### 4. Preview Changes
 
 ```bash
 terraform plan
 ```
 
-### 4. Deploy Infrastructure
+### 5. Deploy Infrastructure
 
 ```bash
 terraform apply
@@ -109,7 +120,7 @@ terraform apply
 
 Review the plan and type `yes` to confirm.
 
-### 5. Get Outputs
+### 6. Get Outputs
 
 ```bash
 terraform output
