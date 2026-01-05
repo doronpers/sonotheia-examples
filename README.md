@@ -14,15 +14,15 @@ This repository provides integration examples and evaluation tools for the [Sono
 ## 📋 Table of Contents
 
 - [What's This?](#whats-this)
-- [Key Features](#-key-features)
-- [Quickstart](#-quickstart)
-- [Examples by Language](#-examples-by-language)
-- [Output Format](#-output-format)
-- [Documentation](#-documentation)
-- [Testing](#-testing)
-- [Contributing](#-contributing)
-- [License](#-license)
-- [Support](#-support)
+- [Key Features](#key-features)
+- [Quickstart](#quickstart)
+- [Examples by Language](#examples-by-language)
+- [Output Format](#output-format)
+- [Documentation](#documentation)
+- [Testing](#testing)
+- [Contributing](#contributing)
+- [License](#license)
+- [Support](#support)
 
 ---
 

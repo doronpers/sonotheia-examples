@@ -57,7 +57,7 @@ cd examples/node && npm install
    git checkout -b feature/your-feature-name
    ```
 
-2. Make your changes following our [Coding Standards](.github/CODING_STANDARDS.md)
+2. Make your changes following our [Coding Standards](CODING_STANDARDS.md)
 
 3. Test your changes:
    ```bash
