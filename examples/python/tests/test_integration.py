@@ -89,6 +89,16 @@ def mock_server():
         process.kill()
         pytest.fail("Mock server failed to start")
 
+    # Configure mock server to disable error simulation for deterministic tests
+    try:
+        requests.post(
+            f"{MOCK_API_URL}/mock/config",
+            json={"always_succeed": True},
+            timeout=5,
+        )
+    except requests.exceptions.RequestException:
+        pass  # Best effort, continue if config update fails
+
     yield {"api_key": MOCK_API_KEY, "api_url": MOCK_API_URL, "process": process}
 
     # Cleanup
