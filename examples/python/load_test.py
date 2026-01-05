@@ -30,17 +30,17 @@ Environment Variables:
 import argparse
 import os
 import random
-import tempfile
 import time
-from typing import Optional
 
-import requests
 from locust import HttpUser, TaskSet, between, events, task
-
 
 # Test constants
 API_KEY = os.getenv("SONOTHEIA_API_KEY", "mock_api_key")
 API_URL = os.getenv("SONOTHEIA_API_URL", "https://api.sonotheia.com")
+SAMPLE_RATE_HZ = 16000  # Standard sample rate for audio
+TEST_AUDIO_DURATION_SEC = 5.0  # Default test audio duration
+SILENCE_THRESHOLD_DB = 100  # Threshold for silence detection
+NUM_TEST_ENROLLMENTS = 100  # Number of reusable enrollment IDs for testing
 
 
 class TestAudioGenerator:
@@ -92,7 +92,7 @@ class SonotheiaTaskSet(TaskSet):
         """Initialize test data."""
         self.audio_generator = TestAudioGenerator()
         self.enrollment_ids = [
-            f"test-enrollment-{i}" for i in range(100)
+            f"test-enrollment-{i}" for i in range(NUM_TEST_ENROLLMENTS)
         ]  # Reuse enrollment IDs
         self.session_counter = 0
 
@@ -201,9 +201,7 @@ class LoadTestScenario:
     """Custom load test scenarios."""
 
     @staticmethod
-    def sustained_load(
-        base_url: str, users: int = 50, duration: int = 300, spawn_rate: int = 5
-    ):
+    def sustained_load(base_url: str, users: int = 50, duration: int = 300, spawn_rate: int = 5):
         """Run sustained load test.
 
         Args:
@@ -212,7 +210,7 @@ class LoadTestScenario:
             duration: Test duration in seconds
             spawn_rate: Users to spawn per second
         """
-        print(f"Running sustained load test:")
+        print("Running sustained load test:")
         print(f"  Users: {users}")
         print(f"  Duration: {duration}s")
         print(f"  Spawn rate: {spawn_rate} users/sec")
@@ -232,7 +230,7 @@ class LoadTestScenario:
             max_users: Maximum number of users
             duration: Test duration in seconds
         """
-        print(f"Running spike test:")
+        print("Running spike test:")
         print(f"  Max users: {max_users}")
         print(f"  Duration: {duration}s")
 
@@ -252,7 +250,7 @@ class LoadTestScenario:
             max_users: Maximum number of users
             duration: Test duration in seconds
         """
-        print(f"Running stress test:")
+        print("Running stress test:")
         print(f"  Max users: {max_users}")
         print(f"  Duration: {duration}s")
 
@@ -287,11 +285,9 @@ def on_test_stop(environment, **kwargs):
     # Overall statistics
     print(f"\nTotal requests: {stats.total.num_requests}")
     print(f"Total failures: {stats.total.num_failures}")
-    print(
-        f"Failure rate: {stats.total.num_failures / max(stats.total.num_requests, 1) * 100:.2f}%"
-    )
+    print(f"Failure rate: {stats.total.num_failures / max(stats.total.num_requests, 1) * 100:.2f}%")
 
-    print(f"\nResponse times (ms):")
+    print("\nResponse times (ms):")
     print(f"  Min: {stats.total.min_response_time:.2f}")
     print(f"  Max: {stats.total.max_response_time:.2f}")
     print(f"  Average: {stats.total.avg_response_time:.2f}")
@@ -299,7 +295,7 @@ def on_test_stop(environment, **kwargs):
 
     # Percentiles
     if stats.total.num_requests > 0:
-        print(f"\nPercentiles:")
+        print("\nPercentiles:")
         print(f"  50th: {stats.total.get_response_time_percentile(0.5):.2f} ms")
         print(f"  75th: {stats.total.get_response_time_percentile(0.75):.2f} ms")
         print(f"  90th: {stats.total.get_response_time_percentile(0.90):.2f} ms")
