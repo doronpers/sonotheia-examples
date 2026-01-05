@@ -121,7 +121,7 @@ class SonotheiaClient:
 
         response.raise_for_status()
         result = response.json()
-        
+
         # Validate response if enabled
         if self.validator:
             try:
@@ -129,7 +129,7 @@ class SonotheiaClient:
             except ResponseValidationError as e:
                 logger.warning(f"Response validation failed: {e}")
                 # Still return the response, but log the validation error
-        
+
         return result
 
     def verify_mfa(
@@ -172,14 +172,14 @@ class SonotheiaClient:
 
         response.raise_for_status()
         result = response.json()
-        
+
         # Validate response if enabled
         if self.validator:
             try:
                 result = self.validator.validate_mfa_response(result)
             except ResponseValidationError as e:
                 logger.warning(f"Response validation failed: {e}")
-        
+
         return result
 
     def submit_sar(
@@ -223,12 +223,12 @@ class SonotheiaClient:
 
         response.raise_for_status()
         result = response.json()
-        
+
         # Validate response if enabled
         if self.validator:
             try:
                 result = self.validator.validate_sar_response(result)
             except ResponseValidationError as e:
                 logger.warning(f"Response validation failed: {e}")
-        
+
         return result

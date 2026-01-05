@@ -28,22 +28,22 @@ class ResponseValidator:
         """Initialize validator with schema definitions."""
         # Find schema file - try multiple locations
         module_dir = Path(__file__).parent
-        
+
         # Try relative to module (for installed package)
         schema_path = module_dir.parent.parent / "schemas" / "api-responses.json"
-        
+
         # Try relative to repository root (for development)
         if not schema_path.exists():
             # When running from examples/python, go up to repo root
             repo_root = module_dir.parent.parent
             schema_path = repo_root / "schemas" / "api-responses.json"
-        
+
         if not schema_path.exists():
             # Fallback: disable validation if schema not found
-            logger.warning(f"Schema file not found, validation disabled")
+            logger.warning("Schema file not found, validation disabled")
             self.schemas = {}
             return
-            
+
         try:
             with open(schema_path) as f:
                 schemas = json.load(f)
