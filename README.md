@@ -116,6 +116,8 @@ Example response (illustrative). Ambiguous outcomes should trigger deferral and 
 
 ## Documentation
 
+**📚 [Complete Documentation Index](docs/INDEX.md)** - Find everything organized by purpose, topic, and type
+
 ### User Documentation
 - [FAQ](docs/FAQ.md) - Common questions
 - [Best Practices](docs/BEST_PRACTICES.md) - Integration guide
@@ -130,13 +132,15 @@ Example response (illustrative). Ambiguous outcomes should trigger deferral and 
 
 ### AI-Assisted Development Workflow
 - [AI Development Workflow](.github/QUICK_REFERENCE.md) - Complete workflow guide
-- [Start Simple](docs/03-workflow-building/start-simple.md) - Three-question framework
-- [Multi-Agent Workflow](docs/03-workflow-building/multi-agent-workflow.md) - Multiple AI checks
+- [Start Simple](docs/workflow-guides/start-simple.md) - Three-question framework
+- [Multi-Agent Workflow](docs/workflow-guides/multi-agent-workflow.md) - Multiple AI checks
 - [Learning Journal Template](templates/learning-journal.md) - Track your progress
+- [Optimal Agent Prompt](docs/AGENT_PROMPT.md) - Best prompt for coding agents
 
 ### For Contributors
 - [Coding Standards](.github/CODING_STANDARDS.md) - Complete standards and guidelines
 - [Agent Quick Reference](.github/AGENT_QUICK_REFERENCE.md) - Quick reference for agents
+- [Documentation Principles](docs/DOCUMENTATION_PRINCIPLES.md) - Dieter Rams principles applied
 
 ## Testing
 

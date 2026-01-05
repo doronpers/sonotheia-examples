@@ -18,7 +18,7 @@ Before writing code, apply the **Three-Question Framework**:
 2. **What does success look like?** (concrete, testable outcomes)
 3. **What constraints exist?** (performance, scale, security, infrastructure)
 
-**See:** [Start Simple Guide](../docs/03-workflow-building/start-simple.md) for detailed framework.
+**See:** [Start Simple Guide](../docs/workflow-guides/start-simple.md) for detailed framework.
 
 ### Common AI Pitfalls to Check
 
@@ -265,7 +265,7 @@ Must read for effective AI-assisted development:
 2. **Apply** the three-question framework before coding
 3. **Read** `.github/CODING_STANDARDS.md` for structural changes
 4. **Look** at similar existing files for patterns
-5. **Consider** multi-agent review for complex changes (see [Multi-Agent Workflow](../docs/03-workflow-building/multi-agent-workflow.md))
+5. **Consider** multi-agent review for complex changes (see [Multi-Agent Workflow](../docs/workflow-guides/multi-agent-workflow.md))
 6. **Ask** via GitHub issue if you're unsure
 7. **Keep it simple** - prefer existing patterns
 8. **Document** your decision in commit message
@@ -274,7 +274,7 @@ Must read for effective AI-assisted development:
 
 Want to understand the organization and workflow better?
 1. Start with `.github/QUICK_REFERENCE.md` - AI-Assisted Development Workflow
-2. Read `docs/03-workflow-building/start-simple.md` - Three-question framework
+2. Read `docs/workflow-guides/start-simple.md` - Three-question framework
 3. Read `README.md` in root - Repository overview
 4. Read `docs/REPOSITORY_STRUCTURE.md` - Structure details
 5. Read `.github/CODING_STANDARDS.md` - Complete standards
@@ -291,4 +291,4 @@ Want to understand the organization and workflow better?
 - [AI-Assisted Development Workflow](QUICK_REFERENCE.md) - Essential reading
 - [CODING_STANDARDS.md](CODING_STANDARDS.md) - Complete standards
 - [REPOSITORY_STRUCTURE.md](../docs/REPOSITORY_STRUCTURE.md) - Structure guide
-- [Start Simple](../docs/03-workflow-building/start-simple.md) - Three-question framework
+- [Start Simple](../docs/workflow-guides/start-simple.md) - Three-question framework

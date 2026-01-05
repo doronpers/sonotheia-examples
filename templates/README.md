@@ -31,8 +31,8 @@ A comprehensive template for tracking your AI-assisted development sessions.
 ## Related Resources
 
 - [AI-Assisted Development Workflow](../.github/QUICK_REFERENCE.md) - Main workflow guide
-- [Start Simple](../docs/03-workflow-building/start-simple.md) - Three-question framework
-- [Multi-Agent Workflow](../docs/03-workflow-building/multi-agent-workflow.md) - Multiple AI checks
+- [Start Simple](../docs/workflow-guides/start-simple.md) - Three-question framework
+- [Multi-Agent Workflow](../docs/workflow-guides/multi-agent-workflow.md) - Multiple AI checks
 
 ---
 
