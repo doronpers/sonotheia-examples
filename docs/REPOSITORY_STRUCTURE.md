@@ -22,7 +22,7 @@ sonotheia-examples/
 │   └── QUICK_REFERENCE.md      # AI-Assisted Development Workflow
 │
 ├── docs/                       # All documentation
-│   ├── 03-workflow-building/   # AI-assisted workflow guides
+│   ├── workflow-guides/       # AI-assisted workflow guides
 │   │   ├── README.md           # Workflow building overview
 │   │   ├── start-simple.md     # Three-question framework
 │   │   └── multi-agent-workflow.md  # Multi-agent patterns
@@ -121,7 +121,7 @@ Contains only:
 
 **Note**: These files document the development process and integration decisions. They provide context for future maintainers but aren't needed by end users.
 
-#### AI-Assisted Workflow Documentation (/docs/03-workflow-building/)
+#### AI-Assisted Workflow Documentation (/docs/workflow-guides/)
 **Purpose**: Guides for effective AI-assisted development
 
 - `README.md` - Workflow building overview
@@ -202,7 +202,7 @@ Example Kubernetes manifests with:
 
 **Learn about AI-assisted development**
 → Start with `.github/QUICK_REFERENCE.md`
-→ Apply the three-question framework from `docs/03-workflow-building/start-simple.md`
+→ Apply the three-question framework from `docs/workflow-guides/start-simple.md`
 → Track your progress with `templates/learning-journal.md`
 
 **Learn about the API basics**

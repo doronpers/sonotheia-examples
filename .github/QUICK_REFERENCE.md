@@ -203,8 +203,8 @@ Key insight: [what made this work]
 
 ## 🔗 Related Resources in This Repo
 
-- [Start Simple](../docs/03-workflow-building/start-simple.md) - Begin with three questions
-- [Multi-Agent Workflow](../docs/03-workflow-building/multi-agent-workflow.md) - Multiple AI checks
+- [Start Simple](../docs/workflow-guides/start-simple.md) - Begin with three questions
+- [Multi-Agent Workflow](../docs/workflow-guides/multi-agent-workflow.md) - Multiple AI checks
 - [Learning Journal Template](../templates/learning-journal.md) - Track your progress
 
 ## 🔗 Additional Resources
