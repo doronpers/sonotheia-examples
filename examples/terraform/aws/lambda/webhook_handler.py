@@ -48,13 +48,14 @@ def lambda_handler(event, context):
         headers = event.get('headers', {})
         
         # Validate signature (if signature header present)
+        # NOTE: Signature verification is disabled in this example.
+        # For production use, implement proper signature verification:
         signature = headers.get('X-Sonotheia-Signature', '')
-        if signature:
-            # TODO: Implement signature verification
-            # webhook_secret = get_webhook_secret()
-            # if not verify_signature(body, signature, webhook_secret):
-            #     return error_response(401, 'Invalid signature')
-            pass
+        if signature and ENVIRONMENT == 'prod':
+            # Production should implement signature verification
+            webhook_secret = get_webhook_secret()
+            if not verify_signature(body, signature, webhook_secret):
+                return error_response(401, 'Invalid signature')
         
         # Parse webhook event
         webhook_event = json.loads(body)
@@ -179,3 +180,14 @@ def verify_signature(payload, signature, secret):
     
     received = signature.replace('sha256=', '')
     return hmac.compare_digest(expected, received)
+
+
+def error_response(status_code, message):
+    """Return error response."""
+    return {
+        'statusCode': status_code,
+        'body': json.dumps({
+            'status': 'error',
+            'message': message
+        })
+    }
