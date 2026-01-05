@@ -37,6 +37,10 @@ from locust import HttpUser, TaskSet, between, events, task
 # Test constants
 API_KEY = os.getenv("SONOTHEIA_API_KEY", "mock_api_key")
 API_URL = os.getenv("SONOTHEIA_API_URL", "https://api.sonotheia.com")
+SAMPLE_RATE_HZ = 16000  # Standard sample rate for audio
+TEST_AUDIO_DURATION_SEC = 5.0  # Default test audio duration
+SILENCE_THRESHOLD_DB = 100  # Threshold for silence detection
+NUM_TEST_ENROLLMENTS = 100  # Number of reusable enrollment IDs for testing
 
 
 class TestAudioGenerator:
@@ -87,7 +91,9 @@ class SonotheiaTaskSet(TaskSet):
     def on_start(self):
         """Initialize test data."""
         self.audio_generator = TestAudioGenerator()
-        self.enrollment_ids = [f"test-enrollment-{i}" for i in range(100)]  # Reuse enrollment IDs
+        self.enrollment_ids = [
+            f"test-enrollment-{i}" for i in range(NUM_TEST_ENROLLMENTS)
+        ]  # Reuse enrollment IDs
         self.session_counter = 0
 
     @task(3)
