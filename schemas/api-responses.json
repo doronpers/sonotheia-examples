@@ -1,0 +1,98 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Sonotheia API Response Schemas",
+  "definitions": {
+    "deepfakeResponse": {
+      "type": "object",
+      "required": ["score", "label", "latency_ms"],
+      "properties": {
+        "score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Deepfake probability score"
+        },
+        "label": {
+          "type": "string",
+          "enum": ["likely_real", "likely_synthetic"],
+          "description": "Classification label"
+        },
+        "latency_ms": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Processing latency in milliseconds"
+        },
+        "session_id": {
+          "type": "string",
+          "description": "Optional session identifier"
+        },
+        "recommended_action": {
+          "type": "string",
+          "enum": ["allow", "deny", "defer_to_review"],
+          "description": "Recommended action based on score"
+        }
+      }
+    },
+    "mfaResponse": {
+      "type": "object",
+      "required": ["verified", "enrollment_id", "confidence"],
+      "properties": {
+        "verified": {
+          "type": "boolean",
+          "description": "Whether voice was verified"
+        },
+        "enrollment_id": {
+          "type": "string",
+          "description": "Enrollment/voiceprint identifier"
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Verification confidence score"
+        },
+        "session_id": {
+          "type": "string",
+          "description": "Optional session identifier"
+        }
+      }
+    },
+    "sarResponse": {
+      "type": "object",
+      "required": ["status", "case_id", "session_id"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["submitted", "pending", "accepted", "rejected"],
+          "description": "SAR submission status"
+        },
+        "case_id": {
+          "type": "string",
+          "description": "Unique case identifier"
+        },
+        "session_id": {
+          "type": "string",
+          "description": "Session identifier"
+        }
+      }
+    },
+    "errorResponse": {
+      "type": "object",
+      "required": ["error"],
+      "properties": {
+        "error": {
+          "type": "string",
+          "description": "Error message"
+        },
+        "code": {
+          "type": "string",
+          "description": "Error code"
+        },
+        "request_id": {
+          "type": "string",
+          "description": "Request identifier for debugging"
+        }
+      }
+    }
+  }
+}

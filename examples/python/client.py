@@ -8,11 +8,16 @@ including deepfake detection, voice MFA verification, and SAR submission.
 from __future__ import annotations
 
 import json
+import logging
 import mimetypes
 import os
 from typing import IO, Any
 
 import requests
+
+from response_validator import ResponseValidationError, ResponseValidator
+
+logger = logging.getLogger(__name__)
 
 
 class SonotheiaClient:
@@ -26,6 +31,7 @@ class SonotheiaClient:
         mfa_path: str | None = None,
         sar_path: str | None = None,
         timeout: int = 30,
+        validate_responses: bool = True,
     ):
         """
         Initialize Sonotheia API client.
@@ -37,6 +43,7 @@ class SonotheiaClient:
             mfa_path: MFA endpoint path (defaults to SONOTHEIA_MFA_PATH or /v1/mfa/voice/verify)
             sar_path: SAR endpoint path (defaults to SONOTHEIA_SAR_PATH or /v1/reports/sar)
             timeout: Request timeout in seconds (default: 30)
+            validate_responses: Enable response validation (default: True)
         """
         self.api_key = api_key or os.getenv("SONOTHEIA_API_KEY")
         if not self.api_key:
@@ -53,6 +60,8 @@ class SonotheiaClient:
         self.mfa_path = mfa_path or os.getenv("SONOTHEIA_MFA_PATH", "/v1/mfa/voice/verify")
         self.sar_path = sar_path or os.getenv("SONOTHEIA_SAR_PATH", "/v1/reports/sar")
         self.timeout = timeout
+        self.validate_responses = validate_responses
+        self.validator = ResponseValidator() if validate_responses else None
 
     def _headers(self) -> dict[str, str]:
         """Get common request headers."""
@@ -111,7 +120,17 @@ class SonotheiaClient:
             )
 
         response.raise_for_status()
-        return response.json()
+        result = response.json()
+        
+        # Validate response if enabled
+        if self.validator:
+            try:
+                result = self.validator.validate_deepfake_response(result)
+            except ResponseValidationError as e:
+                logger.warning(f"Response validation failed: {e}")
+                # Still return the response, but log the validation error
+        
+        return result
 
     def verify_mfa(
         self,
@@ -152,7 +171,16 @@ class SonotheiaClient:
             )
 
         response.raise_for_status()
-        return response.json()
+        result = response.json()
+        
+        # Validate response if enabled
+        if self.validator:
+            try:
+                result = self.validator.validate_mfa_response(result)
+            except ResponseValidationError as e:
+                logger.warning(f"Response validation failed: {e}")
+        
+        return result
 
     def submit_sar(
         self,
@@ -194,4 +222,13 @@ class SonotheiaClient:
         )
 
         response.raise_for_status()
-        return response.json()
+        result = response.json()
+        
+        # Validate response if enabled
+        if self.validator:
+            try:
+                result = self.validator.validate_sar_response(result)
+            except ResponseValidationError as e:
+                logger.warning(f"Response validation failed: {e}")
+        
+        return result
