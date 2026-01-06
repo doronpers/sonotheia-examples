@@ -1,6 +1,8 @@
-# Sonotheia TypeScript Examples
+# Sonotheia TypeScript Client
 
-Type-safe TypeScript client for the Sonotheia voice fraud detection API.
+> **Type-safe TypeScript client** with full type definitions, compile-time validation, and Promise-based async/await interface.
+
+TypeScript client for the Sonotheia voice fraud detection API.
 
 ## Features
 
@@ -73,12 +75,12 @@ The client can be configured via environment variables or constructor options:
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `SONOTHEIA_API_KEY` | (required) | Your API key |
-| `SONOTHEIA_API_URL` | `https://api.sonotheia.com` | Base API URL (API host for Sonotheia.ai) |
+| `SONOTHEIA_API_URL` | `https://api.sonotheia.com` | Sonotheia API endpoint |
 | `SONOTHEIA_DEEPFAKE_PATH` | `/v1/voice/deepfake` | Deepfake endpoint |
 | `SONOTHEIA_MFA_PATH` | `/v1/mfa/voice/verify` | MFA endpoint |
 | `SONOTHEIA_SAR_PATH` | `/v1/reports/sar` | SAR endpoint |
 
-> Tip: copy the repo-root `.env.example` to `.env` and export it to keep cURL and client examples aligned.
+> **Tip**: Copy the repo-root `.env.example` to `.env` to keep all examples aligned.
 
 ## Types
 
@@ -109,9 +111,16 @@ try {
 }
 ```
 
-## 📌 Essential Reading (Fast Path)
+## Requirements
 
-- [Getting Started](../../docs/GETTING_STARTED.md) — 5-minute setup
+- **Node.js**: 18 or later
+- **TypeScript**: 5.3+
+- **Dependencies**: See `package.json`
+
+## 📌 Quick Links
+
+- [Getting Started Guide](../../docs/GETTING_STARTED.md) — 5-minute setup
 - [Documentation Index](../../docs/INDEX.md) — find anything quickly
-- [Examples Overview](../README.md) — one-command runs for every track
-- [Design & Content Audit](../../docs/DESIGN_AUDIT.md) — current quality posture
+- [Examples Overview](../README.md) — quick-start commands for every language
+- [FAQ](../../docs/FAQ.md) — common questions and troubleshooting
+- [Best Practices](../../docs/BEST_PRACTICES.md) — production integration guidelines

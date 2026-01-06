@@ -1,6 +1,8 @@
 # Sonotheia Node.js Examples
 
-Advanced integration patterns for the Sonotheia voice fraud detection API.
+> **Advanced integration patterns** including batch processing, webhook servers, and async queue management.
+
+Production-ready examples for the Sonotheia voice fraud detection API.
 
 ## Examples
 
@@ -31,11 +33,11 @@ CONCURRENT_REQUESTS=10 SONOTHEIA_API_KEY=xxx node batch-processor.js *.wav
 
 **Environment Variables:**
 - `SONOTHEIA_API_KEY` - Required API key
-- `SONOTHEIA_API_URL` - Base API URL (default: https://api.sonotheia.com, the API host for Sonotheia.ai)
+- `SONOTHEIA_API_URL` - Sonotheia API endpoint (default: https://api.sonotheia.com)
 - `CONCURRENT_REQUESTS` - Max concurrent requests (default: 5)
 - `LOG_LEVEL` - Logging level: debug, info, warn, error (default: info)
 
-> Tip: copy the repo-root `.env.example` to `.env` and export it to keep cURL and client examples aligned.
+> **Tip**: Copy the repo-root `.env.example` to `.env` to keep all examples aligned.
 
 **Output:**
 ```
@@ -175,9 +177,15 @@ LOG_LEVEL=debug node batch-processor.js
 node batch-processor.js | pino-pretty
 ```
 
-## 📌 Essential Reading (Fast Path)
+## Requirements
 
-- [Getting Started](../../docs/GETTING_STARTED.md) — 5-minute setup
+- **Node.js**: 18 or later
+- **Dependencies**: See `package.json`
+
+## 📌 Quick Links
+
+- [Getting Started Guide](../../docs/GETTING_STARTED.md) — 5-minute setup
 - [Documentation Index](../../docs/INDEX.md) — find anything quickly
-- [Examples Overview](../README.md) — one-command runs for every track
-- [Design & Content Audit](../../docs/DESIGN_AUDIT.md) — current quality posture
+- [Examples Overview](../README.md) — quick-start commands for every language
+- [FAQ](../../docs/FAQ.md) — common questions and troubleshooting
+- [Best Practices](../../docs/BEST_PRACTICES.md) — production integration guidelines
