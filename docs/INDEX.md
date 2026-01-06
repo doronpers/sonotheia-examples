@@ -60,6 +60,11 @@
 - [Development Notes](development/) - Historical context and integration details
 - [Implementation Notes](../NOTES.md) - Assumptions and TODOs
 
+### Design & Content Quality
+
+- [Design & Content Audit](DESIGN_AUDIT.md) - Rams principles applied, current status, and open questions
+- [Improvements Summary](IMPROVEMENTS_SUMMARY.md) - Log of recent documentation and structure changes
+
 ## 🗂️ Documentation by Type
 
 ### User Guides
@@ -96,6 +101,7 @@
 | [Coding Standards](../.github/CODING_STANDARDS.md) | Dev guidelines | Making changes |
 | [Contributing Guide](../CONTRIBUTING.md) | Quick contribution guide | Before submitting PRs |
 | [Agent Quick Reference](../.github/AGENT_QUICK_REFERENCE.md) | Agent checklist | Quick decisions |
+| [Design & Content Audit](DESIGN_AUDIT.md) | Quality posture | Planning improvements |
 | [License Information](LICENSE_INFO.md) | Legal details | Understanding licensing |
 | [Implementation Notes](../NOTES.md) | Assumptions, TODOs | Understanding decisions |
 
@@ -174,6 +180,7 @@ Start Simple → Coding Standards → Repository Structure → Tests
 ## 📦 Code Examples
 
 ### By Language
+- **Overview**: [examples/README.md](../examples/README.md) - Run-it-fast commands and prerequisites
 - **cURL**: [examples/curl/](../examples/curl/) - Quick API testing
 - **Python**: [examples/python/](../examples/python/) - Production-ready client
 - **TypeScript**: [examples/typescript/](../examples/typescript/) - Type-safe client

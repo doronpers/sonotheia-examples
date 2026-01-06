@@ -35,6 +35,8 @@ CONCURRENT_REQUESTS=10 SONOTHEIA_API_KEY=xxx node batch-processor.js *.wav
 - `CONCURRENT_REQUESTS` - Max concurrent requests (default: 5)
 - `LOG_LEVEL` - Logging level: debug, info, warn, error (default: info)
 
+> Tip: copy the repo-root `.env.example` to `.env` and export it to keep cURL and client examples aligned.
+
 **Output:**
 ```
 === BATCH PROCESSING RESULTS ===
@@ -172,3 +174,10 @@ LOG_LEVEL=debug node batch-processor.js
 # Pretty print logs (development)
 node batch-processor.js | pino-pretty
 ```
+
+## 📌 Essential Reading (Fast Path)
+
+- [Getting Started](../../docs/GETTING_STARTED.md) — 5-minute setup
+- [Documentation Index](../../docs/INDEX.md) — find anything quickly
+- [Examples Overview](../README.md) — one-command runs for every track
+- [Design & Content Audit](../../docs/DESIGN_AUDIT.md) — current quality posture
