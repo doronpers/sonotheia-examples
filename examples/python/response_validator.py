@@ -84,7 +84,9 @@ class ResponseValidator:
         if not isinstance(response["latency_ms"], (int, float)) or response["latency_ms"] < 0:
             raise ResponseValidationError("'latency_ms' must be a non-negative number")
 
-        logger.debug(f"Validated deepfake response: score={response['score']}, label={response['label']}")
+        logger.debug(
+            f"Validated deepfake response: score={response['score']}, label={response['label']}"
+        )
         return response
 
     def validate_mfa_response(self, response: dict[str, Any]) -> dict[str, Any]:
@@ -151,7 +153,9 @@ class ResponseValidator:
         if not isinstance(response["session_id"], str):
             raise ResponseValidationError("'session_id' must be a string")
 
-        logger.debug(f"Validated SAR response: status={response['status']}, case_id={response['case_id']}")
+        logger.debug(
+            f"Validated SAR response: status={response['status']}, case_id={response['case_id']}"
+        )
         return response
 
     def _check_required_fields(
