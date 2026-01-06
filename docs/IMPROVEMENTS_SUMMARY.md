@@ -1,5 +1,7 @@
 # Quick Reference: Documentation Improvements
 
+> **Archival note:** This summary is historical. For the current quality posture, open questions, and next actions, see [docs/DESIGN_AUDIT.md](DESIGN_AUDIT.md). Future updates should be recorded there to avoid duplication.
+
 > "Less but better" - Dieter Rams
 
 ## What Changed

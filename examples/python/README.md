@@ -393,3 +393,10 @@ To contribute or modify:
 - [FAQ](../../docs/FAQ.md) - Common questions and troubleshooting
 - [Best Practices](../../docs/BEST_PRACTICES.md) - Integration guidelines
 - [NOTES.md](../../NOTES.md) - Assumptions and open questions
+
+## 📌 Essential Reading (Fast Path)
+
+- [Getting Started](../../docs/GETTING_STARTED.md) — 5-minute setup
+- [Documentation Index](../../docs/INDEX.md) — find anything quickly
+- [Examples Overview](../README.md) — one-command runs for every track
+- [Design & Content Audit](../../docs/DESIGN_AUDIT.md) — current quality posture

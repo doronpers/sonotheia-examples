@@ -57,6 +57,8 @@ This repository provides integration examples and evaluation tools for the [Sono
 ## 🚀 Quickstart
 
 > **New here?** Check out our [Getting Started Guide](docs/GETTING_STARTED.md) for a 5-minute walkthrough.
+>
+> **Know what you want to run?** Jump straight to the [Examples Overview](examples/README.md) for one-command starts across every language.
 
 ### 1. Set Up Credentials
 
@@ -266,7 +268,17 @@ Find everything organized by purpose, topic, and type.
 |----------|-------------|
 | [Contributing Guide](.github/CONTRIBUTING.md) | How to contribute |
 | [Documentation Principles](docs/DOCUMENTATION_PRINCIPLES.md) | Dieter Rams principles |
+| [Design & Content Audit](docs/DESIGN_AUDIT.md) | Current quality posture and open questions |
 | [Agent Quick Reference](.github/AGENT_QUICK_REFERENCE.md) | For AI coding agents |
+
+---
+
+## 📌 Essential Reading (Fast Path)
+
+- [Getting Started](docs/GETTING_STARTED.md) — 5-minute setup
+- [Documentation Index](docs/INDEX.md) — find anything quickly
+- [Examples Overview](examples/README.md) — one-command runs for every track
+- [Design & Content Audit](docs/DESIGN_AUDIT.md) — current quality posture
 
 ---
 
