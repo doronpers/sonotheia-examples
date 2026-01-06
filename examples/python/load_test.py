@@ -30,6 +30,7 @@ Environment Variables:
 import argparse
 import os
 import random
+import subprocess
 import time
 
 from locust import HttpUser, TaskSet, between, events, task
@@ -215,10 +216,21 @@ class LoadTestScenario:
         print(f"  Duration: {duration}s")
         print(f"  Spawn rate: {spawn_rate} users/sec")
 
-        os.system(
-            f"locust -f {__file__} --host={base_url} "
-            f"--users {users} --spawn-rate {spawn_rate} "
-            f"--run-time {duration}s --headless"
+        subprocess.run(
+            [
+                "locust",
+                "-f",
+                __file__,
+                f"--host={base_url}",
+                "--users",
+                str(users),
+                "--spawn-rate",
+                str(spawn_rate),
+                "--run-time",
+                f"{duration}s",
+                "--headless",
+            ],
+            check=False,
         )
 
     @staticmethod
@@ -235,10 +247,21 @@ class LoadTestScenario:
         print(f"  Duration: {duration}s")
 
         # Spawn all users at once
-        os.system(
-            f"locust -f {__file__} --host={base_url} "
-            f"--users {max_users} --spawn-rate {max_users} "
-            f"--run-time {duration}s --headless"
+        subprocess.run(
+            [
+                "locust",
+                "-f",
+                __file__,
+                f"--host={base_url}",
+                "--users",
+                str(max_users),
+                "--spawn-rate",
+                str(max_users),
+                "--run-time",
+                f"{duration}s",
+                "--headless",
+            ],
+            check=False,
         )
 
     @staticmethod
@@ -256,10 +279,21 @@ class LoadTestScenario:
 
         # Gradual ramp-up
         spawn_rate = max(1, max_users // 60)  # Reach max in ~1 minute
-        os.system(
-            f"locust -f {__file__} --host={base_url} "
-            f"--users {max_users} --spawn-rate {spawn_rate} "
-            f"--run-time {duration}s --headless"
+        subprocess.run(
+            [
+                "locust",
+                "-f",
+                __file__,
+                f"--host={base_url}",
+                "--users",
+                str(max_users),
+                "--spawn-rate",
+                str(spawn_rate),
+                "--run-time",
+                f"{duration}s",
+                "--headless",
+            ],
+            check=False,
         )
 
 
