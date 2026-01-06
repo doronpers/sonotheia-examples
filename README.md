@@ -1,43 +1,119 @@
-# Sonotheia Examples
+# 🎙️ Sonotheia Examples
 
-Research harness for stress-testing synthetic speech detection: calibrated deferral, evidence-first outputs, voice MFA, and SAR workflows.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![Node.js 18+](https://img.shields.io/badge/node-18+-green.svg)](https://nodejs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Ready-3178c6.svg)](https://www.typescriptlang.org/)
 
-> **Note:** The Sonotheia API (for Sonotheia.ai) is hosted at `https://api.sonotheia.com`.
+> **Research harness for stress-testing synthetic speech detection**: calibrated deferral, evidence-first outputs, voice MFA, and SAR workflows.
 
-> This repo is an integration and evaluation reference, not a production SDK. It emphasizes repeatable tests, calibrated deferral, and structured review when outputs are uncertain.
+This repository provides integration examples and evaluation tools for the [Sonotheia API](https://api.sonotheia.com) — emphasizing repeatable tests, calibrated deferral, and structured review when outputs are uncertain.
 
-## Quickstart
-1. Copy `.env.example` to `.env` and add your credentials:
-   ```bash
-   cp .env.example .env
-   # Edit .env and set SONOTHEIA_API_KEY=your_actual_key
-   ```
+---
 
-2. Or export environment variables directly:
-   ```bash
-   export SONOTHEIA_API_URL=https://api.sonotheia.com  # Canonical API host for Sonotheia.ai
-   export SONOTHEIA_API_KEY=YOUR_API_KEY
-   # Optional: override endpoint paths if your deployment differs from defaults
-   # export SONOTHEIA_DEEPFAKE_PATH=/v1/voice/deepfake
-   # export SONOTHEIA_MFA_PATH=/v1/mfa/voice/verify
-   # export SONOTHEIA_SAR_PATH=/v1/reports/sar
-   ```
+## 📋 Table of Contents
 
-3. Pick an example:
-   - **cURL** one-liners under `examples/curl` for quick smoke tests.
-   - **Python** helper in `examples/python` for scripted flows.
-   - **TypeScript** type-safe client in `examples/typescript`.
-   - **Node.js** advanced patterns in `examples/node`.
+- [What's This?](#whats-this)
+- [Key Features](#key-features)
+- [Quickstart](#quickstart)
+- [Examples by Language](#examples-by-language)
+- [Output Format](#output-format)
+- [Documentation](#documentation)
+- [Testing](#testing)
+- [Contributing](#contributing)
+- [License](#license)
+- [Support](#support)
 
-4. Provide an audio file (16 kHz mono WAV recommended) and run the example.
+---
 
-The evaluation scaffold supports slicing audio into short windows (10–15s), running repeatable perturbation tests, and capturing audit-grade records of measurements and decisions.
+## What's This?
 
-## Examples
+**Sonotheia Examples** is an **integration and evaluation reference**, not a production SDK. It helps you:
+
+- ✅ Test synthetic speech detection with real-world audio
+- ✅ Implement voice-based multi-factor authentication (MFA)
+- ✅ Generate Suspicious Activity Reports (SAR) for compliance
+- ✅ Evaluate model performance with calibrated deferral strategies
+- ✅ Build production-ready integrations with retry logic, rate limiting, and circuit breakers
+
+> **Note:** The production Sonotheia API is hosted at `https://api.sonotheia.com`
+
+---
+
+## ✨ Key Features
+
+| Feature | Description |
+|---------|-------------|
+| 🎯 **Multi-Language Support** | cURL, Python, TypeScript, and Node.js examples |
+| 🔄 **Production Patterns** | Retry logic, rate limiting, circuit breakers, webhook handlers |
+| 📊 **Evaluation Tools** | Audio slicing, perturbation tests, audit-grade measurement records |
+| 🔐 **Security First** | SSL/TLS best practices, secure credential handling |
+| 📦 **Docker Ready** | Production-grade Dockerfiles with proper SSL certificate handling |
+| 🧪 **Testing Harness** | pytest fixtures, mocking patterns, real file descriptor testing |
+| 📖 **Comprehensive Docs** | FAQs, best practices, troubleshooting, API migration guides |
+
+---
+
+## 🚀 Quickstart
+
+> **New here?** Check out our [Getting Started Guide](docs/GETTING_STARTED.md) for a 5-minute walkthrough.
+>
+> **Know what you want to run?** Jump straight to the [Examples Overview](examples/README.md) for one-command starts across every language.
+
+### 1. Set Up Credentials
+
+**Option A: Using `.env` file (recommended)**
+
+```bash
+cp .env.example .env
+# Edit .env and set SONOTHEIA_API_KEY=your_actual_key
+```
+
+**Option B: Export environment variables**
+
+```bash
+export SONOTHEIA_API_URL=https://api.sonotheia.com
+export SONOTHEIA_API_KEY=YOUR_API_KEY
+
+# Optional: Override endpoint paths if needed
+# export SONOTHEIA_DEEPFAKE_PATH=/v1/voice/deepfake
+# export SONOTHEIA_MFA_PATH=/v1/mfa/voice/verify
+# export SONOTHEIA_SAR_PATH=/v1/reports/sar
+```
+
+### 2. Pick Your Language
+
+Choose the example that fits your workflow:
+
+- **[cURL](#curl)** - Quick one-liners for smoke tests
+- **[Python](#python)** - Full-featured client with retry logic
+- **[TypeScript](#typescript)** - Type-safe client with comprehensive types
+- **[Node.js](#nodejs)** - Advanced patterns including batch processing and webhooks
+
+### 3. Prepare Audio
+
+For best results, use:
+- **Format**: 16 kHz mono WAV or Opus
+- **Duration**: <10 seconds per request (for optimal latency)
+- **Size**: Up to 800 MB supported
+
+### 4. Run an Example
+
+```bash
+# Example: Deepfake detection with cURL
+./examples/curl/deepfake-detect.sh audio.wav
+
+# Example: Python with MFA
+python examples/python/main.py audio.wav --enrollment-id enroll-123
+```
+
+---
+
+## 📂 Examples by Language
 
 ### cURL
 
-Minimal scripts for quick API testing. Requires `SONOTHEIA_API_KEY` environment variable.
+**Minimal scripts for quick API testing**. Ideal for CI/CD smoke tests and debugging.
 
 ```bash
 # Deepfake detection
@@ -50,32 +126,63 @@ SONOTHEIA_ENROLLMENT_ID=enroll-123 ./examples/curl/mfa-verify.sh audio.wav
 ./examples/curl/sar-report.sh session-123 review "Manual review"
 ```
 
+**Requirements:** `SONOTHEIA_API_KEY` environment variable
+
+---
+
 ### Python
 
-Python client with retry logic, rate limiting, and circuit breakers. Requires Python 3.9+.
+**Production-ready client** with retry logic, rate limiting, and circuit breakers.
 
 ```bash
+# Setup
 python -m venv .venv && source .venv/bin/activate
 pip install -r examples/python/requirements.txt
+
+# Run
 python examples/python/main.py audio.wav --enrollment-id enroll-123
 ```
 
-See [examples/python/README.md](examples/python/README.md) for enhanced features and deployment.
+**Requirements:** Python 3.9+
+
+**Advanced features:**
+- Automatic retry with exponential backoff
+- Rate limiting and circuit breakers
+- Streaming responses
+- Kubernetes deployment manifests
+- Comprehensive test suite with pytest
+
+📖 **[Full Python Documentation](examples/python/README.md)**
+
+---
 
 ### TypeScript
 
-Type-safe client with full type definitions. Requires Node.js 18+.
+**Type-safe client** with full type definitions and compile-time validation.
 
 ```bash
+# Setup
 cd examples/typescript
 npm install && npm run build
+
+# Run
 export SONOTHEIA_API_KEY=YOUR_API_KEY
 node dist/index.js audio.wav --enrollment-id enroll-123
 ```
 
+**Requirements:** Node.js 18+
+
+**Features:**
+- Complete TypeScript type definitions
+- Compile-time type safety
+- IDE autocomplete support
+- ES modules support
+
+---
+
 ### Node.js
 
-Batch processing and webhook server examples.
+**Advanced patterns** including batch processing and webhook servers.
 
 ```bash
 # Batch processor
@@ -87,88 +194,186 @@ node batch-processor.js /path/to/*.wav
 PORT=3000 SONOTHEIA_WEBHOOK_SECRET=your_secret node webhook-server.js
 ```
 
-See [examples/node/README.md](examples/node/README.md) for advanced patterns.
+**Requirements:** Node.js 18+
 
-## Advanced Features
+**Features:**
+- Batch file processing
+- Webhook event handling
+- Async queue management
+- Production monitoring patterns
 
-For retries, rate limiting, circuit breakers, streaming, monitoring, and Kubernetes deployment:
-- [Enhanced Examples Guide](docs/ENHANCED_EXAMPLES.md)
-- [Python README](examples/python/README.md)
-- [Node.js README](examples/node/README.md)
-- [Kubernetes README](examples/kubernetes/README.md)
-
-## Output Format
-
-Example response (illustrative). Ambiguous outcomes should trigger deferral and structured review.
-
-```json
-{
-  "deepfake": {"score": 0.82, "recommended_action": "defer_to_review", "latency_ms": 640},
-  "mfa": {"verified": true, "enrollment_id": "enroll-123", "confidence": 0.93},
-  "sar": {"status": "submitted", "case_id": "sar-001234"}
-}
-```
-
-## Notes
-- Send short (<10s) mono WAV or Opus audio for best latency
-- Never hard-code API keys in source control
-- Replace placeholder IDs with actual values from your environment
-
-## Documentation
-
-**📚 [Complete Documentation Index](docs/INDEX.md)** - Find everything organized by purpose, topic, and type
-
-### User Documentation
-- [FAQ](docs/FAQ.md) - Common questions
-- [Best Practices](docs/BEST_PRACTICES.md) - Integration guide
-- [Enhanced Examples](docs/ENHANCED_EXAMPLES.md) - Advanced features
-- [Audio Preprocessing](docs/AUDIO_PREPROCESSING.md) - FFmpeg and SoX guide
-- [Troubleshooting](docs/TROUBLESHOOTING.md) - Common issues and solutions
-- [Repository Structure](docs/REPOSITORY_STRUCTURE.md) - How this repo is organized
-- [License Information](docs/LICENSE_INFO.md) - Understanding the MIT License for this repository
-- [MFA Enrollment Guide](docs/MFA_ENROLLMENT.md) - Voice enrollment process and best practices
-- [Webhook Schemas](docs/WEBHOOK_SCHEMAS.md) - Detailed webhook event payload documentation
-- [API Migration Guide](docs/API_MIGRATION_GUIDE.md) - Guide for API version updates
-
-### AI-Assisted Development Workflow
-- [AI Development Workflow](.github/QUICK_REFERENCE.md) - Complete workflow guide
-- [Start Simple](docs/workflow-guides/start-simple.md) - Three-question framework
-- [Multi-Agent Workflow](docs/workflow-guides/multi-agent-workflow.md) - Multiple AI checks
-- [Learning Journal Template](templates/learning-journal.md) - Track your progress
-- [Optimal Agent Prompt](docs/AGENT_PROMPT.md) - Best prompt for coding agents
-
-### For Contributors
-- [Coding Standards](.github/CODING_STANDARDS.md) - Complete standards and guidelines
-- [Agent Quick Reference](.github/AGENT_QUICK_REFERENCE.md) - Quick reference for agents
-- [Documentation Principles](docs/DOCUMENTATION_PRINCIPLES.md) - Dieter Rams principles applied
-
-## Testing
-
-Run tests locally:
-
-```bash
-# Python
-cd examples/python
-pip install -r requirements.txt
-pytest tests/ -v
-
-# TypeScript
-cd examples/typescript
-npm install && npm run build
-
-# Node.js
-cd examples/node
-npm install
-node --check batch-processor.js
-```
-
-## License
-
-This repository is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
-
-**Note:** This license applies to the example code and documentation in this repository only. Access to the Sonotheia API service requires separate authorization. For detailed information about the license, see [docs/LICENSE_INFO.md](docs/LICENSE_INFO.md).
+📖 **[Full Node.js Documentation](examples/node/README.md)**
 
 ---
 
-**Support:** Contact your Sonotheia integration engineer  
-**API Reference:** Available on request
+## 📊 Output Format
+
+Example response structure (actual values vary by endpoint):
+
+```json
+{
+  "deepfake": {
+    "score": 0.82,
+    "recommended_action": "defer_to_review",
+    "latency_ms": 640
+  },
+  "mfa": {
+    "verified": true,
+    "enrollment_id": "enroll-123",
+    "confidence": 0.93
+  },
+  "sar": {
+    "status": "submitted",
+    "case_id": "sar-001234"
+  }
+}
+```
+
+> ⚠️ **Important:** Ambiguous outcomes (e.g., `defer_to_review`) should trigger structured human review workflows.
+
+---
+
+## 📚 Documentation
+
+### 📖 **[Complete Documentation Index](docs/INDEX.md)**
+
+Find everything organized by purpose, topic, and type.
+
+### User Guides
+
+| Document | Description |
+|----------|-------------|
+| [Getting Started](docs/GETTING_STARTED.md) | **NEW!** 5-minute quickstart guide |
+| [Use Cases](docs/USE_CASES.md) | **NEW!** Real-world integration scenarios |
+| [FAQ](docs/FAQ.md) | Common questions and answers |
+| [Best Practices](docs/BEST_PRACTICES.md) | Integration patterns and recommendations |
+| [Enhanced Examples](docs/ENHANCED_EXAMPLES.md) | Advanced features (retries, streaming, monitoring) |
+| [Audio Preprocessing](docs/AUDIO_PREPROCESSING.md) | FFmpeg and SoX guide |
+| [Troubleshooting](docs/TROUBLESHOOTING.md) | Common issues and solutions |
+| [MFA Enrollment Guide](docs/MFA_ENROLLMENT.md) | Voice enrollment process |
+| [Webhook Schemas](docs/WEBHOOK_SCHEMAS.md) | Webhook event payloads |
+| [API Migration Guide](docs/API_MIGRATION_GUIDE.md) | Version update guidance |
+
+### For Developers
+
+| Document | Description |
+|----------|-------------|
+| [Repository Structure](docs/REPOSITORY_STRUCTURE.md) | How this repo is organized |
+| [Coding Standards](.github/CODING_STANDARDS.md) | Code style and conventions |
+| [AI Development Workflow](.github/QUICK_REFERENCE.md) | AI-assisted development guide |
+
+### For Contributors
+
+| Document | Description |
+|----------|-------------|
+| [Contributing Guide](.github/CONTRIBUTING.md) | How to contribute |
+| [Documentation Principles](docs/DOCUMENTATION_PRINCIPLES.md) | Dieter Rams principles |
+| [Design & Content Audit](docs/DESIGN_AUDIT.md) | Current quality posture and open questions |
+| [Agent Quick Reference](.github/AGENT_QUICK_REFERENCE.md) | For AI coding agents |
+
+---
+
+## 📌 Essential Reading (Fast Path)
+
+- [Getting Started](docs/GETTING_STARTED.md) — 5-minute setup
+- [Documentation Index](docs/INDEX.md) — find anything quickly
+- [Examples Overview](examples/README.md) — one-command runs for every track
+- [Design & Content Audit](docs/DESIGN_AUDIT.md) — current quality posture
+
+---
+
+## 🧪 Testing
+
+Run tests locally to verify your setup:
+
+### Python
+
+```bash
+cd examples/python
+pip install -r requirements.txt
+pytest tests/ -v
+```
+
+### TypeScript
+
+```bash
+cd examples/typescript
+npm install && npm run build
+npm test
+```
+
+### Node.js
+
+```bash
+cd examples/node
+npm install
+node --check batch-processor.js
+npm test
+```
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for:
+
+- Code of conduct
+- Development workflow
+- Pull request process
+- Testing requirements
+- Documentation standards
+
+**Quick links:**
+- [Quick Start for Contributors](CONTRIBUTING.md#tldr---quick-contributions)
+- [Coding Standards](.github/CODING_STANDARDS.md)
+- [AI Development Workflow](.github/QUICK_REFERENCE.md)
+- [Documentation Principles](docs/DOCUMENTATION_PRINCIPLES.md)
+
+---
+
+## 📄 License
+
+This repository is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+> **Important:** This license applies to the **example code and documentation** in this repository only. Access to the Sonotheia API service requires separate authorization.
+
+For detailed information about licensing, see [License Information](docs/LICENSE_INFO.md).
+
+---
+
+## 🆘 Support
+
+### Getting Help
+
+- 📧 **Email:** Contact your Sonotheia integration engineer
+- 📖 **API Reference:** Available on request from Sonotheia team
+- 🐛 **Issues:** [Open an issue](https://github.com/doronpers/sonotheia-examples/issues) for bugs or feature requests
+- 💬 **Discussions:** [GitHub Discussions](https://github.com/doronpers/sonotheia-examples/discussions) for questions
+
+### Before Reaching Out
+
+1. Check the [FAQ](docs/FAQ.md)
+2. Review [Troubleshooting](docs/TROUBLESHOOTING.md)
+3. Search [existing issues](https://github.com/doronpers/sonotheia-examples/issues)
+
+### Security Issues
+
+For security vulnerabilities, please **do not** open a public issue. Email your Sonotheia integration engineer directly.
+
+---
+
+## 🔗 Related Resources
+
+- 🌐 **[Sonotheia API](https://api.sonotheia.com)** - Production API endpoint
+- 📦 **[Python Package](examples/python)** - Install with `pip install -r requirements.txt`
+- 🎯 **[Kubernetes Examples](examples/kubernetes)** - Production deployment manifests
+
+---
+
+<div align="center">
+
+**Built with ❤️ for secure voice authentication**
+
+[Getting Started](docs/GETTING_STARTED.md) • [Documentation](docs/INDEX.md) • [Examples](examples/) • [Contributing](CONTRIBUTING.md) • [License](LICENSE)
+
+</div>

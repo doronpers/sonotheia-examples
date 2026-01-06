@@ -132,6 +132,8 @@ Configure via ConfigMap (`sonotheia-config`):
 | `SONOTHEIA_MFA_PATH` | `/v1/mfa/voice/verify` | MFA endpoint |
 | `SONOTHEIA_SAR_PATH` | `/v1/reports/sar` | SAR endpoint |
 
+> Tip: copy the repo-root `.env.example` to `.env` and export it to keep cURL and client examples aligned.
+
 ### Secrets
 
 API key is stored in Secret (`sonotheia-api-secret`):
@@ -314,3 +316,10 @@ kubectl delete pvc audio-pvc
 - [Kubernetes Documentation](https://kubernetes.io/docs/)
 - [Prometheus Operator](https://github.com/prometheus-operator/prometheus-operator)
 - [Kubernetes Best Practices](https://kubernetes.io/docs/concepts/configuration/overview/)
+
+## 📌 Essential Reading (Fast Path)
+
+- [Getting Started](../../docs/GETTING_STARTED.md) — 5-minute setup
+- [Documentation Index](../../docs/INDEX.md) — find anything quickly
+- [Examples Overview](../README.md) — one-command runs for every track
+- [Design & Content Audit](../../docs/DESIGN_AUDIT.md) — current quality posture

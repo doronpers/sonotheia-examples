@@ -78,6 +78,8 @@ The client can be configured via environment variables or constructor options:
 | `SONOTHEIA_MFA_PATH` | `/v1/mfa/voice/verify` | MFA endpoint |
 | `SONOTHEIA_SAR_PATH` | `/v1/reports/sar` | SAR endpoint |
 
+> Tip: copy the repo-root `.env.example` to `.env` and export it to keep cURL and client examples aligned.
+
 ## Types
 
 All request and response types are exported:
@@ -106,3 +108,10 @@ try {
   }
 }
 ```
+
+## 📌 Essential Reading (Fast Path)
+
+- [Getting Started](../../docs/GETTING_STARTED.md) — 5-minute setup
+- [Documentation Index](../../docs/INDEX.md) — find anything quickly
+- [Examples Overview](../README.md) — one-command runs for every track
+- [Design & Content Audit](../../docs/DESIGN_AUDIT.md) — current quality posture
