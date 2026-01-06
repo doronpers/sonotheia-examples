@@ -19,7 +19,7 @@ This directory contains working examples in multiple languages demonstrating Son
 
 Before running any example, you need:
 
-1. **API Key**: Required for all examples
+1. **API Key**: Required for all examples (contact your Sonotheia integration engineer to obtain one)
    ```bash
    # Option A: Using .env file (recommended)
    cp ../.env.example ../.env
