@@ -1,5 +1,7 @@
 # Sonotheia Python Client
 
+> **Production-ready Python client** with retry logic, rate limiting, circuit breakers, and comprehensive examples.
+
 Python client library and CLI for the Sonotheia voice fraud detection API.
 
 ## Installation
@@ -177,8 +179,9 @@ except requests.RequestException as e:
 
 ## Requirements
 
-- Python 3.9 or later
-- See `requirements.txt` for dependencies
+- **Python**: 3.9 or later
+- **Dependencies**: See `requirements.txt`
+- **Optional**: `ffmpeg` for streaming audio processing (`apt-get install ffmpeg`)
 
 ## Advanced Examples
 
@@ -388,15 +391,10 @@ To contribute or modify:
 4. Run linter: `ruff check .`
 5. Format code: `ruff format .`
 
-## See Also
+## 📌 Quick Links
 
-- [FAQ](../../docs/FAQ.md) - Common questions and troubleshooting
-- [Best Practices](../../docs/BEST_PRACTICES.md) - Integration guidelines
-- [NOTES.md](../../NOTES.md) - Assumptions and open questions
-
-## 📌 Essential Reading (Fast Path)
-
-- [Getting Started](../../docs/GETTING_STARTED.md) — 5-minute setup
+- [Getting Started Guide](../../docs/GETTING_STARTED.md) — 5-minute setup
 - [Documentation Index](../../docs/INDEX.md) — find anything quickly
-- [Examples Overview](../README.md) — one-command runs for every track
-- [Design & Content Audit](../../docs/DESIGN_AUDIT.md) — current quality posture
+- [Examples Overview](../README.md) — quick-start commands for every language
+- [FAQ](../../docs/FAQ.md) — common questions and troubleshooting
+- [Best Practices](../../docs/BEST_PRACTICES.md) — production integration guidelines
