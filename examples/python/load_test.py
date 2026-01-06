@@ -216,7 +216,7 @@ class LoadTestScenario:
         print(f"  Duration: {duration}s")
         print(f"  Spawn rate: {spawn_rate} users/sec")
 
-        subprocess.run(
+        result = subprocess.run(
             [
                 "locust",
                 "-f",
@@ -230,8 +230,9 @@ class LoadTestScenario:
                 f"{duration}s",
                 "--headless",
             ],
-            check=False,
+            check=True,
         )
+        return result.returncode
 
     @staticmethod
     def spike_test(base_url: str, max_users: int = 100, duration: int = 60):
@@ -247,7 +248,7 @@ class LoadTestScenario:
         print(f"  Duration: {duration}s")
 
         # Spawn all users at once
-        subprocess.run(
+        result = subprocess.run(
             [
                 "locust",
                 "-f",
@@ -261,8 +262,9 @@ class LoadTestScenario:
                 f"{duration}s",
                 "--headless",
             ],
-            check=False,
+            check=True,
         )
+        return result.returncode
 
     @staticmethod
     def stress_test(base_url: str, max_users: int = 200, duration: int = 600):
@@ -279,7 +281,7 @@ class LoadTestScenario:
 
         # Gradual ramp-up
         spawn_rate = max(1, max_users // 60)  # Reach max in ~1 minute
-        subprocess.run(
+        result = subprocess.run(
             [
                 "locust",
                 "-f",
@@ -293,8 +295,9 @@ class LoadTestScenario:
                 f"{duration}s",
                 "--headless",
             ],
-            check=False,
+            check=True,
         )
+        return result.returncode
 
 
 # Event handlers for custom metrics
