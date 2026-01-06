@@ -19,7 +19,7 @@ This directory contains working examples in multiple languages demonstrating Son
 
 Before running any example, you need:
 
-1. **API Key**: Required for all examples (contact your Sonotheia integration engineer to obtain one)
+1. **API Key**: Required for all examples (contact Sonotheia support or your integration engineer to obtain one)
    ```bash
    # Option A: Using .env file (recommended)
    cp ../.env.example ../.env
@@ -35,7 +35,13 @@ Before running any example, you need:
    - **Test files**: Available in `examples/test-audio/`
 
 3. **Language-Specific Dependencies**: Install as needed
-   - **Python**: `python -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt`
+   - **Python**: 
+     ```bash
+     python -m venv .venv
+     source .venv/bin/activate      # On Linux/macOS
+     # .venv\Scripts\activate       # On Windows
+     pip install -r requirements.txt
+     ```
    - **Node.js/TypeScript**: `npm install`
    - **cURL**: No additional dependencies
 

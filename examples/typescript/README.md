@@ -1,6 +1,6 @@
 # Sonotheia TypeScript Client
 
-> **Type-safe TypeScript client** with full type definitions, compile-time validation, and modern async/await interface.
+> **Type-safe TypeScript client** with full type definitions, compile-time validation, and Promise-based async/await interface.
 
 TypeScript client for the Sonotheia voice fraud detection API.
 

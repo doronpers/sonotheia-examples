@@ -181,7 +181,10 @@ except requests.RequestException as e:
 
 - **Python**: 3.9 or later
 - **Dependencies**: See `requirements.txt`
-- **Optional**: `ffmpeg` for streaming audio processing (`apt-get install ffmpeg`)
+- **Optional**: `ffmpeg` for streaming audio processing
+  - **Ubuntu/Debian**: `apt-get install ffmpeg`
+  - **macOS**: `brew install ffmpeg`
+  - **Windows**: `choco install ffmpeg`
 
 ## Advanced Examples
 
