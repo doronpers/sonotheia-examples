@@ -243,8 +243,8 @@ Find everything organized by purpose, topic, and type.
 
 | Document | Description |
 |----------|-------------|
-| [Getting Started](docs/GETTING_STARTED.md) | **NEW!** 5-minute quickstart guide |
-| [Use Cases](docs/USE_CASES.md) | **NEW!** Real-world integration scenarios |
+| [Getting Started](docs/GETTING_STARTED.md) | 5-minute quickstart guide |
+| [Use Cases](docs/USE_CASES.md) | Real-world integration scenarios |
 | [FAQ](docs/FAQ.md) | Common questions and answers |
 | [Best Practices](docs/BEST_PRACTICES.md) | Integration patterns and recommendations |
 | [Enhanced Examples](docs/ENHANCED_EXAMPLES.md) | Advanced features (retries, streaming, monitoring) |
@@ -268,7 +268,7 @@ Find everything organized by purpose, topic, and type.
 |----------|-------------|
 | [Contributing Guide](.github/CONTRIBUTING.md) | How to contribute |
 | [Documentation Principles](docs/DOCUMENTATION_PRINCIPLES.md) | Dieter Rams principles |
-| [Design & Content Audit](docs/DESIGN_AUDIT.md) | Current quality posture and open questions |
+| [Design & Content Audit](docs/DESIGN_AUDIT.md) | Documentation quality assessment and roadmap |
 | [Agent Quick Reference](.github/AGENT_QUICK_REFERENCE.md) | For AI coding agents |
 
 ---
@@ -277,8 +277,8 @@ Find everything organized by purpose, topic, and type.
 
 - [Getting Started](docs/GETTING_STARTED.md) — 5-minute setup
 - [Documentation Index](docs/INDEX.md) — find anything quickly
-- [Examples Overview](examples/README.md) — one-command runs for every track
-- [Design & Content Audit](docs/DESIGN_AUDIT.md) — current quality posture
+- [Examples Overview](examples/README.md) — quick-start commands for every language
+- [Design & Content Audit](docs/DESIGN_AUDIT.md) — documentation quality and roadmap
 
 ---
 
