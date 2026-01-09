@@ -34,11 +34,12 @@ import logging
 import random
 import time
 import uuid
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Any
+from functools import wraps
+from typing import Any, Callable
 
-from flask import Flask, jsonify, request
+from flask import Flask, Response, jsonify, request
 
 # Configure logging
 logging.basicConfig(
@@ -46,23 +47,14 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Create Flask app
-app = Flask(__name__)
-
-# Mock configuration
-MOCK_API_KEY = "mock_api_key_12345"
-MOCK_WEBHOOK_SECRET = "mock_webhook_secret"
-
-# In-memory storage
-enrollments = {}
-sessions = {}
-sar_cases = {}
-request_count = {}
-
 
 @dataclass
 class MockConfig:
     """Configuration for mock server behavior."""
+
+    # Authentication
+    api_key: str = "mock_api_key_12345"
+    webhook_secret: str = "mock_webhook_secret"
 
     # Simulated processing time
     deepfake_latency_ms: int = 500
@@ -82,10 +74,32 @@ class MockConfig:
     default_mfa_confidence: float = 0.85
 
 
+@dataclass
+class MockStorage:
+    """Centralized storage for mock data."""
+
+    enrollments: dict[str, Any] = field(default_factory=dict)
+    sessions: dict[str, Any] = field(default_factory=dict)
+    sar_cases: dict[str, Any] = field(default_factory=dict)
+    request_count: dict[str, int] = field(default_factory=dict)
+
+    def clear(self) -> None:
+        """Clear all stored data."""
+        self.enrollments.clear()
+        self.sessions.clear()
+        self.sar_cases.clear()
+        self.request_count.clear()
+
+
+# Global instances
 config = MockConfig()
+storage = MockStorage()
+
+# Create Flask app
+app = Flask(__name__)
 
 
-def verify_api_key():
+def verify_api_key() -> tuple[bool, str | None]:
     """Verify API key from request headers."""
     auth_header = request.headers.get("Authorization", "")
 
@@ -94,19 +108,19 @@ def verify_api_key():
 
     api_key = auth_header.replace("Bearer ", "")
 
-    if api_key != MOCK_API_KEY:
+    if api_key != config.api_key:
         return False, "Invalid API key"
 
     return True, None
 
 
-def check_rate_limit(client_id: str) -> tuple[bool, dict[str, Any]]:
+def check_rate_limit(client_id: str) -> tuple[bool, dict[str, str]]:
     """Check if request should be rate limited."""
     now = time.time()
     minute = int(now / 60)
     key = f"{client_id}:{minute}"
 
-    count = request_count.get(key, 0)
+    count = storage.request_count.get(key, 0)
 
     headers = {
         "X-RateLimit-Limit": str(config.rate_limit_per_minute),
@@ -117,8 +131,39 @@ def check_rate_limit(client_id: str) -> tuple[bool, dict[str, Any]]:
     if count >= config.rate_limit_per_minute:
         return False, headers
 
-    request_count[key] = count + 1
+    storage.request_count[key] = count + 1
     return True, headers
+
+
+def require_auth_and_rate_limit(f: Callable) -> Callable:
+    """Decorator to check authentication and rate limits."""
+
+    @wraps(f)
+    def decorated_function(*args, **kwargs) -> tuple[Response, int] | Response:
+        # Verify API key
+        valid, error = verify_api_key()
+        if not valid:
+            return jsonify({"error": "Unauthorized", "message": error}), 401
+
+        # Check rate limit
+        client_id = request.headers.get("X-Client-ID", "default")
+        rate_ok, rate_headers = check_rate_limit(client_id)
+
+        if not rate_ok:
+            response = jsonify(
+                {
+                    "error": "Rate limit exceeded",
+                    "message": "Too many requests. Please retry later",
+                }
+            )
+            response.headers.update(rate_headers)
+            return response, 429
+
+        # Store rate headers for the response
+        kwargs["rate_headers"] = rate_headers
+        return f(*args, **kwargs)
+
+    return decorated_function
 
 
 def simulate_processing_delay(latency_ms: int):
@@ -144,24 +189,9 @@ def should_simulate_error() -> tuple[bool, dict[str, Any] | None]:
 
 
 @app.route("/v1/voice/deepfake", methods=["POST"])
-def deepfake_detect():
+@require_auth_and_rate_limit
+def deepfake_detect(rate_headers: dict[str, str] | None = None):
     """Mock deepfake detection endpoint."""
-    # Verify API key
-    valid, error = verify_api_key()
-    if not valid:
-        return jsonify({"error": "Unauthorized", "message": error}), 401
-
-    # Check rate limit
-    client_id = request.headers.get("X-Client-ID", "default")
-    rate_ok, rate_headers = check_rate_limit(client_id)
-
-    if not rate_ok:
-        response = jsonify(
-            {"error": "Rate limit exceeded", "message": "Too many requests. Please retry later"}
-        )
-        response.headers.update(rate_headers)
-        return response, 429
-
     # Validate request
     if "audio" not in request.files:
         return jsonify({"error": "Bad request", "message": "Missing 'audio' file in request"}), 400
@@ -198,18 +228,10 @@ def deepfake_detect():
 
     # Generate a score based on filename or random
     filename = audio_file.filename or "unknown.wav"
-    if "synthetic" in filename.lower() or "fake" in filename.lower():
-        score = random.uniform(0.7, 0.95)
-        label = "likely_synthetic"
-    elif "real" in filename.lower() or "authentic" in filename.lower():
-        score = random.uniform(0.05, 0.35)
-        label = "likely_real"
-    else:
-        score = random.uniform(0.3, 0.7)
-        label = "uncertain"
+    score, label = _generate_deepfake_score(filename)
 
     # Store session
-    sessions[session_id] = {
+    storage.sessions[session_id] = {
         "score": score,
         "label": label,
         "timestamp": datetime.utcnow().isoformat(),
@@ -226,32 +248,35 @@ def deepfake_detect():
     }
 
     response = jsonify(response_data)
-    response.headers.update(rate_headers)
+    if rate_headers:
+        response.headers.update(rate_headers)
 
     logger.info(f"Deepfake detection: score={score:.3f}, label={label}, session={session_id}")
 
     return response
 
 
+def _generate_deepfake_score(filename: str) -> tuple[float, str]:
+    """Generate deepfake score and label based on filename.
+
+    Args:
+        filename: Name of the audio file
+
+    Returns:
+        Tuple of (score, label)
+    """
+    if "synthetic" in filename.lower() or "fake" in filename.lower():
+        return random.uniform(0.7, 0.95), "likely_synthetic"
+    elif "real" in filename.lower() or "authentic" in filename.lower():
+        return random.uniform(0.05, 0.35), "likely_real"
+    else:
+        return random.uniform(0.3, 0.7), "uncertain"
+
+
 @app.route("/v1/mfa/voice/verify", methods=["POST"])
-def mfa_verify():
+@require_auth_and_rate_limit
+def mfa_verify(rate_headers: dict[str, str] | None = None):
     """Mock MFA verification endpoint."""
-    # Verify API key
-    valid, error = verify_api_key()
-    if not valid:
-        return jsonify({"error": "Unauthorized", "message": error}), 401
-
-    # Check rate limit
-    client_id = request.headers.get("X-Client-ID", "default")
-    rate_ok, rate_headers = check_rate_limit(client_id)
-
-    if not rate_ok:
-        response = jsonify(
-            {"error": "Rate limit exceeded", "message": "Too many requests. Please retry later"}
-        )
-        response.headers.update(rate_headers)
-        return response, 429
-
     # Validate request
     if "audio" not in request.files:
         return jsonify({"error": "Bad request", "message": "Missing 'audio' file in request"}), 400
@@ -271,9 +296,12 @@ def mfa_verify():
         return jsonify(error_body), status_code
 
     # Check if enrollment exists (create it if not for testing)
-    if enrollment_id not in enrollments:
+    if enrollment_id not in storage.enrollments:
         logger.info(f"Creating mock enrollment: {enrollment_id}")
-        enrollments[enrollment_id] = {"created_at": datetime.utcnow().isoformat(), "samples": 3}
+        storage.enrollments[enrollment_id] = {
+            "created_at": datetime.utcnow().isoformat(),
+            "samples": 3,
+        }
 
     # Parse context
     context = {}
@@ -291,15 +319,7 @@ def mfa_verify():
 
     # Generate confidence score
     filename = audio_file.filename or "unknown.wav"
-    if "match" in filename.lower() or "valid" in filename.lower():
-        confidence = random.uniform(0.85, 0.98)
-        verified = True
-    elif "mismatch" in filename.lower() or "invalid" in filename.lower():
-        confidence = random.uniform(0.15, 0.45)
-        verified = False
-    else:
-        confidence = random.uniform(0.50, 0.90)
-        verified = confidence >= 0.70
+    confidence, verified = _generate_mfa_score(filename)
 
     response_data = {
         "verified": verified,
@@ -313,7 +333,8 @@ def mfa_verify():
         response_data["recommended_action"] = "defer_to_review" if confidence > 0.30 else "deny"
 
     response = jsonify(response_data)
-    response.headers.update(rate_headers)
+    if rate_headers:
+        response.headers.update(rate_headers)
 
     logger.info(
         f"MFA verification: verified={verified}, confidence={confidence:.3f}, enrollment={enrollment_id}"
@@ -322,25 +343,30 @@ def mfa_verify():
     return response
 
 
+def _generate_mfa_score(filename: str) -> tuple[float, bool]:
+    """Generate MFA confidence score and verification result based on filename.
+
+    Args:
+        filename: Name of the audio file
+
+    Returns:
+        Tuple of (confidence, verified)
+    """
+    if "match" in filename.lower() or "valid" in filename.lower():
+        confidence = random.uniform(0.85, 0.98)
+        return confidence, True
+    elif "mismatch" in filename.lower() or "invalid" in filename.lower():
+        confidence = random.uniform(0.15, 0.45)
+        return confidence, False
+    else:
+        confidence = random.uniform(0.50, 0.90)
+        return confidence, confidence >= 0.70
+
+
 @app.route("/v1/reports/sar", methods=["POST"])
-def sar_submit():
+@require_auth_and_rate_limit
+def sar_submit(rate_headers: dict[str, str] | None = None):
     """Mock SAR submission endpoint."""
-    # Verify API key
-    valid, error = verify_api_key()
-    if not valid:
-        return jsonify({"error": "Unauthorized", "message": error}), 401
-
-    # Check rate limit
-    client_id = request.headers.get("X-Client-ID", "default")
-    rate_ok, rate_headers = check_rate_limit(client_id)
-
-    if not rate_ok:
-        response = jsonify(
-            {"error": "Rate limit exceeded", "message": "Too many requests. Please retry later"}
-        )
-        response.headers.update(rate_headers)
-        return response, 429
-
     # Parse JSON body
     try:
         data = request.get_json()
@@ -379,25 +405,27 @@ def sar_submit():
 
     # Generate mock response
     case_id = f"sar-{uuid.uuid4().hex[:12]}"
+    submission_time = datetime.utcnow().isoformat()
 
     # Store SAR case
-    sar_cases[case_id] = {
+    storage.sar_cases[case_id] = {
         "session_id": session_id,
         "decision": decision,
         "reason": reason,
         "metadata": data.get("metadata", {}),
-        "submitted_at": datetime.utcnow().isoformat(),
+        "submitted_at": submission_time,
     }
 
     response_data = {
         "status": "submitted",
         "case_id": case_id,
         "session_id": session_id,
-        "submitted_at": datetime.utcnow().isoformat(),
+        "submitted_at": submission_time,
     }
 
     response = jsonify(response_data)
-    response.headers.update(rate_headers)
+    if rate_headers:
+        response.headers.update(rate_headers)
 
     logger.info(f"SAR submitted: case_id={case_id}, decision={decision}, session={session_id}")
 
@@ -405,13 +433,9 @@ def sar_submit():
 
 
 @app.route("/v1/enrollment", methods=["POST"])
-def enrollment_create():
+@require_auth_and_rate_limit
+def enrollment_create(rate_headers: dict[str, str] | None = None):
     """Mock enrollment creation endpoint."""
-    # Verify API key
-    valid, error = verify_api_key()
-    if not valid:
-        return jsonify({"error": "Unauthorized", "message": error}), 401
-
     # Validate request
     if "audio" not in request.files:
         return jsonify({"error": "Bad request", "message": "Missing 'audio' file in request"}), 400
@@ -428,7 +452,7 @@ def enrollment_create():
     enrollment_id = f"enroll-{uuid.uuid4().hex[:12]}"
 
     # Store enrollment
-    enrollments[enrollment_id] = {
+    storage.enrollments[enrollment_id] = {
         "enrollment_id": enrollment_id,
         "created_at": datetime.utcnow().isoformat(),
         "samples": 1,
@@ -445,7 +469,11 @@ def enrollment_create():
 
     logger.info(f"Enrollment created: {enrollment_id}")
 
-    return jsonify(response_data), 201
+    response = jsonify(response_data)
+    if rate_headers:
+        response.headers.update(rate_headers)
+
+    return response, 201
 
 
 @app.route("/health", methods=["GET"])
@@ -493,10 +521,10 @@ def mock_stats():
     """Get mock server statistics."""
     return jsonify(
         {
-            "total_sessions": len(sessions),
-            "total_enrollments": len(enrollments),
-            "total_sar_cases": len(sar_cases),
-            "request_counts": dict(request_count),
+            "total_sessions": len(storage.sessions),
+            "total_enrollments": len(storage.enrollments),
+            "total_sar_cases": len(storage.sar_cases),
+            "request_counts": dict(storage.request_count),
         }
     )
 
@@ -504,13 +532,8 @@ def mock_stats():
 @app.route("/mock/reset", methods=["POST"])
 def mock_reset():
     """Reset mock server state."""
-    sessions.clear()
-    enrollments.clear()
-    sar_cases.clear()
-    request_count.clear()
-
+    storage.clear()
     logger.info("Mock server state reset")
-
     return jsonify({"status": "reset"})
 
 
@@ -528,14 +551,13 @@ def main():
 
     # Update mock API key if provided
     if args.api_key:
-        global MOCK_API_KEY
-        MOCK_API_KEY = args.api_key
+        config.api_key = args.api_key
 
     logger.info("=" * 60)
     logger.info("Mock Sonotheia API Server")
     logger.info("=" * 60)
     logger.info(f"Host: {args.host}:{args.port}")
-    logger.info(f"Mock API Key: {MOCK_API_KEY}")
+    logger.info(f"Mock API Key: {config.api_key}")
     logger.info(f"API URL: http://{args.host}:{args.port}")
     logger.info("")
     logger.info("Endpoints:")
@@ -551,7 +573,7 @@ def main():
     logger.info("")
     logger.info("Usage:")
     logger.info(f"  export SONOTHEIA_API_URL=http://localhost:{args.port}")
-    logger.info(f"  export SONOTHEIA_API_KEY={MOCK_API_KEY}")
+    logger.info(f"  export SONOTHEIA_API_KEY={config.api_key}")
     logger.info("  python main.py audio.wav")
     logger.info("=" * 60)
 
