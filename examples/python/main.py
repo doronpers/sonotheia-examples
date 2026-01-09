@@ -10,10 +10,33 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from contextlib import contextmanager
+from typing import Iterator
 
 import requests
 
 from client import SonotheiaClient
+
+
+@contextmanager
+def handle_api_errors(operation_name: str) -> Iterator[None]:
+    """Context manager to handle API errors consistently.
+
+    Args:
+        operation_name: Name of the operation for error messages
+
+    Raises:
+        SystemExit: On any error with appropriate exit code
+    """
+    try:
+        yield
+    except requests.HTTPError as exc:
+        error_detail = exc.response.text if hasattr(exc, "response") else str(exc)
+        print(f"{operation_name} failed: {error_detail}", file=sys.stderr)
+        sys.exit(1)
+    except Exception as exc:
+        print(f"{operation_name} failed: {exc}", file=sys.stderr)
+        sys.exit(1)
 
 
 def main() -> None:
@@ -39,53 +62,33 @@ def main() -> None:
         sys.exit(1)
 
     results = {}
+    session_id = args.session_id or "demo-session"
 
     # Always run deepfake detection
-    try:
+    with handle_api_errors("Deepfake detection"):
         results["deepfake"] = client.detect_deepfake(
             args.audio,
-            metadata={"session_id": args.session_id or "demo-session", "channel": "web"},
+            metadata={"session_id": session_id, "channel": "web"},
         )
-    except requests.HTTPError as exc:
-        error_detail = exc.response.text if hasattr(exc, "response") else str(exc)
-        print(f"Deepfake detection failed: {error_detail}", file=sys.stderr)
-        sys.exit(1)
-    except Exception as exc:
-        print(f"Deepfake detection failed: {exc}", file=sys.stderr)
-        sys.exit(1)
 
     # Run MFA verification if enrollment ID provided
     if args.enrollment_id:
-        try:
+        with handle_api_errors("MFA verification"):
             results["mfa"] = client.verify_mfa(
                 args.audio,
                 args.enrollment_id,
-                context={"session_id": args.session_id or "demo-session", "channel": "ivr"},
+                context={"session_id": session_id, "channel": "ivr"},
             )
-        except requests.HTTPError as exc:
-            error_detail = exc.response.text if hasattr(exc, "response") else str(exc)
-            print(f"MFA verification failed: {error_detail}", file=sys.stderr)
-            sys.exit(1)
-        except Exception as exc:
-            print(f"MFA verification failed: {exc}", file=sys.stderr)
-            sys.exit(1)
 
     # Submit SAR if session ID provided
     if args.session_id:
-        try:
+        with handle_api_errors("SAR submission"):
             results["sar"] = client.submit_sar(
                 args.session_id,
                 decision=args.decision,
                 reason=args.reason,
                 metadata={"source": "public-example"},
             )
-        except requests.HTTPError as exc:
-            error_detail = exc.response.text if hasattr(exc, "response") else str(exc)
-            print(f"SAR submission failed: {error_detail}", file=sys.stderr)
-            sys.exit(1)
-        except Exception as exc:
-            print(f"SAR submission failed: {exc}", file=sys.stderr)
-            sys.exit(1)
 
     print(json.dumps(results, indent=2))
 

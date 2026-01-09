@@ -39,6 +39,7 @@ import subprocess
 import sys
 from dataclasses import dataclass, field
 from enum import Enum
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
@@ -127,12 +128,25 @@ class ValidationResult:
         }
 
 
+@lru_cache(maxsize=1)
 def check_ffprobe_available() -> bool:
-    """Check if ffprobe is available on the system."""
+    """
+    Check if ffprobe is available on the system.
+
+    Cached to avoid repeated subprocess calls.
+
+    Returns:
+        True if ffprobe is available, False otherwise
+    """
     try:
-        subprocess.run(["ffprobe", "-version"], capture_output=True, check=True)
+        subprocess.run(
+            ["ffprobe", "-version"],
+            capture_output=True,
+            check=True,
+            timeout=5,
+        )
         return True
-    except (subprocess.CalledProcessError, FileNotFoundError):
+    except (subprocess.CalledProcessError, FileNotFoundError, subprocess.TimeoutExpired):
         return False
 
 
