@@ -85,7 +85,7 @@
    → Current `.env.example` at root is working well
 
 3. ~~Is it acceptable to prune older meta-docs if they duplicate this audit and `IMPROVEMENTS_SUMMARY.md`?~~
-   → Keep IMPROVEMENTS_SUMMARY.md as archival reference per note at top of that file
+   → IMPROVEMENTS_SUMMARY.md has been archived to docs/Archive/Reports-Historical/ (superseded by this audit)
 
 ## Document History
 

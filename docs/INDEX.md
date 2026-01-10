@@ -63,7 +63,6 @@
 ### Design & Content Quality
 
 - [Design & Content Audit](DESIGN_AUDIT.md) - Rams principles applied, current status, and open questions
-- [Improvements Summary](IMPROVEMENTS_SUMMARY.md) - Log of recent documentation and structure changes
 
 ## 🗂️ Documentation by Type
 
@@ -111,6 +110,7 @@
 | [Development README](development/README.md) | Context overview | Maintainers |
 | [Integration Summary](development/INTEGRATION_SUMMARY.md) | Feature integration | Maintainers |
 | [Final Summary](development/FINAL_SUMMARY.md) | Complete summary | Maintainers |
+| [Refactoring Summary](development/REFACTORING_SUMMARY.md) | Code refactoring details | Maintainers |
 | [Sources](development/SOURCES.md) | Agent resources | Coding agents |
 
 ## 🎯 Common Navigation Paths
