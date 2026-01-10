@@ -183,13 +183,19 @@ def export_prometheus_metrics(checker: SonotheiaHealthChecker, port: int = 9090)
     try:
         from prometheus_client import Counter, Gauge, start_http_server
     except ImportError:
-        logger.error("prometheus_client not installed. Install with: pip install prometheus-client")
+        logger.error(
+            "prometheus_client not installed. Install with: pip install prometheus-client"
+        )
         sys.exit(1)
 
     # Define metrics
-    health_status = Gauge("sonotheia_api_health", "API health status (1=healthy, 0=unhealthy)")
+    health_status = Gauge(
+        "sonotheia_api_health", "API health status (1=healthy, 0=unhealthy)"
+    )
     latency = Gauge("sonotheia_api_latency_ms", "API latency in milliseconds")
-    check_counter = Counter("sonotheia_api_checks_total", "Total number of health checks")
+    check_counter = Counter(
+        "sonotheia_api_checks_total", "Total number of health checks"
+    )
     error_counter = Counter("sonotheia_api_errors_total", "Total number of errors")
 
     # Start metrics server
@@ -255,14 +261,24 @@ def monitor_continuous(checker: SonotheiaHealthChecker, interval: int = 60):
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Sonotheia API health checker")
-    parser.add_argument("--api-key", help="API key (defaults to SONOTHEIA_API_KEY env var)")
-    parser.add_argument("--api-url", default="https://api.sonotheia.com", help="API base URL")
-    parser.add_argument("--monitor", action="store_true", help="Continuous monitoring mode")
-    parser.add_argument("--interval", type=int, default=60, help="Monitoring interval in seconds")
+    parser.add_argument(
+        "--api-key", help="API key (defaults to SONOTHEIA_API_KEY env var)"
+    )
+    parser.add_argument(
+        "--api-url", default="https://api.sonotheia.com", help="API base URL"
+    )
+    parser.add_argument(
+        "--monitor", action="store_true", help="Continuous monitoring mode"
+    )
+    parser.add_argument(
+        "--interval", type=int, default=60, help="Monitoring interval in seconds"
+    )
     parser.add_argument(
         "--prometheus-port", type=int, help="Export Prometheus metrics on this port"
     )
-    parser.add_argument("--verbose", "-v", action="store_true", help="Enable verbose logging")
+    parser.add_argument(
+        "--verbose", "-v", action="store_true", help="Enable verbose logging"
+    )
 
     args = parser.parse_args()
 

@@ -57,7 +57,9 @@ class SonotheiaClient:
         self.deepfake_path = deepfake_path or os.getenv(
             "SONOTHEIA_DEEPFAKE_PATH", "/v1/voice/deepfake"
         )
-        self.mfa_path = mfa_path or os.getenv("SONOTHEIA_MFA_PATH", "/v1/mfa/voice/verify")
+        self.mfa_path = mfa_path or os.getenv(
+            "SONOTHEIA_MFA_PATH", "/v1/mfa/voice/verify"
+        )
         self.sar_path = sar_path or os.getenv("SONOTHEIA_SAR_PATH", "/v1/reports/sar")
         self.timeout = timeout
         self.validate_responses = validate_responses
@@ -150,9 +152,13 @@ class SonotheiaClient:
             Response dict with keys: verified, enrollment_id, confidence, session_id (optional)
 
         Raises:
+            FileNotFoundError: If audio file does not exist
             requests.HTTPError: If API returns an error status code
             requests.RequestException: For network/connection errors
         """
+        if not os.path.exists(audio_path):
+            raise FileNotFoundError(f"Audio file not found: {audio_path}")
+
         url = f"{self.api_url}{self.mfa_path}"
 
         with open(audio_path, "rb") as audio_file:
@@ -170,7 +176,12 @@ class SonotheiaClient:
                 timeout=self.timeout,
             )
 
-        response.raise_for_status()
+        try:
+            response.raise_for_status()
+        except requests.HTTPError as e:
+            logger.error(f"MFA verification failed: {e}")
+            raise
+
         result = response.json()
 
         # Validate response if enabled

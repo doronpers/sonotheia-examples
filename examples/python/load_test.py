@@ -202,7 +202,9 @@ class LoadTestScenario:
     """Custom load test scenarios."""
 
     @staticmethod
-    def sustained_load(base_url: str, users: int = 50, duration: int = 300, spawn_rate: int = 5):
+    def sustained_load(
+        base_url: str, users: int = 50, duration: int = 300, spawn_rate: int = 5
+    ):
         """Run sustained load test.
 
         Args:
@@ -322,7 +324,9 @@ def on_test_stop(environment, **kwargs):
     # Overall statistics
     print(f"\nTotal requests: {stats.total.num_requests}")
     print(f"Total failures: {stats.total.num_failures}")
-    print(f"Failure rate: {stats.total.num_failures / max(stats.total.num_requests, 1) * 100:.2f}%")
+    print(
+        f"Failure rate: {stats.total.num_failures / max(stats.total.num_requests, 1) * 100:.2f}%"
+    )
 
     print("\nResponse times (ms):")
     print(f"  Min: {stats.total.min_response_time:.2f}")
@@ -365,20 +369,28 @@ def main():
         default="sustained",
         help="Load test scenario",
     )
-    parser.add_argument("--users", type=int, default=50, help="Number of concurrent users")
+    parser.add_argument(
+        "--users", type=int, default=50, help="Number of concurrent users"
+    )
     parser.add_argument(
         "--max-users", type=int, default=200, help="Maximum users (for stress test)"
     )
-    parser.add_argument("--duration", type=int, default=300, help="Test duration in seconds")
     parser.add_argument(
-        "--base-url", default=API_URL, help="API base URL (default: from SONOTHEIA_API_URL)"
+        "--duration", type=int, default=300, help="Test duration in seconds"
+    )
+    parser.add_argument(
+        "--base-url",
+        default=API_URL,
+        help="API base URL (default: from SONOTHEIA_API_URL)",
     )
 
     args = parser.parse_args()
 
     # Validate API key
     if not API_KEY or API_KEY == "mock_api_key":
-        print("WARNING: No API key configured. Set SONOTHEIA_API_KEY environment variable.")
+        print(
+            "WARNING: No API key configured. Set SONOTHEIA_API_KEY environment variable."
+        )
         print("Continuing with mock key (may fail against real API)...")
 
     # Run scenario

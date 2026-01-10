@@ -146,7 +146,11 @@ def check_ffprobe_available() -> bool:
             timeout=5,
         )
         return True
-    except (subprocess.CalledProcessError, FileNotFoundError, subprocess.TimeoutExpired):
+    except (
+        subprocess.CalledProcessError,
+        FileNotFoundError,
+        subprocess.TimeoutExpired,
+    ):
         return False
 
 
@@ -247,7 +251,9 @@ def validate_audio_file(file_path: str, strict: bool = False) -> ValidationResul
         result.is_valid = False
         result.issues.append(
             ValidationIssue(
-                level=ValidationLevel.ERROR, message="File is empty (0 bytes)", field="file_size"
+                level=ValidationLevel.ERROR,
+                message="File is empty (0 bytes)",
+                field="file_size",
             )
         )
         return result
@@ -286,7 +292,9 @@ def validate_audio_file(file_path: str, strict: bool = False) -> ValidationResul
 
     # Validate format
     supported_formats = ["wav", "mp3", "opus", "ogg", "flac"]
-    if result.format and not any(fmt in result.format.lower() for fmt in supported_formats):
+    if result.format and not any(
+        fmt in result.format.lower() for fmt in supported_formats
+    ):
         result.issues.append(
             ValidationIssue(
                 level=ValidationLevel.WARNING,
@@ -406,7 +414,9 @@ def auto_fix_audio(input_path: str, output_path: str | None = None) -> tuple[boo
         Tuple of (success, output_path)
     """
     if not check_ffprobe_available():
-        logger.error("ffmpeg is required for auto-fix. Install with: apt-get install ffmpeg")
+        logger.error(
+            "ffmpeg is required for auto-fix. Install with: apt-get install ffmpeg"
+        )
         return False, ""
 
     if output_path is None:
@@ -503,10 +513,14 @@ def main():
         description="Validate audio files for Sonotheia API submission"
     )
     parser.add_argument("audio_file", help="Path to audio file to validate")
-    parser.add_argument("--strict", action="store_true", help="Treat warnings as errors")
+    parser.add_argument(
+        "--strict", action="store_true", help="Treat warnings as errors"
+    )
     parser.add_argument("--json", action="store_true", help="Output results as JSON")
     parser.add_argument(
-        "--auto-fix", action="store_true", help="Automatically fix issues and create corrected file"
+        "--auto-fix",
+        action="store_true",
+        help="Automatically fix issues and create corrected file",
     )
     parser.add_argument("--output", help="Output path for auto-fixed file")
 

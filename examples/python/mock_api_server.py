@@ -179,7 +179,13 @@ def should_simulate_error() -> tuple[bool, dict[str, Any] | None]:
     if random.random() < config.error_rate:
         errors = [
             (500, {"error": "Internal server error", "message": "Simulated error"}),
-            (503, {"error": "Service unavailable", "message": "Service temporarily unavailable"}),
+            (
+                503,
+                {
+                    "error": "Service unavailable",
+                    "message": "Service temporarily unavailable",
+                },
+            ),
             (400, {"error": "Bad request", "message": "Invalid audio format"}),
         ]
         status_code, error_body = random.choice(errors)
@@ -194,7 +200,12 @@ def deepfake_detect(rate_headers: dict[str, str] | None = None):
     """Mock deepfake detection endpoint."""
     # Validate request
     if "audio" not in request.files:
-        return jsonify({"error": "Bad request", "message": "Missing 'audio' file in request"}), 400
+        return (
+            jsonify(
+                {"error": "Bad request", "message": "Missing 'audio' file in request"}
+            ),
+            400,
+        )
 
     audio_file = request.files["audio"]
 
@@ -251,7 +262,9 @@ def deepfake_detect(rate_headers: dict[str, str] | None = None):
     if rate_headers:
         response.headers.update(rate_headers)
 
-    logger.info(f"Deepfake detection: score={score:.3f}, label={label}, session={session_id}")
+    logger.info(
+        f"Deepfake detection: score={score:.3f}, label={label}, session={session_id}"
+    )
 
     return response
 
@@ -279,13 +292,24 @@ def mfa_verify(rate_headers: dict[str, str] | None = None):
     """Mock MFA verification endpoint."""
     # Validate request
     if "audio" not in request.files:
-        return jsonify({"error": "Bad request", "message": "Missing 'audio' file in request"}), 400
+        return (
+            jsonify(
+                {"error": "Bad request", "message": "Missing 'audio' file in request"}
+            ),
+            400,
+        )
 
     enrollment_id = request.form.get("enrollment_id")
     if not enrollment_id:
-        return jsonify(
-            {"error": "Bad request", "message": "Missing 'enrollment_id' in request"}
-        ), 400
+        return (
+            jsonify(
+                {
+                    "error": "Bad request",
+                    "message": "Missing 'enrollment_id' in request",
+                }
+            ),
+            400,
+        )
 
     audio_file = request.files["audio"]
 
@@ -330,7 +354,9 @@ def mfa_verify(rate_headers: dict[str, str] | None = None):
     }
 
     if not verified:
-        response_data["recommended_action"] = "defer_to_review" if confidence > 0.30 else "deny"
+        response_data["recommended_action"] = (
+            "defer_to_review" if confidence > 0.30 else "deny"
+        )
 
     response = jsonify(response_data)
     if rate_headers:
@@ -379,20 +405,26 @@ def sar_submit(rate_headers: dict[str, str] | None = None):
     reason = data.get("reason")
 
     if not all([session_id, decision, reason]):
-        return jsonify(
-            {
-                "error": "Bad request",
-                "message": "Missing required fields: session_id, decision, reason",
-            }
-        ), 400
+        return (
+            jsonify(
+                {
+                    "error": "Bad request",
+                    "message": "Missing required fields: session_id, decision, reason",
+                }
+            ),
+            400,
+        )
 
     if decision not in ["allow", "deny", "review"]:
-        return jsonify(
-            {
-                "error": "Bad request",
-                "message": "Invalid decision. Must be 'allow', 'deny', or 'review'",
-            }
-        ), 400
+        return (
+            jsonify(
+                {
+                    "error": "Bad request",
+                    "message": "Invalid decision. Must be 'allow', 'deny', or 'review'",
+                }
+            ),
+            400,
+        )
 
     # Check for simulated errors
     has_error, error_response = should_simulate_error()
@@ -427,7 +459,9 @@ def sar_submit(rate_headers: dict[str, str] | None = None):
     if rate_headers:
         response.headers.update(rate_headers)
 
-    logger.info(f"SAR submitted: case_id={case_id}, decision={decision}, session={session_id}")
+    logger.info(
+        f"SAR submitted: case_id={case_id}, decision={decision}, session={session_id}"
+    )
 
     return response
 
@@ -438,7 +472,12 @@ def enrollment_create(rate_headers: dict[str, str] | None = None):
     """Mock enrollment creation endpoint."""
     # Validate request
     if "audio" not in request.files:
-        return jsonify({"error": "Bad request", "message": "Missing 'audio' file in request"}), 400
+        return (
+            jsonify(
+                {"error": "Bad request", "message": "Missing 'audio' file in request"}
+            ),
+            400,
+        )
 
     # Parse metadata
     metadata = {}

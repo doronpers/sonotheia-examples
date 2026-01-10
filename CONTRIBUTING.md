@@ -15,13 +15,14 @@ Thank you for your interest in contributing! 🎉
 2. Get feedback from maintainers
 3. Fork, code, test, submit PR
 
-**Need help?** Check [Troubleshooting](docs/TROUBLESHOOTING.md) or [FAQ](docs/FAQ.md) first.
+**Need help?** Check [Troubleshooting](Documentation/TROUBLESHOOTING.md) or [FAQ](Documentation/FAQ.md) first.
 
 ---
 
 ## Quick Start for Contributors
 
 ### Prerequisites
+
 - Python 3.9+ (for Python examples)
 - Node.js 18+ (for TypeScript/Node.js examples)
 - Git
@@ -73,21 +74,25 @@ git push origin feature/your-feature-name
 ## Code Style Quick Reference
 
 ### Python
+
 - Follow PEP 8
 - Use type hints
 - Run: `ruff check .` before committing
 
 ### TypeScript/JavaScript
+
 - Use modern ES6+ syntax
 - Follow existing conventions
 - Ensure `npm run build` succeeds
 
 ### Shell Scripts
+
 - Use `#!/usr/bin/env bash`
 - Follow bash best practices
 - Run `shellcheck` if available
 
 ### Documentation
+
 - Clear, concise language
 - Test all code examples
 - Check all links work
@@ -110,26 +115,31 @@ Before submitting your PR:
 ## Types of Contributions We Welcome
 
 ### 🐛 Bug Fixes
+
 - Fix broken examples or code
 - Correct typos in documentation
 - Fix broken links
 
 ### 📚 Documentation
+
 - Improve clarity or accuracy
 - Add missing examples
 - Fix formatting issues
 
 ### ✨ New Examples
+
 - New language implementations
 - New use case demonstrations
 - Integration patterns
 
 ### 🧪 Tests
+
 - Add missing test coverage
 - Improve test quality
 - Add integration tests
 
 ### 🛠️ Tooling
+
 - Improve development workflow
 - Add helpful scripts
 - Enhance CI/CD
@@ -139,6 +149,7 @@ Before submitting your PR:
 ## What We're Looking For
 
 ### High Priority
+
 - Real-world use case examples
 - Production deployment patterns
 - Error handling improvements
@@ -146,12 +157,14 @@ Before submitting your PR:
 - Security enhancements
 
 ### Medium Priority
+
 - Additional language examples (Go, Rust, Ruby, etc.)
 - Cloud platform integrations (GCP, Azure)
 - Container orchestration examples
 - Monitoring and observability
 
 ### Low Priority
+
 - Cosmetic changes to existing code
 - Alternative implementations of existing examples
 - Experimental features
@@ -165,18 +178,21 @@ Before submitting your PR:
 All code changes should include appropriate tests:
 
 ### Python
+
 ```bash
 cd examples/python
 pytest tests/ -v --cov=.
 ```
 
 ### TypeScript
+
 ```bash
 cd examples/typescript
 npm run build && npm test
 ```
 
 ### Node.js
+
 ```bash
 cd examples/node
 npm install
@@ -185,6 +201,7 @@ npm test  # if tests exist
 ```
 
 ### Documentation
+
 - Test all code snippets manually
 - Verify all links work
 - Check formatting renders correctly
@@ -199,6 +216,7 @@ npm test  # if tests exist
 4. **Approval and merge** once checks pass
 
 **Tips for faster review:**
+
 - Keep PRs small and focused
 - Write clear commit messages
 - Respond promptly to feedback
@@ -225,8 +243,8 @@ We're committed to providing a welcoming environment:
 This repository embraces AI-assisted development! We provide comprehensive guides:
 
 - **[AI Development Workflow](.github/QUICK_REFERENCE.md)** - Complete guide for AI-assisted contributions
-- **[Three-Question Framework](docs/workflow-guides/start-simple.md)** - Problem-solving approach
-- **[Multi-Agent Workflow](docs/workflow-guides/multi-agent-workflow.md)** - For complex changes
+- **[Three-Question Framework](Documentation/workflow-guides/start-simple.md)** - Problem-solving approach
+- **[Multi-Agent Workflow](Documentation/workflow-guides/multi-agent-workflow.md)** - For complex changes
 - **[Agent Quick Reference](.github/AGENT_QUICK_REFERENCE.md)** - Quick decision tree
 
 **Using AI tools?** These guides help you work more effectively with AI coding assistants.
@@ -236,17 +254,20 @@ This repository embraces AI-assisted development! We provide comprehensive guide
 ## Need Help?
 
 ### Before Opening an Issue
-1. Check the [FAQ](docs/FAQ.md)
+
+1. Check the [FAQ](Documentation/FAQ.md)
 2. Search [existing issues](https://github.com/doronpers/sonotheia-examples/issues)
-3. Review [Troubleshooting](docs/TROUBLESHOOTING.md)
+3. Review [Troubleshooting](Documentation/TROUBLESHOOTING.md)
 
 ### When Opening an Issue
+
 - Use a clear, descriptive title
 - Include reproduction steps (for bugs)
 - Provide context and motivation (for features)
 - Include environment details (OS, Python/Node version, etc.)
 
 ### Security Issues
+
 **DO NOT** open public issues for security vulnerabilities. Email your Sonotheia integration engineer directly.
 
 ---
@@ -254,6 +275,7 @@ This repository embraces AI-assisted development! We provide comprehensive guide
 ## Recognition
 
 Contributors are recognized in:
+
 - Git commit history
 - Release notes (for significant contributions)
 - Thank you in relevant documentation
@@ -268,8 +290,8 @@ For comprehensive contribution guidelines, see:
 
 - **[Full Contributing Guide](.github/CONTRIBUTING.md)** - Detailed process and requirements
 - **[Coding Standards](.github/CODING_STANDARDS.md)** - Complete style guide
-- **[Documentation Principles](docs/DOCUMENTATION_PRINCIPLES.md)** - Writing guidelines
-- **[Repository Structure](docs/REPOSITORY_STRUCTURE.md)** - How code is organized
+- **[Documentation Principles](Documentation/DOCUMENTATION_PRINCIPLES.md)** - Writing guidelines
+- **[Repository Structure](Documentation/REPOSITORY_STRUCTURE.md)** - How code is organized
 
 ---
 

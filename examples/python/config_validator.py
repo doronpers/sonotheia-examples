@@ -135,7 +135,7 @@ def validate_timeout(timeout: int | str, name: str = "Timeout") -> int:
     try:
         timeout_int = int(timeout)
     except (ValueError, TypeError):
-        raise ConfigValidationError(f"{name} must be a valid integer")
+        raise ConfigValidationError(f"{name} must be a valid integer") from None
 
     if timeout_int <= 0:
         raise ConfigValidationError(f"{name} must be greater than 0")
@@ -192,11 +192,14 @@ def validate_api_config(
     )
 
     validated_sar_path = validate_path(
-        sar_path or os.getenv("SONOTHEIA_SAR_PATH", "/v1/reports/sar"), "SAR endpoint path"
+        sar_path or os.getenv("SONOTHEIA_SAR_PATH", "/v1/reports/sar"),
+        "SAR endpoint path",
     )
 
     # Validate timeout
-    raw_timeout = timeout if timeout is not None else os.getenv("SONOTHEIA_TIMEOUT", "30")
+    raw_timeout = (
+        timeout if timeout is not None else os.getenv("SONOTHEIA_TIMEOUT", "30")
+    )
     validated_timeout = validate_timeout(raw_timeout)
 
     return APIConfig(

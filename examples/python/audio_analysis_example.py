@@ -31,7 +31,10 @@ class AudioAnalysisClient:
     """Client for audio analysis with DSP features."""
 
     def __init__(
-        self, api_key: str, api_url: str = "https://api.sonotheia.com", tenant_id: str = "demo"
+        self,
+        api_key: str,
+        api_url: str = "https://api.sonotheia.com",
+        tenant_id: str = "demo",
     ):
         self.api_key = api_key
         self.api_url = api_url.rstrip("/")
@@ -45,7 +48,9 @@ class AudioAnalysisClient:
             "Accept": "application/json",
         }
 
-    def analyze_audio(self, audio_path: str, extract_features: bool = True) -> dict[str, Any]:
+    def analyze_audio(
+        self, audio_path: str, extract_features: bool = True
+    ) -> dict[str, Any]:
         """
         Analyze audio file for deepfake detection with DSP features.
 
@@ -238,15 +243,23 @@ def display_dsp_features(features: dict[str, Any]):
 
 def main():
     """Main entry point."""
-    parser = argparse.ArgumentParser(description="Advanced audio analysis with DSP features")
+    parser = argparse.ArgumentParser(
+        description="Advanced audio analysis with DSP features"
+    )
     parser.add_argument("audio", help="Path to audio file")
-    parser.add_argument("--api-url", default="https://api.sonotheia.com", help="API base URL")
+    parser.add_argument(
+        "--api-url", default="https://api.sonotheia.com", help="API base URL"
+    )
     parser.add_argument("--api-key", help="API key (or set SONOTHEIA_API_KEY env var)")
     parser.add_argument("--tenant-id", default="demo", help="Tenant ID (default: demo)")
     parser.add_argument(
-        "--features-only", action="store_true", help="Extract features only without full analysis"
+        "--features-only",
+        action="store_true",
+        help="Extract features only without full analysis",
     )
-    parser.add_argument("--verbose", "-v", action="store_true", help="Enable verbose logging")
+    parser.add_argument(
+        "--verbose", "-v", action="store_true", help="Enable verbose logging"
+    )
 
     args = parser.parse_args()
 
@@ -262,7 +275,9 @@ def main():
         sys.exit(1)
 
     # Create client
-    client = AudioAnalysisClient(api_key=api_key, api_url=args.api_url, tenant_id=args.tenant_id)
+    client = AudioAnalysisClient(
+        api_key=api_key, api_url=args.api_url, tenant_id=args.tenant_id
+    )
 
     try:
         if args.features_only:

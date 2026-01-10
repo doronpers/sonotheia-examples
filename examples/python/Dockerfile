@@ -14,11 +14,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy all Python examples
 COPY *.py .
 
-# Create directory for audio files
-RUN mkdir -p /audio
-
-# Set environment variables
-ENV PYTHONUNBUFFERED=1
+# Create a non-root user
+RUN useradd -m -u 1000 appuser
+USER appuser
 
 # Default command shows usage
 CMD ["python", "main.py", "--help"]

@@ -119,7 +119,9 @@ def client(mock_server):
     """Create a client configured for the test server."""
     from client import SonotheiaClient
 
-    return SonotheiaClient(api_key=mock_server["api_key"], api_url=mock_server["api_url"])
+    return SonotheiaClient(
+        api_key=mock_server["api_key"], api_url=mock_server["api_url"]
+    )
 
 
 class TestDeepfakeDetection:
@@ -137,7 +139,11 @@ class TestDeepfakeDetection:
 
     def test_detection_with_metadata(self, client, test_audio):
         """Test deepfake detection with metadata."""
-        metadata = {"session_id": "test-session-123", "channel": "ivr", "user_id": "user-456"}
+        metadata = {
+            "session_id": "test-session-123",
+            "channel": "ivr",
+            "user_id": "user-456",
+        }
 
         result = client.detect_deepfake(test_audio, metadata=metadata)
 
@@ -245,7 +251,9 @@ class TestSARSubmission:
     def test_basic_submission(self, client):
         """Test basic SAR submission."""
         result = client.submit_sar(
-            session_id="test-session-123", decision="review", reason="Suspicious activity detected"
+            session_id="test-session-123",
+            decision="review",
+            reason="Suspicious activity detected",
         )
 
         assert "status" in result
@@ -256,7 +264,11 @@ class TestSARSubmission:
 
     def test_submission_with_metadata(self, client):
         """Test SAR submission with metadata."""
-        metadata = {"user_id": "user-789", "risk_score": 0.85, "reviewer": "automated-system"}
+        metadata = {
+            "user_id": "user-789",
+            "risk_score": 0.85,
+            "reviewer": "automated-system",
+        }
 
         result = client.submit_sar(
             session_id="test-session-456",
@@ -297,7 +309,9 @@ class TestWorkflowIntegration:
 
         # Step 2: MFA verification
         mfa_result = client.verify_mfa(
-            test_audio, enrollment_id="test-enrollment", context={"session_id": session_id}
+            test_audio,
+            enrollment_id="test-enrollment",
+            context={"session_id": session_id},
         )
 
         assert "verified" in mfa_result

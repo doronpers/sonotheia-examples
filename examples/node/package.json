@@ -6,9 +6,14 @@
   "type": "module",
   "scripts": {
     "batch": "node batch-processor.js",
-    "webhook": "node webhook-server.js"
+    "webhook": "node webhook-server.js",
+    "test": "node batch-processor.js --help"
   },
-  "keywords": ["sonotheia", "voice", "fraud-detection"],
+  "keywords": [
+    "sonotheia",
+    "voice",
+    "fraud-detection"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {

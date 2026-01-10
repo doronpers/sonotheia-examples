@@ -81,7 +81,10 @@ class ResponseValidator:
                 f"'label' must be one of {valid_labels}, got '{response['label']}'"
             )
 
-        if not isinstance(response["latency_ms"], (int, float)) or response["latency_ms"] < 0:
+        if (
+            not isinstance(response["latency_ms"], (int, float))
+            or response["latency_ms"] < 0
+        ):
             raise ResponseValidationError("'latency_ms' must be a non-negative number")
 
         logger.debug(

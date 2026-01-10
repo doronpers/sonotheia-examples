@@ -171,7 +171,9 @@ class VoiceIntegrityRouter:
         action = self._determine_action(voice_result, context, composite_risk)
 
         # Determine additional controls needed
-        additional_controls = self._determine_additional_controls(voice_result, context, action)
+        additional_controls = self._determine_additional_controls(
+            voice_result, context, action
+        )
 
         # Build audit trail
         audit_trail = {
@@ -195,7 +197,9 @@ class VoiceIntegrityRouter:
         }
 
         # Generate decision reason
-        reason = self._generate_decision_reason(voice_result, context, composite_risk, action)
+        reason = self._generate_decision_reason(
+            voice_result, context, composite_risk, action
+        )
 
         return RoutingDecision(
             action=action,
@@ -232,7 +236,10 @@ class VoiceIntegrityRouter:
         return min(risk_score, 1.0)
 
     def _determine_action(
-        self, voice_result: VoiceAnalysisResult, context: TransactionContext, composite_risk: float
+        self,
+        voice_result: VoiceAnalysisResult,
+        context: TransactionContext,
+        composite_risk: float,
     ) -> RoutingAction:
         """Determine routing action."""
         # Low confidence always requires human review
@@ -261,7 +268,10 @@ class VoiceIntegrityRouter:
         return RoutingAction.ALLOW
 
     def _determine_additional_controls(
-        self, voice_result: VoiceAnalysisResult, context: TransactionContext, action: RoutingAction
+        self,
+        voice_result: VoiceAnalysisResult,
+        context: TransactionContext,
+        action: RoutingAction,
     ) -> list[str]:
         """Determine additional security controls needed."""
         controls = []
@@ -311,7 +321,9 @@ class VoiceIntegrityRouter:
 
         # Reason codes from voice analysis
         if voice_result.reason_codes:
-            reasons.append(f"Voice anomalies: {', '.join(voice_result.reason_codes[:3])}")
+            reasons.append(
+                f"Voice anomalies: {', '.join(voice_result.reason_codes[:3])}"
+            )
 
         reason_text = "; ".join(reasons) if reasons else "Standard processing"
 
@@ -342,7 +354,9 @@ def print_routing_decision(decision: RoutingDecision):
 
 def main():
     """Main entry point."""
-    parser = argparse.ArgumentParser(description="Voice integrity routing for financial services")
+    parser = argparse.ArgumentParser(
+        description="Voice integrity routing for financial services"
+    )
     parser.add_argument("audio", help="Path to voice audio file")
     parser.add_argument(
         "--transaction-id",
@@ -351,17 +365,28 @@ def main():
     )
     parser.add_argument("--customer-id", required=True, help="Customer ID")
     parser.add_argument(
-        "--transaction-amount", type=float, required=True, help="Transaction amount in USD"
+        "--transaction-amount",
+        type=float,
+        required=True,
+        help="Transaction amount in USD",
     )
-    parser.add_argument("--destination-country", default="US", help="Destination country code")
+    parser.add_argument(
+        "--destination-country", default="US", help="Destination country code"
+    )
     parser.add_argument(
         "--new-beneficiary", action="store_true", help="Transaction to new beneficiary"
     )
     parser.add_argument(
-        "--channel", choices=["phone", "web", "mobile"], default="phone", help="Transaction channel"
+        "--channel",
+        choices=["phone", "web", "mobile"],
+        default="phone",
+        help="Transaction channel",
     )
     parser.add_argument(
-        "--customer-risk-score", type=float, default=0.0, help="Customer risk score (0.0-1.0)"
+        "--customer-risk-score",
+        type=float,
+        default=0.0,
+        help="Customer risk score (0.0-1.0)",
     )
     parser.add_argument("--api-key", help="API key")
     parser.add_argument("--api-url", default="https://api.sonotheia.com")

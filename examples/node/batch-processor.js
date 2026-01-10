@@ -28,8 +28,11 @@ if (!API_KEY) {
  */
 async function processFile(audioPath) {
   const form = new FormData();
-  
+
   try {
+    if (!readFileSync(audioPath)) {
+      throw new Error(`File not readable: ${audioPath}`);
+    }
     const audioBuffer = readFileSync(audioPath);
     form.append('audio', audioBuffer, {
       filename: basename(audioPath),
@@ -124,15 +127,15 @@ function generateSummary(results) {
   const total = results.length;
   const successful = results.filter(r => r.success).length;
   const failed = total - successful;
-  
+
   const scores = results
     .filter(r => r.success && r.result?.score !== undefined)
     .map(r => r.result.score);
-  
+
   const avgScore = scores.length > 0
     ? scores.reduce((a, b) => a + b, 0) / scores.length
     : 0;
-  
+
   const highRisk = results.filter(r => r.success && r.result?.score > 0.7).length;
   const mediumRisk = results.filter(r => r.success && r.result?.score > 0.4 && r.result?.score <= 0.7).length;
   const lowRisk = results.filter(r => r.success && r.result?.score <= 0.4).length;
@@ -155,7 +158,7 @@ function generateSummary(results) {
  */
 async function main() {
   const args = process.argv.slice(2);
-  
+
   if (args.length === 0) {
     console.error('Usage: node batch-processor.js <audio-file1.wav> [audio-file2.wav] ...');
     console.error('   or: node batch-processor.js /path/to/directory/');
@@ -163,7 +166,7 @@ async function main() {
   }
 
   let files = [];
-  
+
   // Collect all audio files
   for (const arg of args) {
     try {
@@ -193,7 +196,7 @@ async function main() {
   const totalDuration = Date.now() - startTime;
 
   const summary = generateSummary(results);
-  
+
   logger.info({
     ...summary,
     totalDuration_ms: totalDuration,

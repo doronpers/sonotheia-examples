@@ -10,8 +10,8 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from collections.abc import Iterator
 from contextlib import contextmanager
-from typing import Iterator
 
 import requests
 
@@ -45,9 +45,13 @@ def main() -> None:
     parser.add_argument(
         "--enrollment-id", help="Enrollment/voiceprint identifier for MFA verification"
     )
-    parser.add_argument("--session-id", help="Session identifier to link SARs and risk events")
     parser.add_argument(
-        "--decision", default="review", help="Decision for SAR submission (allow/deny/review)"
+        "--session-id", help="Session identifier to link SARs and risk events"
+    )
+    parser.add_argument(
+        "--decision",
+        default="review",
+        help="Decision for SAR submission (allow/deny/review)",
     )
     parser.add_argument(
         "--reason", default="Manual review requested", help="Human readable SAR reason"

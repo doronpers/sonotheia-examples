@@ -6,9 +6,16 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "test": "node dist/index.js --help"
   },
-  "keywords": ["sonotheia", "voice", "fraud-detection", "deepfake", "mfa"],
+  "keywords": [
+    "sonotheia",
+    "voice",
+    "fraud-detection",
+    "deepfake",
+    "mfa"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {

@@ -38,19 +38,29 @@ def main() -> None:
     parser.add_argument(
         "--enrollment-id", help="Enrollment/voiceprint identifier for MFA verification"
     )
-    parser.add_argument("--session-id", help="Session identifier to link SARs and risk events")
     parser.add_argument(
-        "--decision", default="review", help="Decision for SAR submission (allow/deny/review)"
+        "--session-id", help="Session identifier to link SARs and risk events"
+    )
+    parser.add_argument(
+        "--decision",
+        default="review",
+        help="Decision for SAR submission (allow/deny/review)",
     )
     parser.add_argument(
         "--reason", default="Manual review requested", help="Human readable SAR reason"
     )
-    parser.add_argument("--max-retries", type=int, default=3, help="Maximum retry attempts")
-    parser.add_argument("--rate-limit", type=float, help="Rate limit in requests per second")
+    parser.add_argument(
+        "--max-retries", type=int, default=3, help="Maximum retry attempts"
+    )
+    parser.add_argument(
+        "--rate-limit", type=float, help="Rate limit in requests per second"
+    )
     parser.add_argument(
         "--disable-circuit-breaker", action="store_true", help="Disable circuit breaker"
     )
-    parser.add_argument("--verbose", "-v", action="store_true", help="Enable verbose logging")
+    parser.add_argument(
+        "--verbose", "-v", action="store_true", help="Enable verbose logging"
+    )
 
     args = parser.parse_args()
 
@@ -85,14 +95,19 @@ def main() -> None:
             try:
                 results["deepfake"] = client.detect_deepfake(
                     args.audio,
-                    metadata={"session_id": args.session_id or "demo-session", "channel": "web"},
+                    metadata={
+                        "session_id": args.session_id or "demo-session",
+                        "channel": "web",
+                    },
                 )
                 logger.info(
                     f"Deepfake detection result: score={results['deepfake'].get('score')}, "
                     f"label={results['deepfake'].get('label')}"
                 )
             except requests.HTTPError as exc:
-                error_detail = exc.response.text if hasattr(exc, "response") else str(exc)
+                error_detail = (
+                    exc.response.text if hasattr(exc, "response") else str(exc)
+                )
                 logger.error(f"Deepfake detection failed: {error_detail}")
                 sys.exit(1)
             except Exception as exc:
@@ -101,19 +116,26 @@ def main() -> None:
 
             # Run MFA verification if enrollment ID provided
             if args.enrollment_id:
-                logger.info(f"Running MFA verification for enrollment {args.enrollment_id}")
+                logger.info(
+                    f"Running MFA verification for enrollment {args.enrollment_id}"
+                )
                 try:
                     results["mfa"] = client.verify_mfa(
                         args.audio,
                         args.enrollment_id,
-                        context={"session_id": args.session_id or "demo-session", "channel": "ivr"},
+                        context={
+                            "session_id": args.session_id or "demo-session",
+                            "channel": "ivr",
+                        },
                     )
                     logger.info(
                         f"MFA verification result: verified={results['mfa'].get('verified')}, "
                         f"confidence={results['mfa'].get('confidence')}"
                     )
                 except requests.HTTPError as exc:
-                    error_detail = exc.response.text if hasattr(exc, "response") else str(exc)
+                    error_detail = (
+                        exc.response.text if hasattr(exc, "response") else str(exc)
+                    )
                     logger.error(f"MFA verification failed: {error_detail}")
                     sys.exit(1)
                 except Exception as exc:
@@ -135,7 +157,9 @@ def main() -> None:
                         f"case_id={results['sar'].get('case_id')}"
                     )
                 except requests.HTTPError as exc:
-                    error_detail = exc.response.text if hasattr(exc, "response") else str(exc)
+                    error_detail = (
+                        exc.response.text if hasattr(exc, "response") else str(exc)
+                    )
                     logger.error(f"SAR submission failed: {error_detail}")
                     sys.exit(1)
                 except Exception as exc:

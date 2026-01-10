@@ -56,7 +56,7 @@ This repository provides integration examples and evaluation tools for the [Sono
 
 ## 🚀 Quickstart
 
-> **New here?** Check out our [Getting Started Guide](docs/GETTING_STARTED.md) for a 5-minute walkthrough.
+> **New here?** Check out our [Getting Started Guide](Documentation/GETTING_STARTED.md) for a 5-minute walkthrough.
 >
 > **Know what you want to run?** Jump straight to the [Examples Overview](examples/README.md) for one-command starts across every language.
 
@@ -93,6 +93,7 @@ Choose the example that fits your workflow:
 ### 3. Prepare Audio
 
 For best results, use:
+
 - **Format**: 16 kHz mono WAV or Opus
 - **Duration**: <10 seconds per request (for optimal latency)
 - **Size**: Up to 800 MB supported
@@ -146,6 +147,7 @@ python examples/python/main.py audio.wav --enrollment-id enroll-123
 **Requirements:** Python 3.9+
 
 **Advanced features:**
+
 - Automatic retry with exponential backoff
 - Rate limiting and circuit breakers
 - Streaming responses
@@ -173,6 +175,7 @@ node dist/index.js audio.wav --enrollment-id enroll-123
 **Requirements:** Node.js 18+
 
 **Features:**
+
 - Complete TypeScript type definitions
 - Compile-time type safety
 - IDE autocomplete support
@@ -197,6 +200,7 @@ PORT=3000 SONOTHEIA_WEBHOOK_SECRET=your_secret node webhook-server.js
 **Requirements:** Node.js 18+
 
 **Features:**
+
 - Batch file processing
 - Webhook event handling
 - Async queue management
@@ -235,7 +239,7 @@ Example response structure (actual values vary by endpoint):
 
 ## 📚 Documentation
 
-### 📖 **[Complete Documentation Index](docs/INDEX.md)**
+### 📖 **[Complete Documentation Index](Documentation/INDEX.md)**
 
 Find everything organized by purpose, topic, and type.
 
@@ -243,22 +247,22 @@ Find everything organized by purpose, topic, and type.
 
 | Document | Description |
 |----------|-------------|
-| [Getting Started](docs/GETTING_STARTED.md) | 5-minute quickstart guide |
-| [Use Cases](docs/USE_CASES.md) | Real-world integration scenarios |
-| [FAQ](docs/FAQ.md) | Common questions and answers |
-| [Best Practices](docs/BEST_PRACTICES.md) | Integration patterns and recommendations |
-| [Enhanced Examples](docs/ENHANCED_EXAMPLES.md) | Advanced features (retries, streaming, monitoring) |
-| [Audio Preprocessing](docs/AUDIO_PREPROCESSING.md) | FFmpeg and SoX guide |
-| [Troubleshooting](docs/TROUBLESHOOTING.md) | Common issues and solutions |
-| [MFA Enrollment Guide](docs/MFA_ENROLLMENT.md) | Voice enrollment process |
-| [Webhook Schemas](docs/WEBHOOK_SCHEMAS.md) | Webhook event payloads |
-| [API Migration Guide](docs/API_MIGRATION_GUIDE.md) | Version update guidance |
+| [Getting Started](Documentation/GETTING_STARTED.md) | 5-minute quickstart guide |
+| [Use Cases](Documentation/USE_CASES.md) | Real-world integration scenarios |
+| [FAQ](Documentation/FAQ.md) | Common questions and answers |
+| [Best Practices](Documentation/BEST_PRACTICES.md) | Integration patterns and recommendations |
+| [Enhanced Examples](Documentation/ENHANCED_EXAMPLES.md) | Advanced features (retries, streaming, monitoring) |
+| [Audio Preprocessing](Documentation/AUDIO_PREPROCESSING.md) | FFmpeg and SoX guide |
+| [Troubleshooting](Documentation/TROUBLESHOOTING.md) | Common issues and solutions |
+| [MFA Enrollment Guide](Documentation/MFA_ENROLLMENT.md) | Voice enrollment process |
+| [Webhook Schemas](Documentation/WEBHOOK_SCHEMAS.md) | Webhook event payloads |
+| [API Migration Guide](Documentation/API_MIGRATION_GUIDE.md) | Version update guidance |
 
 ### For Developers
 
 | Document | Description |
 |----------|-------------|
-| [Repository Structure](docs/REPOSITORY_STRUCTURE.md) | How this repo is organized |
+| [Repository Structure](Documentation/REPOSITORY_STRUCTURE.md) | How this repo is organized |
 | [Coding Standards](.github/CODING_STANDARDS.md) | Code style and conventions |
 | [AI Development Workflow](.github/QUICK_REFERENCE.md) | AI-assisted development guide |
 
@@ -267,18 +271,18 @@ Find everything organized by purpose, topic, and type.
 | Document | Description |
 |----------|-------------|
 | [Contributing Guide](.github/CONTRIBUTING.md) | How to contribute |
-| [Documentation Principles](docs/DOCUMENTATION_PRINCIPLES.md) | Dieter Rams principles |
-| [Design & Content Audit](docs/DESIGN_AUDIT.md) | Documentation quality assessment and roadmap |
+| [Documentation Principles](Documentation/DOCUMENTATION_PRINCIPLES.md) | Dieter Rams principles |
+| [Design & Content Audit](Documentation/DESIGN_AUDIT.md) | Documentation quality assessment and roadmap |
 | [Agent Quick Reference](.github/AGENT_QUICK_REFERENCE.md) | For AI coding agents |
 
 ---
 
 ## 📌 Essential Reading (Fast Path)
 
-- [Getting Started](docs/GETTING_STARTED.md) — 5-minute setup
-- [Documentation Index](docs/INDEX.md) — find anything quickly
+- [Getting Started](Documentation/GETTING_STARTED.md) — 5-minute setup
+- [Documentation Index](Documentation/INDEX.md) — find anything quickly
 - [Examples Overview](examples/README.md) — quick-start commands for every language
-- [Design & Content Audit](docs/DESIGN_AUDIT.md) — documentation quality and roadmap
+- [Design & Content Audit](Documentation/DESIGN_AUDIT.md) — documentation quality and roadmap
 
 ---
 
@@ -324,6 +328,7 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 - Documentation standards
 
 **Quick links:**
+
 - [Quick Start for Contributors](CONTRIBUTING.md#tldr---quick-contributions)
 - [Coding Standards](.github/CODING_STANDARDS.md)
 - [AI Development Workflow](.github/QUICK_REFERENCE.md)
@@ -337,7 +342,7 @@ This repository is licensed under the **MIT License** - see the [LICENSE](LICENS
 
 > **Important:** This license applies to the **example code and documentation** in this repository only. Access to the Sonotheia API service requires separate authorization.
 
-For detailed information about licensing, see [License Information](docs/LICENSE_INFO.md).
+For detailed information about licensing, see [License Information](Documentation/LICENSE_INFO.md).
 
 ---
 
@@ -352,8 +357,8 @@ For detailed information about licensing, see [License Information](docs/LICENSE
 
 ### Before Reaching Out
 
-1. Check the [FAQ](docs/FAQ.md)
-2. Review [Troubleshooting](docs/TROUBLESHOOTING.md)
+1. Check the [FAQ](Documentation/FAQ.md)
+2. Review [Troubleshooting](Documentation/TROUBLESHOOTING.md)
 3. Search [existing issues](https://github.com/doronpers/sonotheia-examples/issues)
 
 ### Security Issues
@@ -374,6 +379,9 @@ For security vulnerabilities, please **do not** open a public issue. Email your 
 
 **Built with ❤️ for secure voice authentication**
 
-[Getting Started](docs/GETTING_STARTED.md) • [Documentation](docs/INDEX.md) • [Examples](examples/) • [Contributing](CONTRIBUTING.md) • [License](LICENSE)
+[Getting Started](Documentation/GETTING_STARTED.md) • [Documentation](Documentation/INDEX.md) • [Examples](examples/) • [Contributing](CONTRIBUTING.md) • [License](LICENSE)
 
 </div>
+
+## Agent Instructions
+This repository follows [Agent Behavioral Standards](Documentation/Governance/AGENT_BEHAVIORAL_STANDARDS.md). All AI agents MUST read these before performing any tasks.

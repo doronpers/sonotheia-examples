@@ -111,7 +111,8 @@ class RateLimiter:
             now = time.time()
             elapsed = now - self.last_update
             self.tokens = min(
-                self.requests_per_second, self.tokens + elapsed * self.requests_per_second
+                self.requests_per_second,
+                self.tokens + elapsed * self.requests_per_second,
             )
             self.last_update = now
 
@@ -167,7 +168,9 @@ class SonotheiaClientEnhanced:
         self.deepfake_path = deepfake_path or os.getenv(
             "SONOTHEIA_DEEPFAKE_PATH", "/v1/voice/deepfake"
         )
-        self.mfa_path = mfa_path or os.getenv("SONOTHEIA_MFA_PATH", "/v1/mfa/voice/verify")
+        self.mfa_path = mfa_path or os.getenv(
+            "SONOTHEIA_MFA_PATH", "/v1/mfa/voice/verify"
+        )
         self.sar_path = sar_path or os.getenv("SONOTHEIA_SAR_PATH", "/v1/reports/sar")
         self.timeout = timeout
 
@@ -242,7 +245,9 @@ class SonotheiaClientEnhanced:
         """Make HTTP request with circuit breaker and rate limiting."""
         with self._rate_limit():
             if self.circuit_breaker:
-                return self.circuit_breaker.call(self._execute_request, method, *args, **kwargs)
+                return self.circuit_breaker.call(
+                    self._execute_request, method, *args, **kwargs
+                )
             else:
                 return self._execute_request(method, *args, **kwargs)
 

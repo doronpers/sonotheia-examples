@@ -3,6 +3,7 @@
 ## Assumptions
 
 ### API Endpoints and Authentication
+
 - The API uses bearer token authentication via the `Authorization: Bearer <token>` header
 - Base URL defaults to `https://api.sonotheia.com` (the canonical API host for Sonotheia.ai)
 - Three primary endpoints are assumed based on existing code:
@@ -11,6 +12,7 @@
   - `/v1/reports/sar` - SAR (Suspicious Activity Report) submission
 
 ### Request/Response Formats
+
 - **Deepfake Detection**:
   - Request: multipart/form-data with `audio` file and optional `metadata` JSON
   - Response: `{ score: number, label: string, latency_ms: number, session_id?: string }`
@@ -24,17 +26,20 @@
   - Response: `{ status: string, case_id: string, session_id: string }`
 
 ### Audio Requirements
+
 - Recommended format: 16 kHz mono WAV files
 - Also supports: Opus, MP3, FLAC
 - Optimal duration: 3-10 seconds
 - Maximum file size: ~10 MB
 
 ### ID Lifecycles and Relationships
+
 - **session_id**: Links related API calls together (e.g., deepfake detection + SAR submission)
 - **enrollment_id**: References a user's voice profile for MFA verification
 - **case_id**: Unique identifier for submitted SARs, returned after SAR submission
 
 ### Webhook Events
+
 - The webhook server example assumes these event types:
   - `deepfake.completed` - Async deepfake detection result
   - `mfa.completed` - Async MFA verification result
@@ -45,13 +50,15 @@
 ## TODOs
 
 ### Documentation
-- [x] Add more audio preprocessing examples (docs/AUDIO_PREPROCESSING.md with FFmpeg and SoX)
-- [x] Document enrollment process for MFA (docs/MFA_ENROLLMENT.md)
-- [x] Add troubleshooting guide for common API errors (docs/TROUBLESHOOTING.md)
-- [x] Create migration guide for API version updates (docs/API_MIGRATION_GUIDE.md)
-- [x] Document webhook payload schemas in detail (docs/WEBHOOK_SCHEMAS.md)
+
+- [x] Add more audio preprocessing examples (Documentation/AUDIO_PREPROCESSING.md with FFmpeg and SoX)
+- [x] Document enrollment process for MFA (Documentation/MFA_ENROLLMENT.md)
+- [x] Add troubleshooting guide for common API errors (Documentation/TROUBLESHOOTING.md)
+- [x] Create migration guide for API version updates (Documentation/API_MIGRATION_GUIDE.md)
+- [x] Document webhook payload schemas in detail (Documentation/WEBHOOK_SCHEMAS.md)
 
 ### Code Examples
+
 - [x] Add retry logic examples with exponential backoff (client_enhanced.py, batch-processor-enhanced.js)
 - [x] Add streaming audio examples (streaming_example.py with FFmpeg)
 - [x] Add example of rate limit handling (client_enhanced.py with RateLimiter class)
@@ -59,12 +66,14 @@
 - [x] Add example of audio validation before API submission (audio_validator.py)
 
 ### Infrastructure
+
 - [x] Add Docker/Podman containerized examples (Python Dockerfile, docker-compose.yml)
 - [x] Add example Kubernetes deployment for webhook server (kubernetes/deployment.yaml)
 - [x] Create example Terraform for AWS deployment (examples/terraform/aws/)
 - [x] Add monitoring/observability examples (health_check.py with Prometheus, batch-processor-enhanced.js)
 
 ### Testing
+
 - [x] Expand unit test coverage beyond basic request construction (test_client.py, test_client_enhanced.py with mocking)
 - [x] Add integration tests with mocked API server (examples/python/tests/test_integration.py)
 - [x] Add performance/load testing examples (examples/python/load_test.py)
@@ -88,51 +97,51 @@
 
 ### Response Fields
 
-7. **Session ID Generation**: Is `session_id` client-generated or server-generated? Can it be omitted from requests?
+1. **Session ID Generation**: Is `session_id` client-generated or server-generated? Can it be omitted from requests?
 
-8. **Additional Response Fields**: Are there other response fields not documented in the examples (e.g., confidence intervals, model versions, request IDs)?
+2. **Additional Response Fields**: Are there other response fields not documented in the examples (e.g., confidence intervals, model versions, request IDs)?
 
-9. **Deepfake Labels**: What are all possible values for the `label` field in deepfake responses? Examples show "likely_real" and "likely_synthetic" - are there others?
+3. **Deepfake Labels**: What are all possible values for the `label` field in deepfake responses? Examples show "likely_real" and "likely_synthetic" - are there others?
 
-10. **MFA Thresholds**: What confidence threshold does `verified: true` use? Is this configurable?
+4. **MFA Thresholds**: What confidence threshold does `verified: true` use? Is this configurable?
 
 ### Webhook Details
 
-11. **Webhook Event Payloads**: Can you provide complete webhook event payload schemas for all event types?
+1. **Webhook Event Payloads**: Can you provide complete webhook event payload schemas for all event types?
 
-12. **Webhook Delivery**: Does the API retry failed webhook deliveries? What's the retry policy?
+2. **Webhook Delivery**: Does the API retry failed webhook deliveries? What's the retry policy?
 
-13. **Webhook Security**: Besides signature verification, are there other recommended security measures (IP whitelisting, etc.)?
+3. **Webhook Security**: Besides signature verification, are there other recommended security measures (IP whitelisting, etc.)?
 
 ### Use Cases and Best Practices
 
-14. **Enrollment Best Practices**: How many voice samples are recommended for enrollment? What's the optimal duration?
+1. **Enrollment Best Practices**: How many voice samples are recommended for enrollment? What's the optimal duration?
 
-15. **Audio Preprocessing**: Are there specific preprocessing steps recommended or required before submission?
+2. **Audio Preprocessing**: Are there specific preprocessing steps recommended or required before submission?
 
-16. **Session Lifecycle**: How long are sessions retained? Is there a maximum age for linking operations via session_id?
+3. **Session Lifecycle**: How long are sessions retained? Is there a maximum age for linking operations via session_id?
 
-17. **SAR Retrieval**: Is there an endpoint to retrieve submitted SARs by case_id or session_id?
+4. **SAR Retrieval**: Is there an endpoint to retrieve submitted SARs by case_id or session_id?
 
-18. **Batch Operations**: Are there batch endpoints for processing multiple audio files in a single request?
+5. **Batch Operations**: Are there batch endpoints for processing multiple audio files in a single request?
 
 ### Compliance and Security
 
-19. **Data Retention**: How long does the API retain audio files and analysis results? Is this configurable?
+1. **Data Retention**: How long does the API retain audio files and analysis results? Is this configurable?
 
-20. **GDPR/Privacy**: Are there specific endpoints or procedures for data deletion requests (right to be forgotten)?
+2. **GDPR/Privacy**: Are there specific endpoints or procedures for data deletion requests (right to be forgotten)?
 
-21. **Audit Logs**: Does the API provide audit logs for API access? How can users retrieve them?
+3. **Audit Logs**: Does the API provide audit logs for API access? How can users retrieve them?
 
 ### Deployment and Operations
 
-22. **API Versions**: How are API versions managed? Is `/v1/` the current version? How will breaking changes be communicated?
+1. **API Versions**: How are API versions managed? Is `/v1/` the current version? How will breaking changes be communicated?
 
-23. **Status Page**: Is there an operational status page for the API? What's the SLA?
+2. **Status Page**: Is there an operational status page for the API? What's the SLA?
 
-24. **Sandbox Environment**: Is there a separate sandbox/test environment with non-production API keys?
+3. **Sandbox Environment**: Is there a separate sandbox/test environment with non-production API keys?
 
-25. **Geographic Regions**: Are there region-specific API endpoints for latency optimization or data residency requirements?
+4. **Geographic Regions**: Are there region-specific API endpoints for latency optimization or data residency requirements?
 
 ## Known Limitations
 
@@ -160,6 +169,7 @@
 ## Contributing
 
 When contributing new examples:
+
 1. Do not hard-code API keys or secrets
 2. Include error handling and validation
 3. Follow existing code style and patterns
