@@ -16,7 +16,7 @@
 #
 # Environment Variables:
 #   STANDARDS_SOURCE_DIR  - Path to governance standards directory
-#                          (default: /Volumes/Treehorn/Gits/sonotheia-enhanced/Documentation/Governance)
+#                          (default: /Volumes/Treehorn/Gits/sonotheia-enhanced/documentation/Governance)
 #   RUN_BLACK             - Auto-run black formatter after setup (default: false)
 #   CLEANUP_BACKUPS       - Remove backup files older than 30 days (default: false)
 #
@@ -35,7 +35,7 @@ readonly FLAKE8_VERSION="7.1.2"
 readonly PRE_COMMIT_HOOKS_VERSION="v4.6.0"
 
 # Configuration
-readonly SOURCE_DIR="${STANDARDS_SOURCE_DIR:-/Volumes/Treehorn/Gits/sonotheia-enhanced/Documentation/Governance}"
+readonly SOURCE_DIR="${STANDARDS_SOURCE_DIR:-/Volumes/Treehorn/Gits/sonotheia-enhanced/documentation/Governance}"
 readonly RUN_BLACK="${RUN_BLACK:-false}"
 readonly CLEANUP_BACKUPS="${CLEANUP_BACKUPS:-false}"
 
@@ -153,18 +153,18 @@ check_tool pre-commit || true
 echo ""
 
 # 1. Create Governance Directory
-if mkdir -p Documentation/Governance 2>/dev/null; then
-    chmod 755 Documentation/Governance 2>/dev/null || true
-    OPERATIONS_SUCCESS+=("Created Documentation/Governance directory")
+if mkdir -p documentation/Governance 2>/dev/null; then
+    chmod 755 documentation/Governance 2>/dev/null || true
+    OPERATIONS_SUCCESS+=("Created documentation/Governance directory")
 else
-    echo "❌ Failed to create Documentation/Governance directory (check permissions)"
-    OPERATIONS_FAILED+=("Failed to create Documentation/Governance directory")
+    echo "❌ Failed to create documentation/Governance directory (check permissions)"
+    OPERATIONS_FAILED+=("Failed to create documentation/Governance directory")
 fi
 
 # 2. Deploy Standards Files (only if source directory exists)
 if [ -d "$SOURCE_DIR" ]; then
     if [ -f "$SOURCE_DIR/AGENT_REFORMATTING_GUIDELINES.md" ]; then
-        if cat "$SOURCE_DIR/AGENT_REFORMATTING_GUIDELINES.md" > Documentation/Governance/AGENT_REFORMATTING_GUIDELINES.md 2>/dev/null; then
+        if cat "$SOURCE_DIR/AGENT_REFORMATTING_GUIDELINES.md" > documentation/Governance/AGENT_REFORMATTING_GUIDELINES.md 2>/dev/null; then
             OPERATIONS_SUCCESS+=("Deployed AGENT_REFORMATTING_GUIDELINES.md")
         else
             OPERATIONS_FAILED+=("Failed to deploy AGENT_REFORMATTING_GUIDELINES.md")
@@ -175,7 +175,7 @@ if [ -d "$SOURCE_DIR" ]; then
     fi
     
     if [ -f "$SOURCE_DIR/AGENT_BEHAVIORAL_STANDARDS.md" ]; then
-        if cat "$SOURCE_DIR/AGENT_BEHAVIORAL_STANDARDS.md" > Documentation/Governance/AGENT_BEHAVIORAL_STANDARDS.md 2>/dev/null; then
+        if cat "$SOURCE_DIR/AGENT_BEHAVIORAL_STANDARDS.md" > documentation/Governance/AGENT_BEHAVIORAL_STANDARDS.md 2>/dev/null; then
             OPERATIONS_SUCCESS+=("Deployed AGENT_BEHAVIORAL_STANDARDS.md")
         else
             OPERATIONS_FAILED+=("Failed to deploy AGENT_BEHAVIORAL_STANDARDS.md")
@@ -224,7 +224,7 @@ if [ -f "README.md" ]; then
         if {
             echo ""
             echo "## Agent Instructions"
-            echo "This repository follows [Agent Behavioral Standards](Documentation/Governance/AGENT_BEHAVIORAL_STANDARDS.md). All AI agents MUST read these before performing any tasks."
+            echo "This repository follows [Agent Behavioral Standards](documentation/Governance/AGENT_BEHAVIORAL_STANDARDS.md). All AI agents MUST read these before performing any tasks."
         } >> README.md; then
             OPERATIONS_SUCCESS+=("Added Agent Instructions to README.md")
         else
