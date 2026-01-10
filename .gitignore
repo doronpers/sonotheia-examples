@@ -225,3 +225,7 @@ examples/typescript/dist/
 .Trashes
 *.pyc
 .venv/
+*.bak.*
+.env.local
+.env.*.local
+coverage/
