@@ -192,18 +192,18 @@ export SONOTHEIA_API_URL=https://api.sonotheia.com  # Optional (default shown)
 ### Audio Requirements
 - **Format**: WAV (16 kHz mono) recommended
 - **Also supports**: Opus, MP3, FLAC
-- **Duration**: 3-10 seconds optimal, up to 10 minutes supported
-- **Size**: Up to 800 MB
+- **Duration**: 3-10 seconds optimal, up to 10 minutes supported with streaming
+- **Size**: Maximum 10 MB per file
 
 ### Response Interpretation
 - **Score 0.0-0.3**: Likely real voice
-- **Score 0.3-0.7**: Uncertain, consider additional verification
-- **Score 0.7-1.0**: Likely synthetic voice
+- **Score 0.4-0.7**: Uncertain, consider additional verification
+- **Score 0.8-1.0**: Likely synthetic voice
 
 ### File Locations
 - **Examples**: `/examples/{python|typescript|node|curl}/`
 - **Test Audio**: `/examples/test-audio/`
-- **Documentation**: `/docs/`
+- **Documentation**: `/documentation/`
 
 ## Getting Help
 
