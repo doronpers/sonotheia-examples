@@ -75,7 +75,7 @@ class ResponseValidator:
         if not 0 <= response["score"] <= 1:
             raise ResponseValidationError("'score' must be between 0 and 1")
 
-        valid_labels = ["likely_real", "likely_synthetic"]
+        valid_labels = ["likely_real", "likely_synthetic", "uncertain"]
         if response["label"] not in valid_labels:
             raise ResponseValidationError(
                 f"'label' must be one of {valid_labels}, got '{response['label']}'"

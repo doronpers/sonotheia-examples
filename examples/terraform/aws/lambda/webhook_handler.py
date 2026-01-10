@@ -23,12 +23,29 @@ from datetime import datetime
 dynamodb = boto3.resource('dynamodb')
 secretsmanager = boto3.client('secretsmanager')
 
+# Validate and load environment variables
+def validate_environment():
+    """Validate all required environment variables are set."""
+    required_vars = [
+        'DYNAMODB_TABLE',
+        'S3_BUCKET',
+        'API_KEY_SECRET_ARN',
+        'SONOTHEIA_API_URL',
+        'ENVIRONMENT'
+    ]
+    missing = [var for var in required_vars if not os.environ.get(var)]
+    if missing:
+        raise ValueError(f"Missing required environment variables: {', '.join(missing)}")
+
+validate_environment()
+
 # Environment variables
 DYNAMODB_TABLE = os.environ['DYNAMODB_TABLE']
 S3_BUCKET = os.environ['S3_BUCKET']
 API_KEY_SECRET_ARN = os.environ['API_KEY_SECRET_ARN']
 SONOTHEIA_API_URL = os.environ['SONOTHEIA_API_URL']
 ENVIRONMENT = os.environ['ENVIRONMENT']
+WEBHOOK_SECRET_ARN = os.environ.get('WEBHOOK_SECRET_ARN')
 
 
 def lambda_handler(event, context):
@@ -47,15 +64,17 @@ def lambda_handler(event, context):
         body = event.get('body', '{}')
         headers = event.get('headers', {})
         
-        # Validate signature (if signature header present)
-        # NOTE: Signature verification is disabled in this example.
-        # For production use, implement proper signature verification:
+        # Validate signature (required in production)
         signature = headers.get('X-Sonotheia-Signature', '')
-        if signature and ENVIRONMENT == 'prod':
-            # Production should implement signature verification
+        if ENVIRONMENT == 'prod':
+            if not signature:
+                return error_response(401, 'Missing webhook signature')
             webhook_secret = get_webhook_secret()
+            if not webhook_secret:
+                print("ERROR: Webhook secret not configured for production environment")
+                return error_response(500, 'Server configuration error')
             if not verify_signature(body, signature, webhook_secret):
-                return error_response(401, 'Invalid signature')
+                return error_response(401, 'Invalid webhook signature')
         
         # Parse webhook event
         webhook_event = json.loads(body)
@@ -126,10 +145,15 @@ def process_deepfake_event(data):
     session_id = data.get('session_id')
     score = data.get('score')
     label = data.get('label')
-    
+
     print(f"Deepfake event: {session_id}, score={score}, label={label}")
-    
-    # TODO: Implement custom processing logic
+
+    # Send high-risk alerts
+    if score and score > 0.8:
+        print(f"HIGH RISK: Deepfake score {score} for session {session_id}")
+        # TODO: Send SNS notification, trigger alert workflow
+
+    # TODO: Implement additional custom processing logic
     # - Send notifications
     # - Update external systems
     # - Trigger additional workflows
@@ -140,13 +164,19 @@ def process_mfa_event(data):
     session_id = data.get('session_id')
     verified = data.get('verified')
     confidence = data.get('confidence')
-    
+    enrollment_id = data.get('enrollment_id')
+
     print(f"MFA event: {session_id}, verified={verified}, confidence={confidence}")
-    
-    # TODO: Implement custom processing logic
+
+    # Log authentication result
+    if not verified:
+        print(f"AUTHENTICATION FAILED: {enrollment_id} (session: {session_id})")
+        # TODO: Log failed authentication attempt, trigger security review
+
+    # TODO: Implement additional custom processing logic
     # - Update user session
     # - Grant/deny access
-    # - Log authentication event
+    # - Send verification result to frontend
 
 
 def process_sar_event(data):
@@ -154,20 +184,34 @@ def process_sar_event(data):
     case_id = data.get('case_id')
     session_id = data.get('session_id')
     status = data.get('status')
-    
+
     print(f"SAR event: {case_id}, session={session_id}, status={status}")
-    
-    # TODO: Implement custom processing logic
-    # - Notify compliance team
+
+    # Log SAR submission for compliance
+    print(f"COMPLIANCE: SAR case {case_id} submitted with status {status}")
+
+    # TODO: Implement additional custom processing logic
+    # - Send SNS notification to compliance team
     # - Update case management system
-    # - Archive evidence
+    # - Archive evidence to S3
+    # - Create audit log entry
 
 
 def get_webhook_secret():
     """Retrieve webhook secret from Secrets Manager."""
-    # This would retrieve the webhook secret for signature verification
-    # Implement if signature verification is needed
-    pass
+    if not WEBHOOK_SECRET_ARN:
+        return None
+
+    try:
+        response = secretsmanager.get_secret_value(SecretId=WEBHOOK_SECRET_ARN)
+        secret_string = response.get('SecretString')
+        if secret_string:
+            secret_data = json.loads(secret_string)
+            return secret_data.get('webhook_secret')
+        return None
+    except Exception as e:
+        print(f"Error retrieving webhook secret: {str(e)}")
+        return None
 
 
 def verify_signature(payload, signature, secret):
