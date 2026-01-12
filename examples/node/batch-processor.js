@@ -30,9 +30,6 @@ async function processFile(audioPath) {
   const form = new FormData();
 
   try {
-    if (!readFileSync(audioPath)) {
-      throw new Error(`File not readable: ${audioPath}`);
-    }
     const audioBuffer = readFileSync(audioPath);
     form.append('audio', audioBuffer, {
       filename: basename(audioPath),

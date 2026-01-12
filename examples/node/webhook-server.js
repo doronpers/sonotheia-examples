@@ -21,8 +21,34 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const WEBHOOK_SECRET = process.env.SONOTHEIA_WEBHOOK_SECRET;
 
-// In-memory store (use a database in production)
+// In-memory store with TTL cleanup (use a database in production)
 const results = new Map();
+const RESULT_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
+const MAX_RESULTS = 10000; // Maximum results to store
+
+// Cleanup old results periodically
+setInterval(() => {
+  const now = Date.now();
+  let deleted = 0;
+  for (const [key, value] of results.entries()) {
+    const age = now - new Date(value.received_at).getTime();
+    if (age > RESULT_TTL_MS) {
+      results.delete(key);
+      deleted++;
+    }
+  }
+  if (deleted > 0) {
+    logger.info({ deleted, remaining: results.size }, 'Cleaned up old results');
+  }
+
+  // Also enforce max size limit
+  if (results.size > MAX_RESULTS) {
+    const toDelete = results.size - MAX_RESULTS;
+    const keys = Array.from(results.keys()).slice(0, toDelete);
+    keys.forEach(key => results.delete(key));
+    logger.warn({ deleted: toDelete }, 'Enforced max results limit');
+  }
+}, 60 * 60 * 1000); // Run every hour
 
 // Middleware to parse JSON with raw body for signature verification
 app.use(express.json({
@@ -36,13 +62,13 @@ app.use(express.json({
  */
 function verifySignature(payload, signature, secret) {
   if (!secret) {
-    logger.warn('WEBHOOK_SECRET not set - skipping signature verification');
-    return true;
+    logger.error('WEBHOOK_SECRET not set - webhook verification required');
+    return false;
   }
 
-  // Validate signature format
-  if (!signature || typeof signature !== 'string' || !/^[a-f0-9]+$/i.test(signature)) {
-    logger.warn('Invalid signature format');
+  // Validate signature format (64 hex characters for SHA-256)
+  if (!signature || typeof signature !== 'string' || !/^[a-f0-9]{64}$/i.test(signature)) {
+    logger.warn({ signature }, 'Invalid signature format - expected 64 hex characters');
     return false;
   }
 

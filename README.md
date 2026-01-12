@@ -56,7 +56,7 @@ This repository provides integration examples and evaluation tools for the [Sono
 
 ## 🚀 Quickstart
 
-> **New here?** Check out our [Getting Started Guide](Documentation/GETTING_STARTED.md) for a 5-minute walkthrough.
+> **New here?** Check out our [Getting Started Guide](documentation/GETTING_STARTED.md) for a 5-minute walkthrough.
 >
 > **Know what you want to run?** Jump straight to the [Examples Overview](examples/README.md) for one-command starts across every language.
 
@@ -94,9 +94,9 @@ Choose the example that fits your workflow:
 
 For best results, use:
 
-- **Format**: 16 kHz mono WAV or Opus
-- **Duration**: <10 seconds per request (for optimal latency)
-- **Size**: Up to 800 MB supported
+- **Format**: 16 kHz mono WAV, Opus, MP3, or FLAC
+- **Duration**: 3-10 seconds optimal (up to 10 minutes supported with streaming)
+- **Size**: Maximum 10 MB per file
 
 ### 4. Run an Example
 
@@ -239,7 +239,7 @@ Example response structure (actual values vary by endpoint):
 
 ## 📚 Documentation
 
-### 📖 **[Complete Documentation Index](Documentation/INDEX.md)**
+### 📖 **[Complete Documentation Index](documentation/INDEX.md)**
 
 Find everything organized by purpose, topic, and type.
 
@@ -247,22 +247,22 @@ Find everything organized by purpose, topic, and type.
 
 | Document | Description |
 |----------|-------------|
-| [Getting Started](Documentation/GETTING_STARTED.md) | 5-minute quickstart guide |
-| [Use Cases](Documentation/USE_CASES.md) | Real-world integration scenarios |
-| [FAQ](Documentation/FAQ.md) | Common questions and answers |
-| [Best Practices](Documentation/BEST_PRACTICES.md) | Integration patterns and recommendations |
-| [Enhanced Examples](Documentation/ENHANCED_EXAMPLES.md) | Advanced features (retries, streaming, monitoring) |
-| [Audio Preprocessing](Documentation/AUDIO_PREPROCESSING.md) | FFmpeg and SoX guide |
-| [Troubleshooting](Documentation/TROUBLESHOOTING.md) | Common issues and solutions |
-| [MFA Enrollment Guide](Documentation/MFA_ENROLLMENT.md) | Voice enrollment process |
-| [Webhook Schemas](Documentation/WEBHOOK_SCHEMAS.md) | Webhook event payloads |
-| [API Migration Guide](Documentation/API_MIGRATION_GUIDE.md) | Version update guidance |
+| [Getting Started](documentation/GETTING_STARTED.md) | 5-minute quickstart guide |
+| [Use Cases](documentation/USE_CASES.md) | Real-world integration scenarios |
+| [FAQ](documentation/FAQ.md) | Common questions and answers |
+| [Best Practices](documentation/BEST_PRACTICES.md) | Integration patterns and recommendations |
+| [Enhanced Examples](documentation/ENHANCED_EXAMPLES.md) | Advanced features (retries, streaming, monitoring) |
+| [Audio Preprocessing](documentation/AUDIO_PREPROCESSING.md) | FFmpeg and SoX guide |
+| [Troubleshooting](documentation/TROUBLESHOOTING.md) | Common issues and solutions |
+| [MFA Enrollment Guide](documentation/MFA_ENROLLMENT.md) | Voice enrollment process |
+| [Webhook Schemas](documentation/WEBHOOK_SCHEMAS.md) | Webhook event payloads |
+| [API Migration Guide](documentation/API_MIGRATION_GUIDE.md) | Version update guidance |
 
 ### For Developers
 
 | Document | Description |
 |----------|-------------|
-| [Repository Structure](Documentation/REPOSITORY_STRUCTURE.md) | How this repo is organized |
+| [Repository Structure](documentation/REPOSITORY_STRUCTURE.md) | How this repo is organized |
 | [Coding Standards](.github/CODING_STANDARDS.md) | Code style and conventions |
 | [AI Development Workflow](.github/QUICK_REFERENCE.md) | AI-assisted development guide |
 
@@ -271,18 +271,18 @@ Find everything organized by purpose, topic, and type.
 | Document | Description |
 |----------|-------------|
 | [Contributing Guide](.github/CONTRIBUTING.md) | How to contribute |
-| [Documentation Principles](Documentation/DOCUMENTATION_PRINCIPLES.md) | Dieter Rams principles |
-| [Design & Content Audit](Documentation/DESIGN_AUDIT.md) | Documentation quality assessment and roadmap |
+| [Documentation Principles](documentation/DOCUMENTATION_PRINCIPLES.md) | Dieter Rams principles |
+| [Design & Content Audit](documentation/DESIGN_AUDIT.md) | Documentation quality assessment and roadmap |
 | [Agent Quick Reference](.github/AGENT_QUICK_REFERENCE.md) | For AI coding agents |
 
 ---
 
 ## 📌 Essential Reading (Fast Path)
 
-- [Getting Started](Documentation/GETTING_STARTED.md) — 5-minute setup
-- [Documentation Index](Documentation/INDEX.md) — find anything quickly
+- [Getting Started](documentation/GETTING_STARTED.md) — 5-minute setup
+- [Documentation Index](documentation/INDEX.md) — find anything quickly
 - [Examples Overview](examples/README.md) — quick-start commands for every language
-- [Design & Content Audit](Documentation/DESIGN_AUDIT.md) — documentation quality and roadmap
+- [Design & Content Audit](documentation/DESIGN_AUDIT.md) — documentation quality and roadmap
 
 ---
 
@@ -342,7 +342,7 @@ This repository is licensed under the **MIT License** - see the [LICENSE](LICENS
 
 > **Important:** This license applies to the **example code and documentation** in this repository only. Access to the Sonotheia API service requires separate authorization.
 
-For detailed information about licensing, see [License Information](Documentation/LICENSE_INFO.md).
+For detailed information about licensing, see [License Information](documentation/LICENSE_INFO.md).
 
 ---
 
@@ -357,8 +357,8 @@ For detailed information about licensing, see [License Information](Documentatio
 
 ### Before Reaching Out
 
-1. Check the [FAQ](Documentation/FAQ.md)
-2. Review [Troubleshooting](Documentation/TROUBLESHOOTING.md)
+1. Check the [FAQ](documentation/FAQ.md)
+2. Review [Troubleshooting](documentation/TROUBLESHOOTING.md)
 3. Search [existing issues](https://github.com/doronpers/sonotheia-examples/issues)
 
 ### Security Issues
@@ -379,14 +379,16 @@ For security vulnerabilities, please **do not** open a public issue. Email your 
 
 **Built with ❤️ for secure voice authentication**
 
-[Getting Started](Documentation/GETTING_STARTED.md) • [Documentation](Documentation/INDEX.md) • [Examples](examples/) • [Contributing](CONTRIBUTING.md) • [License](LICENSE)
+[Getting Started](documentation/GETTING_STARTED.md) • [Documentation](documentation/INDEX.md) • [Examples](examples/) • [Contributing](CONTRIBUTING.md) • [License](LICENSE)
 
 </div>
 
 ## Agent Instructions
-This repository follows [Agent Behavioral Standards](documentation/governance/AGENT_BEHAVIORAL_STANDARDS.md). All AI agents MUST read these before performing any tasks.
 
-**For comprehensive agent instructions**, see:
-- **[Optimal Agent Prompt](documentation/OPTIMAL_AGENT_PROMPT.md)** - Complete instructional prompt with all standards, workflows, and best practices
-- [Agent Knowledge Base](AGENT_KNOWLEDGE_BASE.md) - Critical guidelines and quick reference
+> **CRITICAL**: All AI agents MUST read [`AGENT_KNOWLEDGE_BASE.md`](AGENT_KNOWLEDGE_BASE.md) before performing any tasks. It contains non-negotiable Patent, Security, and Design rules.
+
+Additional resources:
+
+- [Agent Behavioral Standards](documentation/Governance/AGENT_BEHAVIORAL_STANDARDS.md)
+- [Optimal Agent Prompt](documentation/OPTIMAL_AGENT_PROMPT.md) - Complete instructional prompt
 - [Agent Prompt](documentation/AGENT_PROMPT.md) - Standard prompt with specialized variants

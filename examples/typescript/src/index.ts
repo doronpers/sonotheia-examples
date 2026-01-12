@@ -93,11 +93,18 @@ export class SonotheiaClient {
    */
   async detectDeepfake(request: DeepfakeRequest): Promise<DeepfakeResponse> {
     const form = new FormData();
-    
+
     const audioBuffer = readFileSync(request.audioPath);
+    const ext = request.audioPath.toLowerCase();
+    let contentType = 'application/octet-stream';
+    if (ext.endsWith('.wav')) contentType = 'audio/wav';
+    else if (ext.endsWith('.mp3')) contentType = 'audio/mpeg';
+    else if (ext.endsWith('.opus')) contentType = 'audio/opus';
+    else if (ext.endsWith('.flac')) contentType = 'audio/flac';
+
     form.append('audio', audioBuffer, {
       filename: basename(request.audioPath),
-      contentType: 'audio/wav',
+      contentType,
     });
 
     if (request.metadata) {
@@ -122,11 +129,18 @@ export class SonotheiaClient {
    */
   async verifyMfa(request: MfaRequest): Promise<MfaResponse> {
     const form = new FormData();
-    
+
     const audioBuffer = readFileSync(request.audioPath);
+    const ext = request.audioPath.toLowerCase();
+    let contentType = 'application/octet-stream';
+    if (ext.endsWith('.wav')) contentType = 'audio/wav';
+    else if (ext.endsWith('.mp3')) contentType = 'audio/mpeg';
+    else if (ext.endsWith('.opus')) contentType = 'audio/opus';
+    else if (ext.endsWith('.flac')) contentType = 'audio/flac';
+
     form.append('audio', audioBuffer, {
       filename: basename(request.audioPath),
-      contentType: 'audio/wav',
+      contentType,
     });
 
     form.append('enrollment_id', request.enrollmentId);
