@@ -14,15 +14,15 @@ This repository provides integration examples and evaluation tools for the [Sono
 ## 📋 Table of Contents
 
 - [What's This?](#whats-this)
-- [Key Features](#key-features)
-- [Quickstart](#quickstart)
-- [Examples by Language](#examples-by-language)
-- [Output Format](#output-format)
-- [Documentation](#documentation)
-- [Testing](#testing)
-- [Contributing](#contributing)
-- [License](#license)
-- [Support](#support)
+- [Key Features](#-key-features)
+- [Quickstart](#-quickstart)
+- [Examples by Language](#-examples-by-language)
+- [Output Format](#-output-format)
+- [Documentation](#-documentation)
+- [Testing](#-testing)
+- [Contributing](#-contributing)
+- [License](#-license)
+- [Support](#-support)
 
 ---
 
@@ -43,7 +43,7 @@ This repository provides integration examples and evaluation tools for the [Sono
 ## ✨ Key Features
 
 | Feature | Description |
-|---------|-------------|
+| ------- | ----------- |
 | 🎯 **Multi-Language Support** | cURL, Python, TypeScript, and Node.js examples |
 | 🔄 **Production Patterns** | Retry logic, rate limiting, circuit breakers, webhook handlers |
 | 📊 **Evaluation Tools** | Audio slicing, perturbation tests, audit-grade measurement records |
@@ -62,14 +62,14 @@ This repository provides integration examples and evaluation tools for the [Sono
 
 ### 1. Set Up Credentials
 
-**Option A: Using `.env` file (recommended)**
+#### Option A: Using `.env` file (recommended)
 
 ```bash
 cp .env.example .env
 # Edit .env and set SONOTHEIA_API_KEY=your_actual_key
 ```
 
-**Option B: Export environment variables**
+#### Option B: Export environment variables
 
 ```bash
 export SONOTHEIA_API_URL=https://api.sonotheia.com
@@ -246,7 +246,7 @@ Find everything organized by purpose, topic, and type.
 ### User Guides
 
 | Document | Description |
-|----------|-------------|
+| -------- | ----------- |
 | [Getting Started](documentation/GETTING_STARTED.md) | 5-minute quickstart guide |
 | [Use Cases](documentation/USE_CASES.md) | Real-world integration scenarios |
 | [FAQ](documentation/FAQ.md) | Common questions and answers |
@@ -261,7 +261,7 @@ Find everything organized by purpose, topic, and type.
 ### For Developers
 
 | Document | Description |
-|----------|-------------|
+| -------- | ----------- |
 | [Repository Structure](documentation/REPOSITORY_STRUCTURE.md) | How this repo is organized |
 | [Coding Standards](.github/CODING_STANDARDS.md) | Code style and conventions |
 | [AI Development Workflow](.github/QUICK_REFERENCE.md) | AI-assisted development guide |
@@ -269,7 +269,7 @@ Find everything organized by purpose, topic, and type.
 ### For Contributors
 
 | Document | Description |
-|----------|-------------|
+| -------- | ----------- |
 | [Contributing Guide](.github/CONTRIBUTING.md) | How to contribute |
 | [Documentation Principles](documentation/DOCUMENTATION_PRINCIPLES.md) | Dieter Rams principles |
 | [Design & Content Audit](documentation/DESIGN_AUDIT.md) | Documentation quality assessment and roadmap |
@@ -375,13 +375,11 @@ For security vulnerabilities, please **do not** open a public issue. Email your 
 
 ---
 
-<div align="center">
+---
 
-**Built with ❤️ for secure voice authentication**
+*Built with ❤️ for secure voice authentication*
 
 [Getting Started](documentation/GETTING_STARTED.md) • [Documentation](documentation/INDEX.md) • [Examples](examples/) • [Contributing](CONTRIBUTING.md) • [License](LICENSE)
-
-</div>
 
 ## Agent Instructions
 
