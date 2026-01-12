@@ -1,6 +1,8 @@
-# Optimal Prompt for Repository Coding Agents
+# Standard Agent Prompt for Repository Coding Agents
 
-> Use this prompt when instructing AI coding agents to work with the sonotheia-examples repository
+> **Note**: For the most comprehensive and up-to-date agent instructions, see [Optimal Agent Prompt](OPTIMAL_AGENT_PROMPT.md) which includes all standards, workflows, security requirements, and best practices in a unified format.
+
+> Use this prompt when instructing AI coding agents to work with the sonotheia-examples repository. This is the standard prompt with specialized variants. For complete instructions, see [OPTIMAL_AGENT_PROMPT.md](OPTIMAL_AGENT_PROMPT.md).
 
 ## Standard Agent Prompt
 

@@ -2,6 +2,8 @@
 
 **Purpose**: To ensure all AI agents working on this repository maintain the highest standards of code quality, thoroughness, and architectural integrity.
 
+> **For comprehensive agent instructions**: See [Optimal Agent Prompt](../OPTIMAL_AGENT_PROMPT.md) which integrates these behavioral standards with complete workflows, documentation principles, security requirements, and best practices.
+
 ## 1. Core Mandates
 
 ### A. No Corner-Cutting

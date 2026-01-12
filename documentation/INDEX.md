@@ -47,8 +47,11 @@
 - [Learning Journal Template](../templates/learning-journal.md) - Track your progress
 
 #### For Coding Agents
+- [Optimal Agent Prompt](OPTIMAL_AGENT_PROMPT.md) - **COMPREHENSIVE** - Complete instructional prompt for AI coding agents
+- [Agent Prompt](AGENT_PROMPT.md) - Standard agent prompt with specialized variants
 - [Agent Quick Reference](../.github/AGENT_QUICK_REFERENCE.md) - Quick decision tree and common tasks
 - [Coding Standards](../.github/CODING_STANDARDS.md) - Complete standards and guidelines
+- [Agent Behavioral Standards](governance/AGENT_BEHAVIORAL_STANDARDS.md) - Core mandates and quality requirements
 
 ### For Contributors
 
@@ -99,6 +102,7 @@
 | [Repository Structure](REPOSITORY_STRUCTURE.md) | File organization | Contributing or exploring |
 | [Coding Standards](../.github/CODING_STANDARDS.md) | Dev guidelines | Making changes |
 | [Contributing Guide](../CONTRIBUTING.md) | Quick contribution guide | Before submitting PRs |
+| [Optimal Agent Prompt](OPTIMAL_AGENT_PROMPT.md) | Complete agent instructions | Setting up AI coding agents |
 | [Agent Quick Reference](../.github/AGENT_QUICK_REFERENCE.md) | Agent checklist | Quick decisions |
 | [Design & Content Audit](DESIGN_AUDIT.md) | Quality posture | Planning improvements |
 | [License Information](LICENSE_INFO.md) | Legal details | Understanding licensing |
@@ -168,6 +172,7 @@ Start Simple → Coding Standards → Repository Structure → Tests
 - Overview: [AI-Assisted Development Workflow](../.github/QUICK_REFERENCE.md)
 - Framework: [Start Simple](workflow-guides/start-simple.md)
 - Patterns: [Multi-Agent Workflow](workflow-guides/multi-agent-workflow.md)
+- Agent Instructions: [Optimal Agent Prompt](OPTIMAL_AGENT_PROMPT.md) - Comprehensive guide
 - Standards: [Coding Standards](../.github/CODING_STANDARDS.md)
 
 ### Contributing

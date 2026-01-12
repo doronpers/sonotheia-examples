@@ -384,4 +384,9 @@ For security vulnerabilities, please **do not** open a public issue. Email your 
 </div>
 
 ## Agent Instructions
-This repository follows [Agent Behavioral Standards](Documentation/Governance/AGENT_BEHAVIORAL_STANDARDS.md). All AI agents MUST read these before performing any tasks.
+This repository follows [Agent Behavioral Standards](documentation/governance/AGENT_BEHAVIORAL_STANDARDS.md). All AI agents MUST read these before performing any tasks.
+
+**For comprehensive agent instructions**, see:
+- **[Optimal Agent Prompt](documentation/OPTIMAL_AGENT_PROMPT.md)** - Complete instructional prompt with all standards, workflows, and best practices
+- [Agent Knowledge Base](AGENT_KNOWLEDGE_BASE.md) - Critical guidelines and quick reference
+- [Agent Prompt](documentation/AGENT_PROMPT.md) - Standard prompt with specialized variants
