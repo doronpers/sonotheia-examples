@@ -108,6 +108,22 @@ For best results, use:
 python examples/python/main.py audio.wav --enrollment-id enroll-123
 ```
 
+### 🏠 Local Development (Optional)
+
+For local testing without requiring an API key, use the [Sono Platform](https://github.com/doronpers/sono-platform) monorepo:
+
+```bash
+# Clone and start locally
+git clone https://github.com/doronpers/sono-platform.git
+cd sono-platform/modes/sonotheia
+./start.sh
+
+# Point examples to local API
+export SONOTHEIA_API_URL=http://localhost:8000
+```
+
+See the [Sono Platform README](https://github.com/doronpers/sono-platform#quick-start) for full setup instructions.
+
 ---
 
 ## 📂 Examples by Language
@@ -372,6 +388,7 @@ For security vulnerabilities, please **do not** open a public issue. Email your 
 - 🌐 **[Sonotheia API](https://api.sonotheia.com)** - Production API endpoint
 - 📦 **[Python Package](examples/python)** - Install with `pip install -r requirements.txt`
 - 🎯 **[Kubernetes Examples](examples/kubernetes)** - Production deployment manifests
+- 🏠 **[Sono Platform](https://github.com/doronpers/sono-platform)** - Self-hosted monorepo for local development & testing
 
 ---
 
