@@ -27,11 +27,12 @@ sonotheia-examples/
 │   │   ├── README.md           # Workflow building overview
 │   │   ├── start-simple.md     # Three-question framework
 │   │   └── multi-agent-workflow.md  # Multi-agent patterns
-│   ├── development/            # Development notes and summaries
-│   │   ├── FINAL_SUMMARY.md    # Complete integration summary
-│   │   ├── INTEGRATION_SUMMARY.md  # Enhanced examples integration
-│   │   ├── XLAYER_STATUS.md    # XLayer integration notes
+│   ├── development/            # Active development notes
+│   │   ├── README.md           # Development context
 │   │   └── SOURCES.md          # Source references for agents
+│   ├── Archive/                # Historical documents
+│   │   ├── Development-Historical/  # Past summaries and notes
+│   │   └── Reports-Historical/     # Historical review reports
 │   ├── BEST_PRACTICES.md       # Integration best practices
 │   ├── ENHANCED_EXAMPLES.md    # Production features guide
 │   ├── FAQ.md                  # Frequently asked questions
@@ -118,14 +119,19 @@ Contains only:
 
 #### Development Documentation (/Documentation/development/)
 
-**Purpose**: Notes for maintainers and historical context
+**Purpose**: Active development notes and sources
 
-- `FINAL_SUMMARY.md` - Complete integration summary
-- `INTEGRATION_SUMMARY.md` - Enhanced examples integration details
-- `XLAYER_STATUS.md` - XLayer concepts integration notes
+- `README.md` - Development context overview
 - `SOURCES.md` - Source references for coding agents
 
-**Note**: These files document the development process and integration decisions. They provide context for future maintainers but aren't needed by end users.
+#### Historical Archive (/Documentation/Archive/)
+
+**Purpose**: Historical documents preserved for reference
+
+- `Development-Historical/` - Integration summaries, refactoring notes, and status reports (2026-01-05/06)
+- `Reports-Historical/` - Comprehensive review summaries and audits
+
+**Note**: Archived files document past development processes and decisions but are no longer actively maintained.
 
 #### AI-Assisted Workflow Documentation (/Documentation/workflow-guides/)
 
@@ -239,7 +245,7 @@ Example Kubernetes manifests with:
 → Check `examples/kubernetes/README.md` and `deployment.yaml`
 
 **Understand the repository history**
-→ Read `Documentation/development/FINAL_SUMMARY.md` and related files
+→ Read `Documentation/Archive/Development-Historical/` for historical summaries
 
 **Add a new example**
 → Read `.github/QUICK_REFERENCE.md` for AI workflow guidance
@@ -370,7 +376,7 @@ Common issues and solutions
 ### Keeping It Clean
 
 - Remove temporary files not in `.gitignore`
-- Move old development notes to `Documentation/development/archive/`
+- Move old development notes to `Documentation/Archive/Development-Historical/`
 - Consolidate duplicate documentation
 - Keep the root directory minimal
 
@@ -383,7 +389,7 @@ Content should be archived when:
 - Development notes are no longer relevant
 - But may be needed for historical context
 
-Archive location: `Documentation/development/archive/`
+Archive location: `Documentation/Archive/`
 
 ## Questions?
 

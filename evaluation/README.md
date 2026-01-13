@@ -3,18 +3,18 @@
 > **📦 Monorepo Notice**: This is the **Evaluation Framework** component of the `sonotheia-examples` monorepo.  
 > See the [root README](../README.md) for an overview of all components, or jump to [Integration Examples](../examples/README.md) for production integration patterns.
 
-> **For AI Agents**: Read [AGENT_KNOWLEDGE_BASE.md](AGENT_KNOWLEDGE_BASE.md) before making changes.
+> **For AI Agents**: This evaluation framework inherits governance files from the repository root: [AGENT_KNOWLEDGE_BASE.md](../AGENT_KNOWLEDGE_BASE.md), [CONTRIBUTING.md](../CONTRIBUTING.md), and [GEMINI.md](../GEMINI.md). Read these before making changes.
 
 > [!IMPORTANT]
 > **Research Tool Disclaimer**
-> 
+>
 > This is a **research and evaluation framework** for testing acoustic indicator robustness, NOT a production detection system. The framework demonstrates **methodology for evaluating ANY indicator**, not specific authenticity detection algorithms.
-> 
+>
 > - **Purpose**: Stress-test and evaluate custom indicators under adversarial perturbations
 > - **Not for**: Binary "real/fake" classification or production deepfake detection
 > - **Extensible**: Designed for users to integrate their own proprietary indicators and perturbations
 > - **Configuration**: All parameters are examples—customize for your specific research needs
-> 
+>
 > See [Configuration Guide](config/README.md) for customizing parameters and [What This Is Not](#what-this-is-not) for limitations.
 
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
@@ -560,6 +560,7 @@ A: No. This is a **research framework** for evaluating indicator robustness. It 
 
 **Q: Can I use this in production?**  
 A: This is a v0.1 research tool demonstrating evaluation methodology. For production:
+
 - Integrate your own proprietary indicators via the configuration system
 - Use real codecs (not stubs), enhanced perturbations (librosa)
 - Tune thresholds for your domain using the config files
@@ -574,6 +575,7 @@ A: Reproducibility is critical for research and debugging. Same seed = same resu
 
 **Q: Can I customize parameters and thresholds?**
 A: Yes! All parameters are externalized in `config/` directory:
+
 - `config/perturbations.yaml` - SNR, codec settings, pitch/time parameters
 - `config/thresholds.yaml` - Fragility, clipping, duration thresholds
 - `config/indicators.yaml` - STFT parameters, spectral settings

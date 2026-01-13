@@ -1,109 +1,23 @@
-# Standard Agent Prompt for Repository Coding Agents
+# Agent Prompts for Repository Coding Agents
 
-> **Note**: For the most comprehensive and up-to-date agent instructions, see [Optimal Agent Prompt](OPTIMAL_AGENT_PROMPT.md) which includes all standards, workflows, security requirements, and best practices in a unified format.
+> **For Complete Instructions**: See [OPTIMAL_AGENT_PROMPT.md](OPTIMAL_AGENT_PROMPT.md) - the comprehensive, unified prompt that includes all standards, workflows, security requirements, and best practices.
 
-> Use this prompt when instructing AI coding agents to work with the sonotheia-examples repository. This is the standard prompt with specialized variants. For complete instructions, see [OPTIMAL_AGENT_PROMPT.md](OPTIMAL_AGENT_PROMPT.md).
+This document provides **specialized prompt variants** for specific tasks. For the full baseline instructions, always refer to OPTIMAL_AGENT_PROMPT.md first.
 
-## Standard Agent Prompt
+## When to Use This Document
 
-```
-You are working on the sonotheia-examples repository, a well-organized examples repository 
-for the Sonotheia voice fraud detection API. This repository follows Dieter Rams' design 
-principles and emphasizes clean organization, minimal structure, and AI-assisted development 
-best practices.
+- **General work**: Use [OPTIMAL_AGENT_PROMPT.md](OPTIMAL_AGENT_PROMPT.md)
+- **Specialized tasks**: Use the task-specific prompts below in addition to the optimal prompt
 
-REQUIRED READING (in order):
-1. docs/INDEX.md - Complete documentation navigation hub
-2. .github/QUICK_REFERENCE.md - AI-assisted development workflow  
-3. docs/workflow-guides/start-simple.md - Three-question framework
-4. .github/CODING_STANDARDS.md - Repository standards
-5. .github/AGENT_QUICK_REFERENCE.md - Quick decision tree
+## Quick Reference
 
-CORE WORKFLOW:
-Before writing any code, ALWAYS apply the three-question framework:
-1. What problem am I solving? (1-2 sentences, specific and clear)
-2. What does success look like? (Concrete, testable outcomes)
-3. What constraints exist? (Performance, security, compatibility, infrastructure)
-
-DOCUMENTATION PRINCIPLES (Dieter Rams inspired):
-1. Less but better - Only essential documentation
-2. Clear purpose - Every file serves a defined need
-3. Findable - Multiple navigation paths (docs/INDEX.md is the hub)
-4. Honest - Accurate, tested, with known limitations stated
-5. Minimal root - Keep root directory to ~5 files only
-6. Progressive disclosure - Basic → Advanced → Implementation details
-7. No duplication - Single source of truth for each concept
-8. Task-oriented - Organized by user goals, not arbitrary categories
-
-REPOSITORY STRUCTURE:
-- /docs/ - All documentation (user guides, technical guides, workflow guides)
-- /examples/<language>/ - Code examples, each with its own README
-- /.github/ - GitHub config, CI/CD, coding standards, agent references
-- /templates/ - Reusable templates
-- Root - Only README.md, LICENSE, NOTES.md, .env.example, .gitignore
-
-COMMON AI PITFALLS TO CHECK:
-✓ numpy type conversion for JSON serialization
-✓ Proper temp file descriptor handling (use os.fdopen)
-✓ Docker SSL certificates (include ca-certificates)
-✓ nginx client_max_body_size for large files
-
-FILE PLACEMENT RULES:
-- Code example? → examples/<language>/
-- User-facing doc? → docs/
-- Development note? → docs/development/
-- AI workflow guide? → docs/workflow-guides/
-- CI/CD config? → .github/workflows/
-- Essential only? → Root (very selective)
-
-NAMING CONVENTIONS:
-- Use clear, descriptive names (no numbers, no cryptic abbreviations)
-- Documentation: UPPERCASE.md (e.g., FAQ.md, BEST_PRACTICES.md)
-- Python: snake_case.py
-- JavaScript: kebab-case.js
-- Shell scripts: kebab-case.sh
-
-DOCUMENTATION UPDATES:
-When changing structure or adding features:
-1. Update relevant README files
-2. Update docs/INDEX.md if navigation changes
-3. Check and update all cross-references
-4. Verify links work
-5. Follow existing document templates
-
-MULTI-AGENT PATTERNS:
-For complex tasks, use multi-agent review:
-- Generator → Reviewer pattern
-- Generator → Security → Reviewer pattern  
-- Use docs/workflow-guides/multi-agent-workflow.md for guidance
-
-TESTING:
-Always test before committing:
-- Python: cd examples/python && pytest tests/ -v
-- TypeScript: cd examples/typescript && npm run build
-- Node.js: cd examples/node && node --check *.js
-
-COMMIT MESSAGES:
-- Clear and descriptive
-- Present tense: "Add feature" not "Added feature"
-- Reference issues when applicable
-- Document reasoning for structural changes
-
-QUALITY CHECKS:
-Before completing:
-- [ ] Root directory still minimal (5 files max)
-- [ ] All examples have README.md
-- [ ] All links work
-- [ ] Tests pass
-- [ ] Documentation updated
-- [ ] No secrets in code
-- [ ] Follows existing patterns
-- [ ] Applied three-question framework
-
-Your goal: Make minimal, precise changes that maintain the clean, organized structure 
-while following AI-assisted development best practices. When in doubt, preserve existing 
-patterns and consult docs/INDEX.md for navigation.
-```
+| Task Type | Prompt to Use | Additional Reading |
+|-----------|---------------|-------------------|
+| General coding | [OPTIMAL_AGENT_PROMPT.md](OPTIMAL_AGENT_PROMPT.md) | Required baseline |
+| Documentation work | [Documentation variant](#for-documentation-work) below | + INDEX.md |
+| Code examples | [Code examples variant](#for-code-examples) below | + BEST_PRACTICES.md |
+| Structural changes | [Structural variant](#for-structural-changes) below | + REPOSITORY_STRUCTURE.md |
+| Maintenance | [Maintenance variant](#for-maintenance-tasks) below | + DOCUMENTATION_PRINCIPLES.md |
 
 ## Specialized Prompts
 
