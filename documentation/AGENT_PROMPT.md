@@ -12,7 +12,7 @@ This document provides **specialized prompt variants** for specific tasks. For t
 ## Quick Reference
 
 | Task Type | Prompt to Use | Additional Reading |
-|-----------|---------------|-------------------|
+| --------- | ------------- | ------------------ |
 | General coding | [OPTIMAL_AGENT_PROMPT.md](OPTIMAL_AGENT_PROMPT.md) | Required baseline |
 | Documentation work | [Documentation variant](#for-documentation-work) below | + INDEX.md |
 | Code examples | [Code examples variant](#for-code-examples) below | + BEST_PRACTICES.md |
@@ -23,7 +23,7 @@ This document provides **specialized prompt variants** for specific tasks. For t
 
 ### For Documentation Work
 
-```
+```text
 You are working on documentation for sonotheia-examples repository.
 
 READ FIRST:
@@ -69,7 +69,7 @@ UPDATE CHECKLIST:
 
 ### For Code Examples
 
-```
+```text
 You are adding code examples to sonotheia-examples repository.
 
 READ FIRST:
@@ -120,7 +120,7 @@ UPDATE CHECKLIST:
 
 ### For Structural Changes
 
-```
+```text
 You are making structural changes to sonotheia-examples repository.
 
 READ FIRST:
@@ -166,7 +166,7 @@ VERIFY AFTER CHANGES:
 
 ### For Maintenance Tasks
 
-```
+```text
 You are performing maintenance on sonotheia-examples repository.
 
 READ FIRST:
@@ -205,7 +205,7 @@ Apply "thorough down to the last detail" principle.
 
 ### Example 1: Adding a New Python Example
 
-```
+```text
 I need to add a Python example for batch audio processing with rate limiting.
 
 Using the code examples specialized prompt, please:
@@ -218,7 +218,7 @@ Using the code examples specialized prompt, please:
 
 ### Example 2: Reorganizing Documentation
 
-```
+```text
 I want to improve the organization of API-related documentation.
 
 Using the structural changes specialized prompt, please:
@@ -230,7 +230,7 @@ Using the structural changes specialized prompt, please:
 
 ### Example 3: Writing a New Guide
 
-```
+```text
 I need to create a guide for handling webhook events.
 
 Using the documentation work specialized prompt, please:
@@ -281,4 +281,4 @@ Using the documentation work specialized prompt, please:
 **For**: AI coding agents, developers, maintainers  
 **Philosophy**: Minimal, purposeful, well-organized  
 
-*"Less but better" - Dieter Rams*
+### "Less but better" — Dieter Rams
