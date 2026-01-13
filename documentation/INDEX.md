@@ -121,14 +121,14 @@
 ### Development Context
 
 | Document | Purpose | Audience |
-|----------|---------|----------|
+| -------- | ------- | -------- |
 | [Development README](development/README.md) | Context overview | Maintainers |
 | [Sources](development/SOURCES.md) | Agent resources | Coding agents |
 
 ### Historical Archive
 
 | Document | Purpose | Date |
-|----------|---------|------|
+| -------- | ------- | ---- |
 | [Development Summaries](Archive/Development-Historical/) | Historical integration, refactoring, and status reports | 2026-01-05/06 |
 | [Review Summary 2026-01-10](Archive/Reports-Historical/REVIEW_SUMMARY_2026-01-10.md) | Comprehensive codebase review | 2026-01-10 |
 
