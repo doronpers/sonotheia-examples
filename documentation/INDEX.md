@@ -78,7 +78,7 @@
 ### User Guides
 
 | Document | Purpose | When to Read |
-|----------|---------|--------------|
+| -------- | ------- | ------------ |
 | [Getting Started](GETTING_STARTED.md) | 5-minute quickstart | First time using the API |
 | [README](../README.md) | Overview and quickstart | First stop for everyone |
 | [Use Cases](USE_CASES.md) | Real-world scenarios | Planning your integration |
@@ -86,10 +86,10 @@
 | [Best Practices](BEST_PRACTICES.md) | Production guidance | Before deploying |
 | [Troubleshooting](TROUBLESHOOTING.md) | Problem solving | When things don't work |
 
-### Technical Guides
+### Technical Reference Guides
 
 | Document | Purpose | When to Read |
-|----------|---------|--------------|
+| -------- | ------- | ------------ |
 | [Audio Preprocessing](AUDIO_PREPROCESSING.md) | Audio preparation | Before sending audio to API |
 | [MFA Enrollment](MFA_ENROLLMENT.md) | Voice enrollment | Implementing MFA |
 | [Webhook Schemas](WEBHOOK_SCHEMAS.md) | Event payloads | Building webhook handlers |
@@ -99,16 +99,16 @@
 ### Workflow Guides
 
 | Document | Purpose | When to Read |
-|----------|---------|--------------|
+| -------- | ------- | ------------ |
 | [AI-Assisted Development](../.github/QUICK_REFERENCE.md) | Complete workflow | Learning AI collaboration |
 | [Start Simple](workflow-guides/start-simple.md) | Problem framework | Before starting any task |
 | [Multi-Agent Workflow](workflow-guides/multi-agent-workflow.md) | Multiple agents | For complex problems |
 | [Learning Journal](../templates/learning-journal.md) | Progress tracking | During/after sessions |
 
-### Reference
+### Reference Documentation
 
 | Document | Purpose | When to Read |
-|----------|---------|--------------|
+| -------- | ------- | ------------ |
 | [Repository Structure](REPOSITORY_STRUCTURE.md) | File organization | Contributing or exploring |
 | [Coding Standards](../.github/CODING_STANDARDS.md) | Dev guidelines | Making changes |
 | [Contributing Guide](../CONTRIBUTING.md) | Quick contribution guide | Before submitting PRs |
@@ -138,31 +138,31 @@
 
 ### "I want to integrate the API"
 
-```
+```text
 Getting Started → Use Cases → README → FAQ → Best Practices → Examples → Audio Preprocessing
 ```
 
 ### "I want to use AI-assisted development"
 
-```
+```text
 AI-Assisted Development Workflow → Start Simple → Multi-Agent Workflow → Learning Journal
 ```
 
 ### "I want to contribute code"
 
-```
+```text
 Contributing Guide → Coding Standards → Agent Quick Reference → Repository Structure → Development Notes
 ```
 
 ### "I'm debugging an issue"
 
-```
+```text
 Troubleshooting → FAQ → Best Practices → GitHub Issues
 ```
 
 ### "I'm adding a new feature"
 
-```
+```text
 Start Simple → Coding Standards → Repository Structure → Tests
 ```
 
