@@ -2,9 +2,9 @@
 
 > **📦 Monorepo Notice**: This is the **Evaluation Framework** component of the `sonotheia-examples` monorepo.  
 > See the [root README](../README.md) for an overview of all components, or jump to [Integration Examples](../examples/README.md) for production integration patterns.
-
+>
 > **For AI Agents**: This evaluation framework inherits governance files from the repository root: [AGENT_KNOWLEDGE_BASE.md](../AGENT_KNOWLEDGE_BASE.md), [CONTRIBUTING.md](../CONTRIBUTING.md), and [GEMINI.md](../GEMINI.md). Read these before making changes.
-
+>
 > [!IMPORTANT]
 > **Research Tool Disclaimer**
 >
@@ -20,7 +20,7 @@
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-**Audio Stress-Test Harness for Indicator Robustness Evaluation**
+### Audio Stress-Test Harness for Indicator Robustness Evaluation
 
 A transparent, reproducible framework for evaluating how acoustic indicators behave under adversarial perturbations, producing deferral signals for human-in-the-loop audio authenticity workflows.
 
@@ -243,7 +243,7 @@ Audio authenticity is context-dependent and nuanced. A clip may be synthetic yet
 
 ### Practical Example
 
-```
+```text
 Scenario: You receive a 30-second audio clip for content verification.
 
 The harness processes it:
@@ -251,7 +251,7 @@ The harness processes it:
 - Perturbations: none, noise, codec_stub
 - Result: Slice 0 → accept, Slice 1 → defer_to_review, Slice 2 → accept
 
-Interpretation: Slice 1 shows acoustic instability (high fragility). 
+Interpretation: Slice 1 shows acoustic instability (high fragility).
 Action: Human reviewer listens to slice 1 (10-20s range) for manual assessment.
 ```
 
@@ -394,7 +394,7 @@ graph TD
 
 ### Common Workflows
 
-**Scenario 1: Quick validation of a single file**
+#### Scenario 1: Quick validation of a single file
 
 ```bash
 python -m audio_trust_harness run --audio sample.wav --out audit.jsonl
@@ -402,7 +402,7 @@ python -m audio_trust_harness summary --audit audit.jsonl --out summary.json
 cat summary.json  # Check deferral distribution
 ```
 
-**Scenario 2: Comprehensive stress test**
+#### Scenario 2: Comprehensive stress test
 
 ```bash
 python -m audio_trust_harness run \
@@ -412,7 +412,7 @@ python -m audio_trust_harness run \
   --seed 42
 ```
 
-**Scenario 3: Processing a batch of files**
+#### Scenario 3: Processing a batch of files
 
 ```bash
 for file in audio/*.wav; do
@@ -421,7 +421,7 @@ for file in audio/*.wav; do
 done
 ```
 
-**Scenario 4: Focus on specific segment**
+#### Scenario 4: Focus on specific segment
 
 ```bash
 # Process only first 50 seconds (5 slices of 10s)
@@ -431,7 +431,7 @@ python -m audio_trust_harness run \
   --max-slices 5
 ```
 
-**Scenario 5: Custom thresholds for domain-specific tuning**
+#### Scenario 5: Custom thresholds for domain-specific tuning
 
 ```bash
 # Use stricter fragility threshold (triggers deferral at 20% variation instead of 30%)
@@ -511,34 +511,34 @@ After processing, a temporal consistency check evaluates indicator stability acr
 
 ### Common Issues
 
-**Error: "File format not supported"**
+#### Error: "File format not supported"
 
 - **Cause**: Input is not a WAV file
 - **Solution**: Convert to WAV first: `ffmpeg -i input.mp3 output.wav`
 
-**Warning: "Audio resampled from X to 16000Hz"**
+#### Warning: "Audio resampled from X to 16000Hz"
 
 - **Cause**: Input sample rate differs from 16kHz
 - **Solution**: This is normal. Audio is automatically resampled. Original sample rate is logged.
 
-**Many slices marked "insufficient_evidence"**
+#### Many slices marked "insufficient_evidence"
 
 - **Cause**: Audio has clipping (distortion) or is too short
 - **Solution**: Check audio quality. If clipped, re-record or find higher-quality source.
 
-**High deferral rate (>50% "defer_to_review")**
+#### High deferral rate (>50% "defer_to_review")
 
 - **Possible causes**:
   - Audio has inherent instability (music with varying dynamics)
   - Thresholds too sensitive for your use case
 - **Solution**: Review JSONL logs to identify which indicators are fragile. Consider adjusting thresholds in policy.py (advanced).
 
-**Processing very slow**
+#### Processing very slow
 
 - **Cause**: Large file with many slices
 - **Solution**: Use `--max-slices` to limit processing, or increase `--hop-seconds` to sample less frequently
 
-**Output file empty or incomplete**
+#### Output file empty or incomplete
 
 - **Cause**: Exception during processing (check stderr)
 - **Solution**: Verify input file is valid WAV. Run with `--max-slices 1` to isolate issue.
@@ -591,7 +591,7 @@ A: WAV only. Convert other formats with ffmpeg: `ffmpeg -i input.mp3 output.wav`
 **Q: How do I cite this tool?**  
 A: For academic or research use, please cite as:
 
-```
+```text
 Doron Pers (2026). Audio Trust Harness: A stress-test framework for 
 acoustic indicator robustness evaluation. 
 GitHub: https://github.com/doronpers/audio-trust-harness (Version 0.1.0)
@@ -735,7 +735,7 @@ If you use this tool in research or publications, please cite as:
 
 **Plain text:**
 
-```
+```text
 Doron Pers (2026). Audio Trust Harness: A stress-test framework for 
 acoustic indicator robustness evaluation. 
 GitHub: https://github.com/doronpers/audio-trust-harness (Version 0.1.0)
