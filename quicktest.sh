@@ -15,27 +15,34 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+MAGENTA='\033[0;35m'
 NC='\033[0m' # No Color
 
-echo -e "${BLUE}🎙️ Sonotheia Quick Test${NC}"
-echo "========================"
-echo ""
+# Header
+echo -e "${BLUE}"
+echo "╔═══════════════════════════════════════════════════════════╗"
+echo "║                                                           ║"
+echo "║               Sonotheia Examples Quick Test               ║"
+echo "║                                                           ║"
+echo "╚═══════════════════════════════════════════════════════════╝"
+echo -e "${NC}"
 
 # -----------------------------------------------------------------------------
 # Step 1: Check for API key
 # -----------------------------------------------------------------------------
-echo -e "${YELLOW}Step 1: Checking environment...${NC}"
+echo -e "${BLUE}ℹ️  Step 1: Checking environment...${NC}"
 
 # Source .env if it exists
 if [[ -f .env ]]; then
     set -a
     source .env
     set +a
-    echo -e "  ${GREEN}✓${NC} Loaded .env file"
+    echo -e "  ${GREEN}✓ Loaded .env file${NC}"
 fi
 
 if [[ -z "${SONOTHEIA_API_KEY:-}" ]]; then
-    echo -e "  ${RED}✗${NC} No API key found!"
+    echo -e "  ${RED}❌ No API key found!${NC}"
     echo ""
     echo "  To fix, either:"
     echo "    1. Copy and edit the example: cp .env.example .env"
@@ -44,17 +51,17 @@ if [[ -z "${SONOTHEIA_API_KEY:-}" ]]; then
     exit 1
 fi
 
-echo -e "  ${GREEN}✓${NC} API key configured"
+echo -e "  ${GREEN}✓ API key configured${NC}"
 
 # Check API URL
 API_URL="${SONOTHEIA_API_URL:-https://api.sonotheia.com}"
-echo -e "  ${GREEN}✓${NC} API URL: ${API_URL}"
+echo -e "  ${GREEN}✓ API URL: ${API_URL}${NC}"
 echo ""
 
 # -----------------------------------------------------------------------------
 # Step 2: Find or use provided audio file
 # -----------------------------------------------------------------------------
-echo -e "${YELLOW}Step 2: Locating audio file...${NC}"
+echo -e "${BLUE}ℹ️  Step 2: Locating audio file...${NC}"
 
 AUDIO_FILE="${1:-}"
 
@@ -66,7 +73,7 @@ if [[ -z "$AUDIO_FILE" ]]; then
 fi
 
 if [[ -z "$AUDIO_FILE" ]] || [[ ! -f "$AUDIO_FILE" ]]; then
-    echo -e "  ${RED}✗${NC} No audio file found!"
+    echo -e "  ${RED}❌ No audio file found!${NC}"
     echo ""
     echo "  Usage: ./quicktest.sh <path_to_audio_file>"
     echo "  Or place test audio in: examples/test-audio/"
@@ -74,22 +81,22 @@ if [[ -z "$AUDIO_FILE" ]] || [[ ! -f "$AUDIO_FILE" ]]; then
     exit 1
 fi
 
-echo -e "  ${GREEN}✓${NC} Using audio file: ${AUDIO_FILE}"
+echo -e "  ${GREEN}✓ Using audio file:${NC} ${AUDIO_FILE}"
 echo ""
 
 # -----------------------------------------------------------------------------
 # Step 3: Auto-detect runtime and run test
 # -----------------------------------------------------------------------------
-echo -e "${YELLOW}Step 3: Detecting runtime and running test...${NC}"
+echo -e "${BLUE}ℹ️  Step 3: Detecting runtime and running test...${NC}"
 
 run_python() {
     if [[ -f examples/python/main.py ]]; then
-        echo -e "  ${BLUE}→${NC} Using Python client..."
+        echo -e "  ${CYAN}→ Using Python client...${NC}"
         echo ""
         
         # Check if venv exists, if not suggest setup
         if [[ ! -d ".venv" ]] && [[ ! -d "examples/python/.venv" ]]; then
-            echo -e "  ${YELLOW}Note:${NC} No virtual environment found."
+            echo -e "  ${YELLOW}⚠️  Note: No virtual environment found.${NC}"
             echo "  For a clean setup, run:"
             echo "    python3 -m venv .venv && source .venv/bin/activate"
             echo "    pip install -r examples/python/requirements.txt"
@@ -105,7 +112,7 @@ run_python() {
 
 run_curl() {
     if [[ -f examples/curl/deepfake-detect.sh ]]; then
-        echo -e "  ${BLUE}→${NC} Using cURL client..."
+        echo -e "  ${CYAN}→ Using cURL client...${NC}"
         echo ""
         ./examples/curl/deepfake-detect.sh "$AUDIO_FILE"
         return 0
@@ -115,11 +122,11 @@ run_curl() {
 
 run_node() {
     if [[ -f examples/node/batch-processor.js ]]; then
-        echo -e "  ${BLUE}→${NC} Using Node.js client..."
+        echo -e "  ${CYAN}→ Using Node.js client...${NC}"
         echo ""
         
         if [[ ! -d "examples/node/node_modules" ]]; then
-            echo -e "  ${YELLOW}Note:${NC} Installing dependencies..."
+            echo -e "  ${YELLOW}⚠️  Note: Installing dependencies...${NC}"
             (cd examples/node && npm install --silent)
         fi
         
@@ -137,7 +144,7 @@ elif command -v curl &>/dev/null && run_curl; then
 elif command -v node &>/dev/null && run_node; then
     :
 else
-    echo -e "  ${RED}✗${NC} No supported runtime found!"
+    echo -e "  ${RED}❌ No supported runtime found!${NC}"
     echo ""
     echo "  Supported runtimes:"
     echo "    - Python 3.9+ (recommended)"
