@@ -306,7 +306,7 @@ Find everything organized by purpose, topic, and type.
 
 Run tests locally to verify your setup:
 
-### Python
+### Python Tests
 
 ```bash
 cd examples/python
@@ -314,7 +314,7 @@ pip install -r requirements.txt
 pytest tests/ -v
 ```
 
-### TypeScript
+### TypeScript Tests
 
 ```bash
 cd examples/typescript
@@ -322,7 +322,7 @@ npm install && npm run build
 npm test
 ```
 
-### Node.js
+### Node.js Tests
 
 ```bash
 cd examples/node
@@ -394,7 +394,7 @@ For security vulnerabilities, please **do not** open a public issue. Email your 
 
 ---
 
-*Built with ❤️ for secure voice authentication*
+Built with ❤️ for secure voice authentication
 
 [Getting Started](documentation/GETTING_STARTED.md) • [Documentation](documentation/INDEX.md) • [Examples](examples/) • [Contributing](CONTRIBUTING.md) • [License](LICENSE)
 
