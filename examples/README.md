@@ -1,5 +1,8 @@
 # Sonotheia Examples Overview
 
+> **📦 Monorepo Notice**: This is the **Integration Examples** component of the `sonotheia-examples` monorepo.  
+> See the [root README](../README.md) for an overview of all components, or jump to [Evaluation Framework](../evaluation/README.md) for research and evaluation tools.
+
 > **Quick-start commands for every implementation.** Choose your language, run the command, get results.
 
 This directory contains working examples in multiple languages demonstrating Sonotheia API integration. Each example is production-ready with proper error handling, retry logic, and security best practices.

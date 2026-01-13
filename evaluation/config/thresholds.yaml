@@ -1,0 +1,43 @@
+# Threshold Configuration
+# 
+# This file contains threshold values for deferral policy decisions.
+# These are EXAMPLE values for research and evaluation purposes only.
+# 
+# Users should tune these values based on their specific use case, domain,
+# and tolerance for false positives/negatives.
+
+# Deferral Policy Thresholds
+deferral_policy:
+  # Fragility threshold (coefficient of variation)
+  # Indicators with CV > threshold are considered fragile
+  # Higher values = more tolerant to variation (fewer deferrals)
+  # Lower values = more sensitive to variation (more deferrals)
+  # Example range: 0.2-0.5 depending on domain
+  fragility_threshold: 0.3
+  
+  # Clipping detection threshold (amplitude ratio)
+  # Audio with peak amplitude > threshold is considered clipped
+  # Example range: 0.90-0.99
+  clipping_threshold: 0.95
+  
+  # Minimum slice duration (seconds)
+  # Slices shorter than this are marked as insufficient evidence
+  # Example range: 0.3-1.0 seconds
+  min_duration: 0.5
+  
+  # Minimum mean threshold for CV calculation
+  # Values below this use robust metrics instead of CV
+  # This prevents division by near-zero values
+  min_mean_threshold: 1.0e-10
+
+# Temporal Consistency Thresholds
+consistency:
+  # Threshold for relative change between slices
+  # Changes > threshold indicate temporal inconsistency
+  # Higher values = more tolerant to variation
+  # Example range: 0.3-0.7
+  threshold: 0.5
+  
+  # Minimum value threshold for relative change calculation
+  # Values below this use alternative robust metrics
+  min_value_threshold: 1.0e-10

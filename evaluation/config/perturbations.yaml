@@ -1,0 +1,51 @@
+# Perturbation Configuration
+# 
+# This file contains default parameters for audio perturbations used in stress testing.
+# These are EXAMPLE values for research and evaluation purposes only.
+# 
+# Users can customize these values to test different scenarios or integrate their own
+# proprietary perturbation strategies.
+
+# Noise Perturbation Parameters
+noise:
+  # Signal-to-noise ratio in decibels
+  # Higher values = less noise, lower values = more noise
+  # Example range: 10-30 dB for typical testing scenarios
+  snr_db: 20.0
+
+# Codec Stub Perturbation Parameters
+# NOTE: This is a simple approximation, not a real codec
+codec_stub:
+  # Cutoff frequency for lowpass filter (Hz)
+  # Approximates bandwidth limitation in telephony or compressed audio
+  # Example: 3400 Hz for telephony, 8000 Hz for wider bandwidth
+  cutoff_hz: 3400.0
+  
+  # Bit depth for quantization
+  # Lower values simulate more aggressive compression
+  # Example range: 6-16 bits
+  bits: 8
+
+# Pitch Shift Perturbation Parameters
+pitch_shift:
+  # Pitch shift in semitones
+  # Positive values shift up, negative values shift down
+  # Example range: -4 to +4 semitones for moderate testing
+  semitones: 2.0
+
+# Time Stretch Perturbation Parameters
+time_stretch:
+  # Stretch rate (1.0 = no change, >1.0 = faster, <1.0 = slower)
+  # Example range: 0.8 to 1.5 for typical scenarios
+  rate: 1.2
+
+# Real Codec Parameters (when available)
+opus:
+  # Bitrate for Opus codec
+  # Lower values = more compression artifacts
+  bitrate: "32k"
+
+mp3:
+  # Bitrate for MP3 codec
+  # Lower values = more compression artifacts
+  bitrate: "64k"
