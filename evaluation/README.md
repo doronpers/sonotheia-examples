@@ -16,6 +16,8 @@
 > - **Configuration**: All parameters are examples—customize for your specific research needs
 >
 > See [Configuration Guide](config/README.md) for customizing parameters and [What This Is Not](#what-this-is-not) for limitations.
+>
+> ⚠️ **Active Development**: This evaluation framework is in **active development**. Features are being added, methodologies refined, and the framework is continuously evolving.
 
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)

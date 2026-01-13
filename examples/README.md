@@ -5,7 +5,9 @@
 
 > **Quick-start commands for every implementation.** Choose your language, run the command, get results.
 
-This directory contains working examples in multiple languages demonstrating Sonotheia API integration. Each example is production-ready with proper error handling, retry logic, and security best practices.
+> ⚠️ **Active Development**: These integration examples are in **active development**. Examples are being refined, APIs may change, and new patterns are continuously being added.
+
+This directory contains working examples in multiple languages demonstrating Sonotheia API integration. Each example includes proper error handling, retry logic, and security best practices.
 
 ## Quick Map
 

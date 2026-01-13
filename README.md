@@ -8,10 +8,12 @@
 [![Node.js 18+](https://img.shields.io/badge/node-18+-green.svg)](https://nodejs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-3178c6.svg)](https://www.typescriptlang.org/)
 
+> ⚠️ **Active Development**: This repository and all components are in **active development**. Examples and frameworks are being refined, APIs may change, and features are continuously being added.
+
 This monorepo combines two complementary showcase components for the [Sono Platform](https://github.com/doronpers/sono-platform):
 
-- **[Integration Examples](examples/)** - Production-ready integration examples for the Sonotheia API
-- **[Evaluation Framework](evaluation/)** - Research and evaluation tool for testing acoustic indicator robustness
+- **[Integration Examples](examples/)** - Integration examples for the Sonotheia API (in active development)
+- **[Evaluation Framework](evaluation/)** - Research and evaluation tool for testing acoustic indicator robustness (in active development)
 
 ---
 
