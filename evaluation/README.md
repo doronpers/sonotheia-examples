@@ -20,7 +20,7 @@
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-### Audio Stress-Test Harness for Indicator Robustness Evaluation
+## Audio Stress-Test Harness for Indicator Robustness Evaluation
 
 A transparent, reproducible framework for evaluating how acoustic indicators behave under adversarial perturbations, producing deferral signals for human-in-the-loop audio authenticity workflows.
 
