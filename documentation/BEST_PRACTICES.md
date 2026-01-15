@@ -103,6 +103,26 @@ def call_api_with_retry(url, **kwargs):
                 time.sleep(retry_delay * (2 ** attempt))
             else:
                 raise
+
+#### Error Response Contract
+
+The Sonotheia API returns a **standardized error response**. Handle these fields
+explicitly so client behavior stays consistent across versions:
+
+```json
+{
+    "error_code": "VALIDATION_ERROR",
+    "message": "Invalid request payload",
+    "timestamp": 1705330000.123,
+    "contract_version": "1.0",
+    "request_id": "req-123"
+}
+```
+
+Guidance:
+- **Always log** `request_id` for support/debugging.
+- **Branch on** `error_code` instead of parsing message strings.
+- **Treat `contract_version`** as a compatibility hint for future changes.
 ```
 
 ### Rate Limiting
