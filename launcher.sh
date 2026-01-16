@@ -93,8 +93,10 @@ run_python_example() {
         exit 1
     fi
     
-    cd examples/python
-    python main.py "$1"
+    (
+        cd examples/python || exit 1
+        python main.py "$1"
+    )
 }
 
 # Run Evaluation Harness
@@ -128,8 +130,10 @@ run_tests() {
     fi
     
     if [ -d "evaluation" ]; then
-        cd evaluation
-        pytest tests/ -v
+        (
+            cd evaluation || exit 1
+            pytest tests/ -v
+        )
     else
         echo -e "${YELLOW}No test directory found.${NC}"
     fi
