@@ -370,12 +370,12 @@ def check_api_version():
         'https://api.sonotheia.com/v1/status',
         headers={'Authorization': f'Bearer {API_KEY}'}
     )
-    
+
     # Check deprecation headers
     if 'Deprecation' in response.headers:
         print(f"Warning: API version deprecated")
         print(f"Sunset: {response.headers.get('Sunset', 'Not specified')}")
-    
+
     return response.json()
 ```
 
@@ -391,11 +391,11 @@ def parse_response(data):
         'label': data.get('label', 'unknown'),
         'session_id': data.get('session_id')
     }
-    
+
     # Handle new fields gracefully
     if 'recommended_action' in data:
         result['action'] = data['recommended_action']
-    
+
     return result
 ```
 
@@ -459,5 +459,5 @@ When reporting migration issues, include:
 
 ---
 
-**Last Updated**: January 5, 2026  
+**Last Updated**: January 5, 2026
 **Current Version**: v1.0.0

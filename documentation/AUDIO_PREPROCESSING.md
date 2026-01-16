@@ -233,12 +233,12 @@ def preprocess_audio_ffmpeg(input_path, output_path):
         '-y',            # Overwrite output
         output_path
     ]
-    
+
     result = subprocess.run(command, capture_output=True, text=True)
-    
+
     if result.returncode != 0:
         raise RuntimeError(f"FFmpeg failed: {result.stderr}")
-    
+
     return output_path
 
 def preprocess_audio_sox(input_path, output_path):
@@ -250,12 +250,12 @@ def preprocess_audio_sox(input_path, output_path):
         '-c', '1',      # Mono
         output_path
     ]
-    
+
     result = subprocess.run(command, capture_output=True, text=True)
-    
+
     if result.returncode != 0:
         raise RuntimeError(f"SoX failed: {result.stderr}")
-    
+
     return output_path
 
 # Usage
@@ -271,19 +271,19 @@ def preprocess_with_pydub(input_path, output_path):
     """Convert audio using pydub (which uses FFmpeg under the hood)."""
     # Load audio file
     audio = AudioSegment.from_file(input_path)
-    
+
     # Convert to mono
     audio = audio.set_channels(1)
-    
+
     # Set sample rate to 16kHz
     audio = audio.set_frame_rate(16000)
-    
+
     # Normalize volume
     audio = audio.normalize()
-    
+
     # Export as WAV
     audio.export(output_path, format='wav')
-    
+
     return output_path
 
 # Install: pip install pydub
@@ -299,7 +299,7 @@ const execPromise = promisify(exec);
 
 async function preprocessAudio(inputPath, outputPath) {
   const command = `ffmpeg -i "${inputPath}" -ar 16000 -ac 1 -y "${outputPath}"`;
-  
+
   try {
     const { stdout, stderr } = await execPromise(command);
     console.log('Preprocessing complete:', outputPath);
@@ -355,34 +355,34 @@ def validate_audio(audio_path):
         '-of', 'json',
         audio_path
     ]
-    
+
     result = subprocess.run(command, capture_output=True, text=True)
-    
+
     if result.returncode != 0:
         raise ValueError(f"Invalid audio file: {result.stderr}")
-    
+
     info = json.loads(result.stdout)
     stream = info['streams'][0]
-    
+
     issues = []
-    
+
     # Check sample rate
     sample_rate = int(stream.get('sample_rate', 0))
     if sample_rate != 16000:
         issues.append(f"Sample rate is {sample_rate}Hz, recommended 16000Hz")
-    
+
     # Check channels
     channels = int(stream.get('channels', 0))
     if channels != 1:
         issues.append(f"Audio has {channels} channels, should be mono (1)")
-    
+
     # Check duration
     duration = float(stream.get('duration', 0))
     if duration < 3:
         issues.append(f"Audio is {duration}s, recommend at least 3s")
     elif duration > 10:
         issues.append(f"Audio is {duration}s, optimal is 3-10s")
-    
+
     return {
         'valid': len(issues) == 0,
         'issues': issues,

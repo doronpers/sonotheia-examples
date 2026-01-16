@@ -16,11 +16,11 @@
 - **Deepfake Detection**:
   - Request: multipart/form-data with `audio` file and optional `metadata` JSON
   - Response: `{ score: number, label: string, latency_ms: number, session_id?: string }`
-  
+
 - **MFA Verification**:
   - Request: multipart/form-data with `audio` file, `enrollment_id` string, and optional `context` JSON
   - Response: `{ verified: boolean, enrollment_id: string, confidence: number, session_id?: string }`
-  
+
 - **SAR Submission**:
   - Request: JSON body with `session_id`, `decision` (allow/deny/review), `reason`, and optional `metadata`
   - Response: `{ status: string, case_id: string, session_id: string }`

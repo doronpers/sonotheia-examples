@@ -8,14 +8,14 @@ This directory contains Lambda function code for Sonotheia API integration.
 
 Handles incoming webhook events from Sonotheia API.
 
-**Trigger:** API Gateway POST /webhook  
+**Trigger:** API Gateway POST /webhook
 **Purpose:** Receive and process webhook events (deepfake.completed, mfa.completed, sar.submitted)
 
 ### audio_processor.py
 
 Processes audio files uploaded to S3.
 
-**Trigger:** S3 object creation in `incoming/` folder  
+**Trigger:** S3 object creation in `incoming/` folder
 **Purpose:** Send audio files to Sonotheia API and store results
 
 ## Building Lambda Packages

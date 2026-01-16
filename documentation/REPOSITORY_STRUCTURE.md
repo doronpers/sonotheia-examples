@@ -400,8 +400,8 @@ Archive location: `Documentation/Archive/`
 
 ---
 
-**Maintained by**: Repository maintainers  
-**Last Updated**: 2026-01-04  
+**Maintained by**: Repository maintainers
+**Last Updated**: 2026-01-04
 **Related Docs**:
 
 - [AI-Assisted Development Workflow](../.github/QUICK_REFERENCE.md)

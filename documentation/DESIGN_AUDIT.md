@@ -71,14 +71,14 @@
 - **Support questions**: Zero questions about documentation navigation
 - **Rams principles**: Maintain 8+/10 score on all principles
 
-### User Experience  
+### User Experience
 - **First-time success**: 90%+ users complete first API call
 - **Example clarity**: 95%+ users find appropriate example on first try
 - **Setup time**: <5 minutes from clone to first API call
 
 ## Questions for Maintainers (Archived - mostly addressed)
 
-1. ~~Do you want a slimmer "essential reading" bundle (3–4 docs) linked from every README footer?~~ 
+1. ~~Do you want a slimmer "essential reading" bundle (3–4 docs) linked from every README footer?~~
    → Addressed via improved cross-references and clear "Next Steps" sections
 
 2. ~~Should cURL scripts and language clients share a single `.env` template for absolute consistency?~~
@@ -95,6 +95,6 @@
 
 ---
 
-**Last Updated**: 2026-01-06  
-**Status**: ✅ Active - Regular quarterly reviews  
+**Last Updated**: 2026-01-06
+**Status**: ✅ Active - Regular quarterly reviews
 **Philosophy**: "Weniger, aber besser" (Less, but better) - Dieter Rams

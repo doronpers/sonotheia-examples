@@ -1,8 +1,8 @@
 # SONOTHEIA_EXAMPLES_SHOWCASE_PLAN
 
-**Repo:** `doronpers/sonotheia-examples`  
-**Date:** 2026-01-10  
-**Owner:** doronpers  
+**Repo:** `doronpers/sonotheia-examples`
+**Date:** 2026-01-10
+**Owner:** doronpers
 **Primary goal:** Update and optimize this repo to better showcase Sonotheia’s work with a “golden path” demo and curated showcase UX, while remaining public-safe and developer-friendly.
 
 ---

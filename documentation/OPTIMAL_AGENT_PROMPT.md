@@ -2,9 +2,9 @@
 
 > **Purpose**: Comprehensive, personalized instruction set for AI coding agents working on the sonotheia-examples repository. This prompt integrates all repository standards, best practices, and behavioral guidelines into a unified, actionable framework.
 
-**Version**: 2.0  
-**Last Updated**: 2026-01-10  
-**Repository**: sonotheia-examples  
+**Version**: 2.0
+**Last Updated**: 2026-01-10
+**Repository**: sonotheia-examples
 **Philosophy**: "Less but better" - Dieter Rams
 
 ---
@@ -52,13 +52,13 @@ Before performing ANY task, you MUST read these documents in order:
 ### 1. What problem am I solving?
 - **Format**: 1-2 sentences, specific and clear
 - **Test**: Can you explain it in 30 seconds?
-- **Example**: ✅ "Users need to upload audio files up to 800MB for deepfake detection"  
+- **Example**: ✅ "Users need to upload audio files up to 800MB for deepfake detection"
   ❌ "Make the system better and faster" (too vague)
 
 ### 2. What does success look like?
 - **Format**: Concrete, testable outcomes (not aspirations)
 - **Test**: Can you write a test that validates success?
-- **Example**: ✅ "POST /v1/voice/deepfake accepts WAV files up to 800MB and returns results in <30s"  
+- **Example**: ✅ "POST /v1/voice/deepfake accepts WAV files up to 800MB and returns results in <30s"
   ❌ "The system should work better" (too vague)
 
 ### 3. What constraints exist?
@@ -395,19 +395,19 @@ When changing structure or adding features:
 
 ## 🚫 ANTI-PATTERNS (Never Do These)
 
-❌ **Creating new top-level directories** without justification  
-❌ **Duplicating information** across multiple documents  
-❌ **Using numbered or cryptic directory names** (e.g., `03-workflow/`)  
-❌ **Scattering related documentation** across multiple locations  
-❌ **Adding files to root directory** beyond the 5 essential files  
-❌ **Breaking existing documentation links** without updating references  
-❌ **Skipping the three-question framework** before starting work  
-❌ **Over-documenting simple concepts** (violates "less but better")  
-❌ **Providing partial/placeholder code** without explicit user request  
-❌ **Skipping tests** for new functionality  
-❌ **Using vulnerable package versions** without checking safety-mcp  
-❌ **Hardcoding secrets or API keys** in code  
-❌ **Making structural changes** without updating navigation indices  
+❌ **Creating new top-level directories** without justification
+❌ **Duplicating information** across multiple documents
+❌ **Using numbered or cryptic directory names** (e.g., `03-workflow/`)
+❌ **Scattering related documentation** across multiple locations
+❌ **Adding files to root directory** beyond the 5 essential files
+❌ **Breaking existing documentation links** without updating references
+❌ **Skipping the three-question framework** before starting work
+❌ **Over-documenting simple concepts** (violates "less but better")
+❌ **Providing partial/placeholder code** without explicit user request
+❌ **Skipping tests** for new functionality
+❌ **Using vulnerable package versions** without checking safety-mcp
+❌ **Hardcoding secrets or API keys** in code
+❌ **Making structural changes** without updating navigation indices
 
 ---
 
@@ -415,14 +415,14 @@ When changing structure or adding features:
 
 You know you've succeeded when:
 
-✅ **Findability**: Can find any doc in < 2 minutes using `documentation/INDEX.md`  
-✅ **Structure**: Root directory has ≤ 5 files  
-✅ **Quality**: All tests pass, all links work  
-✅ **Consistency**: No duplicate information, clear separation of concerns  
-✅ **Standards**: Applied three-question framework, follows Dieter Rams principles  
-✅ **Security**: All dependencies secure, no secrets in code  
-✅ **Documentation**: Every example has README, all cross-references updated  
-✅ **Code**: Modern practices, robust error handling, comprehensive tests  
+✅ **Findability**: Can find any doc in < 2 minutes using `documentation/INDEX.md`
+✅ **Structure**: Root directory has ≤ 5 files
+✅ **Quality**: All tests pass, all links work
+✅ **Consistency**: No duplicate information, clear separation of concerns
+✅ **Standards**: Applied three-question framework, follows Dieter Rams principles
+✅ **Security**: All dependencies secure, no secrets in code
+✅ **Documentation**: Every example has README, all cross-references updated
+✅ **Code**: Modern practices, robust error handling, comprehensive tests
 
 ---
 
@@ -690,8 +690,8 @@ find . -maxdepth 1 -name "*.md" -type f | wc -l
 
 ---
 
-**Version**: 2.0  
-**Last Updated**: 2026-01-10  
-**For**: AI coding agents, developers, maintainers  
-**Repository**: sonotheia-examples  
+**Version**: 2.0
+**Last Updated**: 2026-01-10
+**For**: AI coding agents, developers, maintainers
+**Repository**: sonotheia-examples
 **Philosophy**: Minimal, purposeful, well-organized, thoroughly tested

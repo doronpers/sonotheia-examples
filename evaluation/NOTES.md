@@ -50,7 +50,7 @@ All perturbation parameters are configurable via `config/perturbations.yaml`. Se
 
 ### Fragility Computation
 
-Coefficient of Variation (CV) = std / |mean| for each indicator across perturbations. 
+Coefficient of Variation (CV) = std / |mean| for each indicator across perturbations.
 
 **Why CV?**
 - Simple, interpretable measure of relative stability
@@ -74,15 +74,15 @@ All threshold values are externalized in `config/thresholds.yaml` and serve as *
   - Music may need higher thresholds due to natural dynamic variation
   - Speech may tolerate lower thresholds
   - **Users should tune based on domain-specific requirements**
-  
+
 - **Clipping**: Peak amplitude > 0.95 (likely distorted)
   - Conservative threshold to catch obvious distortion
   - Adjust based on your audio quality standards
-  
+
 - **Min duration**: 0.5s (insufficient for reliable analysis)
   - Based on minimum STFT window requirements
   - Shorter durations lack spectral resolution
-  
+
 - **Temporal consistency**: Relative change > 0.5 (50% change between slices indicates inconsistency)
   - Conservative to avoid false positives from natural variation
   - May need adjustment for music vs. speech

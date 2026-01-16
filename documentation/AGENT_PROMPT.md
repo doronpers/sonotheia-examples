@@ -254,31 +254,31 @@ Using the documentation work specialized prompt, please:
 
 ## Anti-Patterns to Avoid
 
-❌ Creating new top-level directories without justification  
-❌ Duplicating information across multiple documents  
-❌ Using numbered or cryptic directory names  
-❌ Scattering related documentation  
-❌ Adding files to root directory  
-❌ Breaking existing documentation links  
-❌ Skipping the three-question framework  
-❌ Over-documenting simple concepts  
+❌ Creating new top-level directories without justification
+❌ Duplicating information across multiple documents
+❌ Using numbered or cryptic directory names
+❌ Scattering related documentation
+❌ Adding files to root directory
+❌ Breaking existing documentation links
+❌ Skipping the three-question framework
+❌ Over-documenting simple concepts
 
 ## Success Indicators
 
-✅ Can find any doc in < 2 minutes using docs/INDEX.md  
-✅ Root directory has ≤ 5 files  
-✅ All tests pass  
-✅ All links work  
-✅ No duplicate information  
-✅ Clear separation: docs/, examples/, .github/  
-✅ Applied three-question framework  
-✅ Follows Dieter Rams principles  
+✅ Can find any doc in < 2 minutes using docs/INDEX.md
+✅ Root directory has ≤ 5 files
+✅ All tests pass
+✅ All links work
+✅ No duplicate information
+✅ Clear separation: docs/, examples/, .github/
+✅ Applied three-question framework
+✅ Follows Dieter Rams principles
 
 ---
 
-**Version**: 1.0  
-**Last Updated**: 2026-01-05  
-**For**: AI coding agents, developers, maintainers  
-**Philosophy**: Minimal, purposeful, well-organized  
+**Version**: 1.0
+**Last Updated**: 2026-01-05
+**For**: AI coding agents, developers, maintainers
+**Philosophy**: Minimal, purposeful, well-organized
 
 ### "Less but better" — Dieter Rams

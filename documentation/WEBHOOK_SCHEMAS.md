@@ -29,13 +29,13 @@ def verify_webhook_signature(payload_body, signature_header, webhook_secret):
         payload_body.encode('utf-8'),
         hashlib.sha256
     ).hexdigest()
-    
+
     # Extract signature from header (format: "sha256=...")
     if signature_header.startswith('sha256='):
         received_signature = signature_header[7:]
     else:
         received_signature = signature_header
-    
+
     return hmac.compare_digest(expected_signature, received_signature)
 
 # Usage in webhook handler
@@ -43,10 +43,10 @@ def verify_webhook_signature(payload_body, signature_header, webhook_secret):
 def handle_webhook():
     payload = request.data.decode('utf-8')
     signature = request.headers.get('X-Sonotheia-Signature')
-    
+
     if not verify_webhook_signature(payload, signature, WEBHOOK_SECRET):
         return 'Invalid signature', 401
-    
+
     # Process webhook...
 ```
 
@@ -432,17 +432,17 @@ processed_events = set()  # Or use database
 def handle_webhook():
     event = request.json
     event_id = event['event_id']
-    
+
     # Check if already processed
     if event_id in processed_events:
         return 'Already processed', 200
-    
+
     # Process event
     process_event(event)
-    
+
     # Mark as processed
     processed_events.add(event_id)
-    
+
     return 'Success', 200
 ```
 
@@ -464,7 +464,7 @@ def verify_signature(payload_body, signature_header):
         payload_body.encode('utf-8'),
         hashlib.sha256
     ).hexdigest()
-    
+
     received = signature_header.replace('sha256=', '')
     return hmac.compare_digest(expected, received)
 
@@ -473,16 +473,16 @@ def handle_webhook():
     # Get raw payload for signature verification
     payload = request.data.decode('utf-8')
     signature = request.headers.get('X-Sonotheia-Signature')
-    
+
     # Verify signature
     if not verify_signature(payload, signature):
         return jsonify({'error': 'Invalid signature'}), 401
-    
+
     # Parse event
     event = request.json
     event_type = event['event_type']
     event_id = event['event_id']
-    
+
     # Handle different event types
     if event_type == 'deepfake.completed':
         handle_deepfake_completed(event['data'])
@@ -492,34 +492,34 @@ def handle_webhook():
         handle_sar_submitted(event['data'])
     else:
         print(f"Unknown event type: {event_type}")
-    
+
     return jsonify({'status': 'success', 'event_id': event_id}), 200
 
 def handle_deepfake_completed(data):
     session_id = data['session_id']
     score = data['score']
     action = data['recommended_action']
-    
+
     print(f"Deepfake detection completed for {session_id}")
     print(f"Score: {score}, Action: {action}")
-    
+
     # Update your database, send notifications, etc.
 
 def handle_mfa_completed(data):
     verified = data['verified']
     user_id = data['user_id']
     confidence = data['confidence']
-    
+
     print(f"MFA verification for {user_id}: {verified} (confidence: {confidence})")
-    
+
     # Update session, grant/deny access, etc.
 
 def handle_sar_submitted(data):
     case_id = data['case_id']
     decision = data['decision']
-    
+
     print(f"SAR submitted: {case_id}, Decision: {decision}")
-    
+
     # Log to compliance system, notify analysts, etc.
 
 if __name__ == '__main__':

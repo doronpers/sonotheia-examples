@@ -228,5 +228,5 @@ Once you have clarity on these three questions:
 
 ---
 
-*Part of the AI-Assisted Development Workflow  
+*Part of the AI-Assisted Development Workflow
 Last updated: 2026-01-04*

@@ -229,13 +229,13 @@ import glob
 def test_all_audio_files(audio_file):
     """Test all audio files in test-audio directory."""
     client = SonotheiaClient()
-    
+
     # Skip files expected to fail
     if "short_1s" in audio_file:
         pytest.skip("File intentionally too short")
-    
+
     result = client.detect_deepfake(audio_file)
-    
+
     assert "score" in result
     assert "label" in result
     assert 0.0 <= result["score"] <= 1.0

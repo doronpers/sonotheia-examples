@@ -138,7 +138,7 @@ config.production.yaml
 
 **Example Warning:**
 ```
-UserWarning: Failed to parse /path/to/config/thresholds.yaml: 
+UserWarning: Failed to parse /path/to/config/thresholds.yaml:
 mapping values are not allowed here. Using default values.
 ```
 
@@ -219,27 +219,27 @@ python -m audio_trust_harness run \
 
 ### For Open Source Community
 
-✅ **Learn Methodology:** Complete evaluation framework available for study  
-✅ **Explore Examples:** Generic indicators demonstrate concepts clearly  
-✅ **Customize Freely:** All parameters externalized and documented  
-✅ **Extend Easily:** Clear patterns for adding custom components  
-✅ **Reproduce Research:** Deterministic behavior with seeds  
+✅ **Learn Methodology:** Complete evaluation framework available for study
+✅ **Explore Examples:** Generic indicators demonstrate concepts clearly
+✅ **Customize Freely:** All parameters externalized and documented
+✅ **Extend Easily:** Clear patterns for adding custom components
+✅ **Reproduce Research:** Deterministic behavior with seeds
 
 ### For Proprietary Implementations
 
-✅ **Protect Algorithms:** Keep proprietary indicators in private repos  
-✅ **Hide Tuned Values:** Production thresholds stay in private configs  
-✅ **Maintain Advantage:** Sensitive implementations separate from public framework  
-✅ **Leverage Framework:** Use public evaluation methodology with private indicators  
-✅ **Rapid Development:** Focus on indicators, not infrastructure  
+✅ **Protect Algorithms:** Keep proprietary indicators in private repos
+✅ **Hide Tuned Values:** Production thresholds stay in private configs
+✅ **Maintain Advantage:** Sensitive implementations separate from public framework
+✅ **Leverage Framework:** Use public evaluation methodology with private indicators
+✅ **Rapid Development:** Focus on indicators, not infrastructure
 
 ### For Research Community
 
-✅ **Reproducible:** Example configurations provide baseline  
-✅ **Transparent:** Methodology fully documented and auditable  
-✅ **Comparable:** Standard framework enables comparison across studies  
-✅ **Extensible:** Easy to add new indicators for experimentation  
-✅ **Citable:** Clear versioning and citation information  
+✅ **Reproducible:** Example configurations provide baseline
+✅ **Transparent:** Methodology fully documented and auditable
+✅ **Comparable:** Standard framework enables comparison across studies
+✅ **Extensible:** Easy to add new indicators for experimentation
+✅ **Citable:** Clear versioning and citation information
 
 ## File Structure
 
@@ -357,7 +357,7 @@ The framework can now be shared publicly as a research tool while enabling users
 
 ---
 
-**Implementation Date:** January 11, 2026  
-**Repository:** github.com/doronpers/audio-trust-harness  
-**Branch:** copilot/strategize-sensitive-data-protection  
+**Implementation Date:** January 11, 2026
+**Repository:** github.com/doronpers/audio-trust-harness
+**Branch:** copilot/strategize-sensitive-data-protection
 **Status:** Complete and verified

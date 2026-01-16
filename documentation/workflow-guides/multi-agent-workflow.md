@@ -175,7 +175,7 @@ async def upload_audio(
 ):
     if file.content_type not in ["audio/wav", "audio/opus"]:
         raise HTTPException(400, "Invalid file type")
-    
+
     fd, path = tempfile.mkstemp(suffix=".wav")
     try:
         with os.fdopen(fd, 'wb') as f:
@@ -398,5 +398,5 @@ This simulates red team / blue team security review.
 
 ---
 
-*Part of the AI-Assisted Development Workflow  
+*Part of the AI-Assisted Development Workflow
 Last updated: 2026-01-04*

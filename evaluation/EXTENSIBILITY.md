@@ -88,19 +88,19 @@ Indicators are functions that take audio and return a dictionary of feature valu
 def compute_indicators(audio: np.ndarray, sample_rate: int) -> dict[str, float]:
     """
     Compute acoustic indicators from audio.
-    
+
     Args:
         audio: Audio samples as numpy array (shape: [samples])
         sample_rate: Sample rate in Hz
-        
+
     Returns:
         Dictionary mapping indicator names to values
     """
     indicators = {}
-    
+
     # Example: Compute your proprietary features here
     indicators["my_custom_feature"] = compute_custom_feature(audio, sample_rate)
-    
+
     return indicators
 ```
 
@@ -120,28 +120,28 @@ from audio_trust_harness.config import STFT_CONFIG
 def compute_custom_indicators(audio: np.ndarray, sample_rate: int) -> dict[str, float]:
     """
     Compute proprietary acoustic indicators.
-    
+
     This is where you integrate your domain-specific features.
     """
     indicators = {}
-    
+
     # Example: Harmonic-to-noise ratio
     indicators["hnr"] = compute_hnr(audio, sample_rate)
-    
+
     # Example: Prosody features for speech
     indicators["f0_mean"] = compute_f0_mean(audio, sample_rate)
     indicators["f0_std"] = compute_f0_std(audio, sample_rate)
-    
+
     # Example: Domain-specific energy patterns
     indicators["energy_envelope_slope"] = compute_energy_slope(audio)
-    
+
     return indicators
 
 
 def compute_hnr(audio: np.ndarray, sample_rate: int) -> float:
     """
     Compute harmonic-to-noise ratio.
-    
+
     Replace this stub with your proprietary implementation.
     """
     # TODO: Implement your HNR algorithm
@@ -151,7 +151,7 @@ def compute_hnr(audio: np.ndarray, sample_rate: int) -> float:
 def compute_f0_mean(audio: np.ndarray, sample_rate: int) -> float:
     """
     Compute mean fundamental frequency.
-    
+
     Replace this stub with your proprietary implementation.
     """
     # TODO: Implement your F0 estimation
@@ -161,7 +161,7 @@ def compute_f0_mean(audio: np.ndarray, sample_rate: int) -> float:
 def compute_f0_std(audio: np.ndarray, sample_rate: int) -> float:
     """
     Compute standard deviation of fundamental frequency.
-    
+
     Replace this stub with your proprietary implementation.
     """
     # TODO: Implement your F0 variation metric
@@ -171,7 +171,7 @@ def compute_f0_std(audio: np.ndarray, sample_rate: int) -> float:
 def compute_energy_slope(audio: np.ndarray) -> float:
     """
     Compute energy envelope slope.
-    
+
     Replace this stub with your proprietary implementation.
     """
     # TODO: Implement your energy analysis
@@ -230,37 +230,37 @@ from audio_trust_harness.perturb import Perturbation
 class RoomReverbPerturbation(Perturbation):
     """
     Simulate room acoustics and reverberation.
-    
+
     This is a proprietary perturbation for testing speech/music in different acoustic environments.
     """
-    
+
     def __init__(self, room_size: str = "medium", rt60: float = 0.5, seed: int = 1337):
         super().__init__("room_reverb", seed)
         self.room_size = room_size
         self.rt60 = rt60  # Reverberation time in seconds
-    
+
     def apply(self, audio: np.ndarray, sample_rate: int) -> np.ndarray:
         """
         Apply room reverberation to audio.
-        
+
         Replace this stub with your proprietary implementation.
         """
         # TODO: Implement your room simulation
         # This is where you'd integrate a proper reverb algorithm
-        
+
         # Placeholder: Simple exponential decay convolution
         reverb_length = int(self.rt60 * sample_rate)
         reverb_ir = np.exp(-np.arange(reverb_length) / (self.rt60 * sample_rate))
         reverb_ir *= self.rng.randn(reverb_length)
-        
+
         # Convolve (simplified)
         reverbed = np.convolve(audio, reverb_ir, mode='same')
-        
+
         # Normalize
         reverbed = reverbed / np.max(np.abs(reverbed))
-        
+
         return reverbed.astype(np.float32)
-    
+
     def get_params(self) -> dict:
         return {
             "room_size": self.room_size,
@@ -273,23 +273,23 @@ class MicrophoneSimPerturbation(Perturbation):
     """
     Simulate microphone frequency response.
     """
-    
+
     def __init__(self, mic_type: str = "condenser", seed: int = 1337):
         super().__init__(f"mic_{mic_type}", seed)
         self.mic_type = mic_type
-    
+
     def apply(self, audio: np.ndarray, sample_rate: int) -> np.ndarray:
         """
         Apply microphone frequency response.
-        
+
         Replace this stub with your proprietary implementation.
         """
         # TODO: Implement your microphone simulation
         # This is where you'd apply frequency response curves
-        
+
         # Placeholder: Identity
         return audio.copy()
-    
+
     def get_params(self) -> dict:
         return {
             "mic_type": self.mic_type,
@@ -323,18 +323,18 @@ from audio_trust_harness.perturbations import custom
 
 def get_perturbation(name: str, seed: int = 1337, **kwargs) -> Perturbation:
     # ... existing perturbations ...
-    
+
     # Add your custom perturbations
     elif name == "room_reverb":
         defaults = get_perturbation_defaults("room_reverb")
         room_size = kwargs.get("room_size", defaults.get("room_size", "medium"))
         rt60 = kwargs.get("rt60", defaults.get("rt60", 0.5))
         return custom.RoomReverbPerturbation(room_size=room_size, rt60=rt60, seed=seed)
-    
+
     elif name.startswith("mic_"):
         mic_type = name.split("_")[1]
         return custom.MicrophoneSimPerturbation(mic_type=mic_type, seed=seed)
-    
+
     else:
         raise ValueError(f"Unknown perturbation: {name}")
 ```
@@ -369,13 +369,13 @@ class CustomDeferralPolicy:
     ) -> DeferralDecision:
         """
         Evaluate indicators and produce deferral decision.
-        
+
         Args:
             indicators_by_perturbation: Dict of {perturbation_name: {indicator_name: value}}
             audio_data: Raw audio samples
             sample_rate: Sample rate in Hz
             duration: Duration in seconds
-            
+
         Returns:
             DeferralDecision with action, fragility score, and reasons
         """
@@ -399,10 +399,10 @@ from audio_trust_harness.calibrate.policy import DeferralDecision, DeferralPolic
 class SpeechDeferralPolicy(DeferralPolicy):
     """
     Deferral policy optimized for speech audio.
-    
+
     Implements domain-specific rules for speech authenticity evaluation.
     """
-    
+
     def evaluate(
         self,
         indicators_by_perturbation: dict[str, dict[str, float]],
@@ -417,43 +417,43 @@ class SpeechDeferralPolicy(DeferralPolicy):
         base_decision = super().evaluate(
             indicators_by_perturbation, audio_data, sample_rate, duration
         )
-        
+
         # Add custom speech-specific checks
         reasons = list(base_decision.reasons)
-        
+
         # Example: Check for unnatural prosody
         if self._has_unnatural_prosody(indicators_by_perturbation):
             reasons.append("unnatural_prosody_detected")
-        
+
         # Example: Check for voice quality issues
         if self._has_voice_quality_issues(indicators_by_perturbation):
             reasons.append("voice_quality_issue")
-        
+
         # Custom decision logic
         if any("unnatural" in r or "voice_quality" in r for r in reasons):
             action = "defer_to_review"
         else:
             action = base_decision.recommended_action
-        
+
         return DeferralDecision(
             recommended_action=action,
             fragility_score=base_decision.fragility_score,
             reasons=reasons
         )
-    
+
     def _has_unnatural_prosody(self, indicators: dict) -> bool:
         """
         Check for unnatural prosody patterns.
-        
+
         Replace with your proprietary prosody analysis.
         """
         # TODO: Implement your prosody check
         return False
-    
+
     def _has_voice_quality_issues(self, indicators: dict) -> bool:
         """
         Check for voice quality issues.
-        
+
         Replace with your proprietary voice quality metrics.
         """
         # TODO: Implement your voice quality check
@@ -506,19 +506,19 @@ Example:
 def compute_voice_naturalness_score(audio: np.ndarray, sample_rate: int) -> float:
     """
     Compute proprietary voice naturalness score.
-    
+
     Purpose:
         Measures how natural the voice quality sounds based on prosodic features
         and spectral characteristics specific to human speech production.
-    
+
     Range:
         0.0 to 1.0, where 1.0 = most natural, 0.0 = least natural
-    
+
     Sensitivity:
         - Robust to additive noise (SNR > 15dB)
         - Sensitive to codec artifacts below 32kbps
         - Sensitive to pitch manipulation > ±3 semitones
-    
+
     Limitations:
         - Requires speech audio (not suitable for music)
         - Minimum duration: 1 second
@@ -542,10 +542,10 @@ def test_custom_indicator_deterministic():
     """Custom indicators should be deterministic."""
     audio = np.random.randn(16000)
     sample_rate = 16000
-    
+
     result1 = compute_custom_indicators(audio, sample_rate)
     result2 = compute_custom_indicators(audio, sample_rate)
-    
+
     assert result1 == result2
 
 
@@ -553,9 +553,9 @@ def test_custom_indicator_valid_range():
     """Custom indicators should return values in expected range."""
     audio = np.random.randn(16000) * 0.5
     sample_rate = 16000
-    
+
     result = compute_custom_indicators(audio, sample_rate)
-    
+
     # Example: Voice naturalness should be in [0, 1]
     assert 0.0 <= result["voice_naturalness"] <= 1.0
 ```
@@ -578,7 +578,7 @@ Be careful about what gets logged:
 def compute_proprietary_indicator(audio: np.ndarray) -> dict[str, float]:
     # Internal calculations that reveal proprietary logic
     internal_features = compute_secret_features(audio)
-    
+
     # Only expose summary metrics in audit logs
     return {
         "proprietary_score": internal_features.summary_score,

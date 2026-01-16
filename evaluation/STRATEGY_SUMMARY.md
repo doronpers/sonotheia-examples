@@ -175,7 +175,7 @@ noise = NoisePerturbation()  # Uses config/perturbations.yaml
    ```bash
    # Copy private configs to config/
    cp config-private/*.yaml config/
-   
+
    # Or set environment variable (future feature)
    export AUDIO_TRUST_CONFIG_DIR=config-private/
    ```

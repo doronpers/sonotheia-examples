@@ -18,7 +18,7 @@ All code in this repository is original and created specifically for this exampl
 
 ### Existing curl scripts
 - `examples/curl/deepfake-detect.sh` - Deepfake detection
-- `examples/curl/mfa-verify.sh` - MFA verification  
+- `examples/curl/mfa-verify.sh` - MFA verification
 - `examples/curl/sar-report.sh` - SAR submission
 
 ### Existing python client code

@@ -1,6 +1,6 @@
 # Sonotheia Examples Overview
 
-> **📦 Monorepo Notice**: This is the **Integration Examples** component of the `sonotheia-examples` monorepo.  
+> **📦 Monorepo Notice**: This is the **Integration Examples** component of the `sonotheia-examples` monorepo.
 > See the [root README](../README.md) for an overview of all components, or jump to [Evaluation Framework](../evaluation/README.md) for research and evaluation tools.
 
 > **Quick-start commands for every implementation.** Choose your language, run the command, get results.
@@ -29,7 +29,7 @@ Before running any example, you need:
    # Option A: Using .env file (recommended)
    cp ../.env.example ../.env
    # Edit .env and set SONOTHEIA_API_KEY=your_actual_key
-   
+
    # Option B: Export directly
    export SONOTHEIA_API_KEY=your_api_key_here
    ```
@@ -40,7 +40,7 @@ Before running any example, you need:
    - **Test files**: Available in `examples/test-audio/`
 
 3. **Language-Specific Dependencies**: Install as needed
-   - **Python**: 
+   - **Python**:
      ```bash
      python -m venv .venv
      source .venv/bin/activate      # On Linux/macOS
@@ -68,7 +68,7 @@ Select based on your use case:
 
 All examples demonstrate:
 - **Deepfake Detection**: Identify synthetic voice in audio
-- **Voice MFA**: Multi-factor authentication using voice biometrics  
+- **Voice MFA**: Multi-factor authentication using voice biometrics
 - **SAR Submission**: Generate compliance reports
 
 ### Language-Specific Features

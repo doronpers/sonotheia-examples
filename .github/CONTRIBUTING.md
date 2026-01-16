@@ -63,10 +63,10 @@ cd examples/node && npm install
    ```bash
    # Python
    cd examples/python && pytest tests/ -v
-   
+
    # TypeScript
    cd examples/typescript && npm run build && npm test
-   
+
    # Node.js
    cd examples/node && npm install && node --check batch-processor.js
    ```

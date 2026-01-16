@@ -36,7 +36,7 @@ npm run build
 npm run golden-path -- ../test-audio/deepfake-sample.wav --mock
 ```
 
-**What you'll see:**  
+**What you'll see:**
 A complete JSON output simulating a "likely synthetic" result, including a routing decision to `ESCALATE_TO_HUMAN`.
 
 ---

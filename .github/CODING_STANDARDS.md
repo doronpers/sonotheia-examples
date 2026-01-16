@@ -298,5 +298,5 @@ For questions about these standards, open an issue or contact the repository mai
 
 ---
 
-**Last Updated**: 2026-01-04  
+**Last Updated**: 2026-01-04
 **Version**: 1.1.0

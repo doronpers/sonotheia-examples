@@ -28,7 +28,7 @@ This guide demonstrates how to combine Sonotheia API features to solve common bu
 ### Workflow
 
 ```
-Customer calls → Record audio → 
+Customer calls → Record audio →
 → Step 1: Deepfake detection
    ├─ Score < 0.3: Proceed to MFA
    ├─ Score 0.3-0.7: Flag for review + MFA
@@ -56,7 +56,7 @@ class TransactionVerifier:
             rate_limit_rps=2.0,
             enable_circuit_breaker=True
         )
-    
+
     def verify_transaction(
         self,
         audio_path: str,
@@ -66,7 +66,7 @@ class TransactionVerifier:
     ) -> dict:
         """
         Verify a financial transaction using voice authentication.
-        
+
         Returns:
             {
                 'approved': bool,
@@ -76,7 +76,7 @@ class TransactionVerifier:
             }
         """
         session_id = f"txn_{transaction_id}"
-        
+
         # Step 1: Deepfake Detection
         try:
             deepfake_result = self.client.detect_deepfake(
@@ -95,13 +95,13 @@ class TransactionVerifier:
                 'requires_review': True,
                 'session_id': session_id
             }
-        
+
         score = deepfake_result['score']
-        
+
         # High risk - immediate block
         if score > 0.7:
             logger.warning(f"High deepfake score {score} for {session_id}")
-            self._submit_sar(session_id, 'block', 
+            self._submit_sar(session_id, 'block',
                            f'High deepfake score: {score}')
             return {
                 'approved': False,
@@ -109,12 +109,12 @@ class TransactionVerifier:
                 'requires_review': True,
                 'session_id': session_id
             }
-        
+
         # Medium risk - flag but continue
         requires_review = score >= 0.3
         if requires_review:
             logger.info(f"Medium risk score {score} for {session_id}")
-        
+
         # Step 2: Voice MFA
         try:
             mfa_result = self.client.verify_mfa(
@@ -134,7 +134,7 @@ class TransactionVerifier:
                 'requires_review': True,
                 'session_id': session_id
             }
-        
+
         # Check MFA result
         if not mfa_result['verified']:
             logger.warning(f"MFA failed for {session_id}")
@@ -146,19 +146,19 @@ class TransactionVerifier:
                 'requires_review': True,
                 'session_id': session_id
             }
-        
+
         # Low confidence MFA - require review even if passed
         if mfa_result['confidence'] < 0.8:
             requires_review = True
-        
+
         # Step 3: Submit SAR if flagged
         if requires_review:
             self._submit_sar(
-                session_id, 
+                session_id,
                 'review',
                 f'Deepfake score: {score}, MFA confidence: {mfa_result["confidence"]}'
             )
-        
+
         return {
             'approved': True,
             'reason': 'Voice verified successfully',
@@ -167,7 +167,7 @@ class TransactionVerifier:
             'deepfake_score': score,
             'mfa_confidence': mfa_result['confidence']
         }
-    
+
     def _submit_sar(self, session_id: str, decision: str, reason: str):
         """Submit SAR for suspicious activity."""
         try:
@@ -184,14 +184,14 @@ class TransactionVerifier:
 # Usage
 if __name__ == '__main__':
     verifier = TransactionVerifier()
-    
+
     result = verifier.verify_transaction(
         audio_path='customer_call.wav',
         enrollment_id='enroll_customer123',
         transaction_id='TXN20240105001',
         amount=50000.00
     )
-    
+
     if result['approved']:
         if result['requires_review']:
             print("✓ Transaction approved, flagged for review")
@@ -269,7 +269,7 @@ class CallCenterAnalyzer {
 
   async analyzeCall(filePath) {
     const callId = path.basename(filePath, path.extname(filePath));
-    
+
     try {
       const formData = new FormData();
       formData.append('audio', fs.createReadStream(filePath));
@@ -389,7 +389,7 @@ class CallCenterAnalyzer {
   console.log(`Medium risk: ${report.medium_risk}`);
   console.log(`Low risk: ${report.low_risk}`);
   console.log(`Average score: ${report.average_score.toFixed(3)}`);
-  
+
   if (report.high_risk > 0) {
     console.log('\n⚠️  HIGH RISK CALLS DETECTED');
     report.high_risk_calls.forEach(call => {
@@ -440,24 +440,24 @@ class VoiceMFAAuth:
         self.client = SonotheiaClient()
         # In production, use a proper database
         self.mfa_attempts = {}
-    
+
     def requires_voice_mfa(self, user_id: str, account_value: float) -> bool:
         """Determine if voice MFA is required."""
         # High-value accounts always require voice MFA
         if account_value > 100000:
             return True
-        
+
         # Check for recent failed login attempts
         attempts = self.mfa_attempts.get(user_id, [])
         recent_failures = [
-            a for a in attempts 
+            a for a in attempts
             if a['timestamp'] > datetime.now() - timedelta(hours=24)
             and not a['success']
         ]
-        
+
         # Require MFA after 2 failed attempts
         return len(recent_failures) >= 2
-    
+
     def authenticate_with_voice(
         self,
         user_id: str,
@@ -467,7 +467,7 @@ class VoiceMFAAuth:
     ) -> dict:
         """
         Authenticate user with voice MFA.
-        
+
         Returns:
             {
                 'authenticated': bool,
@@ -478,7 +478,7 @@ class VoiceMFAAuth:
             }
         """
         session_id = f"mfa_{user_id}_{datetime.now().timestamp()}"
-        
+
         # Step 1: Check for deepfake
         deepfake_result = self.client.detect_deepfake(
             audio_path,
@@ -489,9 +489,9 @@ class VoiceMFAAuth:
                 **(session_context or {})
             }
         )
-        
+
         deepfake_score = deepfake_result['score']
-        
+
         # Immediate rejection for high deepfake scores
         if deepfake_score > 0.7:
             self._record_attempt(user_id, False, 'deepfake_detected')
@@ -501,7 +501,7 @@ class VoiceMFAAuth:
                 'requires_additional_verification': True,
                 'deepfake_score': deepfake_score
             }
-        
+
         # Step 2: Verify voice MFA
         mfa_result = self.client.verify_mfa(
             audio_path,
@@ -512,10 +512,10 @@ class VoiceMFAAuth:
                 'deepfake_score': deepfake_score
             }
         )
-        
+
         verified = mfa_result['verified']
         confidence = mfa_result['confidence']
-        
+
         # Decision logic
         if verified and confidence >= 0.85 and deepfake_score < 0.3:
             # High confidence - approve
@@ -527,7 +527,7 @@ class VoiceMFAAuth:
                 'mfa_confidence': confidence,
                 'deepfake_score': deepfake_score
             }
-        
+
         elif verified and confidence >= 0.7:
             # Medium confidence - approve but flag
             self._record_attempt(user_id, True, 'success_flagged')
@@ -538,7 +538,7 @@ class VoiceMFAAuth:
                 'mfa_confidence': confidence,
                 'deepfake_score': deepfake_score
             }
-        
+
         else:
             # Low confidence or not verified - reject
             self._record_attempt(user_id, False, 'mfa_failed')
@@ -549,12 +549,12 @@ class VoiceMFAAuth:
                 'mfa_confidence': confidence,
                 'deepfake_score': deepfake_score
             }
-    
+
     def _record_attempt(self, user_id: str, success: bool, reason: str):
         """Record authentication attempt for analysis."""
         if user_id not in self.mfa_attempts:
             self.mfa_attempts[user_id] = []
-        
+
         self.mfa_attempts[user_id].append({
             'timestamp': datetime.now(),
             'success': success,
@@ -564,14 +564,14 @@ class VoiceMFAAuth:
 # Usage
 if __name__ == '__main__':
     auth = VoiceMFAAuth()
-    
+
     # Check if MFA is required
     user_id = 'user123'
     account_value = 500000.00
-    
+
     if auth.requires_voice_mfa(user_id, account_value):
         print("Voice MFA required for this account")
-        
+
         # Perform voice authentication
         result = auth.authenticate_with_voice(
             user_id=user_id,
@@ -582,7 +582,7 @@ if __name__ == '__main__':
                 'device': 'mobile_app'
             }
         )
-        
+
         if result['authenticated']:
             print("✓ Authentication successful")
             if result['requires_additional_verification']:
@@ -620,7 +620,7 @@ class ComplianceWorkflow:
     def __init__(self):
         self.client = SonotheiaClient()
         self.sar_threshold = 0.6  # Configurable threshold
-    
+
     def process_transaction_with_compliance(
         self,
         audio_path: str,
@@ -628,7 +628,7 @@ class ComplianceWorkflow:
     ) -> dict:
         """
         Complete workflow: Detection → Decision → SAR submission.
-        
+
         Args:
             audio_path: Path to recorded audio
             transaction_details: {
@@ -638,7 +638,7 @@ class ComplianceWorkflow:
                 'type': str,
                 'destination': str
             }
-        
+
         Returns:
             {
                 'approved': bool,
@@ -648,7 +648,7 @@ class ComplianceWorkflow:
             }
         """
         session_id = f"compliance_{transaction_details['transaction_id']}"
-        
+
         # Step 1: Deepfake Detection
         detection_result = self.client.detect_deepfake(
             audio_path,
@@ -657,15 +657,15 @@ class ComplianceWorkflow:
                 **transaction_details
             }
         )
-        
+
         score = detection_result['score']
-        
+
         # Step 2: Make Decision
         decision, reason = self._make_compliance_decision(
             score,
             transaction_details
         )
-        
+
         # Step 3: Submit SAR if needed
         sar_case_id = None
         if decision in ['review', 'deny', 'block']:
@@ -676,7 +676,7 @@ class ComplianceWorkflow:
                 score,
                 transaction_details
             )
-        
+
         return {
             'approved': decision == 'allow',
             'decision': decision,
@@ -686,7 +686,7 @@ class ComplianceWorkflow:
             'deepfake_score': score,
             'session_id': session_id
         }
-    
+
     def _make_compliance_decision(
         self,
         deepfake_score: float,
@@ -694,22 +694,22 @@ class ComplianceWorkflow:
     ) -> tuple:
         """Make risk-based decision with reason."""
         amount = transaction_details['amount']
-        
+
         # Critical risk - immediate block
         if deepfake_score > 0.8:
             return 'block', f'Critical deepfake risk (score: {deepfake_score:.2f})'
-        
+
         # High risk + high value - deny and review
         if deepfake_score > self.sar_threshold and amount > 10000:
             return 'deny', f'High risk transaction (score: {deepfake_score:.2f}, amount: ${amount:,.2f})'
-        
+
         # Medium risk - flag for review
         if deepfake_score > self.sar_threshold:
             return 'review', f'Medium risk (score: {deepfake_score:.2f})'
-        
+
         # Low risk - allow
         return 'allow', f'Low risk (score: {deepfake_score:.2f})'
-    
+
     def _submit_compliance_sar(
         self,
         session_id: str,
@@ -730,7 +730,7 @@ class ComplianceWorkflow:
             'automated_submission': True,
             'compliance_officer': 'system'
         }
-        
+
         # Submit SAR
         result = self.client.submit_sar(
             session_id,
@@ -738,12 +738,12 @@ class ComplianceWorkflow:
             reason,
             metadata=sar_metadata
         )
-        
+
         # Log for audit trail
         self._log_sar_submission(result, sar_metadata)
-        
+
         return result['case_id']
-    
+
     def _log_sar_submission(self, result: dict, metadata: dict):
         """Maintain audit log of SAR submissions."""
         audit_entry = {
@@ -753,7 +753,7 @@ class ComplianceWorkflow:
             'status': result['status'],
             'metadata': metadata
         }
-        
+
         # In production, write to secure audit log system
         with open('sar_audit_log.json', 'a') as f:
             f.write(json.dumps(audit_entry) + '\n')
@@ -761,7 +761,7 @@ class ComplianceWorkflow:
 # Usage
 if __name__ == '__main__':
     workflow = ComplianceWorkflow()
-    
+
     result = workflow.process_transaction_with_compliance(
         audio_path='transaction_verification.wav',
         transaction_details={
@@ -772,13 +772,13 @@ if __name__ == '__main__':
             'destination': 'International'
         }
     )
-    
+
     print(f"Transaction decision: {result['decision']}")
     print(f"Reason: {result['decision_reason']}")
-    
+
     if result['sar_submitted']:
         print(f"SAR submitted: {result['sar_case_id']}")
-    
+
     if result['approved']:
         print("✓ Transaction approved")
     else:

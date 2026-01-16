@@ -297,8 +297,8 @@ When principles conflict with user needs, **users win**. Principles are guidelin
 
 ---
 
-**Last Updated**: 2026-01-05  
-**Maintained by**: Repository maintainers  
-**Philosophy**: Inspired by Dieter Rams, Applied to Documentation  
+**Last Updated**: 2026-01-05
+**Maintained by**: Repository maintainers
+**Philosophy**: Inspired by Dieter Rams, Applied to Documentation
 
 *"Less but better" - Dieter Rams*

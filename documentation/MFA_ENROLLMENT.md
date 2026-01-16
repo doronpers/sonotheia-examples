@@ -101,32 +101,32 @@ def enroll_user_voice(user_id, audio_files, metadata=None):
     headers = {
         "Authorization": f"Bearer {os.getenv('SONOTHEIA_API_KEY')}"
     }
-    
+
     # Prepare multipart form data
     files = []
     for i, audio_path in enumerate(audio_files):
         files.append(
             ('audio_samples', (f'sample{i+1}.wav', open(audio_path, 'rb'), 'audio/wav'))
         )
-    
+
     data = {
         'user_id': user_id,
         'metadata': metadata or {}
     }
-    
+
     try:
         response = requests.post(url, headers=headers, files=files, data=data)
         response.raise_for_status()
-        
+
         result = response.json()
         enrollment_id = result['enrollment_id']
         quality_score = result.get('quality_score', 0)
-        
+
         # Check quality threshold
         if quality_score < 0.75:
             print(f"Warning: Low enrollment quality score: {quality_score}")
             print("Consider re-enrolling with better quality audio samples")
-        
+
         return enrollment_id
     except requests.exceptions.RequestException as e:
         print(f"Enrollment failed: {e}")
@@ -139,7 +139,7 @@ def enroll_user_voice(user_id, audio_files, metadata=None):
 # Usage
 audio_samples = [
     'sample1.wav',
-    'sample2.wav', 
+    'sample2.wav',
     'sample3.wav'
 ]
 
@@ -202,7 +202,7 @@ async function enrollUserVoice(
 
   const form = new FormData();
   form.append('user_id', userId);
-  
+
   // Add audio samples
   audioFiles.forEach((filePath, index) => {
     form.append('audio_samples', fs.createReadStream(filePath), {

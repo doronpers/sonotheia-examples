@@ -138,9 +138,9 @@ def test_temp_file_handling(tmp_path):
     """AI-generated tests often mock file ops incorrectly."""
     test_file = tmp_path / "test.wav"
     test_file.write_bytes(b"test data")
-    
+
     result = process_file(str(test_file))
-    
+
     assert result is not None
     assert not test_file.exists()  # Verify cleanup
 

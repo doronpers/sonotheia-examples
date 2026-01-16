@@ -41,5 +41,5 @@ These guides document real-world practices, not theoretical ideals. They emphasi
 
 ---
 
-*Part of the sonotheia-examples repository*  
+*Part of the sonotheia-examples repository*
 *Last updated: 2026-01-04*

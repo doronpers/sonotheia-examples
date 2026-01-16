@@ -52,11 +52,11 @@ The MIT License is ideal for this repository because:
 
 Under the MIT License, users of this repository can:
 
-✅ **Use** the code in their own projects (commercial or non-commercial)  
-✅ **Modify** the examples to fit their specific needs  
-✅ **Distribute** modified or unmodified versions  
-✅ **Include** the code in proprietary software  
-✅ **Relicense** their derivatives (though they must include the original MIT license text)  
+✅ **Use** the code in their own projects (commercial or non-commercial)
+✅ **Modify** the examples to fit their specific needs
+✅ **Distribute** modified or unmodified versions
+✅ **Include** the code in proprietary software
+✅ **Relicense** their derivatives (though they must include the original MIT license text)
 
 ### What Users Must Do
 
@@ -99,19 +99,19 @@ The MIT license applies only to the example code and documentation in this repos
 
 ### Common Questions
 
-**Q: Can I use these examples in my commercial product?**  
+**Q: Can I use these examples in my commercial product?**
 A: Yes! The MIT License explicitly permits commercial use.
 
-**Q: Do I need to open-source my modifications?**  
+**Q: Do I need to open-source my modifications?**
 A: No. MIT License does not require you to share your modifications.
 
-**Q: Can I remove the copyright notice?**  
+**Q: Can I remove the copyright notice?**
 A: No. You must include the original copyright notice and license text.
 
-**Q: Does this license give me rights to the Sonotheia API?**  
+**Q: Does this license give me rights to the Sonotheia API?**
 A: No. This license only covers the example code in this repository. API access requires separate authorization.
 
-**Q: What if I find a bug or want to contribute improvements?**  
+**Q: What if I find a bug or want to contribute improvements?**
 A: Contributions are welcome! Submit a pull request. Your contributions will also be under the MIT License.
 
 ### Summary
@@ -120,5 +120,5 @@ A: Contributions are welcome! Submit a pull request. Your contributions will als
 
 ---
 
-**License Version**: MIT License (as specified in LICENSE file)  
+**License Version**: MIT License (as specified in LICENSE file)
 **For Questions**: Contact the repository maintainer or your legal advisor

@@ -200,16 +200,16 @@ import requests
 def call_api_with_retry(url, data, max_retries=5):
     for attempt in range(max_retries):
         response = requests.post(url, data=data)
-        
+
         if response.status_code == 429:
             # Get retry-after header or use exponential backoff
             retry_after = int(response.headers.get('Retry-After', 2 ** attempt))
             print(f"Rate limited. Retrying after {retry_after}s...")
             time.sleep(retry_after)
             continue
-        
+
         return response
-    
+
     raise Exception("Max retries exceeded")
 ```
 
@@ -233,7 +233,7 @@ result = client.detect_deepfake("audio.wav")
 def check_rate_limit(response):
     remaining = int(response.headers.get('X-RateLimit-Remaining', 0))
     reset_time = int(response.headers.get('X-RateLimit-Reset', 0))
-    
+
     if remaining < 5:
         print(f"⚠️  Only {remaining} requests remaining")
         # Consider throttling your requests
@@ -513,7 +513,7 @@ except ValueError:
 def handle_mfa_result(result):
     confidence = result['confidence']
     verified = result['verified']
-    
+
     if verified and confidence > 0.85:
         return "allow"
     elif confidence > 0.50:
@@ -562,7 +562,7 @@ def verify_webhook_signature(payload, signature, secret):
         payload.encode(),
         hashlib.sha256
     ).hexdigest()
-    
+
     return hmac.compare_digest(expected, signature)
 
 # In webhook handler

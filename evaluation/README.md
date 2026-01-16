@@ -1,6 +1,6 @@
 # Audio Trust Harness
 
-> **📦 Monorepo Notice**: This is the **Evaluation Framework** component of the `sonotheia-examples` monorepo.  
+> **📦 Monorepo Notice**: This is the **Evaluation Framework** component of the `sonotheia-examples` monorepo.
 > See the [root README](../README.md) for an overview of all components, or jump to [Integration Examples](../examples/README.md) for production integration patterns.
 >
 > **For AI Agents**: This evaluation framework inherits governance files from the repository root: [AGENT_KNOWLEDGE_BASE.md](../AGENT_KNOWLEDGE_BASE.md), [CONTRIBUTING.md](../CONTRIBUTING.md), and [GEMINI.md](../GEMINI.md). Read these before making changes.
@@ -354,13 +354,13 @@ graph TD
     A[CLI cli.py<br/>Commands: run, summary] --> B[audio.py<br/>Load & Slice]
     A --> C[perturb.py<br/>Perturbations]
     A --> D[indicators/<br/>Acoustic Features]
-    
+
     B --> E[calibrate/policy.py<br/>Deferral Decisions]
     C --> E
     D --> E
-    
+
     E --> F[audit/<br/>JSONL Records & Summaries]
-    
+
     style A fill:#e1f5ff
     style E fill:#fff4e1
     style F fill:#e8f5e9
@@ -557,10 +557,10 @@ After processing, a temporal consistency check evaluates indicator stability acr
 
 ## FAQ
 
-**Q: Is this a deepfake detector?**  
+**Q: Is this a deepfake detector?**
 A: No. This is a **research framework** for evaluating indicator robustness. It demonstrates **methodology**, not specific detection algorithms. Users supply their own indicators and tune parameters for their use case.
 
-**Q: Can I use this in production?**  
+**Q: Can I use this in production?**
 A: This is a v0.1 research tool demonstrating evaluation methodology. For production:
 
 - Integrate your own proprietary indicators via the configuration system
@@ -569,10 +569,10 @@ A: This is a v0.1 research tool demonstrating evaluation methodology. For produc
 - Implement proper error handling, monitoring, and performance optimization
 - See [Configuration Guide](config/README.md) for customization
 
-**Q: Why only 6 indicators?**  
+**Q: Why only 6 indicators?**
 A: These are **example indicators** demonstrating the framework. The framework is designed for you to add your own proprietary acoustic features. See [Configuration Guide](config/README.md).
 
-**Q: Why deterministic perturbations?**  
+**Q: Why deterministic perturbations?**
 A: Reproducibility is critical for research and debugging. Same seed = same results every time.
 
 **Q: Can I customize parameters and thresholds?**
@@ -587,15 +587,15 @@ See [Configuration Guide](config/README.md) for details.
 **Q: How do I add my own indicators?**
 A: Edit `config/indicators.yaml` to configure parameters, then implement your indicator class following the existing patterns in `src/audio_trust_harness/indicators/`. The framework is designed to be extensible.
 
-**Q: What audio formats are supported?**  
+**Q: What audio formats are supported?**
 A: WAV only. Convert other formats with ffmpeg: `ffmpeg -i input.mp3 output.wav`
 
-**Q: How do I cite this tool?**  
+**Q: How do I cite this tool?**
 A: For academic or research use, please cite as:
 
 ```text
-Doron Pers (2026). Audio Trust Harness: A stress-test framework for 
-acoustic indicator robustness evaluation. 
+Doron Pers (2026). Audio Trust Harness: A stress-test framework for
+acoustic indicator robustness evaluation.
 GitHub: https://github.com/doronpers/audio-trust-harness (Version 0.1.0)
 ```
 
@@ -611,10 +611,10 @@ Or in BibTeX format:
 }
 ```
 
-**Q: Does this work with music, speech, or both?**  
+**Q: Does this work with music, speech, or both?**
 A: It works with any audio, but indicators and thresholds were designed for general audio. Domain-specific tuning may be needed.
 
-**Q: Can I run this on GPU?**  
+**Q: Can I run this on GPU?**
 A: Current implementation is CPU-only (numpy/scipy). Indicators are lightweight and don't benefit significantly from GPU.
 
 ---
@@ -738,8 +738,8 @@ If you use this tool in research or publications, please cite as:
 **Plain text:**
 
 ```text
-Doron Pers (2026). Audio Trust Harness: A stress-test framework for 
-acoustic indicator robustness evaluation. 
+Doron Pers (2026). Audio Trust Harness: A stress-test framework for
+acoustic indicator robustness evaluation.
 GitHub: https://github.com/doronpers/audio-trust-harness (Version 0.1.0)
 ```
 
