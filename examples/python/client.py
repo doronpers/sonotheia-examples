@@ -16,6 +16,7 @@ from typing import IO, Any
 import requests
 
 from response_validator import ResponseValidationError, ResponseValidator
+from utils import convert_numpy_types
 
 logger = logging.getLogger(__name__)
 
@@ -107,11 +108,15 @@ class SonotheiaClient:
             requests.HTTPError: If API returns an error status code
             requests.RequestException: For network/connection errors
         """
+        if not os.path.exists(audio_path):
+            raise FileNotFoundError(f"Audio file not found: {audio_path}")
+
         url = f"{self.api_url}{self.deepfake_path}"
 
         with open(audio_path, "rb") as audio_file:
             files = {"audio": self._audio_part(audio_path, audio_file)}
-            data = {"metadata": json.dumps(metadata or {})}
+            safe_metadata = convert_numpy_types(metadata or {})
+            data = {"metadata": json.dumps(safe_metadata)}
 
             response = requests.post(
                 url,
@@ -163,9 +168,10 @@ class SonotheiaClient:
 
         with open(audio_path, "rb") as audio_file:
             files = {"audio": self._audio_part(audio_path, audio_file)}
+            safe_context = convert_numpy_types(context or {})
             data = {
                 "enrollment_id": enrollment_id,
-                "context": json.dumps(context or {}),
+                "context": json.dumps(safe_context),
             }
 
             response = requests.post(
@@ -222,7 +228,7 @@ class SonotheiaClient:
             "session_id": session_id,
             "decision": decision,
             "reason": reason,
-            "metadata": metadata or {},
+            "metadata": convert_numpy_types(metadata or {}),
         }
 
         response = requests.post(

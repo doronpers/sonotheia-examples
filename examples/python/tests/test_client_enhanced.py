@@ -152,9 +152,12 @@ class TestSonotheiaClientEnhanced:
         assert "Authorization" in headers
         assert headers["Authorization"] == "Bearer test-key"
 
+    @patch("client_enhanced.os.path.exists", return_value=True)
     @patch("client_enhanced.open", create=True)
     @patch("client_enhanced.requests.Session.request")
-    def test_detect_deepfake_success(self, mock_request, mock_open, client):
+    def test_detect_deepfake_success(
+        self, mock_request, mock_open, mock_exists, client
+    ):
         """Detect deepfake should succeed with valid response."""
         # Mock file open
         mock_file = MagicMock()
@@ -177,9 +180,10 @@ class TestSonotheiaClientEnhanced:
         assert result["label"] == "likely_synthetic"
         mock_request.assert_called_once()
 
+    @patch("client_enhanced.os.path.exists", return_value=True)
     @patch("client_enhanced.open", create=True)
     @patch("client_enhanced.requests.Session.request")
-    def test_verify_mfa_success(self, mock_request, mock_open, client):
+    def test_verify_mfa_success(self, mock_request, mock_open, mock_exists, client):
         """Verify MFA should succeed with valid response."""
         mock_file = MagicMock()
         mock_open.return_value.__enter__ = Mock(return_value=mock_file)

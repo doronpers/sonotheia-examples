@@ -25,6 +25,7 @@ import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
+from utils import convert_numpy_types
 logger = logging.getLogger(__name__)
 
 
@@ -291,11 +292,15 @@ class SonotheiaClientEnhanced:
             requests.HTTPError: If API returns an error status code
             requests.RequestException: For network/connection errors
         """
+        if not os.path.exists(audio_path):
+            raise FileNotFoundError(f"Audio file not found: {audio_path}")
+
         url = f"{self.api_url}{self.deepfake_path}"
 
         with open(audio_path, "rb") as audio_file:
             files = {"audio": self._audio_part(audio_path, audio_file)}
-            data = {"metadata": json.dumps(metadata or {})}
+            safe_metadata = convert_numpy_types(metadata or {})
+            data = {"metadata": json.dumps(safe_metadata)}
 
             return self._make_request(
                 "POST",
@@ -327,13 +332,17 @@ class SonotheiaClientEnhanced:
             requests.HTTPError: If API returns an error status code
             requests.RequestException: For network/connection errors
         """
+        if not os.path.exists(audio_path):
+            raise FileNotFoundError(f"Audio file not found: {audio_path}")
+
         url = f"{self.api_url}{self.mfa_path}"
 
         with open(audio_path, "rb") as audio_file:
             files = {"audio": self._audio_part(audio_path, audio_file)}
+            safe_context = convert_numpy_types(context or {})
             data = {
                 "enrollment_id": enrollment_id,
-                "context": json.dumps(context or {}),
+                "context": json.dumps(safe_context),
             }
 
             return self._make_request(
@@ -374,7 +383,7 @@ class SonotheiaClientEnhanced:
             "session_id": session_id,
             "decision": decision,
             "reason": reason,
-            "metadata": metadata or {},
+            "metadata": convert_numpy_types(metadata or {}),
         }
 
         return self._make_request(
