@@ -24,7 +24,7 @@ def convert_numpy_types(obj: Any) -> Any:
         if isinstance(obj, np.generic):
             return obj.item()
         if isinstance(obj, np.ndarray):
-            return [convert_numpy_types(v) for v in obj.tolist()]
+            return obj.tolist()
 
     if isinstance(obj, dict):
         return {k: convert_numpy_types(v) for k, v in obj.items()}
