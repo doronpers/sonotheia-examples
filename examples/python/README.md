@@ -91,6 +91,8 @@ sar_result = client.submit_sar("session-123", "review", "High risk detected")
 print(f"Case ID: {sar_result['case_id']}")
 ```
 
+> Tip: Metadata/context payloads are normalized to JSON-safe native types, including numpy scalars/arrays.
+
 ## Running Tests
 
 ```bash
@@ -379,11 +381,6 @@ docker-compose up
 docker-compose up sonotheia-enhanced
 ```
 
-## Requirements
-
-- Python 3.9 or later
-- See `requirements.txt` for dependencies
-
 ## Development
 
 To contribute or modify:
@@ -396,8 +393,8 @@ To contribute or modify:
 
 ## 📌 Quick Links
 
-- [Getting Started Guide](../../docs/GETTING_STARTED.md) — 5-minute setup
-- [Documentation Index](../../docs/INDEX.md) — find anything quickly
+- [Getting Started Guide](../../documentation/GETTING_STARTED.md) — 5-minute setup
+- [Documentation Index](../../documentation/INDEX.md) — find anything quickly
 - [Examples Overview](../README.md) — quick-start commands for every language
-- [FAQ](../../docs/FAQ.md) — common questions and troubleshooting
-- [Best Practices](../../docs/BEST_PRACTICES.md) — production integration guidelines
+- [FAQ](../../documentation/FAQ.md) — common questions and troubleshooting
+- [Best Practices](../../documentation/BEST_PRACTICES.md) — production integration guidelines

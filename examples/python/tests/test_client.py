@@ -48,10 +48,13 @@ class TestSonotheiaClient:
         assert headers["Authorization"] == "Bearer test-key"
         assert headers["Accept"] == "application/json"
 
+    @patch("client.os.path.exists", return_value=True)
     @patch("client.mimetypes.guess_type", return_value=("audio/wav", None))
     @patch("builtins.open", new_callable=mock_open, read_data=b"fake audio data")
     @patch("requests.post")
-    def test_detect_deepfake_success(self, mock_post, mock_file, mock_mime):
+    def test_detect_deepfake_success(
+        self, mock_post, mock_file, mock_mime, mock_exists
+    ):
         """Test successful deepfake detection."""
         # Mock response
         mock_response = Mock()
@@ -75,10 +78,13 @@ class TestSonotheiaClient:
         assert call_kwargs["headers"]["Authorization"] == "Bearer test-key"
         assert "metadata" in call_kwargs["data"]
 
+    @patch("client.os.path.exists", return_value=True)
     @patch("client.mimetypes.guess_type", return_value=("audio/wav", None))
     @patch("builtins.open", new_callable=mock_open, read_data=b"fake audio data")
     @patch("requests.post")
-    def test_detect_deepfake_http_error(self, mock_post, mock_file, mock_mime):
+    def test_detect_deepfake_http_error(
+        self, mock_post, mock_file, mock_mime, mock_exists
+    ):
         """Test deepfake detection with HTTP error."""
         # Mock error response
         mock_response = Mock()
@@ -91,10 +97,11 @@ class TestSonotheiaClient:
         with pytest.raises(requests.HTTPError):
             client.detect_deepfake("test.wav")
 
+    @patch("client.os.path.exists", return_value=True)
     @patch("client.mimetypes.guess_type", return_value=("audio/wav", None))
     @patch("builtins.open", new_callable=mock_open, read_data=b"fake audio data")
     @patch("requests.post")
-    def test_verify_mfa_success(self, mock_post, mock_file, mock_mime):
+    def test_verify_mfa_success(self, mock_post, mock_file, mock_mime, mock_exists):
         """Test successful MFA verification."""
         # Mock response
         mock_response = Mock()
@@ -117,10 +124,11 @@ class TestSonotheiaClient:
         call_kwargs = mock_post.call_args.kwargs
         assert call_kwargs["data"]["enrollment_id"] == "enroll-123"
 
+    @patch("client.os.path.exists", return_value=True)
     @patch("client.mimetypes.guess_type", return_value=("audio/wav", None))
     @patch("builtins.open", new_callable=mock_open, read_data=b"fake audio data")
     @patch("requests.post")
-    def test_verify_mfa_failed(self, mock_post, mock_file, mock_mime):
+    def test_verify_mfa_failed(self, mock_post, mock_file, mock_mime, mock_exists):
         """Test MFA verification failure."""
         # Mock response
         mock_response = Mock()
