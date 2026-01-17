@@ -123,11 +123,11 @@ Proper deferral workflows:
 
 ### Appropriate Uses:
 
-✅ Risk scoring within multi-factor authentication workflows  
-✅ Signal generation for human review queues  
-✅ Evidence collection for audit and compliance  
-✅ Fraud pattern analysis and investigation  
-✅ Workflow optimization based on signal patterns  
+✅ Risk scoring within multi-factor authentication workflows
+✅ Signal generation for human review queues
+✅ Evidence collection for audit and compliance
+✅ Fraud pattern analysis and investigation
+✅ Workflow optimization based on signal patterns
 
 ---
 

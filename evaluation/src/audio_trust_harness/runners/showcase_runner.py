@@ -6,17 +6,15 @@ with synthetic fixtures and audit-ready JSONL output.
 """
 
 import json
+import sys
+import uuid
 from datetime import datetime
 from pathlib import Path
 from typing import Any
 
 import numpy as np
 
-from audio_trust_harness.audit.record import (
-    AuditRecord,
-    DeferralInfo,
-    write_audit_record,
-)
+from audio_trust_harness.audit.record import AuditRecord, DeferralInfo
 from audio_trust_harness.audit.sanitize import sanitize_audit_record
 from audio_trust_harness.sensors import InteractionalSensor, UnknownSensor
 
@@ -56,30 +54,20 @@ class ShowcaseRunner:
         audio = self._generate_fixture(fixture_name, sample_rate)
 
         # Process through sensors
-        interactional_result = self.interactional_sensor.analyze(
-            audio, sample_rate
-        )
+        interactional_result = self.interactional_sensor.analyze(audio, sample_rate)
         unknown_result = self.unknown_sensor.analyze(audio, sample_rate)
 
         # Combine results
         combined_signals = {
-            **{
-                f"interactional_{k}": v
-                for k, v in interactional_result.signals.items()
-            },
+            **{f"interactional_{k}": v for k, v in interactional_result.signals.items()},
             **{f"unknown_{k}": v for k, v in unknown_result.signals.items()},
         }
 
         # Aggregate confidence (weighted average)
-        confidence = (
-            interactional_result.confidence * 0.5
-            + unknown_result.confidence * 0.5
-        )
+        confidence = interactional_result.confidence * 0.5 + unknown_result.confidence * 0.5
 
         # Combine reason codes
-        reason_codes = (
-            interactional_result.reason_codes + unknown_result.reason_codes
-        )
+        reason_codes = interactional_result.reason_codes + unknown_result.reason_codes
 
         # Determine overall action (most conservative)
         actions = [
@@ -106,17 +94,20 @@ class ShowcaseRunner:
         )
 
         # Sanitize record to ensure no forbidden fields
-        record_dict = record.model_dump()
-        sanitized_dict = sanitize_audit_record(record_dict)
+        from audio_trust_harness.utils.json_safety import convert_numpy_types
 
-        # Write sanitized record to JSONL
+        record_dict = record.model_dump()
+        # Convert numpy types first
+        clean_dict = convert_numpy_types(record_dict)
+        # Then sanitize
+        sanitized_dict = sanitize_audit_record(clean_dict)
+
+        # Write sanitized record to JSONL (sort keys for determinism)
         output_path.parent.mkdir(parents=True, exist_ok=True)
         with open(output_path, "a") as f:
             f.write(json.dumps(sanitized_dict, sort_keys=True) + "\n")
 
-    def _generate_fixture(
-        self, fixture_name: str, sample_rate: int, seed: int = 42
-    ) -> np.ndarray:
+    def _generate_fixture(self, fixture_name: str, sample_rate: int, seed: int = 42) -> np.ndarray:
         """Generate synthetic audio fixture.
 
         Args:
@@ -144,9 +135,7 @@ class ShowcaseRunner:
             for harmonic in [1, 2, 3, 4, 5]:
                 amplitude = 1.0 / harmonic
                 audio += amplitude * np.sin(2 * np.pi * f0 * harmonic * t)
-            audio += np.random.normal(0, 0.01, n_samples).astype(
-                np.float32
-            )
+            audio += np.random.normal(0, 0.01, n_samples).astype(np.float32)
             audio = audio / np.max(np.abs(audio)) * 0.7
 
         elif fixture_name == "noisy_speech":
@@ -203,9 +192,7 @@ class ShowcaseRunner:
                 segment = np.zeros(end_idx - start_idx, dtype=np.float32)
                 for harmonic in [1, 2, 3]:
                     amplitude = 0.8 / harmonic
-                    segment += amplitude * np.sin(
-                        2 * np.pi * f0 * harmonic * t[start_idx:end_idx]
-                    )
+                    segment += amplitude * np.sin(2 * np.pi * f0 * harmonic * t[start_idx:end_idx])
                 audio[start_idx:end_idx] += segment
             audio = audio / (np.max(np.abs(audio)) + 1e-10) * 0.7
 
@@ -219,9 +206,7 @@ class ShowcaseRunner:
                 speaker_audio = np.zeros(n_samples, dtype=np.float32)
                 for harmonic in [1, 2, 3]:
                     amplitude = 0.6 / harmonic
-                    speaker_audio += amplitude * np.sin(
-                        2 * np.pi * f0 * harmonic * t
-                    )
+                    speaker_audio += amplitude * np.sin(2 * np.pi * f0 * harmonic * t)
                 audio += speaker_audio
             audio = audio / (np.max(np.abs(audio)) + 1e-10) * 0.7
 
@@ -260,8 +245,6 @@ class ShowcaseRunner:
         Returns:
             AuditRecord instance
         """
-        import sys
-
         # For deterministic output, use fixed timestamp and run_id
         if deterministic:
             # Fixed timestamp for byte-for-byte determinism
@@ -269,11 +252,8 @@ class ShowcaseRunner:
             run_id = f"showcase_{fixture_name}_deterministic"
         else:
             timestamp = datetime.now().isoformat()
-            import uuid
-
             run_id = (
-                f"showcase_{datetime.now().strftime('%Y%m%d_%H%M%S')}_"
-                f"{uuid.uuid4().hex[:6]}"
+                f"showcase_{datetime.now().strftime('%Y%m%d_%H%M%S')}_" f"{uuid.uuid4().hex[:6]}"
             )
 
         # Ensure confidence is in bounds

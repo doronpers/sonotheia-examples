@@ -33,15 +33,11 @@ class SensorResult:
     def __post_init__(self):
         """Validate result after initialization."""
         if not 0.0 <= self.confidence <= 1.0:
-            raise ValueError(
-                f"Confidence must be in [0.0, 1.0], got {self.confidence}"
-            )
+            raise ValueError(f"Confidence must be in [0.0, 1.0], got {self.confidence}")
         if not isinstance(self.signals, dict):
             raise TypeError(f"signals must be dict, got {type(self.signals)}")
         if not isinstance(self.reason_codes, list):
-            raise TypeError(
-                f"reason_codes must be list, got {type(self.reason_codes)}"
-            )
+            raise TypeError(f"reason_codes must be list, got {type(self.reason_codes)}")
 
 
 class BaseSensor(ABC):
@@ -63,9 +59,7 @@ class BaseSensor(ABC):
         self.name = name
 
     @abstractmethod
-    def analyze(
-        self, audio: np.ndarray, sample_rate: int
-    ) -> SensorResult:
+    def analyze(self, audio: np.ndarray, sample_rate: int) -> SensorResult:
         """Analyze audio and return risk assessment.
 
         Args:

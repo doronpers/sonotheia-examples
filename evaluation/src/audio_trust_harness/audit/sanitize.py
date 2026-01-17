@@ -115,9 +115,7 @@ def is_base64_like(value: str) -> bool:
         return False
 
     # Base64 strings are typically long and contain only base64 characters
-    base64_chars = set(
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
-    )
+    base64_chars = set("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=")
 
     # Check if all characters are base64 characters
     if not all(c in base64_chars for c in value):

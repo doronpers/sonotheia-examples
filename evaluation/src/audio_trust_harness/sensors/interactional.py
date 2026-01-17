@@ -22,9 +22,7 @@ class InteractionalSensor(BaseSensor):
         """Initialize the interactional sensor."""
         super().__init__("interactional")
 
-    def analyze(
-        self, audio: np.ndarray, sample_rate: int
-    ) -> SensorResult:
+    def analyze(self, audio: np.ndarray, sample_rate: int) -> SensorResult:
         """Analyze interactional patterns in audio.
 
         Args:
@@ -72,9 +70,7 @@ class InteractionalSensor(BaseSensor):
             recommended_action=recommended_action,
         )
 
-    def _compute_signals(
-        self, audio: np.ndarray, sample_rate: int
-    ) -> dict[str, float]:
+    def _compute_signals(self, audio: np.ndarray, sample_rate: int) -> dict[str, float]:
         """Compute interactional signal values.
 
         Args:
@@ -96,9 +92,7 @@ class InteractionalSensor(BaseSensor):
         signals["zero_crossing_rate"] = float(zcr)
 
         # Spectral centroid (brightness)
-        freqs, psd = signal.welch(
-            audio, sample_rate, nperseg=min(2048, len(audio))
-        )
+        freqs, psd = signal.welch(audio, sample_rate, nperseg=min(2048, len(audio)))
         if np.sum(psd) > 0:
             spectral_centroid = np.sum(freqs * psd) / np.sum(psd)
         else:
@@ -116,9 +110,7 @@ class InteractionalSensor(BaseSensor):
                 energy = np.sqrt(np.mean(window**2))
                 energy_variation.append(energy)
             if len(energy_variation) > 1:
-                cv = np.std(energy_variation) / (
-                    np.mean(energy_variation) + 1e-10
-                )
+                cv = np.std(energy_variation) / (np.mean(energy_variation) + 1e-10)
             else:
                 cv = 0.0
         else:
@@ -163,9 +155,7 @@ class InteractionalSensor(BaseSensor):
         # Ensure bounds
         return max(0.0, min(1.0, base_confidence))
 
-    def _determine_reason_codes(
-        self, signals: dict[str, float], confidence: float
-    ) -> list[str]:
+    def _determine_reason_codes(self, signals: dict[str, float], confidence: float) -> list[str]:
         """Determine reason codes from signals and confidence.
 
         Args:
@@ -194,9 +184,7 @@ class InteractionalSensor(BaseSensor):
 
         return reason_codes
 
-    def _determine_action(
-        self, confidence: float, reason_codes: list[str]
-    ) -> str:
+    def _determine_action(self, confidence: float, reason_codes: list[str]) -> str:
         """Determine recommended action from confidence and reason codes.
 
         Args:

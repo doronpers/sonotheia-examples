@@ -22,9 +22,7 @@ class UnknownSensor(BaseSensor):
         """Initialize the unknown sensor."""
         super().__init__("unknown")
 
-    def analyze(
-        self, audio: np.ndarray, sample_rate: int
-    ) -> SensorResult:
+    def analyze(self, audio: np.ndarray, sample_rate: int) -> SensorResult:
         """Analyze unknown patterns in audio.
 
         Args:
@@ -72,9 +70,7 @@ class UnknownSensor(BaseSensor):
             recommended_action=recommended_action,
         )
 
-    def _compute_signals(
-        self, audio: np.ndarray, sample_rate: int
-    ) -> dict[str, float]:
+    def _compute_signals(self, audio: np.ndarray, sample_rate: int) -> dict[str, float]:
         """Compute unknown pattern signal values.
 
         Args:
@@ -87,9 +83,7 @@ class UnknownSensor(BaseSensor):
         signals = {}
 
         # Spectral analysis
-        freqs, psd = signal.welch(
-            audio, sample_rate, nperseg=min(2048, len(audio))
-        )
+        freqs, psd = signal.welch(audio, sample_rate, nperseg=min(2048, len(audio)))
 
         # Spectral rolloff (frequency below which 85% of energy is contained)
         cumsum_psd = np.cumsum(psd)
@@ -107,26 +101,19 @@ class UnknownSensor(BaseSensor):
         # Spectral bandwidth (spread of energy)
         if np.sum(psd) > 0:
             spectral_centroid = np.sum(freqs * psd) / np.sum(psd)
-            bandwidth = np.sqrt(
-                np.sum(((freqs - spectral_centroid) ** 2) * psd)
-                / np.sum(psd)
-            )
+            bandwidth = np.sqrt(np.sum(((freqs - spectral_centroid) ** 2) * psd) / np.sum(psd))
         else:
             bandwidth = 0.0
         signals["spectral_bandwidth"] = float(bandwidth)
 
         # Phase coherence (using STFT)
         if len(audio) >= 512:
-            _, _, stft = signal.stft(
-                audio, sample_rate, nperseg=512, noverlap=256
-            )
+            _, _, stft = signal.stft(audio, sample_rate, nperseg=512, noverlap=256)
             # Compute phase coherence across time
             phase = np.angle(stft)
             phase_diff = np.diff(phase, axis=1)
             # Measure phase stability
-            phase_coherence = float(
-                1.0 - np.mean(np.abs(np.sin(phase_diff / 2.0)))
-            )
+            phase_coherence = float(1.0 - np.mean(np.abs(np.sin(phase_diff / 2.0))))
         else:
             phase_coherence = 0.0
         signals["phase_coherence"] = phase_coherence
@@ -144,9 +131,7 @@ class UnknownSensor(BaseSensor):
         if np.sum(psd) > 0 and np.std(psd) > 0:
             mean_psd = np.mean(psd)
             std_psd = np.std(psd)
-            kurtosis = float(
-                np.mean(((psd - mean_psd) / std_psd) ** 4) - 3.0
-            )
+            kurtosis = float(np.mean(((psd - mean_psd) / std_psd) ** 4) - 3.0)
         else:
             kurtosis = 0.0
         signals["spectral_kurtosis"] = kurtosis
@@ -183,9 +168,7 @@ class UnknownSensor(BaseSensor):
         # Ensure bounds
         return max(0.0, min(1.0, base_confidence))
 
-    def _determine_reason_codes(
-        self, signals: dict[str, float], confidence: float
-    ) -> list[str]:
+    def _determine_reason_codes(self, signals: dict[str, float], confidence: float) -> list[str]:
         """Determine reason codes from signals and confidence.
 
         Args:
@@ -216,9 +199,7 @@ class UnknownSensor(BaseSensor):
 
         return reason_codes
 
-    def _determine_action(
-        self, confidence: float, reason_codes: list[str]
-    ) -> str:
+    def _determine_action(self, confidence: float, reason_codes: list[str]) -> str:
         """Determine recommended action from confidence and reason codes.
 
         Args:

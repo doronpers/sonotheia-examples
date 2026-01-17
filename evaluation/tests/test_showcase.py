@@ -6,7 +6,6 @@ Tests determinism, bounds, and sanitation requirements.
 
 import json
 from pathlib import Path
-from tempfile import NamedTemporaryFile
 
 import numpy as np
 import pytest
@@ -44,12 +43,10 @@ class TestShowcaseDeterminism:
 
         # Compare key fields
         assert record1["indicators"] == record2["indicators"]
-        assert record1["deferral"]["fragility_score"] == record2["deferral"][
-            "fragility_score"
-        ]
-        assert record1["deferral"]["recommended_action"] == record2[
-            "deferral"
-        ]["recommended_action"]
+        assert record1["deferral"]["fragility_score"] == record2["deferral"]["fragility_score"]
+        assert (
+            record1["deferral"]["recommended_action"] == record2["deferral"]["recommended_action"]
+        )
         assert record1["deferral"]["reasons"] == record2["deferral"]["reasons"]
 
     def test_different_fixtures_produce_different_output(self, tmp_path):
@@ -120,14 +117,14 @@ class TestShowcaseBounds:
             fragility = record["deferral"]["fragility_score"]
             confidence = 1.0 - fragility
 
-            assert 0.0 <= confidence <= 1.0, (
-                f"Confidence {confidence} out of bounds for fixture {fixture_name}"
-            )
+            assert (
+                0.0 <= confidence <= 1.0
+            ), f"Confidence {confidence} out of bounds for fixture {fixture_name}"
 
             # Fragility score should also be in reasonable bounds (0.0 to 1.0 typically)
-            assert 0.0 <= fragility <= 1.0, (
-                f"Fragility {fragility} out of bounds for fixture {fixture_name}"
-            )
+            assert (
+                0.0 <= fragility <= 1.0
+            ), f"Fragility {fragility} out of bounds for fixture {fixture_name}"
 
     def test_all_signals_are_numeric(self, tmp_path):
         """Test that all signal values are numeric."""
@@ -140,9 +137,9 @@ class TestShowcaseBounds:
 
         # All indicators should be numeric
         for key, value in record["indicators"].items():
-            assert isinstance(value, (int, float)), (
-                f"Signal {key} has non-numeric value: {type(value)}"
-            )
+            assert isinstance(
+                value, (int, float)
+            ), f"Signal {key} has non-numeric value: {type(value)}"
 
 
 class TestShowcaseSanitation:
@@ -191,9 +188,7 @@ class TestShowcaseSanitation:
                     check_for_base64(v, f"{path}[{i}]")
             elif isinstance(obj, str):
                 if is_base64_like(obj):
-                    pytest.fail(
-                        f"Potential base64 field found at {path}: {obj[:50]}..."
-                    )
+                    pytest.fail(f"Potential base64 field found at {path}: {obj[:50]}...")
 
         check_for_base64(record)
 

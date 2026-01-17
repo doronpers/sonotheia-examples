@@ -148,23 +148,38 @@ python -m audio_trust_harness --help
 
 ### Showcase Quickstart
 
-The showcase runner demonstrates Sonotheia's evidence-first voice risk assessment with deterministic, public-safe sensors:
+The showcase runner demonstrates Sonotheia's evidence-first voice risk assessment with deterministic, public-safe sensors. It runs synthetic fixtures (no real audio required) and outputs audit JSONL.
+
+**Available fixtures:**
+- `clean_speech`: Multi-harmonic speech-like signal
+- `noisy_speech`: Speech with ambient noise
+- `tone`: Simple 440Hz tone
+- `noise`: White noise
+- `turntaking_normal`: Normal turn-taking pattern (alternating speech/pauses)
+- `turntaking_anomalous`: Anomalous turn-taking (overlapping, no pauses)
+- `overlap_high`: High overlap (multiple simultaneous speakers)
+
+**Usage:**
 
 ```bash
 # Run showcase evaluation with a synthetic fixture
 python -m audio_trust_harness showcase \
-  --fixture clean_speech \
-  --out showcase_output.jsonl
+  --fixture turntaking_anomalous \
+  --out audit.jsonl
 
-# Available fixtures: clean_speech, noisy_speech, tone, noise
+# Try different fixtures
 python -m audio_trust_harness showcase \
-  --fixture noisy_speech \
-  --out showcase_noisy.jsonl
+  --fixture turntaking_normal \
+  --out audit_normal.jsonl
+
+python -m audio_trust_harness showcase \
+  --fixture overlap_high \
+  --out audit_overlap.jsonl
 ```
 
 **What the showcase does:**
 
-1. Generates a deterministic synthetic audio fixture
+1. Generates a deterministic synthetic audio fixture (no real audio required)
 2. Processes it through public-safe sensors (interactional, unknown)
 3. Emits audit JSONL records with:
    - `signals`: Evidence indicators from sensors
@@ -176,7 +191,8 @@ python -m audio_trust_harness showcase \
 
 ```json
 {
-  "run_id": "showcase_20260104_201530_a3f9c2",
+  "run_id": "showcase_turntaking_anomalous_deterministic",
+  "timestamp": "2026-01-01T00:00:00.000000",
   "indicators": {
     "interactional_rms_energy": 0.234,
     "interactional_zero_crossing_rate": 1234.5,
@@ -192,7 +208,13 @@ python -m audio_trust_harness showcase \
 }
 ```
 
-The showcase runner is deterministic (same fixture → same output) and public-safe (no raw audio bytes, no base64 fields).
+**Key features:**
+- **Deterministic**: Same fixture → same output (byte-for-byte identical)
+- **Public-safe**: No raw audio bytes, no base64 fields, sanitized output
+- **Fast**: Completes in <2 seconds
+- **Evidence-first**: Signals + confidence, not binary decisions
+
+For more details on interpreting results, see [Interpreting Results](documentation/INTERPRETING_RESULTS.md).
 
 ### Run the Harness
 

@@ -22,24 +22,16 @@ app = typer.Typer(help="Audio Trust Harness - Stress-test tool for audio indicat
 
 @app.command()
 def run(
-    audio: Path = typer.Option(
-        None, help="Path to input WAV file (required unless --demo is set)"
-    ),
+    audio: Path = typer.Option(None, help="Path to input WAV file (required unless --demo is set)"),
     out: Path = typer.Option(..., help="Path to output JSONL audit file"),
     demo: bool = typer.Option(False, help="Run in demo mode with synthetic audio"),
     slice_seconds: float = typer.Option(10.0, help="Duration of each slice in seconds"),
-    hop_seconds: float = typer.Option(
-        10.0, help="Hop duration between slices in seconds"
-    ),
+    hop_seconds: float = typer.Option(10.0, help="Hop duration between slices in seconds"),
     seed: int = typer.Option(1337, help="Random seed for deterministic perturbations"),
-    perturbations: str = typer.Option(
-        "none,noise", help="Comma-separated list of perturbations"
-    ),
+    perturbations: str = typer.Option("none,noise", help="Comma-separated list of perturbations"),
     max_slices: int = typer.Option(None, help="Maximum number of slices to process"),
     parallel: bool = typer.Option(False, help="Enable parallel processing of slices"),
-    workers: int = typer.Option(
-        None, help="Number of worker processes (default: CPU count)"
-    ),
+    workers: int = typer.Option(None, help="Number of worker processes (default: CPU count)"),
     fragility_threshold: float = typer.Option(
         0.3, help="Fragility threshold (CV > threshold triggers deferral)"
     ),
@@ -102,9 +94,7 @@ def run(
         import subprocess
 
         typer.echo("Generating demo assets...")
-        script_path = (
-            Path(__file__).parent.parent.parent / "scripts" / "generate_demo_audio.py"
-        )
+        script_path = Path(__file__).parent.parent.parent / "scripts" / "generate_demo_audio.py"
         try:
             subprocess.run([sys.executable, str(script_path)], check=True)
         except subprocess.CalledProcessError:
@@ -147,9 +137,7 @@ def run(
     typer.echo(f"Duration: {len(audio_data) / sample_rate:.2f}s")
 
     # Slice audio
-    typer.echo(
-        f"Slicing audio (slice={slice_seconds}s, hop={hop_seconds}s, max={max_slices})..."
-    )
+    typer.echo(f"Slicing audio (slice={slice_seconds}s, hop={hop_seconds}s, max={max_slices})...")
     try:
         slices = slice_audio(
             audio_data,
@@ -237,17 +225,13 @@ def run(
         typer.echo("  ✓ Temporal consistency: PASS")
     else:
         typer.echo("  ⚠ Temporal consistency: FAIL")
-        typer.echo(
-            f"    Inconsistency score: {consistency_result.inconsistency_score:.3f}"
-        )
+        typer.echo(f"    Inconsistency score: {consistency_result.inconsistency_score:.3f}")
         typer.echo(
             f"    Inconsistent indicators: {', '.join(consistency_result.inconsistent_indicators)}"
         )
 
     typer.echo(f"\n✓ Complete! Wrote {total_records} records to {out}")
-    typer.echo(
-        f"  Processed {len(slices)} slices with {len(perturbation_names)} perturbations"
-    )
+    typer.echo(f"  Processed {len(slices)} slices with {len(perturbation_names)} perturbations")
 
     # Summary statistics
     actions = {"accept": 0, "defer_to_review": 0, "insufficient_evidence": 0}

@@ -9,10 +9,7 @@ from .record import (
     get_tool_version,
     write_audit_record,
 )
-from .sanitize import (
-    sanitize_audit_record,
-    validate_no_forbidden_fields,
-)
+from .sanitize import sanitize_audit_record, validate_no_forbidden_fields
 
 __all__ = [
     "AuditRecord",
