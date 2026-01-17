@@ -31,6 +31,20 @@ Both components work together to showcase:
 
 ---
 
+## Governance & Interpretation (Read This First)
+
+> ⚠️ **Important**: Outputs are suggestive signals, not identity proofs. Results should be interpreted within the context of your security workflow and used as part of a broader decision-making process.
+
+Before integrating or evaluating, please review:
+
+- **[Promotion Checklist](documentation/governance/PROMOTION_CHECKLIST_PUBLIC.md)** - Standards for promoting indicators to production
+- **[Reason Codes Registry](documentation/governance/REASON_CODES_REGISTRY_PUBLIC.md)** - Standardized reason codes for results
+- **[Evidence Logging Standard](documentation/governance/EVIDENCE_LOGGING_STANDARD_PUBLIC.md)** - Requirements for audit trails and evidence logging
+
+📖 **[How to Interpret Results](documentation/strategy/HOW_TO_INTERPRET_RESULTS.md)** - Comprehensive guide on understanding outputs, confidence bounds, and proper usage
+
+---
+
 ## Repository Structure
 
 ```
@@ -192,6 +206,20 @@ We welcome contributions. Please see:
 This repository is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
 
 > **Note:** This license applies to the showcase code and documentation. Access to the Sono Platform service requires separate authorization.
+
+---
+
+## How This Repository Reflects Sonotheia's Approach
+
+This repository embodies Sonotheia's core philosophy: **attackers optimize for what sounds convincing**, not what is physically or system-consistent. **Sounding real is not the same as being physically or system-consistent**. Our goal is **measurably safer decisions—fewer exceptions, fewer bypasses, fewer successful fraud events**.
+
+The examples and evaluation framework here demonstrate how to:
+- Use acoustic indicators as signals within broader security workflows
+- Apply confidence bounds and reason codes appropriately
+- Leverage deferral mechanisms as a control mechanism
+- Avoid prohibited uses (e.g., treating signals as identity proofs)
+
+This aligns with Sonotheia's commitment to transparency, proper interpretation, and measurable security outcomes rather than perfect detection claims.
 
 ---
 

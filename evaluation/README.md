@@ -146,6 +146,54 @@ python -m audio_trust_harness --help
 # You should see the CLI help with available commands
 ```
 
+### Showcase Quickstart
+
+The showcase runner demonstrates Sonotheia's evidence-first voice risk assessment with deterministic, public-safe sensors:
+
+```bash
+# Run showcase evaluation with a synthetic fixture
+python -m audio_trust_harness showcase \
+  --fixture clean_speech \
+  --out showcase_output.jsonl
+
+# Available fixtures: clean_speech, noisy_speech, tone, noise
+python -m audio_trust_harness showcase \
+  --fixture noisy_speech \
+  --out showcase_noisy.jsonl
+```
+
+**What the showcase does:**
+
+1. Generates a deterministic synthetic audio fixture
+2. Processes it through public-safe sensors (interactional, unknown)
+3. Emits audit JSONL records with:
+   - `signals`: Evidence indicators from sensors
+   - `confidence`: Confidence score (0.0-1.0)
+   - `reason_codes`: Explanation codes for the assessment
+   - `recommended_action`: "accept", "defer_to_review", or "insufficient_evidence"
+
+**Example output:**
+
+```json
+{
+  "run_id": "showcase_20260104_201530_a3f9c2",
+  "indicators": {
+    "interactional_rms_energy": 0.234,
+    "interactional_zero_crossing_rate": 1234.5,
+    "interactional_spectral_centroid": 1523.45,
+    "unknown_spectral_rolloff": 3456.7,
+    "unknown_phase_coherence": 0.78
+  },
+  "deferral": {
+    "recommended_action": "accept",
+    "fragility_score": 0.12,
+    "reasons": []
+  }
+}
+```
+
+The showcase runner is deterministic (same fixture → same output) and public-safe (no raw audio bytes, no base64 fields).
+
 ### Run the Harness
 
 ```bash

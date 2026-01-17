@@ -4,6 +4,18 @@
 
 This document summarizes the changes made to separate the public-facing research framework from proprietary/sensitive implementation details.
 
+## How This Repository Reflects Sonotheia's Approach
+
+This repository embodies Sonotheia's core philosophy: **attackers optimize for what sounds convincing**, not what is physically or system-consistent. **Sounding real is not the same as being physically or system-consistent**. Our goal is **measurably safer decisions—fewer exceptions, fewer bypasses, fewer successful fraud events**.
+
+The evaluation framework here demonstrates how to:
+- Use acoustic indicators as signals within broader security workflows
+- Apply confidence bounds and reason codes appropriately
+- Leverage deferral mechanisms as a control mechanism
+- Avoid prohibited uses (e.g., treating signals as identity proofs)
+
+This aligns with Sonotheia's commitment to transparency, proper interpretation, and measurable security outcomes rather than perfect detection claims.
+
 ## Problem Statement
 
 The original repository contained hardcoded parameters (SNR values, codec settings, thresholds) that could be considered proprietary or sensitive. The goal was to:

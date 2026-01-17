@@ -386,6 +386,72 @@ def visualize(
 
 
 @app.command()
+def showcase(
+    fixture: str = typer.Option(
+        ...,
+        help=(
+            "Name of synthetic fixture: clean_speech, noisy_speech, tone, noise, "
+            "turntaking_normal, turntaking_anomalous, overlap_high"
+        ),
+    ),
+    out: Path = typer.Option(..., help="Path to output JSONL audit file"),
+):
+    """
+    Run showcase evaluation with deterministic, public-safe sensors.
+
+    Demonstrates Sonotheia's evidence-first voice risk assessment using
+    synthetic fixtures. Emits audit JSONL records with signals, confidence,
+    reason_codes, and recommended_action.
+
+    Fixtures:
+    - clean_speech: Multi-harmonic speech-like signal
+    - noisy_speech: Speech with ambient noise
+    - tone: Simple 440Hz tone
+    - noise: White noise
+    - turntaking_normal: Normal turn-taking pattern (alternating speech/pauses)
+    - turntaking_anomalous: Anomalous turn-taking (overlapping, no pauses)
+    - overlap_high: High overlap (multiple simultaneous speakers)
+    """
+    from audio_trust_harness.runners import ShowcaseRunner
+
+    valid_fixtures = {
+        "clean_speech",
+        "noisy_speech",
+        "tone",
+        "noise",
+        "turntaking_normal",
+        "turntaking_anomalous",
+        "overlap_high",
+    }
+
+    if fixture not in valid_fixtures:
+        typer.echo(
+            f"Error: Invalid fixture '{fixture}'. "
+            f"Valid options: {', '.join(sorted(valid_fixtures))}",
+            err=True,
+        )
+        raise typer.Exit(1)
+
+    typer.echo(f"Running showcase evaluation with fixture: {fixture}")
+    typer.echo(f"Output file: {out}")
+
+    # Clear output file if it exists
+    if out.exists():
+        out.unlink()
+
+    try:
+        runner = ShowcaseRunner()
+        runner.run(fixture_name=fixture, output_path=out, deterministic=True)
+        typer.echo(f"\n✓ Complete! Wrote audit record to {out}")
+    except ValueError as e:
+        typer.echo(f"Error: {e}", err=True)
+        raise typer.Exit(1)
+    except Exception as e:
+        typer.echo(f"Unexpected error: {e}", err=True)
+        raise typer.Exit(1)
+
+
+@app.command()
 def version():
     """Show version information."""
     from audio_trust_harness import __version__

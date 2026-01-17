@@ -101,4 +101,4 @@ async def process(request: Request, body: MyModel, api_key: str = Depends(verify
 
 ## Documentation Standards
 
-Follow [Documentation Organization Standards](documentation/governance/DOCUMENTATION_ORGANIZATION_STANDARDS.md)
+Documentation is organized into governance, development, and strategy sections. See [Documentation Index](documentation/INDEX.md) for the complete structure.
