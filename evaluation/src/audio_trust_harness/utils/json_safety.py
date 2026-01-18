@@ -1,6 +1,4 @@
-"""
-Utilities for safe JSON serialization of numeric types.
-"""
+"""Utilities for safe JSON serialization of numeric types."""
 
 from typing import Any
 

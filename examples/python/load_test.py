@@ -15,7 +15,7 @@ Usage:
     locust -f load_test.py --host=https://api.sonotheia.com
 
     # Run headless with specific parameters
-    locust -f load_test.py --host=https://api.sonotheia.com --users 10 --spawn-rate 2 --run-time 1m --headless
+    locust -f load_test.py --host=https://api.sonotheia.com --users 10 --run-time 1m --headless
 
     # Custom scenarios
     python load_test.py --scenario sustained --users 50 --duration 300
@@ -365,7 +365,7 @@ def main():
         default="sustained",
         help="Load test scenario",
     )
-    parser.add_argument("--users", type=int, default=50, help="Number of concurrent users")
+    parser.add_argument("--workers", type=int, default=5, help="Number of concurrent workers")
     parser.add_argument(
         "--max-users", type=int, default=200, help="Maximum users (for stress test)"
     )

@@ -1,6 +1,4 @@
-"""
-Tests for deferral policy.
-"""
+"""Tests for deferral policy."""
 
 import numpy as np
 

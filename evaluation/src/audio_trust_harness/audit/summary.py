@@ -1,6 +1,4 @@
-"""
-Summary report generation from audit logs.
-"""
+"""Summary report generation from audit logs."""
 
 import json
 from pathlib import Path

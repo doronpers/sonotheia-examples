@@ -162,13 +162,13 @@ def _load_yaml_config(filename: str) -> dict[str, Any]:
         # YAML parsing error - log warning and use defaults
         import warnings
 
-        warnings.warn(f"Failed to parse {config_file}: {e}. Using default values.", UserWarning)
+        warnings.warn(f"Parse error {config_file}: {e}", UserWarning, stacklevel=2)
         return {}
     except OSError as e:
         # File permission or I/O error
         import warnings
 
-        warnings.warn(f"Failed to read {config_file}: {e}. Using default values.", UserWarning)
+        warnings.warn(f"Read error {config_file}: {e}", UserWarning, stacklevel=2)
         return {}
 
 

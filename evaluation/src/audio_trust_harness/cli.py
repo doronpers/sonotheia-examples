@@ -1,6 +1,4 @@
-"""
-CLI for audio trust harness.
-"""
+"""CLI for audio trust harness."""
 
 import json
 import sys
@@ -22,38 +20,37 @@ app = typer.Typer(help="Audio Trust Harness - Stress-test tool for audio indicat
 
 @app.command()
 def run(
-    audio: Path = typer.Option(None, help="Path to input WAV file (required unless --demo is set)"),
-    out: Path = typer.Option(..., help="Path to output JSONL audit file"),
-    demo: bool = typer.Option(False, help="Run in demo mode with synthetic audio"),
-    slice_seconds: float = typer.Option(10.0, help="Duration of each slice in seconds"),
-    hop_seconds: float = typer.Option(10.0, help="Hop duration between slices in seconds"),
-    seed: int = typer.Option(1337, help="Random seed for deterministic perturbations"),
-    perturbations: str = typer.Option("none,noise", help="Comma-separated list of perturbations"),
-    max_slices: int = typer.Option(None, help="Maximum number of slices to process"),
-    parallel: bool = typer.Option(False, help="Enable parallel processing of slices"),
-    workers: int = typer.Option(None, help="Number of worker processes (default: CPU count)"),
-    fragility_threshold: float = typer.Option(
-        0.3, help="Fragility threshold (CV > threshold triggers deferral)"
-    ),
-    clipping_threshold: float = typer.Option(
+    audio: Path = typer.Option(None, help="Path (required unless --demo is set)"),  # noqa: B008
+    out: Path = typer.Option(..., help="Path to output JSONL audit file"),  # noqa: B008
+    dashboard: Path = typer.Option(  # noqa: B008
+        ..., exists=True, help="Path to dashboard"
+    ),  # noqa: B008
+    demo: bool = typer.Option(False, help="Run in demo mode"),  # noqa: B008
+    slice_seconds: float = typer.Option(10.0, help="Duration in seconds"),  # noqa: B008
+    hop_seconds: float = typer.Option(10.0, help="Hop duration in seconds"),  # noqa: B008
+    seed: int = typer.Option(1337, help="Random seed"),  # noqa: B008
+    perturbations: str = typer.Option("none,noise", help="Perturbations"),  # noqa: B008
+    max_slices: int = typer.Option(None, help="Maximum slices"),  # noqa: B008
+    parallel: bool = typer.Option(False, help="Enable parallel processing"),  # noqa: B008
+    workers: int = typer.Option(None, help="Number of worker processes"),  # noqa: B008
+    fragility_threshold: float = typer.Option(0.3, help="Fragility threshold"),  # noqa: B008
+    clipping_threshold: float = typer.Option(  # noqa: B008
         0.95, help="Clipping threshold (amplitude > threshold indicates clipping)"
     ),
-    min_duration: float = typer.Option(
+    min_duration: float = typer.Option(  # noqa: B008
         0.5, help="Minimum slice duration in seconds for valid analysis"
     ),
-    fft_window: str = typer.Option(
-        "hann",
-        help=f"FFT window function for spectral analysis. Options: {', '.join(VALID_FFT_WINDOWS)}",
-    ),
-    resample_backend: str = typer.Option(
-        "scipy",
-        help="Resampling backend: 'scipy' (default) or 'librosa' (higher quality, requires librosa)",
-    ),
-    summary_out: Path = typer.Option(None, help="Optional path to write summary JSON after run"),
-    dashboard_out: Path = typer.Option(
+    fft_window: str = typer.Option(  # noqa: B008
+        "hann", help=f"FFT window. Options: {', '.join(VALID_FFT_WINDOWS)}"  # noqa: B008
+    ),  # noqa: B008
+    resample_backend: str = typer.Option(  # noqa: B008
+        "scipy", help="Resampling backend: 'scipy' or 'librosa' (requires librosa)"  # noqa: B008
+    ),  # noqa: B008
+    summary_out: Path = typer.Option(None, help="Optional path to write summary"),  # noqa: B008
+    dashboard_out: Path = typer.Option(  # noqa: B008
         None, help="Optional path to write HTML dashboard after run"
     ),
-    open_dashboard: bool = typer.Option(
+    open_dashboard: bool = typer.Option(  # noqa: B008
         False, help="Open the dashboard after generation (requires --dashboard-out)"
     ),
 ):
@@ -296,25 +293,22 @@ def run(
 
     if not summary_out and not dashboard_out:
         typer.echo("\nNext steps:")
-        typer.echo(
-            "  - Generate summary: audio_trust_harness summary --audit <audit.jsonl> --out summary.json"
+        msg = "  - Summary: audio_trust_harness summary --audit <log> --out <summary>"
+        typer.echo(msg)
+        msg = (
+            "  - Generate dashboard: audio_trust_harness visualize "
+            "--audit <audit.jsonl> --out dashboard.html"
         )
-        typer.echo(
-            "  - Generate dashboard: audio_trust_harness visualize --audit <audit.jsonl> --out dashboard.html"
-        )
+        typer.echo(msg)
 
 
 @app.command()
 def summary(
-    audit: Path = typer.Option(..., help="Path to input JSONL audit file"),
-    out: Path = typer.Option(..., help="Path to output JSON summary file"),
-    print_summary: bool = typer.Option(False, help="Print summary to stdout"),
+    audit: Path = typer.Option(..., help="Path to input JSONL audit file"),  # noqa: B008
+    out: Path = typer.Option(..., help="Path to output JSON summary file"),  # noqa: B008
+    print_summary: bool = typer.Option(False, help="Print summary to stdout"),  # noqa: B008
 ):
-    """
-    Generate summary report from audit log.
-
-    Aggregates statistics across all slices and perturbations.
-    """
+    """Generate summary report from audit log."""
     from audio_trust_harness.audit.summary import generate_summary_report
 
     typer.echo(f"Reading audit log: {audit}")
@@ -354,12 +348,10 @@ def summary(
 
 @app.command()
 def visualize(
-    audit: Path = typer.Option(..., help="Path to input JSONL audit file"),
-    out: Path = typer.Option(None, help="Path to output HTML dashboard file"),
+    audit: Path = typer.Option(..., help="Path to input JSONL audit file"),  # noqa: B008
+    out: Path = typer.Option(None, help="Path to output HTML dashboard file"),  # noqa: B008
 ):
-    """
-    Generate and open a visualization dashboard from audit log.
-    """
+    """Generate and open a visualization dashboard from audit log."""
     typer.echo(f"Generating dashboard for: {audit}")
     try:
         if out:
@@ -373,14 +365,14 @@ def visualize(
 
 @app.command()
 def showcase(
-    fixture: str = typer.Option(
+    fixture: str = typer.Option(  # noqa: B008
         ...,
         help=(
             "Name of synthetic fixture: clean_speech, noisy_speech, tone, noise, "
             "turntaking_normal, turntaking_anomalous, overlap_high"
         ),
     ),
-    out: Path = typer.Option(..., help="Path to output JSONL audit file"),
+    out: Path = typer.Option(..., help="Path to output JSONL audit file"),  # noqa: B008
 ):
     """
     Run showcase evaluation with deterministic, public-safe sensors.

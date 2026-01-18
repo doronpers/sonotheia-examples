@@ -1,6 +1,4 @@
-"""
-Tests for batch processing.
-"""
+"""Tests for batch processing."""
 
 import numpy as np
 import pytest

@@ -1,6 +1,4 @@
-"""
-Audio loading, slicing, and preprocessing.
-"""
+"""Audio loading, slicing, and preprocessing."""
 
 from enum import Enum
 from pathlib import Path

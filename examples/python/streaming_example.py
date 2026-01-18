@@ -140,7 +140,7 @@ def process_streaming(
         max_retries=3,
         rate_limit_rps=2.0,  # Conservative rate limit for streaming
     ) as client:
-        results = {
+        results: dict[str, Any] = {
             "session_id": session_id,
             "audio_file": audio_path,
             "chunks": [],
@@ -183,7 +183,7 @@ def process_streaming(
                 # Track high-risk chunks
                 if score > 0.7:
                     results["summary"]["high_risk_chunks"] += 1
-                    logger.warning(f"Chunk {chunk_idx} has high deepfake score: {score}")
+                    print(f"Chunk {chunk_idx + 1} high score: {score:.3f}")
 
                 # Optional MFA for each chunk
                 if enrollment_id:
@@ -227,7 +227,7 @@ def process_streaming(
                 sar_result = client.submit_sar(
                     session_id,
                     decision="review",
-                    reason=f"Detected {results['summary']['high_risk_chunks']} high-risk chunks in streaming audio",
+                    reason=f"Detected {results['summary']['high_risk_chunks']} high-risk chunks",
                     metadata={
                         "source": "streaming-example",
                         "avg_score": results["summary"]["avg_deepfake_score"],

@@ -1,6 +1,4 @@
-"""
-Calibrate package for deferral policy.
-"""
+"""Calibrate package for deferral policy."""
 
 from .consistency import ConsistencyChecker, ConsistencyResult
 from .policy import DeferralDecision, DeferralPolicy

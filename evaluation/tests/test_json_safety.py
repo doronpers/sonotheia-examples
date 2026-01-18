@@ -1,6 +1,4 @@
-"""
-Tests for JSON safety utilities.
-"""
+"""Tests for JSON safety utilities."""
 
 import numpy as np
 

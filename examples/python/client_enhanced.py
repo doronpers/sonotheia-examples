@@ -16,7 +16,7 @@ import time
 from contextlib import contextmanager
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 import requests
 from client import SonotheiaClient
@@ -209,7 +209,12 @@ class SonotheiaClientEnhanced(SonotheiaClient):
         yield
 
     def _make_request(
-        self, method: str, url: str, files: dict = None, data: dict = None, json_body: dict = None
+        self,
+        method: str,
+        url: str,
+        files: Optional[dict] = None,
+        data: Optional[dict] = None,
+        json_body: Optional[dict] = None,
     ) -> dict[str, Any]:
         """Make HTTP request with circuit breaker and rate limiting."""
         with self._rate_limit():
@@ -226,7 +231,12 @@ class SonotheiaClientEnhanced(SonotheiaClient):
                 return self._execute_request(method, url, files=files, data=data, json=json_body)
 
     def _execute_request(
-        self, method: str, url: str, files: dict = None, data: dict = None, json: dict = None
+        self,
+        method: str,
+        url: str,
+        files: Optional[dict] = None,
+        data: Optional[dict] = None,
+        json: Optional[dict] = None,
     ) -> dict[str, Any]:
         """Execute HTTP request and handle errors."""
         start_time = time.time()

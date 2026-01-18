@@ -1,6 +1,4 @@
-"""
-Tests for adapters.
-"""
+"""Tests for adapters."""
 
 import numpy as np
 import pytest

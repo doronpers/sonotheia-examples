@@ -159,7 +159,7 @@ class DeferralPolicy:
         # Collect indicator values across perturbations
         indicator_values: dict[str, list[float]] = {}
 
-        for perturbation_name, indicators in indicators_by_perturbation.items():
+        for _perturbation_name, indicators in indicators_by_perturbation.items():
             for indicator_name, value in indicators.items():
                 if indicator_name not in indicator_values:
                     indicator_values[indicator_name] = []

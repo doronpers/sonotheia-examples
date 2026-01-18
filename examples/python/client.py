@@ -38,22 +38,21 @@ class SonotheiaClient:
 
         Args:
             api_key: API key for authentication (defaults to SONOTHEIA_API_KEY env var)
-            api_url: Base API URL (defaults to SONOTHEIA_API_URL env var or https://api.sonotheia.com)
-            deepfake_path: Deepfake endpoint path (defaults to SONOTHEIA_DEEPFAKE_PATH or /v1/voice/deepfake)
-            mfa_path: MFA endpoint path (defaults to SONOTHEIA_MFA_PATH or /v1/mfa/voice/verify)
-            sar_path: SAR endpoint path (defaults to SONOTHEIA_SAR_PATH or /v1/reports/sar)
+            api_url: Base API URL (defaults to SONOTHEIA_API_URL or https://api.sonotheia.com)
+            deepfake_path: Deepfake path (defaults to SONOTHEIA_DEEPFAKE_PATH or /v1/voice/deepfake)
+            mfa_path: MFA path (defaults to SONOTHEIA_MFA_PATH or /v1/mfa/voice/verify)
+            sar_path: SAR path (defaults to SONOTHEIA_SAR_PATH or /v1/reports/sar)
             timeout: Request timeout in seconds (default: 30)
             validate_responses: Enable response validation (default: True)
         """
         self.api_key = api_key or os.getenv("SONOTHEIA_API_KEY")
         if not self.api_key:
             raise ValueError(
-                "API key is required. Set SONOTHEIA_API_KEY environment variable or pass api_key parameter."
+                "API key required. Set SONOTHEIA_API_KEY env or pass api_key parameter."
             )
 
-        self.api_url = (
-            api_url or os.getenv("SONOTHEIA_API_URL", "https://api.sonotheia.com")
-        ).rstrip("/")
+        raw_url = api_url or os.getenv("SONOTHEIA_API_URL", "https://api.sonotheia.com")
+        self.api_url = raw_url.rstrip("/") if raw_url else "https://api.sonotheia.com"
         self.deepfake_path = deepfake_path or os.getenv(
             "SONOTHEIA_DEEPFAKE_PATH", "/v1/voice/deepfake"
         )

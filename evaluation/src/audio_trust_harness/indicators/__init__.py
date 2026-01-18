@@ -1,6 +1,4 @@
-"""
-Indicators package for audio analysis.
-"""
+"""Indicators package for audio analysis."""
 
 from .base import Indicator
 from .spectral import SpectralCentroidIndicator, SpectralFlatnessIndicator, SpectralRolloffIndicator

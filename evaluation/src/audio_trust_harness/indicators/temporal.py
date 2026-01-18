@@ -1,6 +1,4 @@
-"""
-Temporal (time-domain) indicators for audio analysis.
-"""
+"""Temporal (time-domain) indicators for audio analysis."""
 
 import numpy as np
 

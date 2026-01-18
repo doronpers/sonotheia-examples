@@ -5,7 +5,6 @@ This avoids storing binary blobs in the repository.
 """
 
 import argparse
-import sys
 from pathlib import Path
 
 import numpy as np

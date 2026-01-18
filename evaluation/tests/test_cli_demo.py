@@ -1,6 +1,4 @@
-"""
-Tests for CLI demo mode.
-"""
+"""Tests for CLI demo mode."""
 
 from typer.testing import CliRunner
 
@@ -11,7 +9,6 @@ runner = CliRunner()
 
 def test_cli_demo_mode(tmp_path):
     """Test that the --demo flag runs correctly."""
-
     # We need to monkeypatch the script execution or ensure it runs in a temp dir if possible.
     # The actual demo generation script writes to examples/test-audio.
     # For this test, we accept that it writes to the repo path (idempotent),

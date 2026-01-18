@@ -107,7 +107,7 @@ def process_slice(
         )
     except Exception as e:
         # If deferral evaluation fails, create a default decision
-        error_msg = f"Failed to evaluate deferral policy for slice {slice_obj.slice_index}: {type(e).__name__}: {e}"
+        error_msg = f"Policy failure for slice {slice_obj.slice_index}: {type(e).__name__}: {e}"
         errors.append(error_msg)
         print(f"Warning: {error_msg}")
 
@@ -228,8 +228,7 @@ def process_slices_parallel(
         failed_slices = [i for i, result in enumerate(results) if result is None]
 
         if failed_slices:
-            print(f"Warning: {len(failed_slices)} slices failed to process: {failed_slices}")
-
+            print(f"Warning: {len(failed_slices)} slices failed: {failed_slices}")
         # Filter out None results
         results = [r for r in results if r is not None]
 
@@ -243,12 +242,6 @@ def process_slices_parallel(
 
 
 def derive_seed(base_seed: int, slice_index: int, perturbation_name: str) -> int:
-    """Derive a deterministic seed per slice and perturbation.
-
-    Uses adler32 for stability across Python processes and runs while ensuring
-    each slice/perturbation pairing receives distinct randomness without
-    sacrificing reproducibility.
-    """
-
+    """Derive a deterministic seed per slice and perturbation."""
     seed_material = f"{base_seed}:{slice_index}:{perturbation_name}".encode()
     return int(zlib.adler32(seed_material) & 0xFFFFFFFF)

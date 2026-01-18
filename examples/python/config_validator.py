@@ -198,21 +198,21 @@ def validate_api_config(
 
     # Validate API URL
     raw_api_url = api_url or os.getenv("SONOTHEIA_API_URL", "https://api.sonotheia.com")
-    validated_api_url = validate_url(raw_api_url, "API URL")
+    validated_api_url = validate_url(str(raw_api_url), "API URL")
 
     # Validate paths
     validated_deepfake_path = validate_path(
-        deepfake_path or os.getenv("SONOTHEIA_DEEPFAKE_PATH", "/v1/voice/deepfake"),
+        str(deepfake_path or os.getenv("SONOTHEIA_DEEPFAKE_PATH", "/v1/voice/deepfake")),
         "Deepfake endpoint path",
     )
 
     validated_mfa_path = validate_path(
-        mfa_path or os.getenv("SONOTHEIA_MFA_PATH", "/v1/mfa/voice/verify"),
+        str(mfa_path or os.getenv("SONOTHEIA_MFA_PATH", "/v1/mfa/voice/verify")),
         "MFA endpoint path",
     )
 
     validated_sar_path = validate_path(
-        sar_path or os.getenv("SONOTHEIA_SAR_PATH", "/v1/reports/sar"),
+        str(sar_path or os.getenv("SONOTHEIA_SAR_PATH", "/v1/reports/sar")),
         "SAR endpoint path",
     )
 
@@ -339,7 +339,7 @@ def collect_issues(project_root: Path | None = None) -> list[ConfigIssue]:
             )
 
     # Check endpoint paths
-    for var_name, default in [
+    for var_name, _default in [
         ("SONOTHEIA_DEEPFAKE_PATH", "/v1/voice/deepfake"),
         ("SONOTHEIA_MFA_PATH", "/v1/mfa/voice/verify"),
         ("SONOTHEIA_SAR_PATH", "/v1/reports/sar"),

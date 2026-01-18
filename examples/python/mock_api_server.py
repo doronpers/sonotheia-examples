@@ -171,7 +171,7 @@ def simulate_processing_delay(latency_ms: int):
     time.sleep(latency_ms / 1000.0)
 
 
-def should_simulate_error() -> tuple[bool, dict[str, Any] | None]:
+def should_simulate_error() -> tuple[bool, tuple[int, dict[str, Any]] | None]:
     """Determine if an error should be simulated."""
     if config.always_succeed or not config.simulate_errors:
         return False, None
@@ -217,7 +217,7 @@ def deepfake_detect(rate_headers: dict[str, str] | None = None):
 
     # Check for simulated errors
     has_error, error_response = should_simulate_error()
-    if has_error:
+    if has_error and error_response:
         status_code, error_body = error_response
         return jsonify(error_body), status_code
 
@@ -309,7 +309,7 @@ def mfa_verify(rate_headers: dict[str, str] | None = None):
 
     # Check for simulated errors
     has_error, error_response = should_simulate_error()
-    if has_error:
+    if has_error and error_response:
         status_code, error_body = error_response
         return jsonify(error_body), status_code
 
@@ -421,7 +421,7 @@ def sar_submit(rate_headers: dict[str, str] | None = None):
 
     # Check for simulated errors
     has_error, error_response = should_simulate_error()
-    if has_error:
+    if has_error and error_response:
         status_code, error_body = error_response
         return jsonify(error_body), status_code
 

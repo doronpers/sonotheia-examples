@@ -1,6 +1,4 @@
-"""
-Tests for indicators.
-"""
+"""Tests for indicators."""
 
 import numpy as np
 

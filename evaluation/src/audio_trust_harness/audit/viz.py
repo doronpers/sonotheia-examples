@@ -9,9 +9,7 @@ from plotly.subplots import make_subplots  # type: ignore
 
 
 def create_dashboard(audit_file: str, output_html: str | None = None):
-    """
-    Create a Plotly dashboard from a JSONL audit file.
-    """
+    """Create a Plotly dashboard from a JSONL audit file."""
     # Load audit data
     records = []
     with open(audit_file) as f:

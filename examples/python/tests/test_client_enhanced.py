@@ -1,6 +1,4 @@
-"""
-Tests for enhanced Sonotheia API client.
-"""
+"""Tests for enhanced Sonotheia API client."""
 
 from __future__ import annotations
 

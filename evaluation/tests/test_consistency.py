@@ -1,6 +1,4 @@
-"""
-Tests for cross-slice consistency checks.
-"""
+"""Tests for cross-slice consistency checks."""
 
 import numpy as np
 
@@ -57,7 +55,7 @@ def test_consistency_checker_single_slice():
 
 def test_consistency_checker_empty_slices():
     """Test that empty slice list is handled gracefully."""
-    slice_indicators = []
+    slice_indicators: list[dict[str, float]] = []
 
     checker = ConsistencyChecker()
     result = checker.evaluate(slice_indicators)

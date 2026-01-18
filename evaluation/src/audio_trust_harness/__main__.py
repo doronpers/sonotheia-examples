@@ -1,6 +1,4 @@
-"""
-Main entry point for audio_trust_harness module.
-"""
+"""Main entry point for audio_trust_harness module."""
 
 from audio_trust_harness.cli import main
 

@@ -1,6 +1,4 @@
-"""
-Tests for perturbations.
-"""
+"""Tests for perturbations."""
 
 import numpy as np
 import pytest

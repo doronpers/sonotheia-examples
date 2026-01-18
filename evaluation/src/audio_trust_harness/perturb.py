@@ -245,9 +245,7 @@ class TimeStretchPerturbation(Perturbation):
 
 
 class RealCodecPerturbation(Perturbation):
-    """
-    Real codec integration using pydub/ffmpeg.
-    """
+    """Real codec integration using pydub/ffmpeg."""
 
     def __init__(self, format: str = "mp3", bitrate: str | None = None, seed: int = 1337):
         super().__init__(f"codec_{format}", seed)

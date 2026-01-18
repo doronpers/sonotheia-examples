@@ -1,6 +1,4 @@
-"""
-Tests for configuration module.
-"""
+"""Tests for configuration module."""
 
 import pytest
 

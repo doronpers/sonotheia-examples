@@ -1,6 +1,4 @@
-"""
-Integration tests for CLI.
-"""
+"""Integration tests for CLI."""
 
 import json
 

@@ -1,6 +1,4 @@
-"""
-Audit record schema and serialization.
-"""
+"""Audit record schema and serialization."""
 
 import subprocess
 import sys
@@ -75,10 +73,11 @@ def get_git_sha() -> str:
         )
         if result.returncode == 0 and result.stdout.strip():
             return result.stdout.strip()
-    except (subprocess.TimeoutExpired, FileNotFoundError, OSError):
+        # If git command fails or returns empty output, fall through to return "unknown"
+        return "unknown"
+    except (subprocess.TimeoutExpired, OSError):
         # Git not available or timeout
-        pass
-    return "unknown"
+        return "unknown"
 
 
 def write_audit_record(record: AuditRecord, output_path: Path) -> None:
@@ -97,8 +96,7 @@ def write_audit_record(record: AuditRecord, output_path: Path) -> None:
 
     # Append to file
     with open(output_path, "a") as f:
-        # Pydantic's model_dump_json handles standard types but might struggle with nested numpy types
-        # in dictionary fields if they weren't caught earlier.
+        # model_dump_json handles standard types but might struggle with nested numpy types.
         # Safer to dump to dict, clean, then serialize.
         clean_dict = convert_numpy_types(record.model_dump())
         import json

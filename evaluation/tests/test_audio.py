@@ -1,6 +1,4 @@
-"""
-Tests for audio module.
-"""
+"""Tests for audio module."""
 
 from pathlib import Path
 

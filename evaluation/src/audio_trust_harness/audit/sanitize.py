@@ -25,7 +25,7 @@ def sanitize_audit_record(data: dict[str, Any]) -> dict[str, Any]:
     Returns:
         Sanitized audit record dictionary
     """
-    sanitized = {}
+    sanitized: dict[str, Any] = {}
     forbidden_keys = {
         "audio_bytes",
         "raw_audio",
@@ -71,7 +71,7 @@ def sanitize_list(items: list[Any]) -> list[Any]:
     Returns:
         Sanitized list
     """
-    sanitized = []
+    sanitized: list[Any] = []
     for item in items:
         if isinstance(item, dict):
             sanitized.append(sanitize_audit_record(item))

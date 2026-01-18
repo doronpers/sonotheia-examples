@@ -1,6 +1,4 @@
-"""
-Tests for summary report generation.
-"""
+"""Tests for summary report generation."""
 
 import json
 

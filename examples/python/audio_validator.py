@@ -11,7 +11,6 @@ Features:
 - Duration validation (3-10 seconds optimal)
 - File size checking (< 10 MB)
 - Audio quality assessment
-- Corruption detection
 
 Usage:
     python audio_validator.py audio.wav
@@ -71,7 +70,7 @@ class ValidationIssue:
 
 @dataclass
 class ValidationResult:
-    """Result of audio file validation."""
+    """Result of validation."""
 
     is_valid: bool
     file_path: str
@@ -172,7 +171,7 @@ def get_audio_info(file_path: str) -> dict[str, Any] | None:
             "-select_streams",
             "a:0",
             "-show_entries",
-            "stream=codec_name,sample_rate,channels,bit_rate,duration:format=format_name,duration,size",
+            "stream=codec_name,sample_rate,channels,bit_rate,duration:format=format_name,duration,size",  # noqa: E501
             "-of",
             "json",
             file_path,
@@ -214,7 +213,7 @@ def validate_audio_file(file_path: str, strict: bool = False) -> ValidationResul
         strict: If True, warnings are treated as errors
 
     Returns:
-        ValidationResult with validation details
+        ValidationResult: The validation result.
     """
     result = ValidationResult(is_valid=True, file_path=file_path)
 
@@ -240,7 +239,7 @@ def validate_audio_file(file_path: str, strict: bool = False) -> ValidationResul
         result.issues.append(
             ValidationIssue(
                 level=ValidationLevel.ERROR,
-                message=f"File size {file_size / 1024 / 1024:.2f} MB exceeds maximum of 10 MB",
+                message=f"File size {file_size / 1024 / 1024:.2f} MB exceeds 10 MB",
                 field="file_size",
                 actual_value=file_size,
                 expected_value=max_size,
@@ -258,12 +257,11 @@ def validate_audio_file(file_path: str, strict: bool = False) -> ValidationResul
         )
         return result
 
-    # Check if ffprobe is available
-    if not check_ffprobe_available():
+        # Check if ffprobe is available
         result.issues.append(
             ValidationIssue(
                 level=ValidationLevel.WARNING,
-                message="ffprobe not available - cannot perform detailed validation. Install with: apt-get install ffmpeg",
+                message="ffprobe not available - detailed validation skipped. Install ffmpeg",  # noqa: E501
             )
         )
         return result
@@ -296,7 +294,7 @@ def validate_audio_file(file_path: str, strict: bool = False) -> ValidationResul
         result.issues.append(
             ValidationIssue(
                 level=ValidationLevel.WARNING,
-                message=f"Format '{result.format}' may not be supported. Recommended: WAV, MP3, Opus, FLAC",
+                message=f"Format '{result.format}' unsupported. Recommends: WAV, MP3, Opus, FLAC",
                 field="format",
                 actual_value=result.format,
                 expected_value=supported_formats,
@@ -309,7 +307,7 @@ def validate_audio_file(file_path: str, strict: bool = False) -> ValidationResul
         result.issues.append(
             ValidationIssue(
                 level=ValidationLevel.INFO,
-                message=f"Codec '{result.codec}' is non-standard. Recommended: {', '.join(recommended_codecs)}",
+                message=f"Codec '{result.codec}' non-standard. Recommends: {recommended_codecs}",  # noqa: E501
                 field="codec",
                 actual_value=result.codec,
             )
@@ -323,7 +321,7 @@ def validate_audio_file(file_path: str, strict: bool = False) -> ValidationResul
             result.issues.append(
                 ValidationIssue(
                     level=level,
-                    message=f"Sample rate {result.sample_rate} Hz is very low. Minimum recommended: 8000 Hz",
+                    message=f"Sample rate {result.sample_rate} Hz is low. Min: 8000 Hz",
                     field="sample_rate",
                     actual_value=result.sample_rate,
                     expected_value=8000,
@@ -336,7 +334,7 @@ def validate_audio_file(file_path: str, strict: bool = False) -> ValidationResul
             result.issues.append(
                 ValidationIssue(
                     level=ValidationLevel.INFO,
-                    message=f"Sample rate is {result.sample_rate} Hz. Optimal: {optimal_sample_rate} Hz",
+                    message=f"Sample rate {result.sample_rate} Hz. Optimal: {optimal_sample_rate} Hz",  # noqa: E501
                     field="sample_rate",
                     actual_value=result.sample_rate,
                     expected_value=optimal_sample_rate,
@@ -380,7 +378,7 @@ def validate_audio_file(file_path: str, strict: bool = False) -> ValidationResul
             result.issues.append(
                 ValidationIssue(
                     level=ValidationLevel.ERROR,
-                    message=f"Duration {result.duration:.2f}s is too short. Minimum: {min_duration}s",
+                    message=f"Duration {result.duration:.2f}s is too short. Min: {min_duration}s",
                     field="duration",
                     actual_value=result.duration,
                     expected_value=min_duration,
@@ -390,7 +388,10 @@ def validate_audio_file(file_path: str, strict: bool = False) -> ValidationResul
             result.issues.append(
                 ValidationIssue(
                     level=ValidationLevel.INFO,
-                    message=f"Duration {result.duration:.2f}s exceeds optimal range. Optimal: 3-10s. Consider using streaming for long files.",
+                    message=(
+                        f"Duration {result.duration:.2f}s exceeds optimal range. "
+                        "Optimal: 3-10s. Consider using streaming for long files."
+                    ),
                     field="duration",
                     actual_value=result.duration,
                     expected_value=max_optimal_duration,
@@ -448,7 +449,6 @@ def auto_fix_audio(input_path: str, output_path: str | None = None) -> tuple[boo
 
 def print_validation_result(result: ValidationResult):
     """Pretty-print validation results."""
-
     print(f"\n{'=' * 60}")
     print(f"Validation Results: {result.file_path}")
     print(f"{'=' * 60}\n")

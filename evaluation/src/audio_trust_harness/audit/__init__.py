@@ -1,6 +1,4 @@
-"""
-Audit package for record management.
-"""
+"""Audit package for record management."""
 
 from .record import (
     AuditRecord,

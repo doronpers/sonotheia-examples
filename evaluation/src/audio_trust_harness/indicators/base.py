@@ -1,6 +1,4 @@
-"""
-Base indicator interface.
-"""
+"""Base indicator interface."""
 
 import numpy as np
 
