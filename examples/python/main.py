@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from pathlib import Path
 from collections.abc import Iterator
 from contextlib import contextmanager
 
@@ -51,13 +52,39 @@ def main() -> None:
     parser.add_argument(
         "--decision",
         default="review",
+        choices=("allow", "deny", "review"),
         help="Decision for SAR submission (allow/deny/review)",
     )
     parser.add_argument(
         "--reason", default="Manual review requested", help="Human readable SAR reason"
     )
+    parser.add_argument(
+        "--output",
+        type=Path,
+        help="Optional path to write JSON results",
+    )
+    parser.add_argument(
+        "--pretty",
+        action="store_true",
+        help="Pretty-print JSON output (useful for terminal viewing)",
+    )
 
     args = parser.parse_args()
+
+    audio_path = Path(args.audio)
+    if not audio_path.exists():
+        print(f"Audio file not found: {audio_path}", file=sys.stderr)
+        sys.exit(1)
+
+    allowed_extensions = {".wav", ".opus", ".mp3", ".flac"}
+    if audio_path.suffix.lower() not in allowed_extensions:
+        allowed = ", ".join(sorted(allowed_extensions))
+        print(
+            f"Unsupported audio extension '{audio_path.suffix}'. "
+            f"Supported formats: {allowed}",
+            file=sys.stderr,
+        )
+        sys.exit(1)
 
     try:
         client = SonotheiaClient()
@@ -65,7 +92,7 @@ def main() -> None:
         print(f"Configuration error: {exc}", file=sys.stderr)
         sys.exit(1)
 
-    results = {}
+    results: dict[str, object] = {}
     session_id = args.session_id or "demo-session"
 
     # Always run deepfake detection
@@ -94,7 +121,15 @@ def main() -> None:
                 metadata={"source": "public-example"},
             )
 
-    print(json.dumps(results, indent=2))
+    indent = 2 if args.pretty else None
+    payload = json.dumps(results, indent=indent)
+
+    if args.output:
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(payload)
+        print(f"Wrote results to {args.output}")
+    else:
+        print(payload)
 
 
 if __name__ == "__main__":

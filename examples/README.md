@@ -1,7 +1,7 @@
 # Sonotheia Examples Overview
 
 > **📦 Monorepo Notice**: This is the **Integration Examples** component of the `sonotheia-examples` monorepo.
-> See the [root README](../README.md) for an overview of all components, or jump to [Evaluation Framework](../evaluation/README.md) for research and evaluation tools.
+> See [Start Here](../documentation/START_HERE.md) for the fastest path, the [root README](../README.md) for an overview of all components, or jump to [Evaluation Framework](../evaluation/README.md) for research and evaluation tools.
 
 > **Quick-start commands for every implementation.** Choose your language, run the command, get results.
 
@@ -90,11 +90,12 @@ Each language directory contains:
 - **Tests**: Unit and integration test examples (where applicable)
 
 For general questions:
+- [Start Here](../documentation/START_HERE.md): Fast onboarding for integrations
 - [Main README](../README.md): Repository overview
-- [Getting Started Guide](../docs/GETTING_STARTED.md): 5-minute quickstart
-- [Documentation Index](../docs/INDEX.md): Find any documentation
-- [FAQ](../docs/FAQ.md): Common questions answered
-- [Best Practices](../docs/BEST_PRACTICES.md): Production integration guide
+- [Getting Started Guide](../documentation/GETTING_STARTED.md): 5-minute quickstart
+- [Documentation Index](../documentation/INDEX.md): Find any documentation
+- [FAQ](../documentation/FAQ.md): Common questions answered
+- [Best Practices](../documentation/BEST_PRACTICES.md): Production integration guide
 
 ## Next Steps
 

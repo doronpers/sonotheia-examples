@@ -4,13 +4,16 @@
 
 ## 🚀 Quick Start
 
+**Start here:** [Start Here](START_HERE.md)
+
 **New to Sonotheia?** Start here:
 
-1. [Getting Started](GETTING_STARTED.md) - 5-minute quickstart guide
-2. [Main README](../README.md) - Complete repository overview
-3. [Use Cases](USE_CASES.md) - Real-world integration scenarios
-4. [FAQ](FAQ.md) - Common questions answered
-5. [Best Practices](BEST_PRACTICES.md) - Integration guidelines
+1. [Start Here](START_HERE.md) - Choose integration vs evaluation
+2. [Getting Started](GETTING_STARTED.md) - 5-minute quickstart guide
+3. [Main README](../README.md) - Complete repository overview
+4. [Use Cases](USE_CASES.md) - Real-world integration scenarios
+5. [FAQ](FAQ.md) - Common questions answered
+6. [Best Practices](BEST_PRACTICES.md) - Integration guidelines
 
 **Looking for code examples?** → [Examples Directory](../examples/)
 

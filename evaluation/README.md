@@ -1,7 +1,7 @@
 # Audio Trust Harness
 
 > **📦 Monorepo Notice**: This is the **Evaluation Framework** component of the `sonotheia-examples` monorepo.
-> See the [root README](../README.md) for an overview of all components, or jump to [Integration Examples](../examples/README.md) for production integration patterns.
+> See [Start Here](../documentation/START_HERE.md) for the fastest path, the [root README](../README.md) for an overview of all components, or jump to [Integration Examples](../examples/README.md) for production integration patterns.
 >
 > **For AI Agents**: This evaluation framework inherits governance files from the repository root: [AGENT_KNOWLEDGE_BASE.md](../AGENT_KNOWLEDGE_BASE.md), [CONTRIBUTING.md](../CONTRIBUTING.md), and [GEMINI.md](../GEMINI.md). Read these before making changes.
 >
@@ -152,6 +152,11 @@ python -m audio_trust_harness --help
 # Basic usage - analyzes entire file with default perturbations (none, noise)
 python -m audio_trust_harness run --audio sample.wav --out out/audit.jsonl
 
+# Basic usage + auto summary + dashboard
+python -m audio_trust_harness run --audio sample.wav --out out/audit.jsonl \
+  --summary-out out/summary.json \
+  --dashboard-out out/dashboard.html
+
 # Advanced usage with custom options
 python -m audio_trust_harness run \
   --audio sample.wav \
@@ -199,6 +204,9 @@ python -m audio_trust_harness run \
 - `--fragility-threshold`: Fragility threshold for deferral (default: 0.3 from config, CV > threshold triggers deferral)
 - `--clipping-threshold`: Clipping detection threshold (default: 0.95 from config, amplitude > threshold indicates clipping)
 - `--min-duration`: Minimum slice duration for valid analysis (default: 0.5 seconds from config)
+- `--summary-out`: Optional path to write summary JSON after run
+- `--dashboard-out`: Optional path to write HTML dashboard after run
+- `--open-dashboard`: Open the dashboard after generation (requires `--dashboard-out`)
 
 > [!TIP]
 > **Customizing Parameters**: All default values are loaded from configuration files in `config/`. You can customize these files or override them via CLI flags. See [Configuration Guide](config/README.md) for details.

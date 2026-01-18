@@ -57,6 +57,8 @@ sonotheia-examples/
 
 ## Quick Start
 
+**Start here:** [documentation/START_HERE.md](documentation/START_HERE.md)
+
 ### For Production Integration
 
 If you want to integrate Sono Platform into your application:
