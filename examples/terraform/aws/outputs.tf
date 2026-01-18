@@ -98,23 +98,23 @@ output "deployment_info" {
 output "usage_instructions" {
   description = "Instructions for using the deployed infrastructure"
   value = <<-EOT
-    
+
     === Sonotheia AWS Infrastructure Deployed ===
-    
+
     Webhook URL: ${var.enable_api_gateway ? aws_api_gateway_stage.main[0].invoke_url : "API Gateway not enabled"}
-    
+
     S3 Bucket: ${aws_s3_bucket.audio.id}
     DynamoDB Table: ${aws_dynamodb_table.sessions.name}
-    
+
     To upload audio files:
       aws s3 cp audio.wav s3://${aws_s3_bucket.audio.id}/incoming/
-    
+
     To view webhook logs:
       aws logs tail ${aws_cloudwatch_log_group.webhook_handler.name} --follow
-    
+
     To query DynamoDB:
       aws dynamodb scan --table-name ${aws_dynamodb_table.sessions.name}
-    
+
     To register this webhook with Sonotheia:
       curl -X POST https://api.sonotheia.com/v1/webhooks \
         -H "Authorization: Bearer YOUR_API_KEY" \

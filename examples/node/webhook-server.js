@@ -1,12 +1,12 @@
 /**
  * Example webhook server for receiving Sonotheia API callbacks
- * 
+ *
  * This demonstrates how to:
  * - Receive asynchronous processing results
  * - Verify webhook signatures
  * - Handle different event types
  * - Store results for later retrieval
- * 
+ *
  * Usage:
  *   PORT=3000 node webhook-server.js
  */
@@ -93,7 +93,7 @@ function verifySignature(payload, signature, secret) {
  */
 function handleDeepfakeEvent(event) {
   const { session_id, score, label, timestamp } = event.data;
-  
+
   logger.info({
     event: 'deepfake.completed',
     session_id,
@@ -122,7 +122,7 @@ function handleDeepfakeEvent(event) {
  */
 function handleMfaEvent(event) {
   const { session_id, enrollment_id, verified, confidence } = event.data;
-  
+
   logger.info({
     event: 'mfa.completed',
     session_id,
@@ -151,7 +151,7 @@ function handleMfaEvent(event) {
  */
 function handleSarEvent(event) {
   const { session_id, case_id, status } = event.data;
-  
+
   logger.info({
     event: 'sar.submitted',
     session_id,
@@ -170,7 +170,7 @@ function handleSarEvent(event) {
 
 /**
  * Main webhook endpoint
- * 
+ *
  * SECURITY NOTE: In production, this endpoint should be protected with:
  * - Rate limiting (e.g., express-rate-limit middleware)
  * - Request size limits
@@ -179,7 +179,7 @@ function handleSarEvent(event) {
  */
 app.post('/webhook', (req, res) => {
   const signature = req.headers['x-sonotheia-signature'];
-  
+
   // Verify signature if secret is configured
   if (WEBHOOK_SECRET) {
     if (!signature || !verifySignature(req.rawBody, signature, WEBHOOK_SECRET)) {
@@ -189,7 +189,7 @@ app.post('/webhook', (req, res) => {
   }
 
   const event = req.body;
-  
+
   logger.debug({ event_type: event.type }, 'Webhook received');
 
   try {
@@ -198,15 +198,15 @@ app.post('/webhook', (req, res) => {
       case 'deepfake.completed':
         handleDeepfakeEvent(event);
         break;
-      
+
       case 'mfa.completed':
         handleMfaEvent(event);
         break;
-      
+
       case 'sar.submitted':
         handleSarEvent(event);
         break;
-      
+
       default:
         logger.warn({ event_type: event.type }, 'Unknown event type');
     }
@@ -235,11 +235,11 @@ app.get('/health', (req, res) => {
 app.get('/results/:session_id', (req, res) => {
   const { session_id } = req.params;
   const result = results.get(session_id);
-  
+
   if (!result) {
     return res.status(404).json({ error: 'Session not found' });
   }
-  
+
   res.json(result);
 });
 
@@ -251,7 +251,7 @@ app.get('/results', (req, res) => {
     session_id,
     ...data,
   }));
-  
+
   res.json({
     count: allResults.length,
     results: allResults,
@@ -267,7 +267,7 @@ app.listen(PORT, () => {
   console.log(`POST webhook events to: http://localhost:${PORT}/webhook`);
   console.log(`Health check:           http://localhost:${PORT}/health`);
   console.log(`View results:           http://localhost:${PORT}/results`);
-  
+
   if (!WEBHOOK_SECRET) {
     console.warn('\nWARNING: SONOTHEIA_WEBHOOK_SECRET not set - signature verification disabled');
   }

@@ -1,16 +1,16 @@
 /**
  * Enhanced batch processor with monitoring and observability
- * 
+ *
  * Features:
  * - Prometheus metrics export
  * - Structured logging
  * - Health checks
  * - Circuit breaker pattern
  * - Retry logic with exponential backoff
- * 
+ *
  * Usage:
  *   SONOTHEIA_API_KEY=xxx node batch-processor-enhanced.js /path/to/audio/*.wav
- *   
+ *
  * Monitoring:
  *   curl http://localhost:9090/metrics
  */
@@ -128,7 +128,7 @@ async function processFileWithRetry(audioPath, retryCount = 0) {
   }
 
   const form = new FormData();
-  
+
   try {
     const audioBuffer = readFileSync(audioPath);
     form.append('audio', audioBuffer, {
@@ -199,7 +199,7 @@ async function processFileWithRetry(audioPath, retryCount = 0) {
     onCircuitBreakerFailure();
 
     const isRetryable = error.response?.status >= 500 || error.code === 'ECONNABORTED';
-    
+
     if (isRetryable && retryCount < MAX_RETRIES) {
       const backoffMs = Math.min(1000 * Math.pow(2, retryCount), 30000);
       logger.warn({
@@ -267,11 +267,11 @@ async function processBatch(files) {
 function generateSummary(results) {
   const successful = results.filter(r => r.success).length;
   const failed = results.length - successful;
-  
+
   const scores = results
     .filter(r => r.success && r.result?.score !== undefined)
     .map(r => r.result.score);
-  
+
   const avgScore = scores.length > 0
     ? scores.reduce((a, b) => a + b, 0) / scores.length
     : 0;
@@ -366,7 +366,7 @@ function startMetricsServer(summary) {
  */
 async function main() {
   const args = process.argv.slice(2);
-  
+
   if (args.length === 0) {
     console.error('Usage: node batch-processor-enhanced.js <audio-file1.wav> [audio-file2.wav] ...');
     console.error('   or: node batch-processor-enhanced.js /path/to/directory/');
@@ -374,7 +374,7 @@ async function main() {
   }
 
   let files = [];
-  
+
   for (const arg of args) {
     try {
       const stat = await fsPromises.stat(arg);
@@ -408,7 +408,7 @@ async function main() {
 
   const summary = generateSummary(results);
   summary.totalDuration_ms = totalDuration;
-  
+
   logger.info(summary, 'Batch processing completed');
 
   // Start metrics server

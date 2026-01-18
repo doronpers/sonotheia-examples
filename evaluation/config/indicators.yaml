@@ -1,8 +1,8 @@
 # Indicator Configuration
-# 
+#
 # This file contains parameters for acoustic indicator computation.
 # These are EXAMPLE values for research and evaluation purposes only.
-# 
+#
 # Users can customize these parameters or add their own proprietary indicators
 # through the plugin system.
 
@@ -13,11 +13,11 @@ stft:
   # Larger values = better frequency resolution, worse time resolution
   # Example range: 512-4096 depending on use case
   nperseg: 2048
-  
+
   # Number of overlapping samples between segments
   # Typically 50% of nperseg for good time-frequency balance
   noverlap: 1024
-  
+
   # Window function for STFT
   # Options: 'hann', 'hamming', 'blackman', etc.
   window: "hann"
@@ -28,7 +28,7 @@ spectral:
   # Frequency below which this percentage of energy is contained
   # Example: 0.85 means 85% of energy
   rolloff_percent: 0.85
-  
+
   # Minimum power threshold for frequency bins
   # Prevents log(0) errors and filters out noise floor
   min_power_threshold: 1.0e-10
@@ -37,10 +37,10 @@ spectral:
 perturbation:
   # Threshold to detect silent audio (power level)
   silent_audio_threshold: 1.0e-10
-  
+
   # Reference power for silent audio SNR calculations
   # Used when actual signal power is below threshold
   silent_audio_reference_power: 1.0e-8
-  
+
   # Small epsilon value to prevent numerical issues
   epsilon: 1.0e-10

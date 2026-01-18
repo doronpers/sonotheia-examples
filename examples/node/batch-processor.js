@@ -1,6 +1,6 @@
 /**
  * Batch processor for analyzing multiple audio files
- * 
+ *
  * Usage:
  *   SONOTHEIA_API_KEY=xxx node batch-processor.js /path/to/audio/files/*.wav
  */

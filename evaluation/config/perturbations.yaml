@@ -1,8 +1,8 @@
 # Perturbation Configuration
-# 
+#
 # This file contains default parameters for audio perturbations used in stress testing.
 # These are EXAMPLE values for research and evaluation purposes only.
-# 
+#
 # Users can customize these values to test different scenarios or integrate their own
 # proprietary perturbation strategies.
 
@@ -20,7 +20,7 @@ codec_stub:
   # Approximates bandwidth limitation in telephony or compressed audio
   # Example: 3400 Hz for telephony, 8000 Hz for wider bandwidth
   cutoff_hz: 3400.0
-  
+
   # Bit depth for quantization
   # Lower values simulate more aggressive compression
   # Example range: 6-16 bits

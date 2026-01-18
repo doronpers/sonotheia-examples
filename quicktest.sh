@@ -93,7 +93,7 @@ run_python() {
     if [[ -f examples/python/main.py ]]; then
         echo -e "  ${CYAN}→ Using Python client...${NC}"
         echo ""
-        
+
         # Check if venv exists, if not suggest setup
         if [[ ! -d ".venv" ]] && [[ ! -d "examples/python/.venv" ]]; then
             echo -e "  ${YELLOW}⚠️  Note: No virtual environment found.${NC}"
@@ -102,7 +102,7 @@ run_python() {
             echo "    pip install -r examples/python/requirements.txt"
             echo ""
         fi
-        
+
         cd examples/python
         python3 main.py "../../${AUDIO_FILE}"
         return 0
@@ -124,12 +124,12 @@ run_node() {
     if [[ -f examples/node/batch-processor.js ]]; then
         echo -e "  ${CYAN}→ Using Node.js client...${NC}"
         echo ""
-        
+
         if [[ ! -d "examples/node/node_modules" ]]; then
             echo -e "  ${YELLOW}⚠️  Note: Installing dependencies...${NC}"
             (cd examples/node && npm install --silent)
         fi
-        
+
         node examples/node/batch-processor.js "$AUDIO_FILE"
         return 0
     fi

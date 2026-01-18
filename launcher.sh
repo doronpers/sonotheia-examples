@@ -57,13 +57,13 @@ setup_dev() {
     # shellcheck disable=SC1091
     source venv/bin/activate
     pip install --upgrade pip
-    
+
     # Install evaluation framework
     if [ -d "evaluation" ]; then
         pip install -e "evaluation[dev]"
         echo -e "${GREEN}✓ Evaluation framework installed${NC}"
     fi
-    
+
     # Install examples dependencies
     if [ -d "examples/python" ]; then
         pip install -r examples/python/requirements.txt
@@ -81,18 +81,18 @@ setup_dev() {
 run_python_example() {
     check_env
     echo -e "${BLUE}🐍 Running Python integration example...${NC}"
-    
+
     if check_venv; then
         # shellcheck disable=SC1091
         source venv/bin/activate
     fi
-    
+
     if [ ! -f "$1" ]; then
         echo -e "${YELLOW}Usage: ./launcher.sh python <audio_file>${NC}"
         echo "Example: ./launcher.sh python test_audio.wav"
         exit 1
     fi
-    
+
     (
         cd examples/python || exit 1
         python main.py "$1"
@@ -103,18 +103,18 @@ run_python_example() {
 run_evaluation() {
     check_env
     echo -e "${BLUE}🔬 Running Audio Trust Harness evaluation...${NC}"
-    
+
     if check_venv; then
         # shellcheck disable=SC1091
         source venv/bin/activate
     fi
-    
+
     if [ ! -f "$1" ]; then
         echo -e "${YELLOW}Usage: ./launcher.sh eval <audio_file> [output_file]${NC}"
         echo "Example: ./launcher.sh eval test.wav audit.jsonl"
         exit 1
     fi
-    
+
     OUTPUT="${2:-audit.jsonl}"
     python -m audio_trust_harness run --audio "$1" --out "$OUTPUT"
     echo -e "${GREEN}✅ Evaluation complete. Results: $OUTPUT${NC}"
@@ -123,12 +123,12 @@ run_evaluation() {
 # Run Tests
 run_tests() {
     echo -e "${BLUE}🧪 Running tests...${NC}"
-    
+
     if check_venv; then
         # shellcheck disable=SC1091
         source venv/bin/activate
     fi
-    
+
     if [ -d "evaluation" ]; then
         (
             cd evaluation || exit 1
@@ -169,7 +169,7 @@ check_readiness() {
     if [ -d "examples" ]; then
         echo -e "  [${GREEN}✓${NC}] examples/ directory found"
     fi
-    
+
     if [ -d "evaluation" ]; then
         echo -e "  [${GREEN}✓${NC}] evaluation/ directory found"
     fi
@@ -191,14 +191,14 @@ show_menu() {
     echo -e "  ${RED}q)${NC} quit       - Exit"
     echo ""
     read -p "Enter choice [1-5 or q]: " choice
-    
+
     case "$choice" in
         1|dev)     setup_dev ;;
-        2|python)  
+        2|python)
             read -p "Enter audio file path: " audio_file
-            run_python_example "$audio_file" 
+            run_python_example "$audio_file"
             ;;
-        3|eval)    
+        3|eval)
             read -p "Enter audio file path: " audio_file
             run_evaluation "$audio_file"
             ;;

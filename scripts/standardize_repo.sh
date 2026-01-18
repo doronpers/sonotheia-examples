@@ -87,7 +87,7 @@ validate_source_dir() {
         OPERATIONS_FAILED+=("Invalid source directory path")
         return 1
     fi
-    
+
     if [ ! -d "$SOURCE_DIR" ]; then
         echo "⚠️  Source directory not found: $SOURCE_DIR"
         echo "   Set STANDARDS_SOURCE_DIR environment variable or update script default."
@@ -101,13 +101,13 @@ validate_source_dir() {
 update_pyproject_toml() {
     local toml_file="$1"
     local updated=false
-    
+
     if [ ! -f "$toml_file" ]; then
         return 0
     fi
-    
+
     backup_file "$toml_file"
-    
+
     if ! grep -q "\[tool.black\]" "$toml_file" 2>/dev/null; then
         {
             echo ""
@@ -117,7 +117,7 @@ update_pyproject_toml() {
         updated=true
         OPERATIONS_SUCCESS+=("Added [tool.black] to $toml_file")
     fi
-    
+
     if ! grep -q "\[tool.isort\]" "$toml_file" 2>/dev/null; then
         {
             echo ""
@@ -128,7 +128,7 @@ update_pyproject_toml() {
         updated=true
         OPERATIONS_SUCCESS+=("Added [tool.isort] to $toml_file")
     fi
-    
+
     if [ "$updated" = false ]; then
         OPERATIONS_SUCCESS+=("Skipped $toml_file update (already configured)")
     fi
@@ -173,7 +173,7 @@ if [ -d "$SOURCE_DIR" ]; then
         echo "⚠️  AGENT_REFORMATTING_GUIDELINES.md not found in $SOURCE_DIR"
         OPERATIONS_FAILED+=("AGENT_REFORMATTING_GUIDELINES.md not found")
     fi
-    
+
     if [ -f "$SOURCE_DIR/AGENT_BEHAVIORAL_STANDARDS.md" ]; then
         if cat "$SOURCE_DIR/AGENT_BEHAVIORAL_STANDARDS.md" > documentation/Governance/AGENT_BEHAVIORAL_STANDARDS.md 2>/dev/null; then
             OPERATIONS_SUCCESS+=("Deployed AGENT_BEHAVIORAL_STANDARDS.md")

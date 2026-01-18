@@ -14,7 +14,6 @@ import os
 from typing import IO, Any
 
 import requests
-
 from response_validator import ResponseValidationError, ResponseValidator
 from utils import convert_numpy_types
 

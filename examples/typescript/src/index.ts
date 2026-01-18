@@ -1,6 +1,6 @@
 /**
  * TypeScript client for Sonotheia voice fraud detection API
- * 
+ *
  * Provides type-safe methods for:
  * - Deepfake detection
  * - Voice MFA verification
