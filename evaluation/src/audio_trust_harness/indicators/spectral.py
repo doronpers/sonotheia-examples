@@ -118,9 +118,7 @@ class SpectralRolloffIndicator(Indicator):
         """
         super().__init__("spectral_rolloff")
         self.rolloff_percent = (
-            rolloff_percent
-            if rolloff_percent is not None
-            else SPECTRAL_CONFIG.rolloff_percent
+            rolloff_percent if rolloff_percent is not None else SPECTRAL_CONFIG.rolloff_percent
         )
 
     def compute(self, audio: np.ndarray, sample_rate: int) -> dict[str, float]:

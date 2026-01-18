@@ -145,9 +145,7 @@ class TestHTTPAdapter:
         adapter = HTTPAdapter(config)
 
         sr = 16000
-        audio = np.sin(2 * np.pi * 440 * np.linspace(0, 0.1, sr // 10)).astype(
-            np.float32
-        )
+        audio = np.sin(2 * np.pi * 440 * np.linspace(0, 0.1, sr // 10)).astype(np.float32)
 
         encoded = adapter._encode_audio(audio, sr)
 

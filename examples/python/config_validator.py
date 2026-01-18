@@ -194,9 +194,7 @@ def validate_api_config(
         ConfigValidationError: If any configuration is invalid
     """
     # Validate API key
-    validated_api_key = validate_required_env(
-        "SONOTHEIA_API_KEY", api_key if api_key else None
-    )
+    validated_api_key = validate_required_env("SONOTHEIA_API_KEY", api_key if api_key else None)
 
     # Validate API URL
     raw_api_url = api_url or os.getenv("SONOTHEIA_API_URL", "https://api.sonotheia.com")
@@ -219,9 +217,7 @@ def validate_api_config(
     )
 
     # Validate timeout
-    raw_timeout = (
-        timeout if timeout is not None else os.getenv("SONOTHEIA_TIMEOUT", "30")
-    )
+    raw_timeout = timeout if timeout is not None else os.getenv("SONOTHEIA_TIMEOUT", "30")
     validated_timeout = validate_timeout(raw_timeout)
 
     return APIConfig(

@@ -97,9 +97,7 @@ def test_spectral_flatness_tone_vs_noise():
     result_tone = indicator.compute(audio_tone, sr)
     result_noise = indicator.compute(audio_noise, sr)
 
-    assert (
-        result_tone["spectral_flatness_mean"] < result_noise["spectral_flatness_mean"]
-    )
+    assert result_tone["spectral_flatness_mean"] < result_noise["spectral_flatness_mean"]
 
 
 def test_rms_energy_indicator():

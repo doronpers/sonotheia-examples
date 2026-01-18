@@ -26,9 +26,7 @@ def test_deferral_policy_accept():
     audio = np.clip(audio, -0.9, 0.9)  # Ensure no clipping
     policy = DeferralPolicy(fragility_threshold=0.3)
 
-    decision = policy.evaluate(
-        indicators_by_perturbation, audio, sample_rate=16000, duration=1.0
-    )
+    decision = policy.evaluate(indicators_by_perturbation, audio, sample_rate=16000, duration=1.0)
 
     assert decision.recommended_action == "accept"
     assert isinstance(decision.fragility_score, float)
@@ -53,9 +51,7 @@ def test_deferral_policy_defer_to_review():
     audio = np.clip(audio, -0.9, 0.9)  # Ensure no clipping
     policy = DeferralPolicy(fragility_threshold=0.3)
 
-    decision = policy.evaluate(
-        indicators_by_perturbation, audio, sample_rate=16000, duration=1.0
-    )
+    decision = policy.evaluate(indicators_by_perturbation, audio, sample_rate=16000, duration=1.0)
 
     assert decision.recommended_action == "defer_to_review"
     assert decision.fragility_score > 0.3
@@ -96,9 +92,7 @@ def test_deferral_policy_insufficient_evidence_clipping():
 
     policy = DeferralPolicy(clipping_threshold=0.95)
 
-    decision = policy.evaluate(
-        indicators_by_perturbation, audio, sample_rate=16000, duration=1.0
-    )
+    decision = policy.evaluate(indicators_by_perturbation, audio, sample_rate=16000, duration=1.0)
 
     assert decision.recommended_action == "insufficient_evidence"
     assert "clipping_detected" in decision.reasons
@@ -155,9 +149,7 @@ def test_deferral_policy_includes_reasons():
     audio = np.clip(audio, -0.9, 0.9)
     policy = DeferralPolicy(fragility_threshold=0.3)
 
-    decision = policy.evaluate(
-        indicators_by_perturbation, audio, sample_rate=16000, duration=1.0
-    )
+    decision = policy.evaluate(indicators_by_perturbation, audio, sample_rate=16000, duration=1.0)
 
     if decision.recommended_action == "defer_to_review":
         assert len(decision.reasons) > 0
@@ -177,14 +169,10 @@ def test_deferral_policy_custom_thresholds():
 
     # With lenient threshold (0.3), should accept
     policy_lenient = DeferralPolicy(fragility_threshold=0.3)
-    decision_lenient = policy_lenient.evaluate(
-        indicators_by_perturbation, audio, 16000, 1.0
-    )
+    decision_lenient = policy_lenient.evaluate(indicators_by_perturbation, audio, 16000, 1.0)
     assert decision_lenient.recommended_action == "accept"
 
     # With stricter threshold (0.1), should defer
     policy_strict = DeferralPolicy(fragility_threshold=0.1)
-    decision_strict = policy_strict.evaluate(
-        indicators_by_perturbation, audio, 16000, 1.0
-    )
+    decision_strict = policy_strict.evaluate(indicators_by_perturbation, audio, 16000, 1.0)
     assert decision_strict.recommended_action == "defer_to_review"

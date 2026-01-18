@@ -64,9 +64,7 @@ class DeferralPolicy:
             else DEFERRAL_POLICY_CONFIG.clipping_threshold
         )
         self.min_duration = (
-            min_duration
-            if min_duration is not None
-            else DEFERRAL_POLICY_CONFIG.min_duration
+            min_duration if min_duration is not None else DEFERRAL_POLICY_CONFIG.min_duration
         )
         self.min_mean_threshold = (
             min_mean_threshold
@@ -112,9 +110,7 @@ class DeferralPolicy:
             )
 
         # Compute fragility scores for each indicator
-        fragility_scores, fragile_indicators = self._compute_fragility(
-            indicators_by_perturbation
-        )
+        fragility_scores, fragile_indicators = self._compute_fragility(indicators_by_perturbation)
 
         if not fragility_scores:
             # No valid indicators
@@ -129,9 +125,7 @@ class DeferralPolicy:
 
         # Check for fragile indicators
         if fragile_indicators:
-            reasons.extend(
-                [f"high_fragility_{indicator}" for indicator in fragile_indicators]
-            )
+            reasons.extend([f"high_fragility_{indicator}" for indicator in fragile_indicators])
 
         # Make decision
         if reasons:

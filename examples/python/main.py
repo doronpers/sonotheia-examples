@@ -46,9 +46,7 @@ def main() -> None:
     parser.add_argument(
         "--enrollment-id", help="Enrollment/voiceprint identifier for MFA verification"
     )
-    parser.add_argument(
-        "--session-id", help="Session identifier to link SARs and risk events"
-    )
+    parser.add_argument("--session-id", help="Session identifier to link SARs and risk events")
     parser.add_argument(
         "--decision",
         default="review",
@@ -80,8 +78,7 @@ def main() -> None:
     if audio_path.suffix.lower() not in allowed_extensions:
         allowed = ", ".join(sorted(allowed_extensions))
         print(
-            f"Unsupported audio extension '{audio_path.suffix}'. "
-            f"Supported formats: {allowed}",
+            f"Unsupported audio extension '{audio_path.suffix}'. " f"Supported formats: {allowed}",
             file=sys.stderr,
         )
         sys.exit(1)

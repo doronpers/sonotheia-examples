@@ -58,9 +58,7 @@ class SonotheiaClient:
         self.deepfake_path = deepfake_path or os.getenv(
             "SONOTHEIA_DEEPFAKE_PATH", "/v1/voice/deepfake"
         )
-        self.mfa_path = mfa_path or os.getenv(
-            "SONOTHEIA_MFA_PATH", "/v1/mfa/voice/verify"
-        )
+        self.mfa_path = mfa_path or os.getenv("SONOTHEIA_MFA_PATH", "/v1/mfa/voice/verify")
         self.sar_path = sar_path or os.getenv("SONOTHEIA_SAR_PATH", "/v1/reports/sar")
         self.timeout = timeout
         self.validate_responses = validate_responses

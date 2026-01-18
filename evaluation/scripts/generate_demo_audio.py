@@ -31,9 +31,7 @@ def generate_clipped(duration_s=10.0, sr=16000):
     """Generate heavily clipped audio (sine wave > 1.0)."""
     # Generate 1.5 amplitude sine, then clip to 1.0
     raw = generate_tone(duration_s, 440.0, sr, amplitude=1.5)
-    return np.clip(
-        raw, -0.99, 0.99
-    )  # soundfile might clip automatically, but let's be explicit
+    return np.clip(raw, -0.99, 0.99)  # soundfile might clip automatically, but let's be explicit
 
 
 def main():

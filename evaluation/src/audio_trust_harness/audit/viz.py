@@ -32,10 +32,7 @@ def create_dashboard(audit_file: str, output_html: str | None = None):
 
     # Simple labels for slices
     plot_df["slice_label"] = (
-        plot_df["slice_index"].astype(str)
-        + " ("
-        + plot_df["slice_start_s"].astype(str)
-        + "s)"
+        plot_df["slice_index"].astype(str) + " (" + plot_df["slice_start_s"].astype(str) + "s)"
     )
 
     # Subplots: 2 rows, 2 columns
@@ -52,9 +49,7 @@ def create_dashboard(audit_file: str, output_html: str | None = None):
     )
 
     # 1. Deferral Distribution (Pie)
-    action_counts = (
-        plot_df.groupby("recommended_action").size().reset_index(name="counts")
-    )
+    action_counts = plot_df.groupby("recommended_action").size().reset_index(name="counts")
     fig.add_trace(
         go.Pie(
             labels=action_counts["recommended_action"],

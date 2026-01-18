@@ -107,11 +107,11 @@ class SpectralConfig:
 def _find_config_dir() -> Path | None:
     """
     Find the config directory by searching up from current file.
-    
+
     Searches for:
     1. Directory specified in AUDIO_TRUST_CONFIG_DIR environment variable
     2. 'config' directory in parent directories (up to 3 levels)
-    
+
     Returns:
         Path to config directory if found, None otherwise
     """
@@ -121,58 +121,54 @@ def _find_config_dir() -> Path | None:
         config_path = Path(env_config_dir)
         if config_path.is_dir():
             return config_path
-    
+
     # Start from the package root (parent of parent of this file)
     current = Path(__file__).parent.parent.parent
-    
+
     # Search up to 3 levels for config/ directory
     for _ in range(3):
         config_dir = current / "config"
         if config_dir.is_dir():
             return config_dir
         current = current.parent
-    
+
     return None
 
 
 def _load_yaml_config(filename: str) -> dict[str, Any]:
     """
     Load configuration from YAML file.
-    
+
     Args:
         filename: Name of YAML file in config/ directory
-        
+
     Returns:
         Dictionary of configuration values, or empty dict if file not found
     """
     config_dir = _find_config_dir()
-    
+
     if config_dir is None:
         return {}
-    
+
     config_file = config_dir / filename
-    
+
     if not config_file.exists():
         return {}
-    
+
     try:
         with open(config_file, "r") as f:
             return yaml.safe_load(f) or {}
     except yaml.YAMLError as e:
         # YAML parsing error - log warning and use defaults
         import warnings
-        warnings.warn(
-            f"Failed to parse {config_file}: {e}. Using default values.",
-            UserWarning
-        )
+
+        warnings.warn(f"Failed to parse {config_file}: {e}. Using default values.", UserWarning)
         return {}
     except OSError as e:
         # File permission or I/O error
         import warnings
-        warnings.warn(
-            f"Failed to read {config_file}: {e}. Using default values.",
-            UserWarning
-        )
+
+        warnings.warn(f"Failed to read {config_file}: {e}. Using default values.", UserWarning)
         return {}
 
 
@@ -180,7 +176,7 @@ def _load_stft_config() -> STFTConfig:
     """Load STFT configuration from YAML or use defaults."""
     config = _load_yaml_config("indicators.yaml")
     stft_config = config.get("stft", {})
-    
+
     return STFTConfig(
         nperseg=stft_config.get("nperseg", 2048),
         noverlap=stft_config.get("noverlap", 1024),
@@ -192,7 +188,7 @@ def _load_deferral_policy_config() -> DeferralPolicyConfig:
     """Load deferral policy configuration from YAML or use defaults."""
     config = _load_yaml_config("thresholds.yaml")
     policy_config = config.get("deferral_policy", {})
-    
+
     return DeferralPolicyConfig(
         fragility_threshold=policy_config.get("fragility_threshold", 0.3),
         clipping_threshold=policy_config.get("clipping_threshold", 0.95),
@@ -205,7 +201,7 @@ def _load_consistency_config() -> ConsistencyConfig:
     """Load consistency configuration from YAML or use defaults."""
     config = _load_yaml_config("thresholds.yaml")
     consistency_config = config.get("consistency", {})
-    
+
     return ConsistencyConfig(
         threshold=consistency_config.get("threshold", 0.5),
         min_value_threshold=consistency_config.get("min_value_threshold", 1e-10),
@@ -216,7 +212,7 @@ def _load_perturbation_config() -> PerturbationConfig:
     """Load perturbation configuration from YAML or use defaults."""
     config = _load_yaml_config("indicators.yaml")
     perturb_config = config.get("perturbation", {})
-    
+
     return PerturbationConfig(
         silent_audio_threshold=perturb_config.get("silent_audio_threshold", 1e-10),
         silent_audio_reference_power=perturb_config.get("silent_audio_reference_power", 1e-8),
@@ -228,7 +224,7 @@ def _load_spectral_config() -> SpectralConfig:
     """Load spectral configuration from YAML or use defaults."""
     config = _load_yaml_config("indicators.yaml")
     spectral_config = config.get("spectral", {})
-    
+
     return SpectralConfig(
         rolloff_percent=spectral_config.get("rolloff_percent", 0.85),
         min_power_threshold=spectral_config.get("min_power_threshold", 1e-10),
@@ -238,10 +234,10 @@ def _load_spectral_config() -> SpectralConfig:
 def get_perturbation_defaults(perturbation_name: str) -> dict[str, Any]:
     """
     Get default parameters for a perturbation from YAML config.
-    
+
     Args:
         perturbation_name: Name of perturbation (e.g., 'noise', 'codec_stub')
-        
+
     Returns:
         Dictionary of default parameters
     """
@@ -331,6 +327,8 @@ def reset_config() -> None:
     CONSISTENCY_CONFIG = ConsistencyConfig()
     PERTURBATION_CONFIG = PerturbationConfig()
     SPECTRAL_CONFIG = SpectralConfig()
+
+
 # Values are loaded from YAML files with fallback to hardcoded defaults
 STFT_CONFIG = _load_stft_config()
 DEFERRAL_POLICY_CONFIG = _load_deferral_policy_config()

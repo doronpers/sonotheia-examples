@@ -201,9 +201,7 @@ def deepfake_detect(rate_headers: dict[str, str] | None = None):
     # Validate request
     if "audio" not in request.files:
         return (
-            jsonify(
-                {"error": "Bad request", "message": "Missing 'audio' file in request"}
-            ),
+            jsonify({"error": "Bad request", "message": "Missing 'audio' file in request"}),
             400,
         )
 
@@ -262,9 +260,7 @@ def deepfake_detect(rate_headers: dict[str, str] | None = None):
     if rate_headers:
         response.headers.update(rate_headers)
 
-    logger.info(
-        f"Deepfake detection: score={score:.3f}, label={label}, session={session_id}"
-    )
+    logger.info(f"Deepfake detection: score={score:.3f}, label={label}, session={session_id}")
 
     return response
 
@@ -293,9 +289,7 @@ def mfa_verify(rate_headers: dict[str, str] | None = None):
     # Validate request
     if "audio" not in request.files:
         return (
-            jsonify(
-                {"error": "Bad request", "message": "Missing 'audio' file in request"}
-            ),
+            jsonify({"error": "Bad request", "message": "Missing 'audio' file in request"}),
             400,
         )
 
@@ -354,9 +348,7 @@ def mfa_verify(rate_headers: dict[str, str] | None = None):
     }
 
     if not verified:
-        response_data["recommended_action"] = (
-            "defer_to_review" if confidence > 0.30 else "deny"
-        )
+        response_data["recommended_action"] = "defer_to_review" if confidence > 0.30 else "deny"
 
     response = jsonify(response_data)
     if rate_headers:
@@ -459,9 +451,7 @@ def sar_submit(rate_headers: dict[str, str] | None = None):
     if rate_headers:
         response.headers.update(rate_headers)
 
-    logger.info(
-        f"SAR submitted: case_id={case_id}, decision={decision}, session={session_id}"
-    )
+    logger.info(f"SAR submitted: case_id={case_id}, decision={decision}, session={session_id}")
 
     return response
 
@@ -473,9 +463,7 @@ def enrollment_create(rate_headers: dict[str, str] | None = None):
     # Validate request
     if "audio" not in request.files:
         return (
-            jsonify(
-                {"error": "Bad request", "message": "Missing 'audio' file in request"}
-            ),
+            jsonify({"error": "Bad request", "message": "Missing 'audio' file in request"}),
             400,
         )
 

@@ -71,9 +71,7 @@ def process_slice(
         try:
             # Get perturbation with a derived, deterministic seed so every
             # slice/perturbation pairing receives unique but reproducible noise.
-            perturbation_seed = derive_seed(
-                seed, slice_obj.slice_index, perturbation_name
-            )
+            perturbation_seed = derive_seed(seed, slice_obj.slice_index, perturbation_name)
             perturbation = get_perturbation(perturbation_name, seed=perturbation_seed)
 
             # Apply perturbation
@@ -82,9 +80,7 @@ def process_slice(
             # Compute indicators
             indicators = {}
             for indicator in indicators_list:
-                indicator_values = indicator.compute(
-                    perturbed_audio, slice_obj.sample_rate
-                )
+                indicator_values = indicator.compute(perturbed_audio, slice_obj.sample_rate)
                 indicators.update(indicator_values)
 
             indicators_by_perturbation[perturbation_name] = indicators
@@ -232,9 +228,7 @@ def process_slices_parallel(
         failed_slices = [i for i, result in enumerate(results) if result is None]
 
         if failed_slices:
-            print(
-                f"Warning: {len(failed_slices)} slices failed to process: {failed_slices}"
-            )
+            print(f"Warning: {len(failed_slices)} slices failed to process: {failed_slices}")
 
         # Filter out None results
         results = [r for r in results if r is not None]

@@ -49,9 +49,7 @@ def run(
         "scipy",
         help="Resampling backend: 'scipy' (default) or 'librosa' (higher quality, requires librosa)",
     ),
-    summary_out: Path = typer.Option(
-        None, help="Optional path to write summary JSON after run"
-    ),
+    summary_out: Path = typer.Option(None, help="Optional path to write summary JSON after run"),
     dashboard_out: Path = typer.Option(
         None, help="Optional path to write HTML dashboard after run"
     ),
@@ -298,8 +296,12 @@ def run(
 
     if not summary_out and not dashboard_out:
         typer.echo("\nNext steps:")
-        typer.echo("  - Generate summary: audio_trust_harness summary --audit <audit.jsonl> --out summary.json")
-        typer.echo("  - Generate dashboard: audio_trust_harness visualize --audit <audit.jsonl> --out dashboard.html")
+        typer.echo(
+            "  - Generate summary: audio_trust_harness summary --audit <audit.jsonl> --out summary.json"
+        )
+        typer.echo(
+            "  - Generate dashboard: audio_trust_harness visualize --audit <audit.jsonl> --out dashboard.html"
+        )
 
 
 @app.command()

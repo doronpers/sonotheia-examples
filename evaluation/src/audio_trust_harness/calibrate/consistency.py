@@ -50,9 +50,7 @@ class ConsistencyChecker:
             min_value_threshold: Minimum value for relative change calculation
                                Values below this use robust change metric
         """
-        self.threshold = (
-            threshold if threshold is not None else CONSISTENCY_CONFIG.threshold
-        )
+        self.threshold = threshold if threshold is not None else CONSISTENCY_CONFIG.threshold
         self.min_value_threshold = (
             min_value_threshold
             if min_value_threshold is not None

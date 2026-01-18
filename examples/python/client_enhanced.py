@@ -26,6 +26,7 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
 from utils import convert_numpy_types
+
 logger = logging.getLogger(__name__)
 
 
@@ -169,9 +170,7 @@ class SonotheiaClientEnhanced:
         self.deepfake_path = deepfake_path or os.getenv(
             "SONOTHEIA_DEEPFAKE_PATH", "/v1/voice/deepfake"
         )
-        self.mfa_path = mfa_path or os.getenv(
-            "SONOTHEIA_MFA_PATH", "/v1/mfa/voice/verify"
-        )
+        self.mfa_path = mfa_path or os.getenv("SONOTHEIA_MFA_PATH", "/v1/mfa/voice/verify")
         self.sar_path = sar_path or os.getenv("SONOTHEIA_SAR_PATH", "/v1/reports/sar")
         self.timeout = timeout
 
@@ -246,9 +245,7 @@ class SonotheiaClientEnhanced:
         """Make HTTP request with circuit breaker and rate limiting."""
         with self._rate_limit():
             if self.circuit_breaker:
-                return self.circuit_breaker.call(
-                    self._execute_request, method, *args, **kwargs
-                )
+                return self.circuit_breaker.call(self._execute_request, method, *args, **kwargs)
             else:
                 return self._execute_request(method, *args, **kwargs)
 

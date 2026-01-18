@@ -166,9 +166,7 @@ class TestResampleBackend:
         wav_path = tmp_path / "test_44k.wav"
         sf.write(wav_path, audio.astype(np.float32), original_sr)
 
-        data, sr = load_audio(
-            wav_path, target_sr=16000, resample_backend=ResampleBackend.SCIPY
-        )
+        data, sr = load_audio(wav_path, target_sr=16000, resample_backend=ResampleBackend.SCIPY)
 
         assert sr == 16000
 

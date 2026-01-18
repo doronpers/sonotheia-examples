@@ -76,9 +76,7 @@ def split_audio_file(
         result = subprocess.run(probe_cmd, capture_output=True, text=True, check=True)
         total_duration = float(result.stdout.strip())
         total_chunks = int(total_duration / chunk_duration_seconds) + 1
-        logger.info(
-            f"Audio duration: {total_duration:.2f}s, will create {total_chunks} chunks"
-        )
+        logger.info(f"Audio duration: {total_duration:.2f}s, will create {total_chunks} chunks")
     except subprocess.CalledProcessError as exc:
         logger.error(f"Failed to probe audio file: {exc}")
         raise
@@ -185,9 +183,7 @@ def process_streaming(
                 # Track high-risk chunks
                 if score > 0.7:
                     results["summary"]["high_risk_chunks"] += 1
-                    logger.warning(
-                        f"Chunk {chunk_idx} has high deepfake score: {score}"
-                    )
+                    logger.warning(f"Chunk {chunk_idx} has high deepfake score: {score}")
 
                 # Optional MFA for each chunk
                 if enrollment_id:
@@ -246,9 +242,7 @@ def process_streaming(
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(
-        description="Stream and process long audio files in chunks"
-    )
+    parser = argparse.ArgumentParser(description="Stream and process long audio files in chunks")
     parser.add_argument("audio", help="Path to audio file")
     parser.add_argument(
         "--chunk-duration",
@@ -258,9 +252,7 @@ def main() -> None:
     )
     parser.add_argument("--enrollment-id", help="Enrollment ID for MFA verification")
     parser.add_argument("--session-id", help="Session identifier")
-    parser.add_argument(
-        "--verbose", "-v", action="store_true", help="Enable verbose logging"
-    )
+    parser.add_argument("--verbose", "-v", action="store_true", help="Enable verbose logging")
 
     args = parser.parse_args()
 

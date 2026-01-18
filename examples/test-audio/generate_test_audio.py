@@ -74,9 +74,7 @@ class AudioFileGenerator:
 
         try:
             print(f"Generating: {filename}... ", end="", flush=True)
-            subprocess.run(
-                command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True
-            )
+            subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
             print("✓")
             return True
         except subprocess.CalledProcessError as e:

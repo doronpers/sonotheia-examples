@@ -119,9 +119,7 @@ def client(mock_server):
     """Create a client configured for the test server."""
     from client import SonotheiaClient
 
-    return SonotheiaClient(
-        api_key=mock_server["api_key"], api_url=mock_server["api_url"]
-    )
+    return SonotheiaClient(api_key=mock_server["api_key"], api_url=mock_server["api_url"])
 
 
 class TestDeepfakeDetection:

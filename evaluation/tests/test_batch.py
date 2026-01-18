@@ -88,9 +88,7 @@ def test_process_slices_parallel(sample_slices):
     perturbation_names = ["none", "noise"]
     seed = 1337
 
-    results = process_slices_parallel(
-        sample_slices, perturbation_names, seed, workers=2
-    )
+    results = process_slices_parallel(sample_slices, perturbation_names, seed, workers=2)
 
     # Check we got results for all slices
     assert len(results) == len(sample_slices)
@@ -108,12 +106,8 @@ def test_process_slices_parallel_deterministic(sample_slices):
     seed = 1337
 
     # Run twice with same seed
-    results1 = process_slices_parallel(
-        sample_slices, perturbation_names, seed, workers=2
-    )
-    results2 = process_slices_parallel(
-        sample_slices, perturbation_names, seed, workers=2
-    )
+    results1 = process_slices_parallel(sample_slices, perturbation_names, seed, workers=2)
+    results2 = process_slices_parallel(sample_slices, perturbation_names, seed, workers=2)
 
     # Results should be identical (order might vary, so compare by slice_index)
     results1_sorted = sorted(results1, key=lambda r: r["slice_index"])
@@ -134,9 +128,7 @@ def test_process_slices_serial_vs_parallel(sample_slices):
     seed = 1337
 
     results_serial = process_slices_serial(sample_slices, perturbation_names, seed)
-    results_parallel = process_slices_parallel(
-        sample_slices, perturbation_names, seed, workers=2
-    )
+    results_parallel = process_slices_parallel(sample_slices, perturbation_names, seed, workers=2)
 
     # Results should be identical (order might vary, so compare by slice_index)
     results_serial_sorted = sorted(results_serial, key=lambda r: r["slice_index"])

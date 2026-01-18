@@ -171,9 +171,7 @@ class VoiceIntegrityRouter:
         action = self._determine_action(voice_result, context, composite_risk)
 
         # Determine additional controls needed
-        additional_controls = self._determine_additional_controls(
-            voice_result, context, action
-        )
+        additional_controls = self._determine_additional_controls(voice_result, context, action)
 
         # Build audit trail
         audit_trail = {
@@ -197,9 +195,7 @@ class VoiceIntegrityRouter:
         }
 
         # Generate decision reason
-        reason = self._generate_decision_reason(
-            voice_result, context, composite_risk, action
-        )
+        reason = self._generate_decision_reason(voice_result, context, composite_risk, action)
 
         return RoutingDecision(
             action=action,
@@ -321,9 +317,7 @@ class VoiceIntegrityRouter:
 
         # Reason codes from voice analysis
         if voice_result.reason_codes:
-            reasons.append(
-                f"Voice anomalies: {', '.join(voice_result.reason_codes[:3])}"
-            )
+            reasons.append(f"Voice anomalies: {', '.join(voice_result.reason_codes[:3])}")
 
         reason_text = "; ".join(reasons) if reasons else "Standard processing"
 
@@ -354,9 +348,7 @@ def print_routing_decision(decision: RoutingDecision):
 
 def main():
     """Main entry point."""
-    parser = argparse.ArgumentParser(
-        description="Voice integrity routing for financial services"
-    )
+    parser = argparse.ArgumentParser(description="Voice integrity routing for financial services")
     parser.add_argument("audio", help="Path to voice audio file")
     parser.add_argument(
         "--transaction-id",
@@ -370,9 +362,7 @@ def main():
         required=True,
         help="Transaction amount in USD",
     )
-    parser.add_argument(
-        "--destination-country", default="US", help="Destination country code"
-    )
+    parser.add_argument("--destination-country", default="US", help="Destination country code")
     parser.add_argument(
         "--new-beneficiary", action="store_true", help="Transaction to new beneficiary"
     )

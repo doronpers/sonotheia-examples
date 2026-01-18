@@ -99,9 +99,7 @@ class CodecStubPerturbation(Perturbation):
     indicator robustness to spectral changes and quantization.
     """
 
-    def __init__(
-        self, cutoff_hz: float | None = None, bits: int | None = None, seed: int = 1337
-    ):
+    def __init__(self, cutoff_hz: float | None = None, bits: int | None = None, seed: int = 1337):
         super().__init__("codec_stub", seed)
         # Load from config if not provided
         defaults = get_perturbation_defaults("codec_stub")
@@ -251,9 +249,7 @@ class RealCodecPerturbation(Perturbation):
     Real codec integration using pydub/ffmpeg.
     """
 
-    def __init__(
-        self, format: str = "mp3", bitrate: str | None = None, seed: int = 1337
-    ):
+    def __init__(self, format: str = "mp3", bitrate: str | None = None, seed: int = 1337):
         super().__init__(f"codec_{format}", seed)
         self.format = format
         # Load from config if not provided
@@ -286,15 +282,10 @@ class RealCodecPerturbation(Perturbation):
             encoded_segment = AudioSegment.from_file(tmp_path, format=self.format)
 
             # Ensure same sample rate and mono
-            encoded_segment = encoded_segment.set_frame_rate(sample_rate).set_channels(
-                1
-            )
+            encoded_segment = encoded_segment.set_frame_rate(sample_rate).set_channels(1)
 
             # Convert back to numpy
-            samples = (
-                np.array(encoded_segment.get_array_of_samples()).astype(np.float32)
-                / 32767.0
-            )
+            samples = np.array(encoded_segment.get_array_of_samples()).astype(np.float32) / 32767.0
 
             # Pad or trim to original length
             if len(samples) < len(audio):
