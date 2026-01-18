@@ -20,6 +20,8 @@ This file contains:
 3. **Style**: `snake_case` for functions, `PascalCase` for classes
 4. **Security**: NEVER log API keys, PII, or raw audio bytes
 5. **Examples**: Must be runnable with minimal setup
+6. **IDE Setup**: Enable "Format on Save" and configure linter to use `.pre-commit-config.yaml` (see AGENT_KNOWLEDGE_BASE.md)
+7. **Bulk Operations**: Use `git diff --stat` to audit changes, then run `python3 -m compileall .` before committing (see AGENT_KNOWLEDGE_BASE.md)
 
 ## Key Commands
 

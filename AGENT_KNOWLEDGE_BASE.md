@@ -51,6 +51,24 @@ This document is the **Single Source of Truth** for all AI agents (Claude, Curso
   * Frontend: `npm test` (Vitest/Jest).
 * **Error Handling**:
   * Sensors must **NEVER** raise exceptions during `analyze()`. Return `SensorResult(passed=None, detail="...")`.
+* **Whitespace & Formatting**:
+  * **NEVER** introduce trailing whitespace in any file.
+  * **NEVER** create multiple consecutive blank lines (max 1 blank line between sections).
+  * **ALWAYS** run `black` (Python) and format checkers before committing.
+  * **ALWAYS** ensure Markdown files pass `markdownlint` (no MD009, MD012, MD032 violations).
+  * When editing files, preserve existing whitespace patterns unless fixing violations.
+  * **IDE Configuration (CRITICAL for preventing whitespace errors)**:
+    * **Format on Save**: **MUST** enable "Format on Save" in your IDE (VS Code, Cursor, or PyCharm). If a bulk edit merges two lines into one, the formatter will immediately try (and usually fail) to fix it, highlighting the syntax error with a red underline before you even switch files.
+    * **Linter Overlays**: **MUST** ensure your IDE is using the repository's `.pre-commit-config.yaml` as the source of truth for its internal linting. This ensures IDE warnings match pre-commit hook behavior and catch issues early.
+  * **Bulk Operations (CRITICAL for preventing errors across many files)**:
+    * **Audit the Diff**: When performing a bulk operation across hundreds of files, **MUST** use `git diff --stat` to see which files changed, and then spot-check a few using `git diff <filename>` to verify the changes are correct.
+    * **Syntax Check Smoke Test**: After any bulk edit, **MUST** run a quick syntax check before committing:
+
+      ```bash
+      python3 -m compileall .
+      ```
+
+      This command will attempt to compile every file in the directory and will report any `SyntaxError` immediately.
 
 ---
 
