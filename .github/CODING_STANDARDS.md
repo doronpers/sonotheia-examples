@@ -9,7 +9,7 @@ This document provides comprehensive guidelines for maintaining the organization
 
 This repository embraces AI-assisted development as a collaborative approach. Before making changes:
 
-1. **Apply the Three-Question Framework** (see [Start Simple](../docs/workflow-guides/start-simple.md)):
+1. **Apply the Three-Question Framework** (see [Start Simple](../documentation/workflow-guides/start-simple.md)):
    - What problem am I solving?
    - What does success look like?
    - What constraints exist?
@@ -20,7 +20,7 @@ This repository embraces AI-assisted development as a collaborative approach. Be
    - Docker SSL certificates (ca-certificates)
    - nginx client_max_body_size for large files
 
-3. **Use Multi-Agent Review** for complex changes (see [Multi-Agent Workflow](../docs/workflow-guides/multi-agent-workflow.md))
+3. **Use Multi-Agent Review** for complex changes (see [Multi-Agent Workflow](../documentation/workflow-guides/multi-agent-workflow.md))
 
 **Full workflow documentation**: [AI-Assisted Development Workflow](QUICK_REFERENCE.md)
 
@@ -268,7 +268,7 @@ node --check batch-processor.js
 9. **Track learnings** - Consider using the [Learning Journal](../templates/learning-journal.md) template
 
 ### For Review Agents
-1. **Apply review checklist** from [Multi-Agent Workflow](../docs/03-workflow-building/multi-agent-workflow.md)
+1. **Apply review checklist** from [Multi-Agent Workflow](../documentation/03-workflow-building/multi-agent-workflow.md)
 2. **Verify** changes follow these standards
 3. **Check** that documentation is updated
 4. **Check common pitfalls** - numpy serialization, file handling, SSL certificates
@@ -291,9 +291,9 @@ For questions about these standards, open an issue or contact the repository mai
 
 - **[QUICK_REFERENCE.md](QUICK_REFERENCE.md)** - AI-Assisted Development Workflow (essential reading)
 - **[AGENT_QUICK_REFERENCE.md](AGENT_QUICK_REFERENCE.md)** - Quick decision tree and common tasks for agents
-- **[Start Simple](../docs/workflow-guides/start-simple.md)** - Three-question framework for problem definition
-- **[Multi-Agent Workflow](../docs/workflow-guides/multi-agent-workflow.md)** - Using multiple AI agents effectively
-- **[REPOSITORY_STRUCTURE.md](../docs/REPOSITORY_STRUCTURE.md)** - Detailed guide to repository organization
+- **[Start Simple](../documentation/workflow-guides/start-simple.md)** - Three-question framework for problem definition
+- **[Multi-Agent Workflow](../documentation/workflow-guides/multi-agent-workflow.md)** - Using multiple AI agents effectively
+- **[REPOSITORY_STRUCTURE.md](../documentation/REPOSITORY_STRUCTURE.md)** - Detailed guide to repository organization
 - **[README.md](../README.md)** - Main repository documentation
 
 ---

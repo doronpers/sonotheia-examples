@@ -16,6 +16,51 @@ This guide helps you diagnose and resolve common issues when working with the So
 
 ---
 
+## Configuration Issues
+
+### Environment variables not loaded from .env file
+
+**Symptom:**
+```
+Error: SONOTHEIA_API_KEY environment variable must be set
+```
+Even though you created a `.env` file.
+
+**Cause:**
+Examples read from process environment variables only. They do NOT automatically load `.env` files.
+
+**Solutions:**
+
+1. **Export variables manually:**
+   ```bash
+   export $(cat .env | xargs)
+   python main.py audio.wav
+   ```
+
+2. **Use shell source (if .env is valid shell syntax):**
+   ```bash
+   set -a  # Auto-export
+   source .env
+   set +a
+   python main.py audio.wav
+   ```
+
+3. **For Node.js/TypeScript, use dotenv:**
+   ```bash
+   npm install dotenv
+   # Then in your code: require('dotenv').config()
+   ```
+
+4. **Simplest: Export directly:**
+   ```bash
+   export SONOTHEIA_API_KEY=your_key_here
+   python main.py audio.wav
+   ```
+
+**Reference:** See [Example Contract](../examples/EXAMPLE_CONTRACT.md) for standard behavior across all examples.
+
+---
+
 ## Authentication Issues
 
 ### Error: 401 Unauthorized

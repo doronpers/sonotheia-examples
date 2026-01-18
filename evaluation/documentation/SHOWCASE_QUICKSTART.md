@@ -13,16 +13,15 @@ It produces **deferral signals** (accept, defer, insufficient evidence), *not* d
 Install the package and its dependencies. We recommend a virtual environment.
 
 ```bash
-# Clone and enter repo
-git clone https://github.com/doronpers/audio-trust-harness.git
-cd audio-trust-harness
+# Navigate to evaluation directory (this is part of the sonotheia-examples monorepo)
+cd evaluation
 
 # Create venv
-python3 -m venv .venv
-source .venv/bin/activate
+python3 -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 # Install
-pip install -e .
+pip install -e ".[dev]"
 ```
 
 ---

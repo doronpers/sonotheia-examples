@@ -37,7 +37,7 @@ CONCURRENT_REQUESTS=10 SONOTHEIA_API_KEY=xxx node batch-processor.js *.wav
 - `CONCURRENT_REQUESTS` - Max concurrent requests (default: 5)
 - `LOG_LEVEL` - Logging level: debug, info, warn, error (default: info)
 
-> **Tip**: Copy the repo-root `.env.example` to `.env` to keep all examples aligned.
+**Note**: Examples read from process environment variables. They do NOT automatically load `.env` files. To use a `.env` file, you'll need to use a tool like `dotenv` or export variables manually: `export $(cat .env | xargs)`.
 
 **Output:**
 ```
@@ -184,8 +184,8 @@ node batch-processor.js | pino-pretty
 
 ## 📌 Quick Links
 
-- [Getting Started Guide](../../docs/GETTING_STARTED.md) — 5-minute setup
-- [Documentation Index](../../docs/INDEX.md) — find anything quickly
+- [Getting Started Guide](../../documentation/GETTING_STARTED.md) — 5-minute setup
+- [Documentation Index](../../documentation/INDEX.md) — find anything quickly
 - [Examples Overview](../README.md) — quick-start commands for every language
-- [FAQ](../../docs/FAQ.md) — common questions and troubleshooting
-- [Best Practices](../../docs/BEST_PRACTICES.md) — production integration guidelines
+- [FAQ](../../documentation/FAQ.md) — common questions and troubleshooting
+- [Best Practices](../../documentation/BEST_PRACTICES.md) — production integration guidelines

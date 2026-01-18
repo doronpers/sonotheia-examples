@@ -222,16 +222,18 @@ export async function main() {
     .description('TypeScript client for Sonotheia voice fraud detection API')
     .argument('<audio>', 'Path to audio file (wav/opus/mp3/flac)')
     .option('--enrollment-id <id>', 'Enrollment ID for MFA verification')
-    .option('--session-id <id>', 'Session identifier for SAR submission', 'demo-session')
-    .option('--decision <allow|deny|review>', 'SAR decision', 'review')
-    .option('--reason <text>', 'SAR reason', 'High deepfake score detected')
+    .option('--session-id <id>', 'Session identifier for linking API calls')
+    .option('--submit-sar', 'Submit SAR (requires --session-id)')
+    .option('--decision <allow|deny|review>', 'SAR decision (requires --submit-sar)', 'review')
+    .option('--reason <text>', 'SAR reason (requires --submit-sar)', 'Manual review requested')
     .option('--output <path>', 'Write JSON results to file')
     .option('--pretty', 'Pretty-print JSON output')
     .parse(process.argv);
 
   const options = program.opts<{
     enrollmentId?: string;
-    sessionId: string;
+    sessionId?: string;
+    submitSar?: boolean;
     decision: 'allow' | 'deny' | 'review';
     reason: string;
     output?: string;
@@ -258,6 +260,12 @@ export async function main() {
   const client = new SonotheiaClient({ apiKey });
   const results: Record<string, any> = {};
 
+  // Validate SAR submission requirements
+  if (options.submitSar && !options.sessionId) {
+    console.error('Error: --submit-sar requires --session-id');
+    process.exit(1);
+  }
+
   try {
     // Deepfake detection
     console.log('Running deepfake detection...');
@@ -278,14 +286,14 @@ export async function main() {
       console.log('MFA result:', results.mfa);
     }
 
-    // SAR submission (if session ID provided and deepfake score is high)
-    if (sessionId && results.deepfake?.score > 0.7) {
-      console.log('\nSubmitting SAR for suspicious activity...');
+    // SAR submission (only if explicitly requested)
+    if (options.submitSar && options.sessionId) {
+      console.log('\nSubmitting SAR...');
       results.sar = await client.submitSar({
-        sessionId,
+        sessionId: options.sessionId,
         decision: options.decision,
         reason: options.reason,
-        metadata: { source: 'typescript-example', deepfake_score: results.deepfake.score },
+        metadata: { source: 'typescript-example' },
       });
       console.log('SAR result:', results.sar);
     }

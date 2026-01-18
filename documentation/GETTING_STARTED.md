@@ -148,10 +148,13 @@ Now that you've made your first API call, here are recommended next steps based 
 
 ## Common First-Time Issues
 
-### "401 Unauthorized"
+### "401 Unauthorized" or "API key not set"
 - **Problem**: Invalid or missing API key
-- **Solution**: Double-check your `SONOTHEIA_API_KEY` environment variable
+- **Solution**: 
+  - Double-check your `SONOTHEIA_API_KEY` environment variable
+  - **Note**: Examples do NOT automatically load `.env` files. You must export variables: `export SONOTHEIA_API_KEY=your_key`
 - **Verify**: `echo $SONOTHEIA_API_KEY` (should show your key, not empty)
+- **See**: [Troubleshooting Guide](TROUBLESHOOTING.md#environment-variables-not-loaded-from-env-file) for .env file handling
 
 ### "400 Bad Request - Invalid audio format"
 - **Problem**: Audio file doesn't meet requirements

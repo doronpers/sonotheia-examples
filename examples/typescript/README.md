@@ -31,8 +31,13 @@ node dist/index.js path/to/audio.wav
 # With MFA verification
 node dist/index.js path/to/audio.wav --enrollment-id enroll-123
 
-# With session tracking
-node dist/index.js path/to/audio.wav --enrollment-id enroll-123 --session-id session-456
+# With session tracking and SAR submission
+node dist/index.js path/to/audio.wav \
+  --enrollment-id enroll-123 \
+  --session-id session-456 \
+  --submit-sar \
+  --decision review \
+  --reason "Suspicious activity detected"
 ```
 
 ### As a Library
@@ -80,7 +85,7 @@ The client can be configured via environment variables or constructor options:
 | `SONOTHEIA_MFA_PATH` | `/v1/mfa/voice/verify` | MFA endpoint |
 | `SONOTHEIA_SAR_PATH` | `/v1/reports/sar` | SAR endpoint |
 
-> **Tip**: Copy the repo-root `.env.example` to `.env` to keep all examples aligned.
+**Note**: Examples read from process environment variables. They do NOT automatically load `.env` files. To use a `.env` file, you'll need to use a tool like `dotenv` or export variables manually: `export $(cat .env | xargs)`.
 
 ## Types
 
@@ -119,8 +124,8 @@ try {
 
 ## 📌 Quick Links
 
-- [Getting Started Guide](../../docs/GETTING_STARTED.md) — 5-minute setup
-- [Documentation Index](../../docs/INDEX.md) — find anything quickly
+- [Getting Started Guide](../../documentation/GETTING_STARTED.md) — 5-minute setup
+- [Documentation Index](../../documentation/INDEX.md) — find anything quickly
 - [Examples Overview](../README.md) — quick-start commands for every language
-- [FAQ](../../docs/FAQ.md) — common questions and troubleshooting
-- [Best Practices](../../docs/BEST_PRACTICES.md) — production integration guidelines
+- [FAQ](../../documentation/FAQ.md) — common questions and troubleshooting
+- [Best Practices](../../documentation/BEST_PRACTICES.md) — production integration guidelines

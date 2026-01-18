@@ -106,7 +106,7 @@ Contains only:
 
 **Why minimal?**: A clean root makes the repository approachable and professional.
 
-### Documentation (/Documentation/)
+### Documentation (/documentation/)
 
 **Purpose**: All user-facing and development documentation
 
@@ -117,14 +117,14 @@ Contains only:
 - `FAQ.md` - Common questions and answers
 - `REPOSITORY_STRUCTURE.md` - This file
 
-#### Development Documentation (/Documentation/development/)
+#### Development Documentation (/documentation/development/)
 
 **Purpose**: Active development notes and sources
 
 - `README.md` - Development context overview
 - `SOURCES.md` - Source references for coding agents
 
-#### Historical Archive (/Documentation/Archive/)
+#### Historical Archive (/documentation/Archive/)
 
 **Purpose**: Historical documents preserved for reference
 
@@ -133,7 +133,7 @@ Contains only:
 
 **Note**: Archived files document past development processes and decisions but are no longer actively maintained.
 
-#### AI-Assisted Workflow Documentation (/Documentation/workflow-guides/)
+#### AI-Assisted Workflow Documentation (/documentation/workflow-guides/)
 
 **Purpose**: Guides for effective AI-assisted development
 
@@ -255,8 +255,8 @@ Example Kubernetes manifests with:
 → Add a reference in the main README.md
 
 **Add documentation**
-→ User-facing docs go in `/Documentation/`
-→ Development notes go in `/Documentation/development/`
+→ User-facing docs go in `/documentation/`
+→ Development notes go in `/documentation/development/`
 → Update links in README.md if important
 
 **Run tests**
@@ -297,7 +297,7 @@ Each example directory should be:
 Documentation lives close to what it documents:
 
 - Main README - Overview of everything
-- `/Documentation/` - Cross-cutting concerns
+- `/documentation/` - Cross-cutting concerns
 - `examples/<lang>/README.md` - Language-specific details
 - Code comments - Implementation details
 
@@ -351,7 +351,7 @@ Common issues and solutions
 **New documentation:**
 
 1. Determine category (user-facing or development)
-2. Create file in appropriate `/Documentation/` subdirectory
+2. Create file in appropriate `/documentation/` subdirectory
 3. Use clear, descriptive filename
 4. Update README.md if it's important
 5. Add links from related docs

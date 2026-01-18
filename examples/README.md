@@ -32,6 +32,8 @@ Detailed instructions can be found in the [Getting Started Guide](../documentati
 2. **Audio File**: Test files available in `examples/test-audio/`
 3. **Dependencies**: Language-specific (see individual READMEs)
 
+> **Standardization**: All examples follow the [Example Contract](EXAMPLE_CONTRACT.md) for consistent behavior across languages.
+
 ## Choosing the Right Example
 
 Select based on your use case:

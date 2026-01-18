@@ -122,9 +122,8 @@ The harness produces deferral recommendations ("accept", "defer_to_review", "ins
 ### Installation
 
 ```bash
-# Clone the repository
-git clone https://github.com/doronpers/audio-trust-harness.git
-cd audio-trust-harness
+# Navigate to evaluation directory (this is part of the sonotheia-examples monorepo)
+cd evaluation
 
 # Create a virtual environment
 python -m venv venv
@@ -220,16 +219,15 @@ For more details on interpreting results, see [Interpreting Results](documentati
 
 ```bash
 # Basic usage - analyzes entire file with default perturbations (none, noise)
-python -m audio_trust_harness run --audio sample.wav --out out/audit.jsonl
+python -m audio_trust_harness run sample.wav --out out/audit.jsonl
 
 # Basic usage + auto summary + dashboard
-python -m audio_trust_harness run --audio sample.wav --out out/audit.jsonl \
+python -m audio_trust_harness run sample.wav --out out/audit.jsonl \
   --summary-out out/summary.json \
   --dashboard-out out/dashboard.html
 
 # Advanced usage with custom options
-python -m audio_trust_harness run \
-  --audio sample.wav \
+python -m audio_trust_harness run sample.wav \
   --out out/audit.jsonl \
   --slice-seconds 10 \
   --hop-seconds 10 \
@@ -238,8 +236,7 @@ python -m audio_trust_harness run \
   --max-slices 5
 
 # With parallel processing (faster for many slices)
-python -m audio_trust_harness run \
-  --audio sample.wav \
+python -m audio_trust_harness run sample.wav \
   --out out/audit.jsonl \
   --parallel \
   --workers 4
@@ -257,8 +254,9 @@ python -m audio_trust_harness run \
 
 ### CLI Options
 
-- `--audio`: Path to input WAV file (required)
+- `AUDIO`: Path to input WAV file (positional argument, required unless `--demo` is used)
 - `--out`: Path to output JSONL audit file (required)
+- `--demo`: Run in demo mode with synthetic test audio (cannot be used with audio file argument)
 - `--slice-seconds`: Duration of each slice in seconds (default: 10, must be > 0)
 - `--hop-seconds`: Hop duration between slices (default: 10, non-overlapping, must be > 0)
 - `--seed`: Random seed for deterministic perturbations (default: 1337)
@@ -414,7 +412,7 @@ Each line in the output JSONL file represents one processed slice with one pertu
 
 ### Typical Workflow
 
-1. **Run analysis**: `python -m audio_trust_harness run --audio file.wav --out audit.jsonl`
+1. **Run analysis**: `python -m audio_trust_harness run file.wav --out audit.jsonl`
 2. **Generate summary**: `python -m audio_trust_harness summary --audit audit.jsonl --out summary.json`
 3. **Review summary**: Check deferral distribution, identify high-fragility slices
 4. **Investigate deferrals**: For `defer_to_review` slices, examine which indicators are unstable
@@ -477,7 +475,7 @@ graph TD
 #### Scenario 1: Quick validation of a single file
 
 ```bash
-python -m audio_trust_harness run --audio sample.wav --out audit.jsonl
+python -m audio_trust_harness run sample.wav --out audit.jsonl
 python -m audio_trust_harness summary --audit audit.jsonl --out summary.json
 cat summary.json  # Check deferral distribution
 ```
@@ -485,8 +483,7 @@ cat summary.json  # Check deferral distribution
 #### Scenario 2: Comprehensive stress test
 
 ```bash
-python -m audio_trust_harness run \
-  --audio sample.wav \
+python -m audio_trust_harness run sample.wav \
   --out audit.jsonl \
   --perturbations none,noise,codec_stub,pitch_shift,time_stretch \
   --seed 42
@@ -497,7 +494,7 @@ python -m audio_trust_harness run \
 ```bash
 for file in audio/*.wav; do
   out="results/$(basename "$file" .wav)_audit.jsonl"
-  python -m audio_trust_harness run --audio "$file" --out "$out"
+  python -m audio_trust_harness run "$file" --out "$out"
 done
 ```
 
@@ -505,8 +502,7 @@ done
 
 ```bash
 # Process only first 50 seconds (5 slices of 10s)
-python -m audio_trust_harness run \
-  --audio long_file.wav \
+python -m audio_trust_harness run long_file.wav \
   --out audit.jsonl \
   --max-slices 5
 ```
@@ -515,8 +511,7 @@ python -m audio_trust_harness run \
 
 ```bash
 # Use stricter fragility threshold (triggers deferral at 20% variation instead of 30%)
-python -m audio_trust_harness run \
-  --audio sample.wav \
+python -m audio_trust_harness run sample.wav \
   --out audit.jsonl \
   --fragility-threshold 0.2 \
   --clipping-threshold 0.90 \
@@ -731,9 +726,8 @@ pytest --cov=src/audio_trust_harness --cov-report=html
 ### Setup
 
 ```bash
-# Clone and install with dev dependencies
-git clone https://github.com/doronpers/audio-trust-harness.git
-cd audio-trust-harness
+# Navigate to evaluation directory (this is part of the sonotheia-examples monorepo)
+cd evaluation
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -e ".[dev]"

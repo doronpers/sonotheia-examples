@@ -35,7 +35,6 @@ def test_cli_run_basic(test_audio_file, tmp_path):
         app,
         [
             "run",
-            "--audio",
             str(test_audio_file),
             "--out",
             str(out_file),
@@ -113,7 +112,6 @@ def test_cli_run_with_max_slices(test_audio_file, tmp_path):
         app,
         [
             "run",
-            "--audio",
             str(test_audio_file),
             "--out",
             str(out_file),
@@ -146,7 +144,6 @@ def test_cli_run_multiple_perturbations(test_audio_file, tmp_path):
         app,
         [
             "run",
-            "--audio",
             str(test_audio_file),
             "--out",
             str(out_file),
@@ -183,7 +180,6 @@ def test_cli_run_file_not_found(tmp_path):
         app,
         [
             "run",
-            "--audio",
             "nonexistent.wav",
             "--out",
             str(out_file),
@@ -213,7 +209,6 @@ def test_cli_deterministic_with_seed(test_audio_file, tmp_path):
         app,
         [
             "run",
-            "--audio",
             str(test_audio_file),
             "--out",
             str(out_file1),
@@ -231,7 +226,6 @@ def test_cli_deterministic_with_seed(test_audio_file, tmp_path):
         app,
         [
             "run",
-            "--audio",
             str(test_audio_file),
             "--out",
             str(out_file2),

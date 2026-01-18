@@ -15,7 +15,7 @@ Thank you for your interest in contributing! 🎉
 2. Get feedback from maintainers
 3. Fork, code, test, submit PR
 
-**Need help?** Check [Troubleshooting](Documentation/TROUBLESHOOTING.md) or [FAQ](Documentation/FAQ.md) first.
+**Need help?** Check [Troubleshooting](documentation/TROUBLESHOOTING.md) or [FAQ](documentation/FAQ.md) first.
 
 ---
 
@@ -243,8 +243,8 @@ We're committed to providing a welcoming environment:
 This repository embraces AI-assisted development! We provide comprehensive guides:
 
 - **[AI Development Workflow](.github/QUICK_REFERENCE.md)** - Complete guide for AI-assisted contributions
-- **[Three-Question Framework](Documentation/workflow-guides/start-simple.md)** - Problem-solving approach
-- **[Multi-Agent Workflow](Documentation/workflow-guides/multi-agent-workflow.md)** - For complex changes
+- **[Three-Question Framework](documentation/workflow-guides/start-simple.md)** - Problem-solving approach
+- **[Multi-Agent Workflow](documentation/workflow-guides/multi-agent-workflow.md)** - For complex changes
 - **[Agent Quick Reference](.github/AGENT_QUICK_REFERENCE.md)** - Quick decision tree
 
 **Using AI tools?** These guides help you work more effectively with AI coding assistants.
@@ -255,9 +255,9 @@ This repository embraces AI-assisted development! We provide comprehensive guide
 
 ### Before Opening an Issue
 
-1. Check the [FAQ](Documentation/FAQ.md)
+1. Check the [FAQ](documentation/FAQ.md)
 2. Search [existing issues](https://github.com/doronpers/sonotheia-examples/issues)
-3. Review [Troubleshooting](Documentation/TROUBLESHOOTING.md)
+3. Review [Troubleshooting](documentation/TROUBLESHOOTING.md)
 
 ### When Opening an Issue
 
@@ -290,8 +290,8 @@ For comprehensive contribution guidelines, see:
 
 - **[Full Contributing Guide](.github/CONTRIBUTING.md)** - Detailed process and requirements
 - **[Coding Standards](.github/CODING_STANDARDS.md)** - Complete style guide
-- **[Documentation Principles](Documentation/DOCUMENTATION_PRINCIPLES.md)** - Writing guidelines
-- **[Repository Structure](Documentation/REPOSITORY_STRUCTURE.md)** - How code is organized
+- **[Documentation Principles](documentation/DOCUMENTATION_PRINCIPLES.md)** - Writing guidelines
+- **[Repository Structure](documentation/REPOSITORY_STRUCTURE.md)** - How code is organized
 
 ---
 

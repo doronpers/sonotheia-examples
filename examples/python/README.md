@@ -24,7 +24,10 @@ export SONOTHEIA_API_KEY=your_api_key_here
 export SONOTHEIA_API_URL=https://api.sonotheia.com  # Optional, this is the default (API host for Sonotheia.ai)
 ```
 
-Or copy the top-level `.env.example` to `.env` and fill in your credentials.
+**Note**: Examples read from process environment variables. They do NOT automatically load `.env` files. To use a `.env` file:
+- Export variables manually: `export $(cat .env | xargs)`
+- Or use a tool like `python-dotenv` in your own code
+- Or simply export: `export SONOTHEIA_API_KEY=your_key_here`
 
 ## Usage
 

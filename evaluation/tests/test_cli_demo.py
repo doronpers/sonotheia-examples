@@ -46,3 +46,50 @@ def test_cli_demo_mode(tmp_path):
     assert result_sum.exit_code == 0
     assert output_summary.exists()
     assert "Deferral Summary" in result_sum.stdout
+
+
+def test_cli_demo_with_dashboard_and_summary(tmp_path):
+    """Test that --demo works with --dashboard-out and --summary-out flags."""
+    output_audit = tmp_path / "demo_audit.jsonl"
+    output_summary = tmp_path / "demo_summary.json"
+    output_dashboard = tmp_path / "demo_dashboard.html"
+
+    result = runner.invoke(
+        app,
+        [
+            "run",
+            "--demo",
+            "--out",
+            str(output_audit),
+            "--summary-out",
+            str(output_summary),
+            "--dashboard-out",
+            str(output_dashboard),
+        ],
+    )
+
+    assert result.exit_code == 0
+    assert "Starting run" in result.stdout
+    assert "Demo mode: Using generated file" in result.stdout
+    assert output_audit.exists()
+    assert output_summary.exists()
+    assert output_dashboard.exists()
+
+
+def test_cli_demo_cannot_use_with_audio(tmp_path):
+    """Test that --demo and audio argument cannot be used together."""
+    output_audit = tmp_path / "demo_audit.jsonl"
+
+    result = runner.invoke(
+        app,
+        [
+            "run",
+            "some_audio.wav",
+            "--demo",
+            "--out",
+            str(output_audit),
+        ],
+    )
+
+    assert result.exit_code != 0
+    assert "cannot be used together" in result.stdout.lower() or "error" in result.stdout.lower()

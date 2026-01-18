@@ -108,7 +108,7 @@ Run tests before submitting your pull request to ensure everything works.
 ## Documentation Standards
 
 - Update relevant documentation when making code changes
-- Follow [Documentation Principles](../docs/DOCUMENTATION_PRINCIPLES.md)
+- Follow [Documentation Principles](../documentation/DOCUMENTATION_PRINCIPLES.md)
 - Use clear, concise language
 - Include code examples where appropriate
 - Test all code snippets and links
@@ -118,8 +118,8 @@ Run tests before submitting your pull request to ensure everything works.
 This repository embraces AI-assisted development:
 
 - See [AI Development Workflow](QUICK_REFERENCE.md) for best practices
-- Use the [Three-Question Framework](../docs/workflow-guides/start-simple.md)
-- Consider [Multi-Agent Workflow](../docs/workflow-guides/multi-agent-workflow.md) for complex changes
+- Use the [Three-Question Framework](../documentation/workflow-guides/start-simple.md)
+- Consider [Multi-Agent Workflow](../documentation/workflow-guides/multi-agent-workflow.md) for complex changes
 - Reference [Agent Quick Reference](AGENT_QUICK_REFERENCE.md) for common patterns
 
 ## Pull Request Process
@@ -145,8 +145,8 @@ Before submitting your PR, ensure:
 
 ## Questions?
 
-- Check the [FAQ](../docs/FAQ.md)
-- Review [Troubleshooting](../docs/TROUBLESHOOTING.md)
+- Check the [FAQ](../documentation/FAQ.md)
+- Review [Troubleshooting](../documentation/TROUBLESHOOTING.md)
 - Search [existing issues](https://github.com/doronpers/sonotheia-examples/issues)
 - Join [GitHub Discussions](https://github.com/doronpers/sonotheia-examples/discussions)
 

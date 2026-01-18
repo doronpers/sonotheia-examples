@@ -20,11 +20,10 @@ app = typer.Typer(help="Audio Trust Harness - Stress-test tool for audio indicat
 
 @app.command()
 def run(
-    audio: Path = typer.Option(None, help="Path (required unless --demo is set)"),  # noqa: B008
+    audio: Path = typer.Argument(  # noqa: B008
+        None, help="Path to audio file (required unless --demo is set)"
+    ),
     out: Path = typer.Option(..., help="Path to output JSONL audit file"),  # noqa: B008
-    dashboard: Path = typer.Option(  # noqa: B008
-        ..., exists=True, help="Path to dashboard"
-    ),  # noqa: B008
     demo: bool = typer.Option(False, help="Run in demo mode"),  # noqa: B008
     slice_seconds: float = typer.Option(10.0, help="Duration in seconds"),  # noqa: B008
     hop_seconds: float = typer.Option(10.0, help="Hop duration in seconds"),  # noqa: B008
@@ -82,7 +81,7 @@ def run(
     # Handle Demo Mode
     if demo:
         if audio:
-            typer.echo("Error: --audio and --demo cannot be used together.", err=True)
+            typer.echo("Error: Audio file argument and --demo cannot be used together.", err=True)
             raise typer.Exit(1)
 
         # Run generation script
@@ -102,7 +101,7 @@ def run(
         typer.echo(f"Demo mode: Using generated file {audio}")
 
     if not audio:
-        typer.echo("Error: Missing argument 'AUDIO'.", err=True)
+        typer.echo("Error: Audio file path is required (or use --demo for demo mode).", err=True)
         raise typer.Exit(1)
     if not demo and not audio.exists():
         typer.echo(f"Error: Audio file not found: {audio}", err=True)

@@ -203,15 +203,15 @@ Key insight: [what made this work]
 
 ## 🔗 Related Resources in This Repo
 
-- [Start Simple](../docs/workflow-guides/start-simple.md) - Begin with three questions
-- [Multi-Agent Workflow](../docs/workflow-guides/multi-agent-workflow.md) - Multiple AI checks
+- [Start Simple](../documentation/workflow-guides/start-simple.md) - Begin with three questions
+- [Multi-Agent Workflow](../documentation/workflow-guides/multi-agent-workflow.md) - Multiple AI checks
 - [Learning Journal Template](../templates/learning-journal.md) - Track your progress
 
 ## 🔗 Additional Resources
 
 - [Repository Organization](AGENT_QUICK_REFERENCE.md) - Quick reference for maintaining repo structure
 - [Coding Standards](CODING_STANDARDS.md) - Complete standards and guidelines
-- [Best Practices](../docs/BEST_PRACTICES.md) - Integration best practices
+- [Best Practices](../documentation/BEST_PRACTICES.md) - Integration best practices
 
 ---
 
