@@ -9,6 +9,8 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from enum import Enum
 
+import numpy as np
+
 
 class AdapterStatus(Enum):
     """Status of an adapter response."""

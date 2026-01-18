@@ -10,12 +10,11 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from pathlib import Path
 from collections.abc import Iterator
 from contextlib import contextmanager
+from pathlib import Path
 
 import requests
-
 from client import SonotheiaClient
 
 

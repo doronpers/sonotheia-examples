@@ -370,12 +370,12 @@ def _generate_mfa_score(filename: str) -> tuple[float, bool]:
     Returns:
         Tuple of (confidence, verified)
     """
-    if "match" in filename.lower() or "valid" in filename.lower():
-        confidence = random.uniform(0.85, 0.98)
-        return confidence, True
-    elif "mismatch" in filename.lower() or "invalid" in filename.lower():
+    if "mismatch" in filename.lower() or "invalid" in filename.lower():
         confidence = random.uniform(0.15, 0.45)
         return confidence, False
+    elif "match" in filename.lower() or "valid" in filename.lower():
+        confidence = random.uniform(0.85, 0.98)
+        return confidence, True
     else:
         confidence = random.uniform(0.50, 0.90)
         return confidence, confidence >= 0.70
@@ -603,6 +603,8 @@ def main():
     logger.info(f"  export SONOTHEIA_API_KEY={config.api_key}")
     logger.info("  python main.py audio.wav")
     logger.info("=" * 60)
+    logger.info("Registered Routes:")
+    logger.info(app.url_map)
 
     app.run(host=args.host, port=args.port, debug=args.debug)
 

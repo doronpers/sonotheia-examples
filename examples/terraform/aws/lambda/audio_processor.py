@@ -14,9 +14,10 @@ Environment Variables:
 
 import json
 import os
+from datetime import datetime
+
 import boto3
 import requests
-from datetime import datetime
 
 # Initialize AWS clients
 s3 = boto3.client("s3")
@@ -149,12 +150,13 @@ def process_audio(audio_data, api_key):
 
             return response.json()
 
-        except requests.exceptions.Timeout as e:
+        except requests.exceptions.Timeout:
             if attempt == max_retries - 1:
                 raise
             wait_time = 2**attempt  # Exponential backoff: 1s, 2s, 4s
             print(
-                f"Request timeout (attempt {attempt + 1}/{max_retries}), retrying in {wait_time}s"
+                f"Request timeout (attempt {attempt + 1}/{max_retries}), "
+                f"retrying in {wait_time}s"
             )
             time.sleep(wait_time)
 
@@ -166,7 +168,8 @@ def process_audio(audio_data, api_key):
                 raise
             wait_time = 2**attempt
             print(
-                f"Server error {e.response.status_code} (attempt {attempt + 1}/{max_retries}), retrying in {wait_time}s"
+                f"Server error {e.response.status_code} (attempt {attempt + 1}/{max_retries}), "
+                f"retrying in {wait_time}s"
             )
             time.sleep(wait_time)
 
@@ -175,7 +178,8 @@ def process_audio(audio_data, api_key):
                 raise
             wait_time = 2**attempt
             print(
-                f"Request error (attempt {attempt + 1}/{max_retries}), retrying in {wait_time}s: {str(e)}"
+                f"Request error (attempt {attempt + 1}/{max_retries}), "
+                f"retrying in {wait_time}s: {str(e)}"
             )
             time.sleep(wait_time)
 

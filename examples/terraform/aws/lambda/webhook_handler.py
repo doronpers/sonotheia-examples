@@ -12,12 +12,13 @@ Environment Variables:
     ENVIRONMENT: Environment name (dev/staging/prod)
 """
 
+import hashlib
+import hmac
 import json
 import os
-import hmac
-import hashlib
-import boto3
 from datetime import datetime
+
+import boto3
 
 # Initialize AWS clients
 dynamodb = boto3.resource("dynamodb")

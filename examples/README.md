@@ -2,9 +2,9 @@
 
 > **📦 Monorepo Notice**: This is the **Integration Examples** component of the `sonotheia-examples` monorepo.
 > See [Start Here](../documentation/START_HERE.md) for the fastest path, the [root README](../README.md) for an overview of all components, or jump to [Evaluation Framework](../evaluation/README.md) for research and evaluation tools.
-
+>
 > **Quick-start commands for every implementation.** Choose your language, run the command, get results.
-
+>
 > ⚠️ **Active Development**: These integration examples are in **active development**. Examples are being refined, APIs may change, and new patterns are continuously being added.
 
 This directory contains working examples in multiple languages demonstrating Sonotheia API integration. Each example includes proper error handling, retry logic, and security best practices.
@@ -12,7 +12,7 @@ This directory contains working examples in multiple languages demonstrating Son
 ## Quick Map
 
 | Path | Purpose | Run It Fast |
-|---|---|---|
+| --- | --- | --- |
 | `examples/curl/` | One-liner smoke tests and CI probes | `./curl/deepfake-detect.sh audio.wav` |
 | `examples/python/` | Production-grade client, streaming, health checks | `python main.py audio.wav --enrollment-id enroll-123` |
 | `examples/node/` | Batch processing and webhook server patterns | `node batch-processor.js file1.wav` |
@@ -22,40 +22,22 @@ This directory contains working examples in multiple languages demonstrating Son
 
 ## Prerequisites
 
-Before running any example, you need:
+Before running any example, please ensure you have your API key and environment set up.
 
-1. **API Key**: Required for all examples (contact Sonotheia support or your integration engineer to obtain one)
-   ```bash
-   # Option A: Using .env file (recommended)
-   cp ../.env.example ../.env
-   # Edit .env and set SONOTHEIA_API_KEY=your_actual_key
+Detailed instructions can be found in the [Getting Started Guide](../documentation/GETTING_STARTED.md).
 
-   # Option B: Export directly
-   export SONOTHEIA_API_KEY=your_api_key_here
-   ```
+**Quick Summary:**
 
-2. **Audio File**: For testing (optional - examples provide test audio)
-   - **Recommended**: 16 kHz mono WAV, 3-10 seconds
-   - **Also supported**: Opus, MP3, FLAC
-   - **Test files**: Available in `examples/test-audio/`
-
-3. **Language-Specific Dependencies**: Install as needed
-   - **Python**:
-     ```bash
-     python -m venv .venv
-     source .venv/bin/activate      # On Linux/macOS
-     # .venv\Scripts\activate       # On Windows
-     pip install -r requirements.txt
-     ```
-   - **Node.js/TypeScript**: `npm install`
-   - **cURL**: No additional dependencies
+1. **API Key**: Required (export `SONOTHEIA_API_KEY=...`)
+2. **Audio File**: Test files available in `examples/test-audio/`
+3. **Dependencies**: Language-specific (see individual READMEs)
 
 ## Choosing the Right Example
 
 Select based on your use case:
 
 | Use Case | Best Choice | Why |
-|----------|-------------|-----|
+| --- | --- | --- |
 | Quick API test | **cURL** | No dependencies, fastest to run |
 | Production integration | **Python** | Built-in retry logic, rate limiting, comprehensive error handling |
 | Web application | **TypeScript** | Type safety, IDE support, compile-time validation |
@@ -63,10 +45,10 @@ Select based on your use case:
 | Container deployment | **Kubernetes** | Production manifests with health checks |
 | Serverless/Lambda | **Terraform** | Infrastructure as code, AWS integration |
 
-
 ## What Each Example Provides
 
 All examples demonstrate:
+
 - **Deepfake Detection**: Identify synthetic voice in audio
 - **Voice MFA**: Multi-factor authentication using voice biometrics
 - **SAR Submission**: Generate compliance reports
@@ -85,11 +67,13 @@ Each implementation includes language-appropriate patterns:
 ## Getting Help
 
 Each language directory contains:
+
 - **README.md**: Detailed setup and usage instructions
 - **Working examples**: Tested, production-ready code
 - **Tests**: Unit and integration test examples (where applicable)
 
 For general questions:
+
 - [Start Here](../documentation/START_HERE.md): Fast onboarding for integrations
 - [Main README](../README.md): Repository overview
 - [Getting Started Guide](../documentation/GETTING_STARTED.md): 5-minute quickstart

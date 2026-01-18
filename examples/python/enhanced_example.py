@@ -20,7 +20,6 @@ import logging
 import sys
 
 import requests
-
 from client_enhanced import CircuitBreakerConfig, SonotheiaClientEnhanced
 
 # Configure logging

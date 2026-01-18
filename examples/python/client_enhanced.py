@@ -11,21 +11,17 @@ This module extends the basic client with hardened features:
 
 from __future__ import annotations
 
-import json
 import logging
-import mimetypes
-import os
 import time
 from contextlib import contextmanager
 from dataclasses import dataclass
 from enum import Enum
-from typing import IO, Any, Callable
+from typing import Any, Callable
 
 import requests
+from client import SonotheiaClient
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
-
-from utils import convert_numpy_types
 
 logger = logging.getLogger(__name__)
 
@@ -127,7 +123,7 @@ class RateLimiter:
             time.sleep(sleep_time)
 
 
-class SonotheiaClientEnhanced:
+class SonotheiaClientEnhanced(SonotheiaClient):
     """Enhanced Sonotheia API client with hardened features."""
 
     def __init__(
@@ -138,6 +134,7 @@ class SonotheiaClientEnhanced:
         mfa_path: str | None = None,
         sar_path: str | None = None,
         timeout: int = 30,
+        validate_responses: bool = True,
         max_retries: int = 3,
         rate_limit_rps: float | None = None,
         enable_circuit_breaker: bool = True,
@@ -153,26 +150,21 @@ class SonotheiaClientEnhanced:
             mfa_path: MFA endpoint path
             sar_path: SAR endpoint path
             timeout: Request timeout in seconds
+            validate_responses: Enable response validation (default: True)
             max_retries: Maximum number of retry attempts
             rate_limit_rps: Rate limit in requests per second (None to disable)
             enable_circuit_breaker: Enable circuit breaker pattern
             circuit_breaker_config: Circuit breaker configuration
         """
-        self.api_key = api_key or os.getenv("SONOTHEIA_API_KEY")
-        if not self.api_key:
-            raise ValueError(
-                "API key is required. Set SONOTHEIA_API_KEY environment variable or pass api_key parameter."
-            )
-
-        self.api_url = (
-            api_url or os.getenv("SONOTHEIA_API_URL", "https://api.sonotheia.com")
-        ).rstrip("/")
-        self.deepfake_path = deepfake_path or os.getenv(
-            "SONOTHEIA_DEEPFAKE_PATH", "/v1/voice/deepfake"
+        super().__init__(
+            api_key=api_key,
+            api_url=api_url,
+            deepfake_path=deepfake_path,
+            mfa_path=mfa_path,
+            sar_path=sar_path,
+            timeout=timeout,
+            validate_responses=validate_responses,
         )
-        self.mfa_path = mfa_path or os.getenv("SONOTHEIA_MFA_PATH", "/v1/mfa/voice/verify")
-        self.sar_path = sar_path or os.getenv("SONOTHEIA_SAR_PATH", "/v1/reports/sar")
-        self.timeout = timeout
 
         # Setup session with connection pooling and retry logic
         self.session = self._create_session(max_retries)
@@ -209,13 +201,6 @@ class SonotheiaClientEnhanced:
 
         return session
 
-    def _headers(self) -> dict[str, str]:
-        """Get common request headers."""
-        return {
-            "Authorization": f"Bearer {self.api_key}",
-            "Accept": "application/json",
-        }
-
     @contextmanager
     def _rate_limit(self):
         """Context manager for rate limiting."""
@@ -223,37 +208,43 @@ class SonotheiaClientEnhanced:
             self.rate_limiter.acquire()
         yield
 
-    def _audio_part(self, audio_path: str, file_obj: IO[bytes]) -> tuple[str, Any, str]:
-        """
-        Prepare audio file part for multipart upload.
-
-        Args:
-            audio_path: Path to audio file
-            file_obj: Opened binary file handle for the audio content
-
-        Returns:
-            Tuple of (filename, file_handle, mime_type)
-        """
-        mime_type, _ = mimetypes.guess_type(audio_path)
-        return (
-            os.path.basename(audio_path),
-            file_obj,
-            mime_type or "application/octet-stream",
-        )
-
-    def _make_request(self, method: str, *args, **kwargs) -> dict[str, Any]:
+    def _make_request(
+        self, method: str, url: str, files: dict = None, data: dict = None, json_body: dict = None
+    ) -> dict[str, Any]:
         """Make HTTP request with circuit breaker and rate limiting."""
         with self._rate_limit():
             if self.circuit_breaker:
-                return self.circuit_breaker.call(self._execute_request, method, *args, **kwargs)
+                return self.circuit_breaker.call(
+                    self._execute_request,
+                    method,
+                    url,
+                    files=files,
+                    data=data,
+                    json=json_body,
+                )
             else:
-                return self._execute_request(method, *args, **kwargs)
+                return self._execute_request(method, url, files=files, data=data, json=json_body)
 
-    def _execute_request(self, method: str, url: str, **kwargs) -> dict[str, Any]:
+    def _execute_request(
+        self, method: str, url: str, files: dict = None, data: dict = None, json: dict = None
+    ) -> dict[str, Any]:
         """Execute HTTP request and handle errors."""
         start_time = time.time()
         try:
-            response = self.session.request(method, url, **kwargs)
+            # We must pass headers explicitly if they are not in session,
+            # but session carries cookies etc.
+            # Base class defines _headers(). We should use them.
+            headers = self._headers()
+
+            response = self.session.request(
+                method,
+                url,
+                headers=headers,
+                files=files,
+                data=data,
+                json=json,
+                timeout=self.timeout,
+            )
             duration = time.time() - start_time
 
             logger.debug(
@@ -271,125 +262,6 @@ class SonotheiaClientEnhanced:
             duration = time.time() - start_time
             logger.error(f"{method} {url} failed in {duration:.3f}s: {exc}")
             raise
-
-    def detect_deepfake(
-        self, audio_path: str, metadata: dict[str, Any] | None = None
-    ) -> dict[str, Any]:
-        """
-        Detect if audio contains a deepfake.
-
-        Args:
-            audio_path: Path to audio file (WAV, Opus, MP3, or FLAC)
-            metadata: Optional metadata dict (e.g., session_id, channel)
-
-        Returns:
-            Response dict with keys: score, label, latency_ms, session_id (optional)
-
-        Raises:
-            requests.HTTPError: If API returns an error status code
-            requests.RequestException: For network/connection errors
-        """
-        if not os.path.exists(audio_path):
-            raise FileNotFoundError(f"Audio file not found: {audio_path}")
-
-        url = f"{self.api_url}{self.deepfake_path}"
-
-        with open(audio_path, "rb") as audio_file:
-            files = {"audio": self._audio_part(audio_path, audio_file)}
-            safe_metadata = convert_numpy_types(metadata or {})
-            data = {"metadata": json.dumps(safe_metadata)}
-
-            return self._make_request(
-                "POST",
-                url,
-                headers=self._headers(),
-                files=files,
-                data=data,
-                timeout=self.timeout,
-            )
-
-    def verify_mfa(
-        self,
-        audio_path: str,
-        enrollment_id: str,
-        context: dict[str, Any] | None = None,
-    ) -> dict[str, Any]:
-        """
-        Verify caller identity via voice MFA.
-
-        Args:
-            audio_path: Path to audio file
-            enrollment_id: Enrollment/voiceprint identifier for the caller
-            context: Optional context dict (e.g., session_id, channel)
-
-        Returns:
-            Response dict with keys: verified, enrollment_id, confidence, session_id (optional)
-
-        Raises:
-            requests.HTTPError: If API returns an error status code
-            requests.RequestException: For network/connection errors
-        """
-        if not os.path.exists(audio_path):
-            raise FileNotFoundError(f"Audio file not found: {audio_path}")
-
-        url = f"{self.api_url}{self.mfa_path}"
-
-        with open(audio_path, "rb") as audio_file:
-            files = {"audio": self._audio_part(audio_path, audio_file)}
-            safe_context = convert_numpy_types(context or {})
-            data = {
-                "enrollment_id": enrollment_id,
-                "context": json.dumps(safe_context),
-            }
-
-            return self._make_request(
-                "POST",
-                url,
-                headers=self._headers(),
-                files=files,
-                data=data,
-                timeout=self.timeout,
-            )
-
-    def submit_sar(
-        self,
-        session_id: str,
-        decision: str,
-        reason: str,
-        metadata: dict[str, Any] | None = None,
-    ) -> dict[str, Any]:
-        """
-        Submit a Suspicious Activity Report (SAR).
-
-        Args:
-            session_id: Session identifier to link with prior API calls
-            decision: Decision type - 'allow', 'deny', or 'review'
-            reason: Human-readable reason for the SAR
-            metadata: Optional metadata dict
-
-        Returns:
-            Response dict with keys: status, case_id, session_id
-
-        Raises:
-            requests.HTTPError: If API returns an error status code
-            requests.RequestException: For network/connection errors
-        """
-        url = f"{self.api_url}{self.sar_path}"
-
-        payload = {
-            "session_id": session_id,
-            "decision": decision,
-            "reason": reason,
-            "metadata": convert_numpy_types(metadata or {}),
-        }
-
-        return self._make_request(
-            "POST",
-            url,
-            headers=self._headers(),
-            json=payload,
-            timeout=self.timeout,
-        )
 
     def close(self):
         """Close the HTTP session."""

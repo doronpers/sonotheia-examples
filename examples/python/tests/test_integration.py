@@ -21,7 +21,7 @@ import requests
 
 # Test constants
 MOCK_API_KEY = "mock_api_key_12345"
-MOCK_API_PORT = 8001
+MOCK_API_PORT = 8914
 MOCK_API_URL = f"http://localhost:{MOCK_API_PORT}"
 
 
@@ -69,11 +69,15 @@ def mock_server():
     # Start mock server
     import sys
 
+    # Determine path to mock_api_server.py
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    mock_server_path = os.path.join(current_dir, "..", "mock_api_server.py")
+
     # Start server in subprocess
     process = subprocess.Popen(
-        [sys.executable, "mock_api_server.py", "--port", str(MOCK_API_PORT)],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        [sys.executable, mock_server_path, "--port", str(MOCK_API_PORT)],
+        stdout=None,
+        stderr=None,
     )
 
     # Wait for server to start
@@ -117,7 +121,10 @@ def test_audio():
 @pytest.fixture
 def client(mock_server):
     """Create a client configured for the test server."""
+    import client as client_module
     from client import SonotheiaClient
+
+    print(f"DEBUG: client module file: {client_module.__file__}")
 
     return SonotheiaClient(api_key=mock_server["api_key"], api_url=mock_server["api_url"])
 
