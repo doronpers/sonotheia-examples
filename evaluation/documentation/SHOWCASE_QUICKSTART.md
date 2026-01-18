@@ -32,13 +32,15 @@ pip install -e .
 The harness comes with a built-in demo mode that generates safe, synthetic test assets and runs a full evaluation against them.
 
 ```bash
-# Run the demo validation
-python -m audio_trust_harness run --demo --out out/demo_audit.jsonl
+# Run the demo validation (with summary + dashboard)
+python -m audio_trust_harness run --demo --out out/demo_audit.jsonl \
+  --summary-out out/demo_summary.json \
+  --dashboard-out out/demo_dashboard.html
 ```
 
 You should see output indicating that synthetic audio (clean, noisy, clipped) is being generated and processed.
 
-Now, generate a summary report:
+Now, generate a summary report (if you didn't already):
 
 ```bash
 # Summarize the results

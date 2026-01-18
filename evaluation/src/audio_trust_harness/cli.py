@@ -57,6 +57,15 @@ def run(
         "scipy",
         help="Resampling backend: 'scipy' (default) or 'librosa' (higher quality, requires librosa)",
     ),
+    summary_out: Path = typer.Option(
+        None, help="Optional path to write summary JSON after run"
+    ),
+    dashboard_out: Path = typer.Option(
+        None, help="Optional path to write HTML dashboard after run"
+    ),
+    open_dashboard: bool = typer.Option(
+        False, help="Open the dashboard after generation (requires --dashboard-out)"
+    ),
 ):
     """
     Run the audio trust harness on an audio file.
@@ -110,6 +119,15 @@ def run(
     if not audio:
         typer.echo("Error: Missing argument 'AUDIO'.", err=True)
         raise typer.Exit(1)
+    if not demo and not audio.exists():
+        typer.echo(f"Error: Audio file not found: {audio}", err=True)
+        raise typer.Exit(1)
+
+    out.parent.mkdir(parents=True, exist_ok=True)
+    if summary_out:
+        summary_out.parent.mkdir(parents=True, exist_ok=True)
+    if dashboard_out:
+        dashboard_out.parent.mkdir(parents=True, exist_ok=True)
 
     typer.echo(f"Starting run: {run_id}")
     typer.echo(f"Input file: {audio}")
@@ -263,6 +281,41 @@ def run(
     typer.echo(f"  accept: {actions['accept']}")
     typer.echo(f"  defer_to_review: {actions['defer_to_review']}")
     typer.echo(f"  insufficient_evidence: {actions['insufficient_evidence']}")
+
+    if summary_out:
+        from audio_trust_harness.audit.summary import generate_summary_report
+
+        typer.echo("\nGenerating summary report...")
+        try:
+            generate_summary_report(out, summary_out)
+            typer.echo(f"  ✓ Summary written to {summary_out}")
+        except Exception as e:
+            typer.echo(f"  ⚠ Failed to write summary: {e}", err=True)
+
+    if dashboard_out:
+        typer.echo("\nGenerating dashboard...")
+        try:
+            create_dashboard(str(out), str(dashboard_out))
+            typer.echo(f"  ✓ Dashboard written to {dashboard_out}")
+        except Exception as e:
+            typer.echo(f"  ⚠ Failed to generate dashboard: {e}", err=True)
+
+    if open_dashboard:
+        if not dashboard_out:
+            typer.echo(
+                "\n⚠ Cannot open dashboard without --dashboard-out. Skipping open.",
+                err=True,
+            )
+        else:
+            import webbrowser
+
+            typer.echo("\nOpening dashboard in your browser...")
+            webbrowser.open(Path(dashboard_out).resolve().as_uri())
+
+    if not summary_out and not dashboard_out:
+        typer.echo("\nNext steps:")
+        typer.echo("  - Generate summary: audio_trust_harness summary --audit <audit.jsonl> --out summary.json")
+        typer.echo("  - Generate dashboard: audio_trust_harness visualize --audit <audit.jsonl> --out dashboard.html")
 
 
 @app.command()

@@ -8,9 +8,10 @@
  */
 
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import { Command } from 'commander';
 import FormData from 'form-data';
-import { readFileSync } from 'fs';
-import { basename } from 'path';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
+import { basename, dirname, extname, resolve } from 'path';
 
 export interface SonotheiaConfig {
   apiKey: string;
@@ -182,28 +183,78 @@ export class SonotheiaClient {
   }
 }
 
+const allowedExtensions = new Set(['.wav', '.opus', '.mp3', '.flac']);
+
+function resolveAudioPath(pathArg: string): string {
+  const resolved = resolve(pathArg);
+  if (!existsSync(resolved)) {
+    throw new Error(`Audio file not found: ${resolved}`);
+  }
+
+  const extension = extname(resolved).toLowerCase();
+  if (!allowedExtensions.has(extension)) {
+    const allowed = Array.from(allowedExtensions).sort().join(', ');
+    throw new Error(`Unsupported audio extension '${extension}'. Supported formats: ${allowed}`);
+  }
+
+  return resolved;
+}
+
+function writeOutput(outputPath: string | undefined, payload: string): void {
+  if (!outputPath) {
+    console.log(payload);
+    return;
+  }
+
+  const resolved = resolve(outputPath);
+  mkdirSync(dirname(resolved), { recursive: true });
+  writeFileSync(resolved, payload, 'utf-8');
+  console.log(`Wrote results to ${resolved}`);
+}
+
 /**
  * Example usage
  */
 export async function main() {
+  const program = new Command();
+  program
+    .name('sonotheia-typescript-example')
+    .description('TypeScript client for Sonotheia voice fraud detection API')
+    .argument('<audio>', 'Path to audio file (wav/opus/mp3/flac)')
+    .option('--enrollment-id <id>', 'Enrollment ID for MFA verification')
+    .option('--session-id <id>', 'Session identifier for SAR submission', 'demo-session')
+    .option('--decision <allow|deny|review>', 'SAR decision', 'review')
+    .option('--reason <text>', 'SAR reason', 'High deepfake score detected')
+    .option('--output <path>', 'Write JSON results to file')
+    .option('--pretty', 'Pretty-print JSON output')
+    .parse(process.argv);
+
+  const options = program.opts<{
+    enrollmentId?: string;
+    sessionId: string;
+    decision: 'allow' | 'deny' | 'review';
+    reason: string;
+    output?: string;
+    pretty?: boolean;
+  }>();
+
   const apiKey = process.env.SONOTHEIA_API_KEY;
   if (!apiKey) {
     console.error('Error: SONOTHEIA_API_KEY environment variable must be set');
     process.exit(1);
   }
 
-  const audioPath = process.argv[2];
-  if (!audioPath) {
-    console.error('Usage: node dist/index.js <audio-file.wav> [--enrollment-id <id>] [--session-id <id>]');
+  const [audioArg] = program.args;
+  let audioPath: string;
+  try {
+    audioPath = resolveAudioPath(audioArg);
+  } catch (error) {
+    console.error(error instanceof Error ? error.message : String(error));
     process.exit(1);
   }
 
-  const args = process.argv.slice(3);
-  const enrollmentIdIndex = args.indexOf('--enrollment-id');
-  const enrollmentId = enrollmentIdIndex !== -1 ? args[enrollmentIdIndex + 1] : undefined;
-  const sessionIdIndex = args.indexOf('--session-id');
-  const sessionId = sessionIdIndex !== -1 ? args[sessionIdIndex + 1] : 'demo-session';
-
+  const enrollmentId = options.enrollmentId;
+  const sessionId = options.sessionId || 'demo-session';
   const client = new SonotheiaClient({ apiKey });
   const results: Record<string, any> = {};
 
@@ -232,15 +283,16 @@ export async function main() {
       console.log('\nSubmitting SAR for suspicious activity...');
       results.sar = await client.submitSar({
         sessionId,
-        decision: 'review',
-        reason: 'High deepfake score detected',
+        decision: options.decision,
+        reason: options.reason,
         metadata: { source: 'typescript-example', deepfake_score: results.deepfake.score },
       });
       console.log('SAR result:', results.sar);
     }
 
     console.log('\nAll results:');
-    console.log(JSON.stringify(results, null, 2));
+    const payload = JSON.stringify(results, null, options.pretty ? 2 : undefined);
+    writeOutput(options.output, payload);
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.error('API Error:', error.response?.data || error.message);
