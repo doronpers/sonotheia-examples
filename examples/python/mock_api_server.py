@@ -355,7 +355,8 @@ def mfa_verify(rate_headers: dict[str, str] | None = None):
         response.headers.update(rate_headers)
 
     logger.info(
-        f"MFA verification: verified={verified}, confidence={confidence:.3f}, enrollment={enrollment_id}"
+        f"MFA verification: verified={verified}, "
+        f"confidence={confidence:.3f}, enrollment={enrollment_id}"
     )
 
     return response

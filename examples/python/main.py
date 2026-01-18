@@ -2,7 +2,8 @@
 Lightweight Python helper for Sonotheia voice fraud detection workflows.
 
 Usage:
-    SONOTHEIA_API_KEY=... python main.py path/to/audio.wav --enrollment-id enroll-123 --session-id session-123
+    SONOTHEIA_API_KEY=... python main.py path/to/audio.wav \\
+        --enrollment-id enroll-123 --session-id session-123
 """
 
 from __future__ import annotations
