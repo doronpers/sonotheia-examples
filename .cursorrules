@@ -19,9 +19,10 @@ This file contains:
 2. **Format**: Use `black` for Python
 3. **Style**: `snake_case` for functions, `PascalCase` for classes
 4. **Security**: NEVER log API keys, PII, or raw audio bytes
-5. **Examples**: Must be runnable with minimal setup
-6. **IDE Setup**: Enable "Format on Save" and configure linter to use `.pre-commit-config.yaml` (see AGENT_KNOWLEDGE_BASE.md)
-7. **Bulk Operations**: Use `git diff --stat` to audit changes, then run `python3 -m compileall .` before committing (see AGENT_KNOWLEDGE_BASE.md)
+5. **Reasoning Logs**: After significant tasks (complex, architectural, refactoring, non-obvious bug fixes), create log entry at `feedback-loop/agent_reasoning_logs/logs/YYYY-MM-DD_sonotheia-examples_task.md` (see template: `feedback-loop/agent_reasoning_logs/templates/reasoning_entry.md`)
+6. **Examples**: Must be runnable with minimal setup
+7. **IDE Setup**: Enable "Format on Save" and configure linter to use `.pre-commit-config.yaml` (see AGENT_KNOWLEDGE_BASE.md)
+8. **Bulk Operations**: Use `git diff --stat` to audit changes, then run `python3 -m compileall .` before committing (see AGENT_KNOWLEDGE_BASE.md)
 
 ## Key Commands
 
