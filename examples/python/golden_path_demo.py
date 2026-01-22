@@ -32,7 +32,7 @@ import subprocess
 import sys
 import time
 import uuid
-from datetime import datetime
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -352,7 +352,7 @@ def run_golden_path(
     # Build final output
     output = {
         "session_id": session_id,
-        "timestamp": datetime.utcnow().isoformat() + "Z",
+        "timestamp": datetime.now(UTC).isoformat().replace("+00:00", "Z"),
         "inputs": {
             "audio_filename": audio_path.name,
             **audio_info,
@@ -467,7 +467,7 @@ Examples:
                 "message": str(e),
                 "type": type(e).__name__,
             },
-            "timestamp": datetime.utcnow().isoformat() + "Z",
+            "timestamp": datetime.now(UTC).isoformat().replace("+00:00", "Z"),
         }
         if args.output:
             args.output.parent.mkdir(parents=True, exist_ok=True)

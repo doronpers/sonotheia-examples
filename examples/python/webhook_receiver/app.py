@@ -25,7 +25,7 @@ import logging
 import os
 import time
 from collections import defaultdict
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 from fastapi import FastAPI, Header, HTTPException, Request, status
@@ -257,7 +257,7 @@ async def webhook_endpoint(
                 "score": event.data.get("score"),
                 "label": event.data.get("label"),
                 "timestamp": event.data.get("timestamp"),
-                "received_at": datetime.utcnow().isoformat() + "Z",
+                "received_at": datetime.now(UTC).isoformat().replace("+00:00", "Z"),
             }
             logger.info(f"Deepfake event processed: session_id={session_id}")
 
@@ -268,7 +268,7 @@ async def webhook_endpoint(
                 "enrollment_id": event.data.get("enrollment_id"),
                 "verified": event.data.get("verified"),
                 "confidence": event.data.get("confidence"),
-                "received_at": datetime.utcnow().isoformat() + "Z",
+                "received_at": datetime.now(UTC).isoformat().replace("+00:00", "Z"),
             }
             logger.info(f"MFA event processed: session_id={session_id}")
 
@@ -278,7 +278,7 @@ async def webhook_endpoint(
                 "type": "sar",
                 "case_id": event.data.get("case_id"),
                 "status": event.data.get("status"),
-                "received_at": datetime.utcnow().isoformat() + "Z",
+                "received_at": datetime.now(UTC).isoformat().replace("+00:00", "Z"),
             }
             logger.info(f"SAR event processed: session_id={session_id}")
 
@@ -303,7 +303,7 @@ async def health_check():
     cleanup_old_data()  # Run cleanup on health check
     return {
         "status": "ok",
-        "timestamp": datetime.utcnow().isoformat() + "Z",
+        "timestamp": datetime.now(UTC).isoformat().replace("+00:00", "Z"),
         "results_count": len(results),
         "processed_events_count": len(processed_events),
     }

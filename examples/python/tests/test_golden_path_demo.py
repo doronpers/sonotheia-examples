@@ -19,25 +19,48 @@ class TestGetAudioInfo:
         audio_file = tmp_path / "test.wav"
         audio_file.write_bytes(b"dummy audio data")
 
-        # Mock soundfile module
+        # Mock soundfile.info() by patching it at the module level
         mock_sf = MagicMock()
         mock_info = Mock()
         mock_info.duration = 5.5
         mock_info.samplerate = 16000
         mock_sf.info.return_value = mock_info
 
-        with patch("golden_path_demo.sf", mock_sf, create=True):
-            result = get_audio_info(audio_file)
+        # Since soundfile is imported inside the function with try/except,
+        # we need to patch it in a way that makes the import succeed
+        import sys
 
+        # Save original if exists
+        original_sf = sys.modules.get("soundfile")
+
+        # Inject mock
+        sys.modules["soundfile"] = mock_sf
+
+        try:
+            result = get_audio_info(audio_file)
             assert result["audio_seconds"] == 5.5
             assert result["samplerate_hz"] == 16000
+        finally:
+            # Restore original
+            if original_sf is not None:
+                sys.modules["soundfile"] = original_sf
+            elif "soundfile" in sys.modules:
+                del sys.modules["soundfile"]
 
     def test_get_audio_info_with_ffprobe(self, tmp_path: Path):
         """Test get_audio_info using ffprobe fallback."""
         audio_file = tmp_path / "test.wav"
         audio_file.write_bytes(b"dummy audio data")
 
-        with patch("golden_path_demo.sf", side_effect=ImportError("No module")):
+        # Simulate soundfile import failure
+        import sys
+
+        original_sf = sys.modules.get("soundfile")
+        # Remove soundfile to force ImportError
+        if "soundfile" in sys.modules:
+            del sys.modules["soundfile"]
+
+        try:
             with patch("golden_path_demo.subprocess.run") as mock_run:
                 mock_result = Mock()
                 mock_result.stdout = json.dumps(
@@ -53,18 +76,33 @@ class TestGetAudioInfo:
 
                 assert result["audio_seconds"] == 7.2
                 assert result["samplerate_hz"] == 44100
+        finally:
+            # Restore original
+            if original_sf is not None:
+                sys.modules["soundfile"] = original_sf
 
     def test_get_audio_info_fallback_to_defaults(self, tmp_path: Path):
         """Test get_audio_info falls back to defaults on error."""
         audio_file = tmp_path / "test.wav"
         audio_file.write_bytes(b"dummy audio data")
 
-        with patch("golden_path_demo.sf", side_effect=ImportError("No module")):
+        # Simulate both soundfile and ffprobe failures
+        import sys
+
+        original_sf = sys.modules.get("soundfile")
+        if "soundfile" in sys.modules:
+            del sys.modules["soundfile"]
+
+        try:
             with patch("golden_path_demo.subprocess.run", side_effect=FileNotFoundError()):
                 result = get_audio_info(audio_file)
 
                 assert result["audio_seconds"] == 0.0
                 assert result["samplerate_hz"] == 16000
+        finally:
+            # Restore original
+            if original_sf is not None:
+                sys.modules["soundfile"] = original_sf
 
 
 class TestMakeRoutingDecision:
