@@ -9,6 +9,55 @@
 
 This directory contains working examples in multiple languages demonstrating Sonotheia API integration. Each example includes proper error handling, retry logic, and security best practices.
 
+## 🚀 Golden Path Demo (Recommended First Step)
+
+**Run a complete end-to-end workflow in minutes.**
+
+The Golden Path demo demonstrates the complete Sonotheia workflow: deepfake detection → voice MFA verification → routing decision → optional SAR submission.
+
+### Quick Start
+
+**Python (Mock Mode - No API Key):**
+```bash
+cd python
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+
+# Terminal 1: Start mock server
+python mock_api_server.py
+
+# Terminal 2: Run golden path
+python golden_path_demo.py ../test-audio/clean_tone.wav --mock
+```
+
+**TypeScript (Mock Mode):**
+```bash
+cd typescript
+npm install && npm run build
+
+# Terminal 1: Start mock server (from python directory)
+cd ../python && python mock_api_server.py
+
+# Terminal 2: Run golden path
+cd ../typescript
+npm run golden-path -- ../test-audio/clean_tone.wav --mock
+```
+
+**Real API Mode:**
+```bash
+# Python
+export SONOTHEIA_API_KEY=your_key
+python golden_path_demo.py audio.wav
+
+# TypeScript
+export SONOTHEIA_API_KEY=your_key
+npm run golden-path -- audio.wav
+```
+
+📖 **[Showcase Quickstart Guide](../documentation/SHOWCASE_QUICKSTART.md)** - Complete guide with all modes, options, and troubleshooting
+
+---
+
 ## Quick Map
 
 | Path | Purpose | Run It Fast |

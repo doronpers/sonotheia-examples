@@ -1,8 +1,9 @@
 FROM python:3.11-slim
 
-# Install system dependencies including ffmpeg for streaming example
+# Install system dependencies including ffmpeg for streaming example and ca-certificates for HTTPS
 RUN apt-get update && apt-get install -y \
     ffmpeg \
+    ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app

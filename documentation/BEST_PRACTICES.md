@@ -606,6 +606,55 @@ def detect_deepfake_with_fallback(audio_path):
             return {'score': 0.5, 'label': 'unknown', 'fallback': True}
 ```
 
+## nginx Configuration for Large File Uploads
+
+When using nginx as a reverse proxy, configure file size limits for audio uploads:
+
+### Basic Configuration
+
+```nginx
+# /etc/nginx/nginx.conf or site configuration
+http {
+    # Set client body size limit (default is 1MB)
+    client_max_body_size 100M;
+    
+    # Increase buffer sizes for large uploads
+    client_body_buffer_size 128k;
+    
+    # Increase timeout for large file uploads
+    client_body_timeout 300s;
+    proxy_read_timeout 300s;
+    proxy_connect_timeout 300s;
+    proxy_send_timeout 300s;
+}
+```
+
+### For Very Large Files (up to 800MB)
+
+For files larger than 100MB, consider:
+
+1. **Direct upload to object storage** (recommended):
+   - Upload directly to S3/Cloud Storage
+   - Generate pre-signed URLs
+   - Process from object storage
+
+2. **Increase nginx limit** (if direct upload not possible):
+   ```nginx
+   client_max_body_size 800M;
+   client_body_buffer_size 1M;
+   ```
+
+3. **Streaming upload** (for >800MB):
+   - Use chunked uploads
+   - Process in streaming mode
+   - See `streaming_example.py` for patterns
+
+### Production Recommendations
+
+- **Standard files (<100MB)**: `client_max_body_size 100M`
+- **Large files (100-800MB)**: Use object storage direct upload
+- **Very large files (>800MB)**: Implement chunked/streaming uploads
+
 ## Summary
 
 Key takeaways:
@@ -617,3 +666,4 @@ Key takeaways:
 - **Monitor performance** with structured logging and metrics
 - **Comply with regulations** through consent and retention policies
 - **Test thoroughly** with both unit and integration tests
+- **Configure nginx** for large file uploads (client_max_body_size 100M+)

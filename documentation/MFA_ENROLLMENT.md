@@ -2,9 +2,29 @@
 
 This guide explains how to enroll users for Voice Multi-Factor Authentication (MFA) using the Sonotheia API.
 
+> **Note**: Enrollment endpoint availability may vary. For production use, contact your Sono Platform integration engineer to confirm the exact endpoint path and payload structure. The examples below are based on the expected API structure.
+
 ## Overview
 
 Voice MFA enrollment creates a unique voice profile (voiceprint) for a user that can be used for subsequent authentication. The enrollment process captures voice samples and generates an `enrollment_id` that identifies the user's voice profile.
+
+## Obtaining Enrollment IDs
+
+### For Testing (Mock Mode)
+
+When using the mock API server, enrollment IDs can be:
+- **Auto-generated**: The mock server automatically creates enrollment IDs when you use them in MFA verification
+- **Manually specified**: Use any string as an enrollment ID (e.g., `test-enrollment-123`)
+- **Created via mock endpoint**: Use the mock enrollment endpoint at `/v1/enrollment` (see Mock Server section below)
+
+### For Production
+
+Enrollment IDs must be obtained through the production enrollment process:
+1. Contact your Sono Platform integration engineer for enrollment endpoint access
+2. Follow the enrollment process documented below
+3. Store the returned `enrollment_id` in your database associated with the user
+
+**Important**: Enrollment IDs are sensitive identifiers. Treat them as you would authentication tokens.
 
 ## Enrollment Process
 
@@ -26,7 +46,9 @@ For robust voice authentication, collect **3-5 voice samples** from the user:
 
 ### Step 2: Create Enrollment
 
-**Endpoint:** `POST /v1/mfa/voice/enroll`
+**Endpoint:** `POST /v1/mfa/voice/enroll` (or `/v1/enrollment` - confirm exact path with your integration engineer)
+
+> **Status**: The exact enrollment endpoint path and payload structure should be confirmed with your Sono Platform integration engineer. The examples below represent the expected structure based on the API design.
 
 **Request Format:**
 ```http
@@ -362,12 +384,51 @@ Content-Type: application/json
 - **Cause**: Different recording conditions, voice changed, poor verification audio
 - **Solution**: Ensure similar recording conditions, consider re-enrollment
 
+## Mock Server Enrollment
+
+The mock API server (`examples/python/mock_api_server.py`) provides a simplified enrollment endpoint for testing:
+
+**Endpoint:** `POST /v1/enrollment`
+
+**Request:**
+```bash
+curl -X POST http://localhost:8000/v1/enrollment \
+  -H "Authorization: Bearer mock_api_key_12345" \
+  -F "user_id=test_user" \
+  -F "audio_samples=@sample1.wav" \
+  -F "audio_samples=@sample2.wav" \
+  -F "audio_samples=@sample3.wav"
+```
+
+**Response:**
+```json
+{
+  "enrollment_id": "enroll-abc123def456",
+  "user_id": "test_user",
+  "status": "active",
+  "message": "Enrollment created successfully. Submit 2 more samples to complete."
+}
+```
+
+**Note**: The mock server automatically creates enrollment IDs when you use them in MFA verification, so you can use any enrollment ID string for testing without explicitly creating it first.
+
 ## API Reference
 
 For complete API documentation, including error codes and response schemas:
-- Contact your Sonotheia integration engineer
+- Contact your Sono Platform integration engineer
 - Refer to [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for common errors
 - See [BEST_PRACTICES.md](BEST_PRACTICES.md) for audio preprocessing
+
+## Enrollment Endpoint Status
+
+**Current Status**: The enrollment endpoint structure is documented above based on expected API design. For production use:
+
+1. **Confirm endpoint path** with your integration engineer (may be `/v1/mfa/voice/enroll` or `/v1/enrollment`)
+2. **Verify payload structure** matches the examples above
+3. **Test with mock server** first to validate your integration code
+4. **Use production endpoint** only after confirming access and structure
+
+If the enrollment endpoint is not yet publicly available, enrollment IDs may be provided out-of-band by your integration engineer for initial testing.
 
 ## Related Documentation
 

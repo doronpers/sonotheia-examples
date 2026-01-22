@@ -23,8 +23,15 @@ const WEBHOOK_SECRET = process.env.SONOTHEIA_WEBHOOK_SECRET;
 
 // In-memory store with TTL cleanup (use a database in production)
 const results = new Map();
+const processedEvents = new Set(); // Track processed event IDs for idempotency
 const RESULT_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
 const MAX_RESULTS = 10000; // Maximum results to store
+const MAX_EVENT_ID_CACHE = 50000; // Maximum event IDs to track
+
+// Rate limiting configuration
+const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute window
+const RATE_LIMIT_MAX_REQUESTS = 100; // Max requests per window
+const rateLimitStore = new Map(); // IP -> { count, resetTime }
 
 // Cleanup old results periodically
 setInterval(() => {
@@ -48,14 +55,72 @@ setInterval(() => {
     keys.forEach(key => results.delete(key));
     logger.warn({ deleted: toDelete }, 'Enforced max results limit');
   }
+
+  // Cleanup processed event IDs if cache is too large
+  if (processedEvents.size > MAX_EVENT_ID_CACHE) {
+    // Clear oldest 25% of event IDs (simple FIFO approximation)
+    const toDelete = Math.floor(MAX_EVENT_ID_CACHE * 0.25);
+    const eventIds = Array.from(processedEvents).slice(0, toDelete);
+    eventIds.forEach(id => processedEvents.delete(id));
+    logger.info({ deleted: toDelete }, 'Cleaned up processed event IDs');
+  }
 }, 60 * 60 * 1000); // Run every hour
+
+// Request size limit (10MB default, adjust based on your needs)
+const MAX_REQUEST_SIZE = process.env.MAX_REQUEST_SIZE || '10mb';
 
 // Middleware to parse JSON with raw body for signature verification
 app.use(express.json({
+  limit: MAX_REQUEST_SIZE,
   verify: (req, res, buf) => {
     req.rawBody = buf.toString('utf8');
   }
 }));
+
+/**
+ * Simple rate limiting middleware
+ * In production, use express-rate-limit or similar library
+ */
+function rateLimitMiddleware(req, res, next) {
+  const clientIp = req.ip || req.connection.remoteAddress || 'unknown';
+  const now = Date.now();
+
+  // Get or create rate limit entry
+  let limitEntry = rateLimitStore.get(clientIp);
+
+  // Reset if window expired
+  if (!limitEntry || now > limitEntry.resetTime) {
+    limitEntry = {
+      count: 0,
+      resetTime: now + RATE_LIMIT_WINDOW_MS,
+    };
+    rateLimitStore.set(clientIp, limitEntry);
+  }
+
+  // Check limit
+  if (limitEntry.count >= RATE_LIMIT_MAX_REQUESTS) {
+    logger.warn({ clientIp, count: limitEntry.count }, 'Rate limit exceeded');
+    return res.status(429).json({
+      error: 'Rate limit exceeded',
+      message: `Maximum ${RATE_LIMIT_MAX_REQUESTS} requests per minute`,
+      retryAfter: Math.ceil((limitEntry.resetTime - now) / 1000),
+    });
+  }
+
+  // Increment counter
+  limitEntry.count++;
+  next();
+}
+
+// Cleanup rate limit store periodically
+setInterval(() => {
+  const now = Date.now();
+  for (const [ip, entry] of rateLimitStore.entries()) {
+    if (now > entry.resetTime) {
+      rateLimitStore.delete(ip);
+    }
+  }
+}, 5 * 60 * 1000); // Every 5 minutes
 
 /**
  * Verify webhook signature
@@ -172,12 +237,13 @@ function handleSarEvent(event) {
  * Main webhook endpoint
  *
  * SECURITY NOTE: In production, this endpoint should be protected with:
- * - Rate limiting (e.g., express-rate-limit middleware)
- * - Request size limits
+ * - Rate limiting (implemented below, but consider express-rate-limit for production)
+ * - Request size limits (configured via MAX_REQUEST_SIZE env var)
  * - Authentication/authorization
  * - IP whitelisting if possible
+ * - HTTPS only
  */
-app.post('/webhook', (req, res) => {
+app.post('/webhook', rateLimitMiddleware, (req, res) => {
   const signature = req.headers['x-sonotheia-signature'];
 
   // Verify signature if secret is configured
@@ -190,7 +256,14 @@ app.post('/webhook', (req, res) => {
 
   const event = req.body;
 
-  logger.debug({ event_type: event.type }, 'Webhook received');
+  // Idempotency check: ignore duplicate events
+  const eventId = event.id || event.event_id || `${event.type}-${event.data?.session_id || 'unknown'}`;
+  if (processedEvents.has(eventId)) {
+    logger.info({ event_id: eventId, event_type: event.type }, 'Duplicate event ignored (idempotency)');
+    return res.json({ received: true, duplicate: true });
+  }
+
+  logger.debug({ event_type: event.type, event_id: eventId }, 'Webhook received');
 
   try {
     // Route to appropriate handler
@@ -211,9 +284,12 @@ app.post('/webhook', (req, res) => {
         logger.warn({ event_type: event.type }, 'Unknown event type');
     }
 
-    res.json({ received: true });
+    // Mark event as processed
+    processedEvents.add(eventId);
+
+    res.json({ received: true, event_id: eventId });
   } catch (error) {
-    logger.error({ error: error.message }, 'Error processing webhook');
+    logger.error({ error: error.message, event_id: eventId }, 'Error processing webhook');
     res.status(500).json({ error: 'Internal server error' });
   }
 });
@@ -267,6 +343,10 @@ app.listen(PORT, () => {
   console.log(`POST webhook events to: http://localhost:${PORT}/webhook`);
   console.log(`Health check:           http://localhost:${PORT}/health`);
   console.log(`View results:           http://localhost:${PORT}/results`);
+  console.log(`\nConfiguration:`);
+  console.log(`  Rate limit:           ${RATE_LIMIT_MAX_REQUESTS} requests per minute`);
+  console.log(`  Max request size:     ${MAX_REQUEST_SIZE}`);
+  console.log(`  Idempotency:          Enabled (tracks ${MAX_EVENT_ID_CACHE} event IDs)`);
 
   if (!WEBHOOK_SECRET) {
     console.warn('\nWARNING: SONOTHEIA_WEBHOOK_SECRET not set - signature verification disabled');

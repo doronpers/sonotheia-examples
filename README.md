@@ -31,6 +31,56 @@ Both components work together to showcase:
 
 ---
 
+## 🚀 Golden Path Demo (Start Here)
+
+**Run a complete end-to-end workflow in minutes—no API key required for mock mode.**
+
+The Golden Path demo shows the complete Sonotheia workflow: deepfake detection → voice MFA verification → routing decision → optional SAR submission.
+
+### Quick Start (Mock Mode - No API Key)
+
+**Python:**
+```bash
+cd examples/python
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+
+# Start mock server (in one terminal)
+python mock_api_server.py
+
+# Run golden path demo (in another terminal)
+python golden_path_demo.py ../test-audio/clean_tone.wav --mock
+```
+
+**TypeScript:**
+```bash
+cd examples/typescript
+npm install && npm run build
+
+# Start mock server (Python, in one terminal)
+cd ../python && python mock_api_server.py
+
+# Run golden path demo (in another terminal)
+cd ../typescript
+npm run golden-path -- ../test-audio/clean_tone.wav --mock
+```
+
+### Real API Mode (Requires API Key)
+
+```bash
+# Python
+export SONOTHEIA_API_KEY=your_key
+python golden_path_demo.py audio.wav
+
+# TypeScript
+export SONOTHEIA_API_KEY=your_key
+npm run golden-path -- audio.wav
+```
+
+📖 **[Showcase Quickstart Guide](documentation/SHOWCASE_QUICKSTART.md)** - Complete guide with all modes and troubleshooting
+
+---
+
 ## Governance & Interpretation (Read This First)
 
 > ⚠️ **Important**: Outputs are suggestive signals, not identity proofs. Results should be interpreted within the context of your security workflow and used as part of a broader decision-making process.
@@ -71,7 +121,9 @@ sonotheia-examples/
 
 ## Quick Start
 
-**Start here:** [documentation/START_HERE.md](documentation/START_HERE.md)
+**New to Sonotheia?** Start with the **[Golden Path Demo](#-golden-path-demo-start-here)** above for a complete workflow in minutes.
+
+**Looking for detailed guides?** See [documentation/START_HERE.md](documentation/START_HERE.md)
 
 ### For Production Integration
 
