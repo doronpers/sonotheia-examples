@@ -31,6 +31,38 @@ export SONOTHEIA_API_URL=https://api.sonotheia.com  # Optional, this is the defa
 
 ## Usage
 
+### 🚀 Golden Path Demo (Recommended First Step)
+
+Run a complete end-to-end workflow in minutes:
+
+```bash
+# Mock mode (no API key required)
+# Terminal 1: Start mock server
+python mock_api_server.py
+
+# Terminal 2: Run golden path demo
+python golden_path_demo.py ../test-audio/clean_tone.wav --mock
+
+# Real API mode
+export SONOTHEIA_API_KEY=your_key
+python golden_path_demo.py audio.wav
+
+# With MFA verification
+python golden_path_demo.py audio.wav --enrollment-id enroll-123
+
+# With SAR submission
+python golden_path_demo.py audio.wav --session-id session-123 --sar auto
+```
+
+The Golden Path demo demonstrates:
+- Deepfake detection
+- Voice MFA verification (optional)
+- Routing decision based on results
+- Optional SAR submission
+- Standardized JSON output
+
+📖 **[Showcase Quickstart Guide](../../documentation/SHOWCASE_QUICKSTART.md)** - Complete guide with all modes and troubleshooting
+
 ### Audio Validation
 
 Before submitting audio to the API, validate it meets requirements:
