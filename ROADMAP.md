@@ -1,13 +1,31 @@
 # Sonotheia Examples - Roadmap & TODOs
 
-**Last Updated**: 2026-01-16
+**Last Updated**: 2026-01-21
 **Single Source of Truth**: This file contains all TODOs, planned features, and roadmap items.
 
 ---
 
 ## ✅ Recently Completed
 
-*No completed items to report yet.*
+### Golden Path Demo Implementation (2026-01-21)
+- **Status**: ✅ Completed
+- **Description**: Implemented complete Golden Path end-to-end workflow demo in Python and TypeScript
+- **Components**:
+  - Python Golden Path demo (`examples/python/golden_path_demo.py`) with comprehensive tests
+  - TypeScript Golden Path demo (`examples/typescript/src/goldenPath.ts`) with tests
+  - Documentation-first showcase UX (`documentation/SHOWCASE_QUICKSTART.md`)
+  - Enhanced webhook receivers (Node.js and Python) with idempotency, rate limiting, signature verification
+  - Standardized JSON output contract across all implementations
+- **Impact**: New users can now run a complete workflow demo in minutes with mock mode (no API key required)
+
+### Webhook Enhancements (2026-01-21)
+- **Status**: ✅ Completed
+- **Description**: Enhanced webhook receivers with enterprise-ready features
+- **Components**:
+  - Node.js webhook server: idempotency, rate limiting, request size limits
+  - Python FastAPI webhook receiver: signature verification, idempotency, rate limiting
+  - Comprehensive webhook documentation (`documentation/WEBHOOK_END_TO_END.md`)
+- **Impact**: Production-ready webhook integration examples for enterprise deployments
 
 ---
 
@@ -50,18 +68,18 @@
 ### Testing
 
 #### 5. Example Validation Tests
-- **Status**: 📝 TODO
+- **Status**: ✅ Completed (2026-01-21)
 - **Description**: Add automated tests to validate examples work correctly
-- **Estimated Effort**: 3-5 days
+- **Components**: Created `test_example_validation.py` with validation tests for Golden Path demo, output contract compliance, and error handling
 
 ---
 
 ## 📊 Progress Summary
 
-- **Completed**: 0 items
+- **Completed**: 3 items
 - **High Priority**: 0 items
 - **Medium Priority**: 2 items
-- **Low Priority**: 3 items
+- **Low Priority**: 2 items
 
 ---
 
