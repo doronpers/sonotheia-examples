@@ -79,11 +79,26 @@ export interface GoldenPathOutput {
 
 /**
  * Get audio file information (duration, sample rate).
- * Note: This is a simplified version. For production, use a proper audio library.
+ *
+ * Note: This is a simplified version that returns defaults.
+ * For production, use a proper audio library like:
+ * - `node-ffmpeg` or `fluent-ffmpeg` (requires ffmpeg binary)
+ * - `music-metadata` (pure JavaScript, no binary dependencies)
+ * - `wavefile` (for WAV files only)
+ *
+ * Example with music-metadata:
+ * ```typescript
+ * import { parseFile } from 'music-metadata';
+ * const metadata = await parseFile(audioPath);
+ * return {
+ *   audio_seconds: metadata.format.duration || 0.0,
+ *   samplerate_hz: metadata.format.sampleRate || 16000,
+ * };
+ * ```
  */
 async function getAudioInfo(audioPath: string): Promise<{ audio_seconds: number; samplerate_hz: number }> {
-  // For now, return defaults. In production, use a library like node-ffmpeg or similar
-  // This would require additional dependencies
+  // Return defaults for now - actual implementation would require additional dependencies
+  // The golden path demo works correctly even with default values
   return {
     audio_seconds: 0.0,
     samplerate_hz: 16000,
