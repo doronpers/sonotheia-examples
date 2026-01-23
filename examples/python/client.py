@@ -14,6 +14,8 @@ import os
 from typing import IO, Any
 
 import requests
+
+from constants import AUDIO_MIME_TYPES, DEFAULT_AUDIO_MIME_TYPE
 from response_validator import ResponseValidationError, ResponseValidator
 from utils import convert_numpy_types
 
@@ -80,11 +82,18 @@ class SonotheiaClient:
         Returns:
             Tuple of (filename, file_handle, mime_type)
         """
-        mime_type, _ = mimetypes.guess_type(audio_path)
+        # Try to get MIME type from extension first
+        ext = os.path.splitext(audio_path)[1].lower()
+        mime_type = AUDIO_MIME_TYPES.get(ext)
+
+        # Fallback to mimetypes module if not in our mapping
+        if not mime_type:
+            mime_type, _ = mimetypes.guess_type(audio_path)
+
         return (
             os.path.basename(audio_path),
             file_obj,
-            mime_type or "application/octet-stream",
+            mime_type or DEFAULT_AUDIO_MIME_TYPE,
         )
 
     def detect_deepfake(

@@ -20,6 +20,9 @@ function generateSessionId(): string {
 
 import { SonotheiaClient } from './index';
 
+// Shared constants (should match index.ts)
+const ALLOWED_AUDIO_EXTENSIONS = new Set(['.wav', '.opus', '.mp3', '.flac']);
+
 // Re-export types for convenience
 export type DeepfakeResponse = {
   score: number;
@@ -405,10 +408,9 @@ export async function goldenPathMain(): Promise<void> {
     process.exit(1);
   }
 
-  const allowedExtensions = new Set(['.wav', '.opus', '.mp3', '.flac']);
   const extension = extname(audioPath).toLowerCase();
-  if (!allowedExtensions.has(extension)) {
-    const allowed = Array.from(allowedExtensions).sort().join(', ');
+  if (!ALLOWED_AUDIO_EXTENSIONS.has(extension)) {
+    const allowed = Array.from(ALLOWED_AUDIO_EXTENSIONS).sort().join(', ');
     console.error(`Error: Unsupported audio extension '${extension}'. Supported formats: ${allowed}`);
     process.exit(1);
   }

@@ -39,6 +39,7 @@ from typing import Any
 import requests
 
 from client import SonotheiaClient
+from constants import ALLOWED_AUDIO_EXTENSIONS
 from utils import convert_numpy_types
 
 # Configure logging
@@ -439,9 +440,8 @@ Examples:
         print(f"Error: Audio file not found: {args.audio}", file=sys.stderr)
         sys.exit(1)
 
-    allowed_extensions = {".wav", ".opus", ".mp3", ".flac"}
-    if args.audio.suffix.lower() not in allowed_extensions:
-        allowed = ", ".join(sorted(allowed_extensions))
+    if args.audio.suffix.lower() not in ALLOWED_AUDIO_EXTENSIONS:
+        allowed = ", ".join(sorted(ALLOWED_AUDIO_EXTENSIONS))
         print(
             f"Error: Unsupported audio extension '{args.audio.suffix}'. "
             f"Supported formats: {allowed}",

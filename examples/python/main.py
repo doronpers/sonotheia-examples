@@ -16,7 +16,9 @@ from contextlib import contextmanager
 from pathlib import Path
 
 import requests
+
 from client import SonotheiaClient
+from constants import ALLOWED_AUDIO_EXTENSIONS
 
 
 @contextmanager
@@ -74,9 +76,8 @@ def main() -> None:
         print(f"Audio file not found: {audio_path}", file=sys.stderr)
         sys.exit(1)
 
-    allowed_extensions = {".wav", ".opus", ".mp3", ".flac"}
-    if audio_path.suffix.lower() not in allowed_extensions:
-        allowed = ", ".join(sorted(allowed_extensions))
+    if audio_path.suffix.lower() not in ALLOWED_AUDIO_EXTENSIONS:
+        allowed = ", ".join(sorted(ALLOWED_AUDIO_EXTENSIONS))
         print(
             f"Unsupported audio extension '{audio_path.suffix}'. " f"Supported formats: {allowed}",
             file=sys.stderr,

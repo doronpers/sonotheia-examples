@@ -142,12 +142,17 @@ def process_deepfake_event(data):
     # Send high-risk alerts
     if score and score > 0.8:
         print(f"HIGH RISK: Deepfake score {score} for session {session_id}")
-        # TODO: Send SNS notification, trigger alert workflow
+        # Example: Send SNS notification, trigger alert workflow
+        # sns_client = boto3.client('sns')
+        # sns_client.publish(
+        #     TopicArn=os.environ.get('ALERT_TOPIC_ARN'),
+        #     Message=f"High-risk deepfake detected: session {session_id}, score {score}"
+        # )
 
-    # TODO: Implement additional custom processing logic
-    # - Send notifications
-    # - Update external systems
-    # - Trigger additional workflows
+    # Example: Implement additional custom processing logic
+    # - Send notifications via SNS/SQS
+    # - Update external systems via API calls
+    # - Trigger additional workflows via Step Functions
 
 
 def process_mfa_event(data):
@@ -162,12 +167,21 @@ def process_mfa_event(data):
     # Log authentication result
     if not verified:
         print(f"AUTHENTICATION FAILED: {enrollment_id} (session: {session_id})")
-        # TODO: Log failed authentication attempt, trigger security review
+        # Example: Log failed authentication attempt, trigger security review
+        # cloudwatch = boto3.client('cloudwatch')
+        # cloudwatch.put_metric_data(
+        #     Namespace='Sonotheia/Security',
+        #     MetricData=[{
+        #         'MetricName': 'MFAVerificationFailed',
+        #         'Value': 1,
+        #         'Unit': 'Count'
+        #     }]
+        # )
 
-    # TODO: Implement additional custom processing logic
-    # - Update user session
-    # - Grant/deny access
-    # - Send verification result to frontend
+    # Example: Implement additional custom processing logic
+    # - Update user session in DynamoDB
+    # - Grant/deny access via IAM policies
+    # - Send verification result to frontend via WebSocket/API Gateway
 
 
 def process_sar_event(data):
@@ -181,11 +195,13 @@ def process_sar_event(data):
     # Log SAR submission for compliance
     print(f"COMPLIANCE: SAR case {case_id} submitted with status {status}")
 
-    # TODO: Implement additional custom processing logic
+    # Example: Implement additional custom processing logic
     # - Send SNS notification to compliance team
-    # - Update case management system
-    # - Archive evidence to S3
-    # - Create audit log entry
+    #   sns_client = boto3.client('sns')
+    #   sns_client.publish(TopicArn=os.environ.get('COMPLIANCE_TOPIC_ARN'), ...)
+    # - Update case management system via API
+    # - Archive evidence to S3: s3_client.put_object(Bucket=..., Key=..., ...)
+    # - Create audit log entry in CloudWatch Logs or DynamoDB
 
 
 def get_webhook_secret():

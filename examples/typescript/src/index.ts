@@ -13,6 +13,26 @@ import FormData from 'form-data';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 import { basename, dirname, extname, resolve } from 'path';
 
+// Shared constants
+const ALLOWED_AUDIO_EXTENSIONS = new Set(['.wav', '.opus', '.mp3', '.flac']);
+const AUDIO_MIME_TYPES: Record<string, string> = {
+  '.wav': 'audio/wav',
+  '.opus': 'audio/opus',
+  '.mp3': 'audio/mpeg',
+  '.flac': 'audio/flac',
+};
+const DEFAULT_AUDIO_MIME_TYPE = 'application/octet-stream';
+
+function getAudioMimeType(filePath: string): string {
+  const ext = filePath.toLowerCase();
+  for (const [extension, mimeType] of Object.entries(AUDIO_MIME_TYPES)) {
+    if (ext.endsWith(extension)) {
+      return mimeType;
+    }
+  }
+  return DEFAULT_AUDIO_MIME_TYPE;
+}
+
 export interface SonotheiaConfig {
   apiKey: string;
   apiUrl?: string;
@@ -96,12 +116,7 @@ export class SonotheiaClient {
     const form = new FormData();
 
     const audioBuffer = readFileSync(request.audioPath);
-    const ext = request.audioPath.toLowerCase();
-    let contentType = 'application/octet-stream';
-    if (ext.endsWith('.wav')) contentType = 'audio/wav';
-    else if (ext.endsWith('.mp3')) contentType = 'audio/mpeg';
-    else if (ext.endsWith('.opus')) contentType = 'audio/opus';
-    else if (ext.endsWith('.flac')) contentType = 'audio/flac';
+    const contentType = getAudioMimeType(request.audioPath);
 
     form.append('audio', audioBuffer, {
       filename: basename(request.audioPath),
@@ -132,12 +147,7 @@ export class SonotheiaClient {
     const form = new FormData();
 
     const audioBuffer = readFileSync(request.audioPath);
-    const ext = request.audioPath.toLowerCase();
-    let contentType = 'application/octet-stream';
-    if (ext.endsWith('.wav')) contentType = 'audio/wav';
-    else if (ext.endsWith('.mp3')) contentType = 'audio/mpeg';
-    else if (ext.endsWith('.opus')) contentType = 'audio/opus';
-    else if (ext.endsWith('.flac')) contentType = 'audio/flac';
+    const contentType = getAudioMimeType(request.audioPath);
 
     form.append('audio', audioBuffer, {
       filename: basename(request.audioPath),
@@ -183,8 +193,6 @@ export class SonotheiaClient {
   }
 }
 
-const allowedExtensions = new Set(['.wav', '.opus', '.mp3', '.flac']);
-
 function resolveAudioPath(pathArg: string): string {
   const resolved = resolve(pathArg);
   if (!existsSync(resolved)) {
@@ -192,8 +200,8 @@ function resolveAudioPath(pathArg: string): string {
   }
 
   const extension = extname(resolved).toLowerCase();
-  if (!allowedExtensions.has(extension)) {
-    const allowed = Array.from(allowedExtensions).sort().join(', ');
+  if (!ALLOWED_AUDIO_EXTENSIONS.has(extension)) {
+    const allowed = Array.from(ALLOWED_AUDIO_EXTENSIONS).sort().join(', ');
     throw new Error(`Unsupported audio extension '${extension}'. Supported formats: ${allowed}`);
   }
 
