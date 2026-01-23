@@ -4,6 +4,7 @@ from unittest.mock import Mock, mock_open, patch
 
 import pytest
 import requests
+
 from client import SonotheiaClient
 
 
@@ -19,7 +20,7 @@ class TestSonotheiaClient:
     def test_init_without_api_key(self):
         """Test client initialization without API key raises ValueError."""
         with patch.dict("os.environ", {}, clear=True):
-            with pytest.raises(ValueError, match="API key is required"):
+            with pytest.raises(ValueError, match="API key required"):
                 SonotheiaClient()
 
     def test_init_with_env_vars(self):
@@ -50,7 +51,7 @@ class TestSonotheiaClient:
     @patch("client.os.path.exists", return_value=True)
     @patch("client.mimetypes.guess_type", return_value=("audio/wav", None))
     @patch("builtins.open", new_callable=mock_open, read_data=b"fake audio data")
-    @patch("requests.request")
+    @patch("requests.post")
     def test_detect_deepfake_success(self, mock_post, mock_file, mock_mime, mock_exists):
         """Test successful deepfake detection."""
         # Mock response
@@ -60,6 +61,7 @@ class TestSonotheiaClient:
             "label": "likely_synthetic",
             "latency_ms": 640,
         }
+        mock_response.raise_for_status = Mock()
         mock_post.return_value = mock_response
 
         client = SonotheiaClient(api_key="test-key")
@@ -78,7 +80,7 @@ class TestSonotheiaClient:
     @patch("client.os.path.exists", return_value=True)
     @patch("client.mimetypes.guess_type", return_value=("audio/wav", None))
     @patch("builtins.open", new_callable=mock_open, read_data=b"fake audio data")
-    @patch("requests.request")
+    @patch("requests.post")
     def test_detect_deepfake_http_error(self, mock_post, mock_file, mock_mime, mock_exists):
         """Test deepfake detection with HTTP error."""
         # Mock error response
@@ -95,7 +97,7 @@ class TestSonotheiaClient:
     @patch("client.os.path.exists", return_value=True)
     @patch("client.mimetypes.guess_type", return_value=("audio/wav", None))
     @patch("builtins.open", new_callable=mock_open, read_data=b"fake audio data")
-    @patch("requests.request")
+    @patch("requests.post")
     def test_verify_mfa_success(self, mock_post, mock_file, mock_mime, mock_exists):
         """Test successful MFA verification."""
         # Mock response
@@ -105,6 +107,7 @@ class TestSonotheiaClient:
             "enrollment_id": "enroll-123",
             "confidence": 0.93,
         }
+        mock_response.raise_for_status = Mock()
         mock_post.return_value = mock_response
 
         client = SonotheiaClient(api_key="test-key")
@@ -122,7 +125,7 @@ class TestSonotheiaClient:
     @patch("client.os.path.exists", return_value=True)
     @patch("client.mimetypes.guess_type", return_value=("audio/wav", None))
     @patch("builtins.open", new_callable=mock_open, read_data=b"fake audio data")
-    @patch("requests.request")
+    @patch("requests.post")
     def test_verify_mfa_failed(self, mock_post, mock_file, mock_mime, mock_exists):
         """Test MFA verification failure."""
         # Mock response
@@ -132,6 +135,7 @@ class TestSonotheiaClient:
             "enrollment_id": "enroll-123",
             "confidence": 0.25,
         }
+        mock_response.raise_for_status = Mock()
         mock_post.return_value = mock_response
 
         client = SonotheiaClient(api_key="test-key")
@@ -139,7 +143,7 @@ class TestSonotheiaClient:
 
         assert result["verified"] is False
 
-    @patch("requests.request")
+    @patch("requests.post")
     def test_submit_sar_success(self, mock_post):
         """Test successful SAR submission."""
         # Mock response
@@ -149,6 +153,7 @@ class TestSonotheiaClient:
             "case_id": "sar-001234",
             "session_id": "session-123",
         }
+        mock_response.raise_for_status = Mock()
         mock_post.return_value = mock_response
 
         client = SonotheiaClient(api_key="test-key")
@@ -166,7 +171,7 @@ class TestSonotheiaClient:
         assert call_kwargs["json"]["session_id"] == "session-123"
         assert call_kwargs["json"]["decision"] == "review"
 
-    @patch("requests.request")
+    @patch("requests.post")
     def test_submit_sar_with_all_decisions(self, mock_post):
         """Test SAR submission with different decision types."""
         mock_response = Mock()
@@ -175,6 +180,7 @@ class TestSonotheiaClient:
             "case_id": "sar-001234",
             "session_id": "session-123",
         }
+        mock_response.raise_for_status = Mock()
         mock_post.return_value = mock_response
 
         client = SonotheiaClient(api_key="test-key")
@@ -184,11 +190,16 @@ class TestSonotheiaClient:
             call_kwargs = mock_post.call_args.kwargs
             assert call_kwargs["json"]["decision"] == decision
 
-    @patch("requests.request")
+    @patch("requests.post")
     def test_timeout_configuration(self, mock_post):
         """Test that custom timeout is used."""
         mock_response = Mock()
-        mock_response.json.return_value = {}
+        mock_response.json.return_value = {
+            "status": "submitted",
+            "case_id": "case-123",
+            "session_id": "session-123",
+        }
+        mock_response.raise_for_status = Mock()
         mock_post.return_value = mock_response
 
         client = SonotheiaClient(api_key="test-key", timeout=60)
@@ -210,11 +221,17 @@ class TestSonotheiaClient:
         assert client.mfa_path == "/custom/mfa"
         assert client.sar_path == "/custom/sar"
 
-    @patch("client.requests.request")
+    @patch("client.requests.post")
     def test_detect_deepfake_closes_file(self, mock_post, tmp_path):
         """Ensure audio file handles are closed after deepfake call."""
-        mock_post.return_value.json.return_value = {}
-        mock_post.return_value.raise_for_status.return_value = None
+        mock_response = Mock()
+        mock_response.json.return_value = {
+            "score": 0.5,
+            "label": "likely_real",
+            "latency_ms": 100,
+        }
+        mock_response.raise_for_status = Mock()
+        mock_post.return_value = mock_response
 
         audio_path = tmp_path / "audio.wav"
         audio_path.write_bytes(b"data")
@@ -243,3 +260,135 @@ class TestClientIntegration:
 
         with pytest.raises(FileNotFoundError):
             client.detect_deepfake("/nonexistent/file.wav")
+
+    @patch("client.os.path.exists", return_value=True)
+    @patch("client.mimetypes.guess_type", return_value=(None, None))
+    @patch("builtins.open", new_callable=mock_open, read_data=b"fake audio data")
+    @patch("requests.post")
+    def test_audio_part_fallback_mime_type(self, mock_post, mock_file, mock_mime, mock_exists):
+        """Test that _audio_part uses fallback MIME type when mimetypes fails."""
+        mock_response = Mock()
+        mock_response.json.return_value = {
+            "score": 0.5,
+            "label": "likely_real",
+            "latency_ms": 100,
+        }
+        mock_response.raise_for_status = Mock()
+        mock_post.return_value = mock_response
+
+        client = SonotheiaClient(api_key="test-key")
+        result = client.detect_deepfake("test.wav")
+
+        assert result["score"] == 0.5
+        mock_post.assert_called_once()
+
+    @patch("client.os.path.exists", return_value=True)
+    @patch("client.mimetypes.guess_type", return_value=("audio/wav", None))
+    @patch("builtins.open", new_callable=mock_open, read_data=b"fake audio data")
+    @patch("requests.post")
+    def test_response_validation_enabled(self, mock_post, mock_file, mock_mime, mock_exists):
+        """Test that response validation works when enabled."""
+        mock_response = Mock()
+        mock_response.json.return_value = {
+            "score": 0.5,
+            "label": "likely_real",
+            "latency_ms": 100,
+        }
+        mock_response.raise_for_status = Mock()
+        mock_post.return_value = mock_response
+
+        client = SonotheiaClient(api_key="test-key", validate_responses=True)
+        result = client.detect_deepfake("test.wav")
+
+        assert result["score"] == 0.5
+        assert "label" in result
+
+    @patch("client.os.path.exists", return_value=True)
+    @patch("client.mimetypes.guess_type", return_value=("audio/wav", None))
+    @patch("builtins.open", new_callable=mock_open, read_data=b"fake audio data")
+    @patch("requests.post")
+    def test_response_validation_disabled(self, mock_post, mock_file, mock_mime, mock_exists):
+        """Test that response validation can be disabled."""
+        mock_response = Mock()
+        mock_response.json.return_value = {
+            "score": 0.5,
+            "label": "likely_real",
+            "latency_ms": 100,
+        }
+        mock_response.raise_for_status = Mock()
+        mock_post.return_value = mock_response
+
+        client = SonotheiaClient(api_key="test-key", validate_responses=False)
+        result = client.detect_deepfake("test.wav")
+
+        assert result["score"] == 0.5
+        assert client.validator is None
+
+    @patch("client.os.path.exists", return_value=True)
+    @patch("client.mimetypes.guess_type", return_value=("audio/wav", None))
+    @patch("builtins.open", new_callable=mock_open, read_data=b"fake audio data")
+    @patch("requests.post")
+    def test_verify_mfa_with_validation_error(self, mock_post, mock_file, mock_mime, mock_exists):
+        """Test that MFA verification continues even if validation fails."""
+        from response_validator import ResponseValidationError
+
+        mock_response = Mock()
+        mock_response.json.return_value = {
+            "verified": True,
+            "enrollment_id": "enroll-123",
+            "confidence": 0.9,
+        }
+        mock_response.raise_for_status = Mock()
+        mock_post.return_value = mock_response
+
+        client = SonotheiaClient(api_key="test-key", validate_responses=True)
+        # Mock validator to raise an error
+        with patch.object(
+            client.validator, "validate_mfa_response", side_effect=ResponseValidationError("Test")
+        ):
+            result = client.verify_mfa("test.wav", "enroll-123")
+            # Should still return result despite validation error
+            assert "verified" in result
+
+    @patch("requests.post")
+    def test_submit_sar_with_validation_error(self, mock_post):
+        """Test that SAR submission continues even if validation fails."""
+        from response_validator import ResponseValidationError
+
+        mock_response = Mock()
+        mock_response.json.return_value = {
+            "status": "submitted",
+            "case_id": "case-123",
+            "session_id": "session-123",
+        }
+        mock_response.raise_for_status = Mock()
+        mock_post.return_value = mock_response
+
+        client = SonotheiaClient(api_key="test-key", validate_responses=True)
+        # Mock validator to raise an error
+        with patch.object(
+            client.validator, "validate_sar_response", side_effect=ResponseValidationError("Test")
+        ):
+            result = client.submit_sar("session-123", "review", "Test reason")
+            # Should still return result despite validation error
+            assert "status" in result
+
+    def test_audio_part_with_different_extensions(self):
+        """Test _audio_part with different audio file extensions."""
+        client = SonotheiaClient(api_key="test-key")
+
+        # Test with different extensions
+        test_cases = [
+            ("test.wav", "audio/wav"),
+            ("test.mp3", "audio/mpeg"),
+            ("test.opus", "audio/opus"),
+            ("test.flac", "audio/flac"),
+            ("test.unknown", "application/octet-stream"),  # Fallback
+        ]
+
+        for filename, expected_mime in test_cases:
+            with patch("builtins.open", mock_open(read_data=b"data")) as mock_file:
+                file_obj = mock_file.return_value.__enter__.return_value
+                result_filename, result_file, result_mime = client._audio_part(filename, file_obj)
+                assert result_filename == filename
+                assert result_mime == expected_mime

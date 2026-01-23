@@ -10,6 +10,9 @@ addopts = [
     "--strict-markers",
     "--tb=short",
 ]
+# Coverage options - enabled when pytest-cov is available
+# Note: Coverage threshold of 87% is enforced in CI
+# To run with coverage locally: pytest tests/ --cov=. --cov-report=term-missing --cov-fail-under=87
 
 [tool.ruff]
 line-length = 100

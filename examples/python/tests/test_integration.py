@@ -12,121 +12,15 @@ Run with real API (requires credentials):
 """
 
 import os
-import subprocess
 import tempfile
-import time
 
 import pytest
 import requests
 
-# Test constants
-MOCK_API_KEY = "mock_api_key_12345"
-MOCK_API_PORT = 8914
-MOCK_API_URL = f"http://localhost:{MOCK_API_PORT}"
+# Import shared fixtures and helper from conftest
+from conftest import create_test_audio_file
 
-
-def create_test_audio_file(duration_seconds: float = 5.0) -> str:
-    """Create a test WAV file using ffmpeg."""
-    temp_file = tempfile.NamedTemporaryFile(suffix=".wav", delete=False)
-    temp_file.close()
-
-    # Generate silent audio
-    command = [
-        "ffmpeg",
-        "-f",
-        "lavfi",
-        "-i",
-        "anullsrc=r=16000:cl=mono",
-        "-t",
-        str(duration_seconds),
-        "-y",
-        temp_file.name,
-    ]
-
-    try:
-        subprocess.run(command, capture_output=True, check=True)
-        return temp_file.name
-    except subprocess.CalledProcessError:
-        pytest.skip("ffmpeg not available - cannot create test audio files")
-    except FileNotFoundError:
-        pytest.skip("ffmpeg not available - cannot create test audio files")
-
-
-@pytest.fixture(scope="module")
-def mock_server():
-    """Start mock API server for tests."""
-    # Check if we should use real API
-    if os.environ.get("REAL_API"):
-        api_key = os.environ.get("SONOTHEIA_API_KEY")
-        api_url = os.environ.get("SONOTHEIA_API_URL", "https://api.sonotheia.com")
-
-        if not api_key:
-            pytest.skip("SONOTHEIA_API_KEY not set for real API tests")
-
-        yield {"api_key": api_key, "api_url": api_url, "process": None}
-        return
-
-    # Start mock server
-    import sys
-
-    # Determine path to mock_api_server.py
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    mock_server_path = os.path.join(current_dir, "..", "mock_api_server.py")
-
-    # Start server in subprocess
-    process = subprocess.Popen(
-        [sys.executable, mock_server_path, "--port", str(MOCK_API_PORT)],
-        stdout=None,
-        stderr=None,
-    )
-
-    # Wait for server to start
-    max_retries = 30
-    for _i in range(max_retries):
-        try:
-            response = requests.get(f"{MOCK_API_URL}/health", timeout=1)
-            if response.status_code == 200:
-                break
-        except requests.exceptions.RequestException:
-            time.sleep(0.5)
-    else:
-        process.kill()
-        pytest.fail("Mock server failed to start")
-
-    # Configure mock server to disable error simulation for deterministic tests
-    try:
-        requests.post(
-            f"{MOCK_API_URL}/mock/config",
-            json={"always_succeed": True},
-            timeout=5,
-        )
-    except requests.exceptions.RequestException:
-        pass  # Best effort, continue if config update fails
-
-    yield {"api_key": MOCK_API_KEY, "api_url": MOCK_API_URL, "process": process}
-
-    # Cleanup
-    process.terminate()
-    process.wait(timeout=5)
-
-
-@pytest.fixture
-def test_audio():
-    """Create a test audio file."""
-    audio_path = create_test_audio_file(duration_seconds=5.0)
-    yield audio_path
-    os.unlink(audio_path)
-
-
-@pytest.fixture
-def client(mock_server):
-    """Create a client configured for the test server."""
-    import client as client_module
-    from client import SonotheiaClient
-
-    print(f"DEBUG: client module file: {client_module.__file__}")
-
-    return SonotheiaClient(api_key=mock_server["api_key"], api_url=mock_server["api_url"])
+# mock_server, test_audio, and client fixtures are now in conftest.py
 
 
 class TestDeepfakeDetection:

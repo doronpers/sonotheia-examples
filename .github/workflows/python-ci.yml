@@ -64,7 +64,7 @@ jobs:
         if: matrix.python-version == '3.11'
         working-directory: examples/python
         run: |
-          pytest tests/ --cov=. --cov-report=term-missing --cov-report=xml
+          pytest tests/ --cov=. --cov-report=term-missing --cov-report=xml --cov-fail-under=87
 
       - name: Upload coverage to artifacts
         if: matrix.python-version == '3.11'
