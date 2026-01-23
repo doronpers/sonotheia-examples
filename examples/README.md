@@ -95,6 +95,11 @@ Select based on your use case:
 | Batch processing | **Node.js** | Async queue management, webhook handlers |
 | Container deployment | **Kubernetes** | Production manifests with health checks |
 | Serverless/Lambda | **Terraform** | Infrastructure as code, AWS integration |
+| Call center/IVR | **Python** (`call_center_integration.py`) | Real-time processing, routing decisions, audit trails |
+| Mobile app | **Python** (`mobile_app_integration.py`) | Voice MFA, transaction authorization, account security |
+| E-commerce fraud | **Python** (`ecommerce_fraud_prevention.py`) | Checkout protection, order risk assessment |
+| Account recovery | **Python** (`account_recovery_flow.py`) | Password reset, account unlock, security verification |
+| Event-driven | **Python** (`event_driven_integration.py`) | Message queues, microservices, async processing |
 
 ## What Each Example Provides
 
@@ -109,11 +114,23 @@ All examples demonstrate:
 Each implementation includes language-appropriate patterns:
 
 - **cURL**: Minimal shell scripts for CI/CD and testing
-- **Python**: Enhanced client with circuit breakers, streaming, health checks
+- **Python**: Enhanced client with circuit breakers, streaming, health checks, multiple integration use cases
 - **TypeScript**: Full type definitions, compile-time safety
 - **Node.js**: Batch processor, webhook server, async patterns
 - **Kubernetes**: Deployment, service, ingress manifests
 - **Terraform**: AWS Lambda, S3, API Gateway configuration
+
+### Integration Use Cases (Python)
+
+The Python examples include specialized integration patterns:
+
+- **Call Center/IVR**: Real-time fraud detection during customer service calls
+- **Mobile Apps**: Voice-based authentication for iOS/Android applications
+- **E-commerce**: Fraud prevention for checkout and order processing
+- **Account Recovery**: Secure password reset and account unlock flows
+- **Event-Driven**: Message queue integration for microservices architectures
+
+See the [Python README](python/README.md) for detailed documentation on each integration use case.
 
 ## Getting Help
 

@@ -283,6 +283,141 @@ python voice_routing_example.py audio.wav \
 - `ESCALATE_TO_HUMAN`: Low confidence or high risk, manual review
 - `BLOCK`: Critical risk, transaction blocked
 
+## Integration Use Cases
+
+### Call Center / IVR Integration (`call_center_integration.py`)
+
+Real-time voice fraud detection for call center systems and IVR platforms:
+
+```bash
+# Basic call center integration
+python call_center_integration.py audio.wav \
+  --call-id CALL123 \
+  --agent-id AGENT456 \
+  --customer-id CUST789
+
+# High-risk transaction with MFA
+python call_center_integration.py audio.wav \
+  --call-id CALL123 \
+  --customer-id CUST789 \
+  --enrollment-id enroll-123 \
+  --transaction-amount 100000 \
+  --require-mfa
+```
+
+**Features**:
+- Real-time deepfake detection during live calls
+- Voice MFA verification for account access
+- Risk-based call routing and escalation
+- Compliance logging for regulated industries
+- Audit trail generation
+
+### Mobile App Integration (`mobile_app_integration.py`)
+
+Voice-based security for mobile applications (iOS/Android):
+
+```bash
+# Account login verification
+python mobile_app_integration.py audio.wav \
+  --user-id user123 \
+  --enrollment-id enroll-456 \
+  --operation login
+
+# Transaction authorization
+python mobile_app_integration.py audio.wav \
+  --user-id user123 \
+  --enrollment-id enroll-456 \
+  --operation transaction \
+  --transaction-id TXN789 \
+  --amount 5000
+```
+
+**Features**:
+- Account login with voice verification
+- Transaction authorization
+- Password reset with voice MFA
+- High-security operations (wire transfers, account changes)
+- Operation-specific risk thresholds
+
+### E-commerce Fraud Prevention (`ecommerce_fraud_prevention.py`)
+
+Fraud prevention for e-commerce platforms:
+
+```bash
+# Checkout fraud detection
+python ecommerce_fraud_prevention.py audio.wav \
+  --order-id ORD123 \
+  --customer-id CUST456 \
+  --order-amount 1500 \
+  --payment-method credit_card
+
+# High-value order with MFA
+python ecommerce_fraud_prevention.py audio.wav \
+  --order-id ORD123 \
+  --customer-id CUST456 \
+  --order-amount 10000 \
+  --enrollment-id enroll-789 \
+  --require-mfa
+```
+
+**Features**:
+- Checkout fraud detection
+- Account creation verification
+- High-value order protection
+- Guest checkout risk assessment
+- Payment method risk analysis
+
+### Account Recovery Flow (`account_recovery_flow.py`)
+
+Account recovery and password reset with voice verification:
+
+```bash
+# Password reset with voice verification
+python account_recovery_flow.py audio.wav \
+  --user-id user123 \
+  --enrollment-id enroll-456 \
+  --recovery-type password_reset
+
+# Account recovery
+python account_recovery_flow.py audio.wav \
+  --user-id user123 \
+  --enrollment-id enroll-456 \
+  --recovery-type account_recovery \
+  --email user@example.com
+```
+
+**Features**:
+- Password reset verification
+- Account recovery with voice MFA
+- Security question bypass with voice verification
+- Account unlock after suspicious activity
+- Strict security thresholds for recovery operations
+
+### Event-Driven Integration (`event_driven_integration.py`)
+
+Integration with event-driven architectures and message queues:
+
+```bash
+# Process event from message queue
+python event_driven_integration.py \
+  --event-file event.json \
+  --queue-type sqs
+
+# Simulate event processing
+python event_driven_integration.py \
+  --audio audio.wav \
+  --event-type transaction_verification \
+  --customer-id CUST123 \
+  --simulate
+```
+
+**Features**:
+- Microservices architecture integration
+- Asynchronous processing pipelines
+- Message queue integration (SQS, RabbitMQ, Kafka, Redis)
+- Event sourcing patterns
+- Pub/sub patterns
+
 ## Enhanced Examples
 
 ### Enhanced Client (`client_enhanced.py`)
