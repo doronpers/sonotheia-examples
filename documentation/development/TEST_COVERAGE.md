@@ -24,9 +24,9 @@ pytest tests/ --cov=. --cov-report=term-missing --cov-report=html --cov-fail-und
 
 ### Current Test Status
 
-- **178 tests passing** ✅
-- **49 tests skipped** (intentional - conditional tests)
-- **0 test failures** ✅
+- **213 tests passing** ✅ (up from 178)
+- **53 tests skipped** (intentional - conditional tests)
+- **28 tests failing** ⚠️ (need fixes - mostly enhanced_example and cleanup tests)
 - **0 test errors** ✅
 - **Coverage threshold**: 87% (enforced in CI)
 
@@ -79,6 +79,13 @@ tests/
 | `health_check.py` | 87%+ | ✅ Complete |
 | `mock_api_server.py` | 87%+ | ✅ Complete |
 | `main.py` | 60%+ | ✅ Complete |
+| `streaming_example.py` | 60%+ | ✅ New |
+| `enhanced_example.py` | 50%+ | ⚠️ New (some failures) |
+| `webhook_receiver/app.py` | 70%+ | ✅ New |
+| `audio_analysis_example.py` | 65%+ | ✅ New |
+| `voice_routing_example.py` | 60%+ | ✅ New |
+| `load_test.py` | 40%+ | ✅ New |
+| `api_types.py` | 100% | ✅ New |
 | **Overall** | **87%** | **✅ Enforced in CI** |
 
 ---
@@ -142,6 +149,16 @@ The CI workflow (`.github/workflows/python-ci.yml`) automatically:
 
 - **test_integration.py** - End-to-end tests with mock server
 - **test_example_validation.py** - Example script validation
+
+### Example Script Tests
+
+- **test_streaming_example.py** - Streaming audio processor
+- **test_enhanced_example.py** - Enhanced CLI example
+- **test_audio_analysis_example.py** - Audio analysis with DSP features
+- **test_voice_routing_example.py** - Voice integrity routing
+- **test_webhook_receiver.py** - FastAPI webhook receiver
+- **test_load_test.py** - Load testing utilities
+- **test_api_types.py** - Type definition verification
 
 ---
 
@@ -229,4 +246,5 @@ For detailed implementation history, see:
 
 ---
 
-**Last Updated**: 2026-01-23
+**Last Updated**: 2026-01-23  
+**Recent Updates**: Added 7 new test files (61 new tests) for previously untested modules
