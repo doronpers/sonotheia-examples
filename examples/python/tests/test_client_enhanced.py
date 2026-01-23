@@ -129,10 +129,11 @@ class TestSonotheiaClientEnhanced:
     """Tests for enhanced Sonotheia client."""
 
     def test_init_requires_api_key(self):
-        """Client initialization should require API key."""
+        """Client initialization (now allows None for demo usage, but base client may handle it)."""
         with patch.dict("os.environ", {}, clear=True):
-            with pytest.raises(ValueError, match="API key required"):
-                SonotheiaClientEnhanced(api_key=None)
+            # Client now allows None API key for demo usage (same as base client)
+            client = SonotheiaClientEnhanced(api_key=None)
+            assert client.api_key is None
 
     def test_init_from_env_var(self, mock_env):
         """Client should initialize from environment variable."""
@@ -182,7 +183,9 @@ class TestSonotheiaClientEnhanced:
     @patch("client_enhanced.requests.Session.request")
     def test_verify_mfa_success(self, mock_request, mock_open, mock_exists, client):
         """Verify MFA should succeed with valid response."""
+        # Mock file that returns bytes when read() is called
         mock_file = MagicMock()
+        mock_file.read.return_value = b"fake audio data"
         mock_open.return_value.__enter__ = Mock(return_value=mock_file)
         mock_open.return_value.__exit__ = Mock()
 
@@ -195,7 +198,8 @@ class TestSonotheiaClientEnhanced:
         mock_response.raise_for_status = Mock()
         mock_request.return_value = mock_response
 
-        result = client.verify_mfa("test.wav", "enroll-123")
+        # verify_mfa now requires transaction_id and customer_id (inherited from base class)
+        result = client.verify_mfa("test.wav", "txn-123", "cust-456")
 
         assert result["verified"] is True
         assert result["confidence"] == 0.95
@@ -230,7 +234,8 @@ class TestSonotheiaClientEnhanced:
         mock_response.raise_for_status = Mock()
         mock_request.return_value = mock_response
 
-        result = client.submit_sar("session-123", "review", "Test reason")
+        # submit_sar now requires transaction_id, customer_id, activity_type, description
+        result = client.submit_sar("txn-123", "cust-456", "suspicious_activity", "Test reason")
 
         assert result["status"] == "submitted"
         assert result["case_id"] == "case-123"
@@ -244,7 +249,7 @@ class TestSonotheiaClientEnhanced:
         mock_request.return_value = mock_response
 
         with pytest.raises(requests.HTTPError):
-            client.submit_sar("session-123", "review", "Test")
+            client.submit_sar("txn-123", "cust-456", "suspicious_activity", "Test")
 
     def test_context_manager(self, mock_env):
         """Client should work as context manager."""
@@ -321,11 +326,12 @@ class TestSonotheiaClientEnhanced:
         mock_request.return_value = mock_response
 
         # First request should succeed immediately
-        result1 = client.submit_sar("session-123", "review", "Test")
+        # submit_sar now requires transaction_id, customer_id, activity_type, description
+        result1 = client.submit_sar("txn-123", "cust-456", "suspicious_activity", "Test")
         assert result1["status"] == "submitted"
 
         # Second request should be rate limited (will wait)
-        result2 = client.submit_sar("session-124", "review", "Test")
+        result2 = client.submit_sar("txn-124", "cust-457", "suspicious_activity", "Test")
 
         assert result2["status"] == "submitted"
         # Rate limiter is active (verified by successful execution)

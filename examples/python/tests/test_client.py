@@ -15,26 +15,28 @@ class TestSonotheiaClient:
         """Test client initialization with explicit API key."""
         client = SonotheiaClient(api_key="test-key")
         assert client.api_key == "test-key"
-        assert client.api_url == "https://api.sonotheia.com"
+        # Default URL is now http://localhost:8000 if not set via env var
+        assert client.api_url == "http://localhost:8000"
 
     def test_init_without_api_key(self):
-        """Test client initialization without API key raises ValueError."""
+        """Test client initialization without API key (now allowed for demo usage)."""
         with patch.dict("os.environ", {}, clear=True):
-            with pytest.raises(ValueError, match="API key required"):
-                SonotheiaClient()
+            # Client now allows None API key for demo usage
+            client = SonotheiaClient()
+            assert client.api_key is None
 
     def test_init_with_env_vars(self):
         """Test client initialization with environment variables."""
         env = {
             "SONOTHEIA_API_KEY": "env-key",
             "SONOTHEIA_API_URL": "https://custom.api.com",
-            "SONOTHEIA_DEEPFAKE_PATH": "/custom/deepfake",
         }
         with patch.dict("os.environ", env, clear=True):
             client = SonotheiaClient()
             assert client.api_key == "env-key"
             assert client.api_url == "https://custom.api.com"
-            assert client.deepfake_path == "/custom/deepfake"
+            # deepfake_path is not configurable via env var, uses default
+            assert client.deepfake_path == "/api/detect"
 
     def test_init_strips_trailing_slash(self):
         """Test that API URL trailing slash is stripped."""
@@ -75,7 +77,8 @@ class TestSonotheiaClient:
         mock_post.assert_called_once()
         call_kwargs = mock_post.call_args.kwargs
         assert call_kwargs["headers"]["Authorization"] == "Bearer test-key"
-        assert "metadata" in call_kwargs["data"]
+        assert "params" in call_kwargs
+        assert call_kwargs["params"]["quick_mode"] == "false"
 
     @patch("client.os.path.exists", return_value=True)
     @patch("client.mimetypes.guess_type", return_value=("audio/wav", None))
@@ -111,7 +114,8 @@ class TestSonotheiaClient:
         mock_post.return_value = mock_response
 
         client = SonotheiaClient(api_key="test-key")
-        result = client.verify_mfa("test.wav", "enroll-123", context={"channel": "ivr"})
+        # verify_mfa now requires transaction_id and customer_id
+        result = client.verify_mfa("test.wav", "txn-123", "cust-456", context={"channel": "ivr"})
 
         # Verify result
         assert result["verified"] is True
@@ -120,7 +124,8 @@ class TestSonotheiaClient:
         # Verify API call
         mock_post.assert_called_once()
         call_kwargs = mock_post.call_args.kwargs
-        assert call_kwargs["data"]["enrollment_id"] == "enroll-123"
+        assert call_kwargs["json"]["transaction_id"] == "txn-123"
+        assert call_kwargs["json"]["customer_id"] == "cust-456"
 
     @patch("client.os.path.exists", return_value=True)
     @patch("client.mimetypes.guess_type", return_value=("audio/wav", None))
@@ -139,7 +144,8 @@ class TestSonotheiaClient:
         mock_post.return_value = mock_response
 
         client = SonotheiaClient(api_key="test-key")
-        result = client.verify_mfa("test.wav", "enroll-123")
+        # verify_mfa now requires transaction_id and customer_id
+        result = client.verify_mfa("test.wav", "txn-123", "cust-456")
 
         assert result["verified"] is False
 
@@ -157,8 +163,13 @@ class TestSonotheiaClient:
         mock_post.return_value = mock_response
 
         client = SonotheiaClient(api_key="test-key")
+        # submit_sar now requires transaction_id, customer_id, activity_type, description
         result = client.submit_sar(
-            "session-123", "review", "Suspicious activity", metadata={"source": "test"}
+            "txn-123",
+            "cust-456",
+            "suspicious_activity",
+            "Suspicious activity",
+            metadata={"source": "test"},
         )
 
         # Verify result
@@ -168,8 +179,9 @@ class TestSonotheiaClient:
         # Verify API call
         mock_post.assert_called_once()
         call_kwargs = mock_post.call_args.kwargs
-        assert call_kwargs["json"]["session_id"] == "session-123"
-        assert call_kwargs["json"]["decision"] == "review"
+        assert call_kwargs["json"]["transaction_id"] == "txn-123"
+        assert call_kwargs["json"]["customer_id"] == "cust-456"
+        assert call_kwargs["json"]["activity_type"] == "suspicious_activity"
 
     @patch("requests.post")
     def test_submit_sar_with_all_decisions(self, mock_post):
@@ -185,10 +197,10 @@ class TestSonotheiaClient:
 
         client = SonotheiaClient(api_key="test-key")
 
-        for decision in ["allow", "deny", "review"]:
-            client.submit_sar("session-123", decision, "Test reason")
+        for activity_type in ["suspicious_activity", "fraud", "money_laundering"]:
+            client.submit_sar("txn-123", "cust-456", activity_type, "Test reason")
             call_kwargs = mock_post.call_args.kwargs
-            assert call_kwargs["json"]["decision"] == decision
+            assert call_kwargs["json"]["activity_type"] == activity_type
 
     @patch("requests.post")
     def test_timeout_configuration(self, mock_post):
@@ -203,7 +215,8 @@ class TestSonotheiaClient:
         mock_post.return_value = mock_response
 
         client = SonotheiaClient(api_key="test-key", timeout=60)
-        client.submit_sar("session-123", "review", "Test")
+        # submit_sar now requires transaction_id, customer_id, activity_type, description
+        client.submit_sar("txn-123", "cust-456", "suspicious_activity", "Test description")
 
         call_kwargs = mock_post.call_args.kwargs
         assert call_kwargs["timeout"] == 60
@@ -251,7 +264,8 @@ class TestClientIntegration:
         with patch.dict("os.environ", {"SONOTHEIA_API_KEY": "test-key"}, clear=True):
             client = SonotheiaClient()
             assert client.api_key == "test-key"
-            assert client.api_url == "https://api.sonotheia.com"
+            # Default URL is now http://localhost:8000 if not set via env var
+            assert client.api_url == "http://localhost:8000"
             assert client.timeout == 30
 
     def test_error_handling_for_missing_file(self):
@@ -346,7 +360,8 @@ class TestClientIntegration:
         with patch.object(
             client.validator, "validate_mfa_response", side_effect=ResponseValidationError("Test")
         ):
-            result = client.verify_mfa("test.wav", "enroll-123")
+            # verify_mfa now requires transaction_id and customer_id
+            result = client.verify_mfa("test.wav", "txn-123", "cust-456")
             # Should still return result despite validation error
             assert "verified" in result
 
@@ -369,7 +384,7 @@ class TestClientIntegration:
         with patch.object(
             client.validator, "validate_sar_response", side_effect=ResponseValidationError("Test")
         ):
-            result = client.submit_sar("session-123", "review", "Test reason")
+            result = client.submit_sar("txn-123", "cust-456", "suspicious_activity", "Test reason")
             # Should still return result despite validation error
             assert "status" in result
 

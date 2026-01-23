@@ -44,13 +44,9 @@ class TestEnhancedExample:
         mock_client.__enter__.return_value = mock_client
 
         with patch("enhanced_example.sys.argv", ["enhanced_example.py", test_audio]):
-            with patch("enhanced_example.sys.exit") as mock_exit:
-                try:
-                    main()
-                except SystemExit:
-                    pass
-                # Exit should be called
-                assert mock_exit.called
+            # main() doesn't call sys.exit(0) on success, it just returns
+            # So we just verify the client methods were called correctly
+            main()
 
         mock_client.detect_deepfake.assert_called_once()
 
@@ -64,12 +60,7 @@ class TestEnhancedExample:
             "enhanced_example.sys.argv",
             ["enhanced_example.py", test_audio, "--enrollment-id", "enroll-123"],
         ):
-            with patch("enhanced_example.sys.exit") as mock_exit:
-                try:
-                    main()
-                except SystemExit:
-                    pass
-                assert mock_exit.called
+            main()
 
         mock_client.verify_mfa.assert_called_once()
 
@@ -90,12 +81,7 @@ class TestEnhancedExample:
                 "deny",
             ],
         ):
-            with patch("enhanced_example.sys.exit") as mock_exit:
-                try:
-                    main()
-                except SystemExit:
-                    pass
-                assert mock_exit.called
+            main()
 
         mock_client.submit_sar.assert_called_once()
 
@@ -108,12 +94,7 @@ class TestEnhancedExample:
         with patch(
             "enhanced_example.sys.argv", ["enhanced_example.py", test_audio, "--max-retries", "5"]
         ):
-            with patch("enhanced_example.sys.exit") as mock_exit:
-                try:
-                    main()
-                except SystemExit:
-                    pass
-                assert mock_exit.called
+            main()
 
         # Verify client was initialized with max_retries=5
         mock_client_class.assert_called_once()
@@ -129,12 +110,7 @@ class TestEnhancedExample:
         with patch(
             "enhanced_example.sys.argv", ["enhanced_example.py", test_audio, "--rate-limit", "2.0"]
         ):
-            with patch("enhanced_example.sys.exit") as mock_exit:
-                try:
-                    main()
-                except SystemExit:
-                    pass
-                assert mock_exit.called
+            main()
 
         call_kwargs = mock_client_class.call_args[1]
         assert call_kwargs["rate_limit_rps"] == 2.0
@@ -149,12 +125,7 @@ class TestEnhancedExample:
             "enhanced_example.sys.argv",
             ["enhanced_example.py", test_audio, "--disable-circuit-breaker"],
         ):
-            with patch("enhanced_example.sys.exit") as mock_exit:
-                try:
-                    main()
-                except SystemExit:
-                    pass
-                assert mock_exit.called
+            main()
 
         call_kwargs = mock_client_class.call_args[1]
         assert call_kwargs["enable_circuit_breaker"] is False

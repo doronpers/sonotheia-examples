@@ -153,7 +153,10 @@ def cleanup_old_data():
         key
         for key, value in results.items()
         if (
-            now - datetime.fromisoformat(value["received_at"].replace("Z", "+00:00"))
+            now
+            - datetime.fromisoformat(value["received_at"].replace("Z", "+00:00")).replace(
+                tzinfo=None
+            )
         ).total_seconds()
         > RESULT_TTL_SECONDS
     ]

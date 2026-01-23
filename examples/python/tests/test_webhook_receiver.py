@@ -282,17 +282,30 @@ class TestCleanupOldData:
         """Test cleanup of expired results."""
         from datetime import datetime, timedelta
 
-        from webhook_receiver.app import results
+        from webhook_receiver.app import RESULT_TTL_SECONDS, results
+
+        # Clear existing results first
+        results.clear()
 
         # Add an expired result
-        old_time = (datetime.utcnow() - timedelta(days=2)).isoformat() + "Z"
+        # The app uses datetime.utcnow() (naive) and converts received_at to aware via fromisoformat
+        # The comparison: now (naive) - parsed (aware) will fail, so we need to make now aware too
+        # Actually, the app converts the parsed datetime back to naive for comparison
+        # Let's create a time that's definitely expired (more than RESULT_TTL_SECONDS ago)
+        old_time = (
+            datetime.utcnow() - timedelta(seconds=RESULT_TTL_SECONDS + 100)
+        ).isoformat() + "Z"
         results["old_result"] = {
             "received_at": old_time,
             "data": {},
         }
 
+        # Verify it exists before cleanup
+        assert "old_result" in results
+
         cleanup_old_data()
 
+        # Should be removed after cleanup
         assert "old_result" not in results
 
     def test_cleanup_enforces_max_results(self):

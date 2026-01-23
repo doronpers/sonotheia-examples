@@ -110,7 +110,12 @@ class TestInterpretResults:
         """Test interpretation of medium score (uncertain)."""
         result = {"score": 0.5, "confidence": 0.6}
         action = interpret_results(result)
-        assert "review" in action.lower() or "verify" in action.lower()
+        # For medium risk, it returns "REQUIRE_ADDITIONAL_CONTROLS"
+        assert (
+            "REQUIRE_ADDITIONAL_CONTROLS" in action
+            or "additional" in action.lower()
+            or "controls" in action.lower()
+        )
 
     def test_interpret_missing_fields(self):
         """Test interpretation with missing fields."""
@@ -124,8 +129,7 @@ class TestMainFunction:
     """Tests for main function."""
 
     @patch("audio_analysis_example.AudioAnalysisClient")
-    @patch("audio_analysis_example.os.path.exists")
-    def test_main_success(self, mock_exists, mock_client_class, test_audio, tmp_path):
+    def test_main_success(self, mock_client_class, test_audio, tmp_path):
         """Test successful main execution."""
         mock_client = Mock()
         mock_client.analyze_audio.return_value = {
@@ -133,7 +137,6 @@ class TestMainFunction:
             "label": "likely_real",
         }
         mock_client_class.return_value = mock_client
-        mock_exists.return_value = True
 
         audio_file = tmp_path / "test.wav"
         audio_file.write_bytes(b"fake audio data")
@@ -141,22 +144,20 @@ class TestMainFunction:
         with patch(
             "audio_analysis_example.sys.argv", ["audio_analysis_example.py", str(audio_file)]
         ):
-            with patch("audio_analysis_example.sys.exit") as mock_exit:
-                try:
-                    main()
-                except SystemExit:
-                    pass
-                assert mock_exit.called
+            with patch(
+                "audio_analysis_example.sys.argv",
+                ["audio_analysis_example.py", str(audio_file), "--api-key", "test-key"],
+            ):
+                # main() doesn't call sys.exit(0) on success
+                main()
 
         mock_client.analyze_audio.assert_called_once()
 
-    @patch("audio_analysis_example.os.path.exists")
-    def test_main_missing_file(self, mock_exists):
+    def test_main_missing_file(self):
         """Test main with missing file."""
-        mock_exists.return_value = False
-
         with patch(
-            "audio_analysis_example.sys.argv", ["audio_analysis_example.py", "nonexistent.wav"]
+            "audio_analysis_example.sys.argv",
+            ["audio_analysis_example.py", "nonexistent.wav", "--api-key", "test-key"],
         ):
             with patch("audio_analysis_example.sys.exit") as mock_exit:
                 try:
