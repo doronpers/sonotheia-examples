@@ -175,14 +175,31 @@ Before submitting your PR:
 
 ## Testing Requirements
 
-All code changes should include appropriate tests:
+All code changes should include appropriate tests. The repository maintains an **87% test coverage threshold** enforced in CI.
 
 ### Python
 
 ```bash
 cd examples/python
-pytest tests/ -v --cov=.
+# Run all tests
+pytest tests/ -v
+
+# Run with coverage (when pytest-cov is available)
+pytest tests/ --cov=. --cov-report=term-missing --cov-fail-under=87
 ```
+
+**Coverage Requirements:**
+- Overall coverage must be ≥ 87% (enforced in CI)
+- Core modules must maintain 87%+ coverage
+- Utility modules must maintain 87%+ coverage
+- Example scripts target 60%+ coverage
+
+**Current Status:**
+- ✅ 178 tests passing
+- ✅ 0 test failures
+- ✅ 87% coverage threshold enforced in CI
+
+See [Test Coverage Guide](documentation/development/TEST_COVERAGE.md) for detailed information.
 
 ### TypeScript
 
@@ -288,7 +305,7 @@ We appreciate all contributions, large and small! 🙏
 
 For comprehensive contribution guidelines, see:
 
-- **[Full Contributing Guide](.github/CONTRIBUTING.md)** - Detailed process and requirements
+- **[Coding Standards](.github/CODING_STANDARDS.md)** - Complete style guide
 - **[Coding Standards](.github/CODING_STANDARDS.md)** - Complete style guide
 - **[Documentation Principles](documentation/DOCUMENTATION_PRINCIPLES.md)** - Writing guidelines
 - **[Repository Structure](documentation/REPOSITORY_STRUCTURE.md)** - How code is organized

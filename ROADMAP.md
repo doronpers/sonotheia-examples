@@ -1,11 +1,23 @@
 # Sonotheia Examples - Roadmap & TODOs
 
-**Last Updated**: 2026-01-21
+**Last Updated**: 2026-01-23
 **Single Source of Truth**: This file contains all TODOs, planned features, and roadmap items.
 
 ---
 
 ## ✅ Recently Completed
+
+### Test Coverage Improvements (2026-01-23)
+- **Status**: ✅ Completed
+- **Description**: Comprehensive test coverage improvements with 87% threshold enforcement
+- **Components**:
+  - Fixed all 10 failing tests (error messages, mocks, SSL issues)
+  - Created shared test infrastructure (conftest.py) with fixtures
+  - Added 9 new test files covering all core modules
+  - Enhanced existing test files with additional coverage
+  - Updated CI workflow to enforce 87% coverage threshold
+- **Results**: 178 tests passing (up from 46), 0 failures, 0 errors
+- **Impact**: Robust test suite with comprehensive coverage, CI enforcement ensures quality
 
 ### Golden Path Demo Implementation (2026-01-21)
 - **Status**: ✅ Completed
@@ -82,7 +94,7 @@
 
 ## 📊 Progress Summary
 
-- **Completed**: 4 items
+- **Completed**: 5 items
 - **High Priority**: 0 items
 - **Medium Priority**: 1 items
 - **Low Priority**: 2 items

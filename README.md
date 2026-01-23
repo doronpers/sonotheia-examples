@@ -232,15 +232,15 @@ Both components showcase different aspects of the Sono Platform:
 ## Documentation
 
 ### Getting Started
-- **[Integration Quick Start](examples/documentation/GETTING_STARTED.md)** - 5-minute integration setup
+- **[Integration Quick Start](documentation/GETTING_STARTED.md)** - 5-minute integration setup
 - **[Evaluation Quick Start](evaluation/documentation/SHOWCASE_QUICKSTART.md)** - 5-minute evaluation setup
 
 ### Guides
-- **[Integration Best Practices](examples/documentation/BEST_PRACTICES.md)** - Production integration patterns
+- **[Integration Best Practices](documentation/BEST_PRACTICES.md)** - Production integration patterns
 - **[Evaluation Workflows](evaluation/documentation/WORKFLOWS.md)** - Common evaluation patterns
 
 ### Reference
-- **[Integration API](examples/documentation/INDEX.md)** - Complete API reference
+- **[Documentation Index](documentation/INDEX.md)** - Complete documentation navigation
 - **[Evaluation API](evaluation/README.md#usage-guide)** - CLI commands and configuration
 
 ---
@@ -248,7 +248,7 @@ Both components showcase different aspects of the Sono Platform:
 ## Contributing
 
 We welcome contributions. Please see:
-- **[Integration Examples Contributing](examples/.github/CONTRIBUTING.md)** - Guidelines for integration examples
+- **[Contributing Guide](CONTRIBUTING.md)** - Guidelines for contributing to this repository
 - **[Evaluation Framework Contributing](evaluation/CONTRIBUTING.md)** - Guidelines for evaluation framework
 
 ---

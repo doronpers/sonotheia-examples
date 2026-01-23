@@ -134,8 +134,8 @@ print(f"Case ID: {sar_result['case_id']}")
 # Run all tests
 pytest tests/ -v
 
-# Run with coverage
-pytest tests/ --cov=. --cov-report=term-missing
+# Run with coverage (when pytest-cov is available)
+pytest tests/ --cov=. --cov-report=term-missing --cov-fail-under=87
 
 # Run linter
 ruff check .
@@ -144,8 +144,16 @@ ruff check .
 ruff check --fix .
 ```
 
+**Test Coverage:**
+- ✅ **178 tests passing**
+- ✅ **87% coverage threshold** enforced in CI
+- ✅ All core modules have comprehensive test coverage
+- ✅ Shared test fixtures in `tests/conftest.py`
+
 > Tip: Activate the local virtual environment before running tests so the in-repo modules (`client.py`,
 > `client_enhanced.py`, etc.) are discovered without installing a package build step.
+
+See [Test Coverage Guide](../../documentation/development/TEST_COVERAGE.md) for detailed test coverage information.
 
 ## API Client Reference
 

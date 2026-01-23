@@ -22,14 +22,15 @@ sonotheia-examples/
 │   ├── CODING_STANDARDS.md     # Development guidelines
 │   └── QUICK_REFERENCE.md      # AI-Assisted Development Workflow
 │
-├── Documentation/               # All documentation
+├── documentation/               # All documentation
 │   ├── workflow-guides/       # AI-assisted workflow guides
 │   │   ├── README.md           # Workflow building overview
 │   │   ├── start-simple.md     # Three-question framework
 │   │   └── multi-agent-workflow.md  # Multi-agent patterns
 │   ├── development/            # Active development notes
 │   │   ├── README.md           # Development context
-│   │   └── SOURCES.md          # Source references for agents
+│   │   ├── SOURCES.md          # Source references for agents
+│   │   └── TEST_COVERAGE.md    # Test coverage guide
 │   ├── Archive/                # Historical documents
 │   │   ├── Development-Historical/  # Past summaries and notes
 │   │   └── Reports-Historical/     # Historical review reports
@@ -56,9 +57,20 @@ sonotheia-examples/
 │   │   └── webhook-server.js   # Webhook receiver
 │   │
 │   ├── python/                 # Python examples
-│   │   ├── tests/              # Test suite
+│   │   ├── tests/              # Test suite (178 tests, 87% coverage threshold)
+│   │   │   ├── conftest.py     # Shared fixtures
 │   │   │   ├── test_client.py  # Basic client tests
-│   │   │   └── test_client_enhanced.py  # Enhanced tests
+│   │   │   ├── test_client_enhanced.py  # Enhanced tests
+│   │   │   ├── test_constants.py  # Constants tests
+│   │   │   ├── test_utils.py   # Utils tests
+│   │   │   ├── test_response_validator.py  # Response validation tests
+│   │   │   ├── test_config_validator.py  # Config validation tests
+│   │   │   ├── test_audio_validator.py  # Audio validation tests
+│   │   │   ├── test_health_check.py  # Health check tests
+│   │   │   ├── test_main.py    # CLI tests
+│   │   │   ├── test_mock_api_server.py  # Mock server tests
+│   │   │   ├── test_integration.py  # Integration tests
+│   │   │   └── test_example_validation.py  # Example validation tests
 │   │   ├── README.md           # Python documentation
 │   │   ├── requirements.txt    # Python dependencies
 │   │   ├── pyproject.toml      # Project metadata
@@ -129,7 +141,7 @@ Contains only:
 **Purpose**: Historical documents preserved for reference
 
 - `Development-Historical/` - Integration summaries, refactoring notes, and status reports (2026-01-05/06)
-- `Reports-Historical/` - Comprehensive review summaries and audits
+- `Reports-Historical/` - Comprehensive review summaries, audits, and test coverage reports (2026-01-10, 2026-01-23)
 
 **Note**: Archived files document past development processes and decisions but are no longer actively maintained.
 
@@ -174,7 +186,7 @@ Comprehensive Python implementation with:
 - Health monitoring
 - DSP analysis
 - Docker/Kubernetes deployment
-- Full test suite
+- Comprehensive test suite (178 tests, 87% coverage threshold)
 
 **Best for**: Production deployment, complex workflows, data analysis
 
@@ -228,24 +240,24 @@ Example Kubernetes manifests with:
 
 **Learn about AI-assisted development**
 → Start with `.github/QUICK_REFERENCE.md`
-→ Apply the three-question framework from `Documentation/workflow-guides/start-simple.md`
+→ Apply the three-question framework from `documentation/workflow-guides/start-simple.md`
 → Track your progress with `templates/learning-journal.md`
 
 **Learn about the API basics**
-→ Start with `README.md` then `Documentation/FAQ.md`
+→ Start with `README.md` then `documentation/FAQ.md`
 
 **Integrate the API quickly**
 → Try `examples/curl/` for testing, then move to your language
 
 **Build a production application**
-→ Read `Documentation/BEST_PRACTICES.md` and `Documentation/ENHANCED_EXAMPLES.md`
+→ Read `documentation/BEST_PRACTICES.md` and `documentation/ENHANCED_EXAMPLES.md`
 → Use hardened examples like `examples/python/client_enhanced.py`
 
 **Deploy to Kubernetes**
 → Check `examples/kubernetes/README.md` and `deployment.yaml`
 
 **Understand the repository history**
-→ Read `Documentation/Archive/Development-Historical/` for historical summaries
+→ Read `documentation/Archive/Development-Historical/` for historical summaries
 
 **Add a new example**
 → Read `.github/QUICK_REFERENCE.md` for AI workflow guidance
@@ -255,7 +267,7 @@ Example Kubernetes manifests with:
 → Add a reference in the main README.md
 
 **Add documentation**
-→ User-facing docs go in `/documentation/`
+→ User-facing docs go in `documentation/`
 → Development notes go in `/documentation/development/`
 → Update links in README.md if important
 
@@ -308,7 +320,7 @@ The structure accommodates growth:
 - New languages → `examples/<new-language>/`
 - New doc types → `docs/<category>/`
 - New deployment targets → `examples/<platform>/`
-- Archive old content → `Documentation/development/archive/`
+- Archive old content → `documentation/Archive/Reports-Historical/`
 
 ## Common Patterns
 
@@ -362,7 +374,7 @@ Common issues and solutions
 2. Update that directory's README.md
 3. Add tests if complex
 4. Update main README.md if it's a major feature
-5. Consider adding to `Documentation/ENHANCED_EXAMPLES.md` if it demonstrates hardened patterns
+5. Consider adding to `documentation/ENHANCED_EXAMPLES.md` if it demonstrates hardened patterns
 
 ## Maintenance
 
@@ -376,7 +388,7 @@ Common issues and solutions
 ### Keeping It Clean
 
 - Remove temporary files not in `.gitignore`
-- Move old development notes to `Documentation/Archive/Development-Historical/`
+- Move old development notes to `documentation/Archive/Development-Historical/`
 - Consolidate duplicate documentation
 - Keep the root directory minimal
 
@@ -389,19 +401,19 @@ Content should be archived when:
 - Development notes are no longer relevant
 - But may be needed for historical context
 
-Archive location: `Documentation/Archive/`
+Archive location: `documentation/Archive/`
 
 ## Questions?
 
-- **General questions**: Check `Documentation/FAQ.md`
-- **Integration help**: See `Documentation/BEST_PRACTICES.md`
+- **General questions**: Check `documentation/FAQ.md`
+- **Integration help**: See `documentation/BEST_PRACTICES.md`
 - **Contributing**: Read `.github/CODING_STANDARDS.md`
 - **Issues**: Open a GitHub issue
 
 ---
 
 **Maintained by**: Repository maintainers
-**Last Updated**: 2026-01-04
+**Last Updated**: 2026-01-23
 **Related Docs**:
 
 - [AI-Assisted Development Workflow](../.github/QUICK_REFERENCE.md)

@@ -65,7 +65,7 @@
 ### For Contributors
 
 - [Contributing Guide](../CONTRIBUTING.md) - Quick start for contributors
-- [Full Contributing Guide](.github/CONTRIBUTING.md) - Detailed process
+- [Coding Standards](../.github/CODING_STANDARDS.md) - Complete style guide
 - [Coding Standards](../.github/CODING_STANDARDS.md) - Complete standards
 - [Agent Quick Reference](../.github/AGENT_QUICK_REFERENCE.md) - Repository maintenance guide
 - [Repository Structure](REPOSITORY_STRUCTURE.md) - File organization principles
@@ -127,6 +127,7 @@
 | -------- | ------- | -------- |
 | [Development README](development/README.md) | Context overview | Maintainers |
 | [Sources](development/SOURCES.md) | Agent resources | Coding agents |
+| [Test Coverage Guide](development/TEST_COVERAGE.md) | Test coverage status and requirements | Developers, Contributors |
 
 ### Historical Archive
 
@@ -134,6 +135,8 @@
 | -------- | ------- | ---- |
 | [Development Summaries](Archive/Development-Historical/) | Historical integration, refactoring, and status reports | 2026-01-05/06 |
 | [Review Summary 2026-01-10](Archive/Reports-Historical/REVIEW_SUMMARY_2026-01-10.md) | Comprehensive codebase review | 2026-01-10 |
+| [Code Review Summary 2026-01-23](Archive/Reports-Historical/CODE_REVIEW_SUMMARY_2026-01-23.md) | Code review and optimization summary | 2026-01-23 |
+| [Test Coverage Reports](Archive/Reports-Historical/) | Test coverage assessment and implementation summaries | 2026-01-23 |
 
 > **Note**: Archived documents are preserved for historical reference but are no longer actively maintained.
 
@@ -154,7 +157,7 @@ AI-Assisted Development Workflow → Start Simple → Multi-Agent Workflow → L
 ### "I want to contribute code"
 
 ```text
-Contributing Guide → Coding Standards → Agent Quick Reference → Repository Structure → Development Notes
+Contributing Guide → Coding Standards → Test Coverage Guide → Agent Quick Reference → Repository Structure → Development Notes
 ```
 
 ### "I'm debugging an issue"
@@ -209,6 +212,7 @@ Start Simple → Coding Standards → Repository Structure → Tests
 
 - Quick start: [Contributing Guide](../CONTRIBUTING.md)
 - Standards: [Coding Standards](../.github/CODING_STANDARDS.md)
+- Testing: [Test Coverage Guide](development/TEST_COVERAGE.md)
 - Quick reference: [Agent Quick Reference](../.github/AGENT_QUICK_REFERENCE.md)
 - Structure: [Repository Structure](REPOSITORY_STRUCTURE.md)
 - Notes: [Implementation Notes](../NOTES.md)
@@ -255,6 +259,6 @@ Start Simple → Coding Standards → Repository Structure → Tests
 
 ---
 
-**Last Updated**: 2026-01-06
+**Last Updated**: 2026-01-23
 **Maintained by**: Repository maintainers
 **License**: MIT (see [LICENSE](../LICENSE))

@@ -143,7 +143,7 @@ Both components have their own test suites that run in CI. See:
 
 See:
 - **[Root README](../README.md#contributing)** - General guidelines
-- **[Examples Contributing](examples/.github/CONTRIBUTING.md)** - Integration-specific
+- **[Examples Contributing](../CONTRIBUTING.md)** - Integration-specific
 - **[Evaluation Contributing](evaluation/CONTRIBUTING.md)** - Evaluation-specific
 
 ---

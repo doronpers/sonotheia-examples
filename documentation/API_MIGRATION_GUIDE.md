@@ -6,7 +6,7 @@ This guide helps you migrate between different versions of the Sonotheia API.
 
 | Version | Release Date | Status | End of Life |
 |---------|-------------|--------|-------------|
-| v1 | 2024-06-01 | Current | TBD |
+| v1 | 2024-06-01 | Current | Active |
 | v0 (beta) | 2023-11-01 | Deprecated | 2025-06-01 |
 
 ## Current Version: v1
