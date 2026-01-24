@@ -34,10 +34,10 @@ class TestGoldenPathValidation:
         # Run the script
         env = os.environ.copy()
         env["SONOTHEIA_API_URL"] = mock_server["api_url"]
-        env["SONOTHEIA_API_KEY"] = "mock_key"
+        env["SONOTHEIA_API_KEY"] = mock_server["api_key"]
 
         result = subprocess.run(
-            [sys.executable, demo_script, test_audio, "--mock", "--json"],
+            [sys.executable, demo_script, test_audio, "--mock"],
             capture_output=True,
             text=True,
             env=env,
@@ -93,7 +93,7 @@ class TestGoldenPathValidation:
 
         env = os.environ.copy()
         env["SONOTHEIA_API_URL"] = mock_server["api_url"]
-        env["SONOTHEIA_API_KEY"] = "mock_key"
+        env["SONOTHEIA_API_KEY"] = mock_server["api_key"]
 
         result = subprocess.run(
             [
@@ -103,7 +103,6 @@ class TestGoldenPathValidation:
                 "--mock",
                 "--enrollment-id",
                 "test-enrollment-123",
-                "--json",
             ],
             capture_output=True,
             text=True,
@@ -127,10 +126,10 @@ class TestGoldenPathValidation:
 
         env = os.environ.copy()
         env["SONOTHEIA_API_URL"] = mock_server["api_url"]
-        env["SONOTHEIA_API_KEY"] = "mock_key"
+        env["SONOTHEIA_API_KEY"] = mock_server["api_key"]
 
         result = subprocess.run(
-            [sys.executable, demo_script, test_audio, "--mock", "--json"],
+            [sys.executable, demo_script, test_audio, "--mock"],
             capture_output=True,
             text=True,
             env=env,
@@ -173,11 +172,11 @@ class TestGoldenPathValidation:
 
         env = os.environ.copy()
         env["SONOTHEIA_API_URL"] = mock_server["api_url"]
-        env["SONOTHEIA_API_KEY"] = "mock_key"
+        env["SONOTHEIA_API_KEY"] = mock_server["api_key"]
 
         # Test with non-existent file
         result = subprocess.run(
-            [sys.executable, demo_script, "nonexistent.wav", "--mock", "--json"],
+            [sys.executable, demo_script, "nonexistent.wav", "--mock"],
             capture_output=True,
             text=True,
             env=env,
@@ -199,7 +198,7 @@ class TestClientExampleValidation:
         # For now, we test the client module directly
         from client import SonotheiaClient
 
-        client = SonotheiaClient(api_key="mock_key", api_url=mock_server["api_url"])
+        client = SonotheiaClient(api_key=mock_server["api_key"], api_url=mock_server["api_url"])
 
         result = client.detect_deepfake(test_audio)
 
@@ -251,10 +250,10 @@ class TestOutputContractCompliance:
 
         env = os.environ.copy()
         env["SONOTHEIA_API_URL"] = mock_server["api_url"]
-        env["SONOTHEIA_API_KEY"] = "mock_key"
+        env["SONOTHEIA_API_KEY"] = mock_server["api_key"]
 
         result = subprocess.run(
-            [sys.executable, demo_script, test_audio, "--mock", "--json"],
+            [sys.executable, demo_script, test_audio, "--mock"],
             capture_output=True,
             text=True,
             env=env,

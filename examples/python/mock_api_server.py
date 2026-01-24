@@ -195,17 +195,20 @@ def should_simulate_error() -> tuple[bool, tuple[int, dict[str, Any]] | None]:
 
 
 @app.route("/v1/voice/deepfake", methods=["POST"])
+@app.route("/api/detect", methods=["POST"])
 @require_auth_and_rate_limit
 def deepfake_detect(rate_headers: dict[str, str] | None = None):
     """Mock deepfake detection endpoint."""
     # Validate request
-    if "audio" not in request.files:
+    if "audio" in request.files:
+        audio_file = request.files["audio"]
+    elif "file" in request.files:
+        audio_file = request.files["file"]
+    else:
         return (
-            jsonify({"error": "Bad request", "message": "Missing 'audio' file in request"}),
+            jsonify({"error": "Bad request", "message": "Missing 'audio' or 'file' in request"}),
             400,
         )
-
-    audio_file = request.files["audio"]
 
     # Validate file is not empty
     audio_file.seek(0, 2)  # Seek to end
@@ -283,29 +286,49 @@ def _generate_deepfake_score(filename: str) -> tuple[float, str]:
 
 
 @app.route("/v1/mfa/voice/verify", methods=["POST"])
+@app.route("/api/authenticate", methods=["POST"])
 @require_auth_and_rate_limit
 def mfa_verify(rate_headers: dict[str, str] | None = None):
     """Mock MFA verification endpoint."""
     # Validate request
-    if "audio" not in request.files:
+    # Handle JSON request (used by client.py)
+    if request.is_json:
+        data = request.get_json()
+        audio_b64 = data.get("voice_sample")
+        if not audio_b64:
+            return jsonify({"error": "Bad request", "message": "Missing 'voice_sample'"}), 400
+
+        # In JSON mode (client.py), enrollment_id is not mapped directly in standard payload?
+        # client.py sends: transaction_id, customer_id.
+        # But golden_path_demo sends enrollment_id as customer_id?
+        # Let's check client.py verify_mfa args.
+        # client.verify_mfa(audio_path, enrollment_id, context=...) -> maps enrollment_id to params?
+        # wrapper: verify_mfa(audio_path, transaction_id, customer_id)
+        # golden_path: verify_mfa(..., enrollment_id, context={...})
+        # Wait, golden_path calls verify_mfa with enrollment_id as 2nd arg (transaction_id).
+
+        # So transaction_id = enrollment_id in this demo usage.
+        enrollment_id = data.get("customer_id") or data.get("transaction_id")
+
+        filename = "unknown.wav"  # Filename not available in base64 payload
+
+    # Handle Multipart request (legacy/other clients)
+    elif "audio" in request.files or "file" in request.files:
+        if "audio" in request.files:
+            audio_file = request.files["audio"]
+        else:
+            audio_file = request.files["file"]
+
+        enrollment_id = request.form.get("enrollment_id")
+        filename = audio_file.filename or "unknown.wav"
+    else:
         return (
-            jsonify({"error": "Bad request", "message": "Missing 'audio' file in request"}),
+            jsonify({"error": "Bad request", "message": "Missing audio/file or JSON body"}),
             400,
         )
 
-    enrollment_id = request.form.get("enrollment_id")
     if not enrollment_id:
-        return (
-            jsonify(
-                {
-                    "error": "Bad request",
-                    "message": "Missing 'enrollment_id' in request",
-                }
-            ),
-            400,
-        )
-
-    audio_file = request.files["audio"]
+        return (jsonify({"error": "Bad request", "message": "Missing enrollment identifier"}), 400)
 
     # Check for simulated errors
     has_error, error_response = should_simulate_error()
@@ -323,7 +346,10 @@ def mfa_verify(rate_headers: dict[str, str] | None = None):
 
     # Parse context
     context = {}
-    if "context" in request.form:
+    if request.is_json:
+        # Context might be scattered in fields
+        context = request.get_json()
+    elif "context" in request.form:
         try:
             context = json.loads(request.form["context"])
         except json.JSONDecodeError:
@@ -336,7 +362,6 @@ def mfa_verify(rate_headers: dict[str, str] | None = None):
     session_id = context.get("session_id", f"session-{uuid.uuid4().hex[:12]}")
 
     # Generate confidence score
-    filename = audio_file.filename or "unknown.wav"
     confidence, verified = _generate_mfa_score(filename)
 
     response_data = {
@@ -383,6 +408,7 @@ def _generate_mfa_score(filename: str) -> tuple[float, bool]:
 
 
 @app.route("/v1/reports/sar", methods=["POST"])
+@app.route("/api/sar/generate", methods=["POST"])
 @require_auth_and_rate_limit
 def sar_submit(rate_headers: dict[str, str] | None = None):
     """Mock SAR submission endpoint."""
@@ -462,9 +488,11 @@ def sar_submit(rate_headers: dict[str, str] | None = None):
 def enrollment_create(rate_headers: dict[str, str] | None = None):
     """Mock enrollment creation endpoint."""
     # Validate request
-    if "audio" not in request.files:
+    if "audio" not in request.files and "file" not in request.files:
         return (
-            jsonify({"error": "Bad request", "message": "Missing 'audio' file in request"}),
+            jsonify(
+                {"error": "Bad request", "message": "Missing 'audio' or 'file' in request"}
+            ),
             400,
         )
 

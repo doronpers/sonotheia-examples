@@ -1,6 +1,6 @@
 # Sonotheia Examples - Roadmap & TODOs
 
-**Last Updated**: 2026-01-23
+**Last Updated**: 2026-01-24
 **Single Source of Truth**: This file contains all TODOs, planned features, and roadmap items.
 
 ---
@@ -8,6 +8,7 @@
 ## ✅ Recently Completed
 
 ### Test Coverage Improvements (2026-01-23)
+
 - **Status**: ✅ Completed
 - **Description**: Comprehensive test coverage improvements with 87% threshold enforcement
 - **Components**:
@@ -20,6 +21,7 @@
 - **Impact**: Robust test suite with comprehensive coverage, CI enforcement ensures quality
 
 ### Golden Path Demo Implementation (2026-01-21)
+
 - **Status**: ✅ Completed
 - **Description**: Implemented complete Golden Path end-to-end workflow demo in Python and TypeScript
 - **Components**:
@@ -31,6 +33,7 @@
 - **Impact**: New users can now run a complete workflow demo in minutes with mock mode (no API key required)
 
 ### Webhook Enhancements (2026-01-21)
+
 - **Status**: ✅ Completed
 - **Description**: Enhanced webhook receivers with enterprise-ready features
 - **Components**:
@@ -38,6 +41,16 @@
   - Python FastAPI webhook receiver: signature verification, idempotency, rate limiting
   - Comprehensive webhook documentation (`documentation/WEBHOOK_END_TO_END.md`)
 - **Impact**: Production-ready webhook integration examples for enterprise deployments
+
+### Mock Server Stability & JSON Support (2026-01-24)
+
+- **Status**: ✅ Completed
+- **Description**: Fixed critical crashes in Mock Server MFA/File handling
+- **Components**:
+  - Added JSON payload support to MFA endpoint
+  - Fixed legacy route aliasing for client compatibility
+  - Standardized multipart file handling (`audio` vs `file` keys)
+- **Impact**: 100% reliable local development and testing environment
 
 ---
 
@@ -52,6 +65,7 @@
 ### Documentation
 
 #### 1. Enhanced Integration Examples
+
 - **Status**: ✅ Completed (2026-01-21)
 - **Description**: Expand integration examples with more use cases
 - **Components**:
@@ -63,10 +77,13 @@
 - **Impact**: Comprehensive integration examples covering real-world use cases across industries
 
 #### 2. Evaluation Framework Documentation
-- **Status**: 📝 TODO
-- **Complexity**: Low-Medium
-- **Recommended Models**: 1. Claude Sonnet 4.5, 2. GPT-5.1, 3. Gemini 3 Flash
-- **Description**: Enhance evaluation framework documentation
+
+- **Status**: ✅ Completed
+- **Description**: Comprehensive research-grade documentation shipped in `evaluation/README.md`
+- **Components**:
+  - Full architectural diagrams
+  - Deferral philosophy and fragility score explanations
+  - Quickstart guide implemented
 
 ---
 
@@ -75,18 +92,22 @@
 ### Examples
 
 #### 3. Additional Language Examples
+
 - **Status**: 📝 TODO
 - **Description**: Add examples for additional programming languages
 
 #### 4. Terraform Examples Enhancement
-- **Status**: 📝 TODO
-- **Complexity**: Medium
-- **Recommended Models**: 1. GPT-5.1-Codex, 2. Claude Sonnet 4.5, 3. Gemini 3 Pro
-- **Description**: Expand Terraform examples with more cloud providers
+
+- **Status**: ✅ Completed
+- **Description**: AWS Terraform examples fully documented and implemented
+- **Components**:
+  - `examples/terraform/aws/README.md` with cost estimates and diagrams
+  - Complete Lambda/API Gateway/DynamoDB stack
 
 ### Testing
 
 #### 5. Example Validation Tests
+
 - **Status**: ✅ Completed (2026-01-21)
 - **Description**: Add automated tests to validate examples work correctly
 - **Components**: Created `test_example_validation.py` with validation tests for Golden Path demo, output contract compliance, and error handling
@@ -95,10 +116,10 @@
 
 ## 📊 Progress Summary
 
-- **Completed**: 5 items
+- **Completed**: 8 items
 - **High Priority**: 0 items
-- **Medium Priority**: 1 items
-- **Low Priority**: 2 items
+- **Medium Priority**: 0 items
+- **Low Priority**: 1 items
 
 ---
 

@@ -294,6 +294,7 @@ def run_golden_path(
             mfa_result = client.verify_mfa(
                 str(audio_path),
                 enrollment_id,
+                customer_id="mock_customer",
                 context={"session_id": session_id, "channel": "ivr"},
             )
             latency_ms = int((time.time() - start_time) * 1000)
