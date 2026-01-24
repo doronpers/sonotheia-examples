@@ -64,8 +64,9 @@
 
 #### 2. Evaluation Framework Documentation
 - **Status**: 📝 TODO
+- **Complexity**: Low-Medium
+- **Recommended Models**: 1. Claude Sonnet 4.5, 2. GPT-5.1, 3. Gemini 3 Flash
 - **Description**: Enhance evaluation framework documentation
-- **Estimated Effort**: 1-2 days
 
 ---
 
@@ -76,12 +77,12 @@
 #### 3. Additional Language Examples
 - **Status**: 📝 TODO
 - **Description**: Add examples for additional programming languages
-- **Estimated Effort**: 1-2 days per language
 
 #### 4. Terraform Examples Enhancement
 - **Status**: 📝 TODO
+- **Complexity**: Medium
+- **Recommended Models**: 1. GPT-5.1-Codex, 2. Claude Sonnet 4.5, 3. Gemini 3 Pro
 - **Description**: Expand Terraform examples with more cloud providers
-- **Estimated Effort**: 2-3 days
 
 ### Testing
 
@@ -114,6 +115,6 @@
 
 1. When starting work on a TODO, change status from `📝 TODO` to `🚧 In Progress`
 2. When completing, move to "Recently Completed" section and mark as `✅`
-3. Add new TODOs with appropriate priority and estimated effort
+3. Add new TODOs with complexity indicators (Low, Medium, High) rather than time estimates
 4. Update "Last Updated" date
 5. Keep items organized by priority and category
