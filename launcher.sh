@@ -1,7 +1,17 @@
 #!/bin/bash
 # One-click launcher for Sonotheia Examples
+# Cross-platform: Works on macOS and Linux
+# Windows users: See documentation/LAUNCH_AND_ONBOARDING.md for Windows instructions
 
 set -e
+
+# Detect platform
+OS="$(uname -s)"
+case "${OS}" in
+    Linux*)     PLATFORM="Linux" ;;
+    Darwin*)    PLATFORM="macOS" ;;
+    *)          PLATFORM="Unknown" ;;
+esac
 
 # Colors for output
 RED='\033[0;31m'
@@ -22,6 +32,8 @@ show_header() {
     echo "║                                                           ║"
     echo "╚═══════════════════════════════════════════════════════════╝"
     echo -e "${NC}"
+    echo -e "${CYAN}Platform: ${PLATFORM}${NC}"
+    echo ""
 }
 
 # Check if virtual environment exists
@@ -221,6 +233,9 @@ show_usage() {
     echo "  check           - Check environment readiness"
     echo ""
     echo "Run without arguments for interactive menu."
+    echo ""
+    echo "📖 For Windows users or detailed setup:"
+    echo "   See documentation/LAUNCH_AND_ONBOARDING.md"
     exit 1
 }
 

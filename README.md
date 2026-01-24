@@ -123,6 +123,8 @@ sonotheia-examples/
 
 **New to Sonotheia?** Start with the **[Golden Path Demo](#-golden-path-demo-start-here)** above for a complete workflow in minutes.
 
+**First time setup?** See **[Launch & Onboarding Guide](documentation/LAUNCH_AND_ONBOARDING.md)** for cross-platform setup instructions (Windows & macOS).
+
 **Looking for detailed guides?** See [documentation/START_HERE.md](documentation/START_HERE.md)
 
 ### For Production Integration

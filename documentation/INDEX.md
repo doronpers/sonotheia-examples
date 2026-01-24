@@ -6,14 +6,17 @@
 
 **Start here:** [Start Here](START_HERE.md)
 
+**First time setup?** See **[Launch & Onboarding Guide](LAUNCH_AND_ONBOARDING.md)** for cross-platform setup (Windows & macOS) or **[Quick Reference](LAUNCH_QUICK_REFERENCE.md)** for one-page cheat sheet.
+
 **New to Sonotheia?** Start here:
 
-1. [Start Here](START_HERE.md) - Choose integration vs evaluation
-2. [Getting Started](GETTING_STARTED.md) - 5-minute quickstart guide
-3. [Main README](../README.md) - Complete repository overview
-4. [Use Cases](USE_CASES.md) - Real-world integration scenarios
-5. [FAQ](FAQ.md) - Common questions answered
-6. [Best Practices](BEST_PRACTICES.md) - Integration guidelines
+1. [Launch & Onboarding Guide](LAUNCH_AND_ONBOARDING.md) - **Setup instructions for Windows & macOS**
+2. [Start Here](START_HERE.md) - Choose integration vs evaluation
+3. [Getting Started](GETTING_STARTED.md) - 5-minute quickstart guide
+4. [Main README](../README.md) - Complete repository overview
+5. [Use Cases](USE_CASES.md) - Real-world integration scenarios
+6. [FAQ](FAQ.md) - Common questions answered
+7. [Best Practices](BEST_PRACTICES.md) - Integration guidelines
 
 **Looking for code examples?** → [Examples Directory](../examples/)
 
@@ -23,6 +26,8 @@
 
 #### Getting Started
 
+- [Launch & Onboarding Guide](LAUNCH_AND_ONBOARDING.md) - **Setup for Windows & macOS**
+- [Launch Quick Reference](LAUNCH_QUICK_REFERENCE.md) - One-page cheat sheet
 - [Getting Started](GETTING_STARTED.md) - **Start here!** 5-minute quickstart
 - [README](../README.md) - Repository overview and quickstart
 - [Use Cases](USE_CASES.md) - Real-world integration scenarios
