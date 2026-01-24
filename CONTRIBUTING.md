@@ -71,6 +71,55 @@ git push origin feature/your-feature-name
 
 ---
 
+## Testing Requirements
+
+### Test Coverage Threshold
+
+All contributions must maintain **87% test coverage** for the Python examples. This threshold is enforced in CI/CD and PRs will fail if coverage drops below this level.
+
+### Running Tests
+
+**Python Examples:**
+```bash
+cd examples/python
+
+# Run all tests
+pytest tests/ -v
+
+# Run with coverage (requires pytest-cov)
+pytest tests/ --cov=. --cov-report=term-missing --cov-fail-under=87
+
+# Run specific test file
+pytest tests/test_client.py -v
+```
+
+**TypeScript/Node Examples:**
+```bash
+cd examples/typescript  # or examples/node
+npm test
+```
+
+### Current Test Status
+
+- **213 tests passing** ✅
+- **87% coverage threshold** enforced in CI
+- **0 test errors** ✅
+
+### Writing Tests
+
+- All new code must include tests
+- Use shared fixtures from `tests/conftest.py` when available
+- Follow existing test patterns and structure
+- Test both success and error cases
+- Include edge cases and boundary conditions
+
+### Test Coverage Guide
+
+For detailed information on test coverage, see:
+- **[Test Coverage Guide](documentation/development/TEST_COVERAGE.md)** - Complete guide with current status, how to run tests, and coverage requirements
+
+---
+
 ## Code Style Quick Reference
 
 ### Python

@@ -533,6 +533,6 @@ For issues with:
 
 ---
 
-**Last Updated**: January 5, 2026
+**Last Updated**: 2026-01-24
 **Terraform Version**: 1.6+
 **AWS Provider Version**: 5.0+

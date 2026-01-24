@@ -215,4 +215,4 @@ Key insight: [what made this work]
 
 ---
 
-*This workflow evolves. Last updated: 2026-01-04*
+*This workflow evolves. Last updated: 2026-01-24*

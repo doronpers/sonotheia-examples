@@ -459,5 +459,5 @@ When reporting migration issues, include:
 
 ---
 
-**Last Updated**: January 5, 2026
+**Last Updated**: 2026-01-24
 **Current Version**: v1.0.0

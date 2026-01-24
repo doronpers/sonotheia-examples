@@ -145,7 +145,7 @@ ruff check --fix .
 ```
 
 **Test Coverage:**
-- ✅ **178 tests passing**
+- ✅ **213 tests passing**
 - ✅ **87% coverage threshold** enforced in CI
 - ✅ All core modules have comprehensive test coverage
 - ✅ Shared test fixtures in `tests/conftest.py`

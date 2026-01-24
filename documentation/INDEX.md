@@ -75,6 +75,8 @@
 ### Design & Content Quality
 
 - [Design & Content Audit](DESIGN_AUDIT.md) - Rams principles applied, current status, and open questions
+- [Comprehensive Design Audit Report (2026-01-24)](../DESIGN_AUDIT_REPORT_2026-01-24_COMPREHENSIVE.md) - Complete comprehensive audit with all findings and improvements
+- [Previous Design Audit Report (2026-01-24)](Archive/Reports-Historical/DESIGN_AUDIT_REPORT_2026-01-24.md) - Previous audit findings (archived)
 
 ## 🗂️ Documentation by Type
 
@@ -259,6 +261,6 @@ Start Simple → Coding Standards → Repository Structure → Tests
 
 ---
 
-**Last Updated**: 2026-01-23
+**Last Updated**: 2026-01-24
 **Maintained by**: Repository maintainers
 **License**: MIT (see [LICENSE](../LICENSE))
