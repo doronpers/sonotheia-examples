@@ -37,7 +37,8 @@ def validate_environment():
     ]
     missing = [var for var in required_vars if not os.environ.get(var)]
     if missing:
-        raise ValueError(f"Missing required environment variables: {', '.join(missing)}")
+        error_msg = f"Missing required environment variables: " f"{', '.join(missing)}"
+        raise ValueError(error_msg)
 
 
 validate_environment()
@@ -70,7 +71,9 @@ def lambda_handler(event, context):
         # Process each S3 record
         for record in event.get("Records", []):
             # Validate S3 event structure
-            if "s3" not in record or "bucket" not in record["s3"] or "object" not in record["s3"]:
+            s3_data = record.get("s3", {})
+            has_required_fields = "bucket" in s3_data and "object" in s3_data
+            if "s3" not in record or not has_required_fields:
                 print(f"Invalid S3 event structure: {record}")
                 continue
 
